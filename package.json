@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "echo 'TODO'",
+    "build": "echo 'TODO: build'",
+    "start": "echo 'TODO: start'",
     "dev": "concurrently \"cd frontend && npm start\" \"cd backend && sbt run\""
   },
   "repository": {
