@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/skewwhiffy/auraltester/issues"
   },
-  "homepage": "https://github.com/skewwhiffy/auraltester#readme"
+  "homepage": "https://github.com/skewwhiffy/auraltester#readme",
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
 }
