@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
-    "dev": "concurrently \"cd frontend && npm start\" \"cd backend && sbt run\""
+    "dev": "concurrently \"cd frontend && npm start\" \"cd backend && npm run dev\""
   },
   "repository": {
     "type": "git",
