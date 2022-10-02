@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon"
+    "dev:build": "tsc -w",
+    "dev:run": "nodemon",
+    "dev": "concurrently npm:dev:*"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "typescript": "^4.8.4",
+    "concurrently": "^7.4.0"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
   }
 }
