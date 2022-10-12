@@ -1,18 +1,33 @@
-import Accidental from './Accidental'
+const displayStrings = [
+  'unison',
+  'second',
+  'third',
+  'fourth',
+  'fifth',
+  'sixth',
+  'seventh',
+  'octave'
+]
 
 class Interval {
+  private readonly degree: number
+
+  constructor(degree: number) {
+    this.degree = degree
+  }
+
   get displayString() {
-    return 'major second'
+    return `major ${displayStrings[this.degree - 1]}`
   }
 
 }
 
 function Major(degree: number) {
-  return new Interval()
+  return new Interval(degree)
 }
 
 function Minor(degree: number) {
-  return new Interval()
+  return new Interval(degree)
 }
 
 export default {
