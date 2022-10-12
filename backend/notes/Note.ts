@@ -9,6 +9,10 @@ class Note {
     this.accidental = accidental
   }
 
+  get displayString() {
+    return `${this.noteName}${this.accidental.displayString}`
+  }
+
   get sharp() {
     return new Note(this.noteName, this.accidental.sharp)
   }

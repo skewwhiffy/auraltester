@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "concurrently npm:dev:build \"jest --watch\"",
+    "test": "jest --watch",
     "dev:build": "tsc -w",
     "dev:run": "nodemon",
     "dev": "concurrently npm:dev:*"

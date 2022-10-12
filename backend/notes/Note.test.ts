@@ -5,7 +5,7 @@ describe('Note class', () => {
   it('can be instantiated', () => {
     const original = Note.A
 
-    expect(original.accidental).toEqual(Accidental.NATURAL)
+    expect(original.displayString).toEqual('A')
   })
 
   describe('flat', () => {
@@ -14,7 +14,7 @@ describe('Note class', () => {
 
       const result = original.flat
 
-      expect(result.accidental).toEqual(Accidental.FLAT)
+      expect(result.displayString).toEqual('Bb')
     })
 
     it('can flatten a sharp', () => {
@@ -22,7 +22,7 @@ describe('Note class', () => {
 
       const result = original.flat
 
-      expect(result.accidental).toEqual(Accidental.NATURAL)
+      expect(result.displayString).toEqual('C')
     })
 
     it('can flatten a double sharp', () => {
@@ -30,7 +30,7 @@ describe('Note class', () => {
 
       const result = original.flat
       
-      expect(result.accidental).toEqual(Accidental.SHARP)
+      expect(result.displayString).toEqual('C#')
     })
 
     it('can flatten a flat', () => {
@@ -38,13 +38,15 @@ describe('Note class', () => {
 
       const result = original.flat
 
-      expect(result.accidental).toEqual(Accidental.DOUBLE_FLAT)
+      expect(result.displayString).toEqual('Cbb')
     })
 
-    it('cannot flatten a double flat', () => {
+    it('can flatten a double flat', () => {
       const original = Note.D.flat.flat
 
-      expect(() => original.flat).toThrow()
+      const result = original.flat
+      
+      expect(result.displayString).toEqual('Dbbb')
     })
 
   })
@@ -55,7 +57,7 @@ describe('Note class', () => {
 
       const result = original.sharp
 
-      expect(result.accidental).toEqual(Accidental.SHARP)
+      expect(result.displayString).toEqual('B#')
     })
 
     it('can sharpen a sharp', () => {
@@ -63,13 +65,15 @@ describe('Note class', () => {
 
       const result = original.sharp
 
-      expect(result.accidental).toEqual(Accidental.DOUBLE_SHARP)
+      expect(result.displayString).toEqual('Cx')
     })
 
-    it('cannot sharpen a double sharp', () => {
+    it('can sharpen a double sharp', () => {
       const original = Note.C.sharp.sharp
 
-      expect(() => original.sharp).toThrow()
+      const result = original.sharp
+      
+      expect(result.displayString).toEqual('Cx#')
     })
 
     it('can sharpen a flat', () => {
@@ -77,7 +81,7 @@ describe('Note class', () => {
 
       const result = original.sharp
 
-      expect(result.accidental).toEqual(Accidental.NATURAL)
+      expect(result.displayString).toEqual('C')
     })
 
     it('can sharpen a double flat', () => {
@@ -85,7 +89,7 @@ describe('Note class', () => {
 
       const result = original.sharp
 
-      expect(result.accidental).toEqual(Accidental.FLAT)
+      expect(result.displayString).toEqual('Db')
     })
   })
 
