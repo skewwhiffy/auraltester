@@ -4,15 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest **/*.test.ts --watch",
     "dev:build": "tsc -w",
     "dev:run": "nodemon",
     "dev": "concurrently npm:dev:*"
   },
   "jest": {
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    }
+    "preset": "ts-jest",
+    "verbose": true
   },
   "author": "",
   "license": "ISC",

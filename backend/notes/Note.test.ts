@@ -1,4 +1,3 @@
-import Accidental from './Accidental'
 import Note from './Note'
 
 describe('Note class', () => {
