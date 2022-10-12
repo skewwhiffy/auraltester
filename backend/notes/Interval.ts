@@ -23,6 +23,10 @@ class Interval {
   get diminished() {
     return new Interval(this.degree, this.deviation - 1)
   }
+  
+  get augmented() {
+    return new Interval(this.degree, this.deviation + 1)
+  }
 
   get displayString() {
     return `${this.quality} ${displayStrings[this.degree - 1]}`
@@ -35,7 +39,23 @@ class Interval {
     if (this.deviation === - 1 && !perfectDegrees.includes(this.degree)) {
       return 'minor'
     }
-    throw 'Not yet implemented'
+    if (this.deviation < 0) {
+      const diminishedDegree = perfectDegrees.includes(this.degree) ? -this.deviation : -this.deviation - 1
+      if (diminishedDegree === 1) {
+        return 'diminished'
+      }
+      if (diminishedDegree === 2) {
+        return 'doubly diminished'
+      }
+      return `${diminishedDegree}x diminished`
+    }
+    if (this.deviation === 1) {
+      return 'augmented'
+    }
+    if (this.deviation === 2) {
+      return 'doubly augmented'
+    }
+    return `${this.deviation}x augmented`
   }
 
 }
