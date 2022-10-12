@@ -10,7 +10,8 @@
     "dev": "concurrently npm:dev:*"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "verbose": true
   },
   "author": "",
   "license": "ISC",

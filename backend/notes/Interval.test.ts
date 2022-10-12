@@ -14,14 +14,21 @@ const perfectIntervalsMap: { [key: string]: number } = {
   octave: 8
 }
 
-describe('Note class', () => {
-  describe('major', () => {
+describe('Interval class', () => {
+  describe('non-perfect', () => {
     Object.keys(majorIntervalsMap).forEach(degreeString => {
       it(`can instantiate major ${degreeString}`, () => {
         const degree = majorIntervalsMap[degreeString]
         const interval = Interval.Major(degree)
 
         expect(interval.displayString).toEqual(`major ${degreeString}`)
+      })
+
+      it(`can instantiate minor ${degreeString}`, () => {
+        const degree = majorIntervalsMap[degreeString]
+        const interval = Interval.Minor(degree)
+
+        expect(interval.displayString).toEqual(`minor ${degreeString}`)
       })
     })
     
