@@ -1,66 +1,36 @@
-const displayStrings = {
-  NATURAL: '',
-  SHARP: '#',
-  DOUBLE_SHARP: 'x',
-  FLAT: 'b',
-  DOUBLE_FLAT: 'bb',
-}
-
-enum AccidentalEnum {
-  NATURAL, SHARP, DOUBLE_SHARP, FLAT, DOUBLE_FLAT,
-}
-
-const ordered = [
-  AccidentalEnum.DOUBLE_FLAT, AccidentalEnum.FLAT, AccidentalEnum.NATURAL, AccidentalEnum.SHARP, AccidentalEnum.DOUBLE_SHARP,
-]
-
 class Accidental {
-  private readonly accidentalEnum: AccidentalEnum
+  private readonly offset: number
 
-  private constructor(accidentalEnum: AccidentalEnum) {
-    this.accidentalEnum = accidentalEnum
+  private constructor(offset: number) {
+    this.offset = offset
   }
 
   get displayString() {
-    switch (this.accidentalEnum) {
-      case AccidentalEnum.NATURAL:
-        return ''
-      case AccidentalEnum.SHARP:
-        return '#'
-      case AccidentalEnum.DOUBLE_SHARP:
-        return 'x'
-      case AccidentalEnum.FLAT:
-        return 'b'
-      case AccidentalEnum.DOUBLE_FLAT:
-        return 'bb'
-      default:
-        throw `I do not recognise '${this.accidentalEnum}'`
+    if (this.offset === 0) {
+      return ''
     }
+    if (this.offset < 0) {
+      return 'b'.repeat(-this.offset)
+    }
+    if (this.offset % 2 === 0) {
+      return 'x'.repeat(this.offset / 2)
+    }
+    return 'x'.repeat((this.offset - 1) / 2) + '#'
   }
 
   get sharp() {
-    const indexOfEnum = ordered.indexOf(this.accidentalEnum)
-    const newEnum = ordered[indexOfEnum + 1]
-    if (newEnum === undefined) {
-      throw `Cannot sharpen '${this.displayString}'`
-    }
-    return new Accidental(newEnum)
+    return new Accidental(this.offset + 1)
   }
   
   get flat() {
-    const indexOfEnum = ordered.indexOf(this.accidentalEnum)
-    const newEnum = ordered[indexOfEnum - 1]
-    if (newEnum === undefined) {
-      throw `Cannot flatten '${this.displayString}'`
-    }
-    return new Accidental(newEnum)
+    return new Accidental(this.offset - 1)
   }
 
-  static NATURAL = new Accidental(AccidentalEnum.NATURAL)
-  static SHARP = new Accidental(AccidentalEnum.SHARP)
-  static DOUBLE_SHARP = new Accidental(AccidentalEnum.DOUBLE_SHARP)
-  static FLAT = new Accidental(AccidentalEnum.FLAT)
-  static DOUBLE_FLAT = new Accidental(AccidentalEnum.DOUBLE_FLAT)
+  static NATURAL = new Accidental(0)
+  static SHARP = new Accidental(1)
+  static DOUBLE_SHARP = new Accidental(2)
+  static FLAT = new Accidental(-1)
+  static DOUBLE_FLAT = new Accidental(-2)
 
 }
 

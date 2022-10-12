@@ -2,6 +2,7 @@ import Accidental from './Accidental'
 import Note from './Note'
 
 describe('Note class', () => {
+  throw 'TODO'
   it('can be instantiated', () => {
     const original = Note.A
 
@@ -41,10 +42,12 @@ describe('Note class', () => {
       expect(result.accidental).toEqual(Accidental.DOUBLE_FLAT)
     })
 
-    it('cannot flatten a double flat', () => {
+    it('can flatten a double flat', () => {
       const original = Note.D.flat.flat
 
-      expect(() => original.flat).toThrow()
+      const result = original.flat
+      
+      // expect(result.displayString).toEqual('Dbbb')
     })
 
   })
