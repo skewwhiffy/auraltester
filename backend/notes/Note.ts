@@ -16,19 +16,19 @@ class Note {
   get sharp() {
     return new Note(this.noteName, this.accidental.sharp)
   }
-  
+
   get flat() {
     return new Note(this.noteName, this.accidental.flat)
   }
-  
-  static A = new Note('A')
-  static B = new Note('B')
-  static C = new Note('C')
-  static D = new Note('D')
-  static E = new Note('E')
-  static F = new Note('F')
-  static G = new Note('G')
 
 }
 
-export default Note
+const A = new Note('A')
+const B = new Note('B')
+const C = new Note('C')
+const D = new Note('D')
+const E = new Note('E')
+const F = new Note('F')
+const G = new Note('G')
+
+export default { A, B, C, D, E, F, G }
