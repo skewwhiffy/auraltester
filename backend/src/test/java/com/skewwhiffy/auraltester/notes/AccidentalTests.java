@@ -1,114 +1,146 @@
 package com.skewwhiffy.auraltester.notes;
 
+import com.skewwhiffy.auraltester.helper.StreamHelper;
 import lombok.val;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.function.BiFunction;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccidentalTests {
   @Test
   void when_natural_then_displaysCorrectly() {
-    val expected = ''
+    val expected = "";
     val natural = Accidental.NATURAL;
 
     val actual = natural.getDisplayString();
 
-    assertThat(actual).isEqualTo('')
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void when_flattening_natural_then_displaysFlat() {
+    val expected = "b";
+    val natural = Accidental.NATURAL;
+
+    val actual = natural.getFlat();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @Test
+  void when_sharpening_natural_then_displaysSharp() {
+    val expected = "#";
+    val natural = Accidental.NATURAL;
+
+    val actual = natural.getSharp();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @Test
+  void when_flat_then_displaysFlat() {
+    val expected = "b";
+    val flat = Accidental.FLAT;
+
+    val actual = flat.getDisplayString();
+
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void when_flatteningFlat_then_displaysDoubleFlat() {
+    val expected = "bb";
+    val flat = Accidental.FLAT;
+
+    val actual = flat.getFlat();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @Test
+  void when_sharpeningFlat_then_displaysNatural() {
+    val expected = "";
+    val flat = Accidental.FLAT;
+
+    val actual = flat.getSharp();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {3, 7})
+  void when_multipleFlats_then_displaysCorrectly(int flats) {
+    val expected = "b".repeat(flats);
+    BiFunction<Accidental, Integer, Accidental> reducer = (acc, i) -> acc.getFlat();
+    val accidental = IntStream
+      .range(0, flats).boxed()
+      .reduce(Accidental.NATURAL, reducer, StreamHelper::noParallel);
+
+    val actual = accidental.getDisplayString();
+
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void when_sharp_then_displaysSharp() {
+    val expected = "#";
+    val sharp = Accidental.SHARP;
+
+    val actual = sharp.getDisplayString();
+
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @Test
+  void when_sharpeningSharp_then_displaysDoubleSharp() {
+    val expected = "x";
+    val sharp = Accidental.SHARP;
+
+    val actual = sharp.getSharp();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @Test
+  void when_flatteningSharp_then_displaysNatural() {
+    val expected = "";
+    val sharp = Accidental.SHARP;
+
+    val actual = sharp.getFlat();
+
+    assertThat(actual.getDisplayString()).isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = { 6, 10})
+  void when_multipleEvenSharps_then_displaysCorrectly(int numberOfSharps) {
+    val expected = "x".repeat(numberOfSharps/2);
+    val accidental = IntStream
+      .range(0, numberOfSharps)
+      .boxed()
+      .reduce(Accidental.NATURAL, (it, i) -> it.getSharp(), StreamHelper::noParallel);
+
+    val actual = accidental.getDisplayString();
+
+    assertThat(actual).isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = { 7, 13})
+  void when_multipleOddSharps_then_displaysCorrectly(int numberOfSharps) {
+    val expected = "x".repeat(numberOfSharps/2) + "#";
+    val accidental = IntStream
+      .range(0, numberOfSharps)
+      .boxed()
+      .reduce(Accidental.NATURAL, (it, i) -> it.getSharp(), StreamHelper::noParallel);
+
+    val actual = accidental.getDisplayString();
+
+    assertThat(actual).isEqualTo(expected);
   }
 }
-
-/*
-  describe('Accidental class', () => {
-  describe('natural', () => {
-  const natural = Accidental.NATURAL
-
-  it('displays correctly', () => {
-  const actual = natural.displayString
-
-  expect(actual).toEqual('')
-  })
-
-  it('can be flattened', () => {
-  const flat = natural.flat
-
-  expect(flat.displayString).toEqual('b')
-  })
-
-  it('can be sharpened', () => {
-  const sharp = natural.sharp
-
-  expect(sharp.displayString).toEqual('#')
-  })
-  })
-
-  describe('flat', () => {
-  const flat = Accidental.FLAT
-
-  it('displays correctly', () => {
-  const actual = flat.displayString
-
-  expect(actual).toEqual('b')
-  })
-
-  it('can be flattened', () => {
-  const doubleFlat = flat.flat
-
-  const actual = doubleFlat.displayString
-
-  expect(actual).toEqual('bb')
-  })
-
-  it('can be sharpened', () => {
-  const natural = flat.sharp
-
-  const actual = natural.displayString
-
-  expect(actual).toEqual('')
-  })
-
-  it('displays multiple flats correctly', () => {
-  let expected = 'b'
-  let current = flat
-  Array(10).forEach(() => {
-  expect(current.displayString).toEqual(expected)
-  current = current.flat
-  expected += 'b'
-  })
-  })
-  })
-
-  describe('sharp', () => {
-  const sharp = Accidental.SHARP
-
-  it('can be sharpened', () => {
-  const doubleSharp = sharp.sharp
-
-  expect(doubleSharp.displayString).toEqual('x')
-  })
-
-  it('can be flattened', () => {
-  const natural = sharp.flat
-
-  expect(natural.displayString).toEqual('')
-  })
-
-  it('displays even multiple sharps correctly', () => {
-  let expected = 'x'
-  let current = sharp.sharp
-  for (let i = 0; i < 10; i++) {
-  expect(current.displayString).toEqual(expected)
-  expected += 'x'
-  current = current.sharp.sharp
-  }
-  })
-
-  it('displays odd multiple sharps correctly', () => {
-  let expected = '#'
-  let current = sharp
-  for (let i = 0; i < 10; i++) {
-  expect(current.displayString).toEqual(expected)
-  expected = 'x' + expected
-  current = current.sharp.sharp
-  }
-  })
-  })
-  })
- */
