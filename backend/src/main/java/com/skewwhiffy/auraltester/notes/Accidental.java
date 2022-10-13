@@ -1,8 +1,9 @@
 package com.skewwhiffy.auraltester.notes;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Accidental {
   private final int offset;
 
