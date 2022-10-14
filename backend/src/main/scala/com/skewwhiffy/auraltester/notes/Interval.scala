@@ -5,7 +5,7 @@ import com.skewwhiffy.auraltester.notes.Interval.{displayStrings, perfectDegrees
 import java.util
 
 object Interval {
-  val displayStrings: List[String] = List(
+  lazy val displayStrings: List[String] = List(
     "unison",
     "second",
     "third",
@@ -16,30 +16,28 @@ object Interval {
     "octave"
   )
 
-  val perfectDegrees: Set[Int] = Set(1, 4, 5, 8)
+  lazy val perfectDegrees: Set[Int] = Set(1, 4, 5, 8)
 
-  def augmented(degree: Int): Interval = {
+  lazy val augmented: Int => Interval = degree => {
     val baseInterval = if perfectDegrees.contains(degree) then perfect(degree) else major(degree)
     baseInterval.augmented
   }
 
-  def diminished(degree: Int): Interval = {
+  lazy val diminished: Int => Interval = degree => {
     val baseInterval = if perfectDegrees.contains(degree) then perfect(degree) else minor(degree)
     baseInterval.diminished
   }
 
-  def minor(degree: Int): Interval = {
-    major(degree).diminished
-  }
+  lazy val minor: Int => Interval = degree => major(degree).diminished
 
-  def major(degree: Int): Interval = {
+  lazy val major: Int => Interval = degree => {
     if (perfectDegrees.contains(degree)) {
       throw new IllegalArgumentException(s"Cannot instantiate major interval of degree '$degree'")
     }
     Interval(degree, 0)
   }
 
-  def perfect(degree: Int): Interval = {
+  lazy val perfect: Int => Interval = degree => {
     if (!perfectDegrees.contains(degree)) {
       throw new IllegalArgumentException(s"Cannot instantiate perfect interval of degree '$degree'")
     }
@@ -55,29 +53,27 @@ private class Interval(val degree: Int, val deviation: Int) {
   lazy val displayString: String = s"$quality ${displayStrings(degree - 1)}"
 
   private def quality: String = {
-    if (deviation == 0) {
-      return if perfectDegrees.contains(degree) then "perfect" else "major"
-    }
-    if (deviation == -1 && !perfectDegrees.contains(degree)) {
-      return "minor"
-    }
-    if (deviation < 0) {
-      val diminishedDegree = if perfectDegrees.contains(degree) then -deviation else -deviation - 1
-      if (diminishedDegree == 1) {
-        return "diminished"
+    lazy val defaultQuality = if perfectDegrees.contains(degree) then "perfect" else "major"
+    lazy val negativeQuality = {
+      if (!perfectDegrees.contains(degree) && deviation == -1) "minor"
+      else {
+        (if perfectDegrees.contains(degree) then -deviation else -deviation - 1) match {
+          case 1 => "diminished"
+          case 2 => "doubly diminished"
+          case it => s"${it}x diminished"
+        }
       }
-      if (diminishedDegree == 2) {
-        return "doubly diminished"
-      }
-      return s"${diminishedDegree}x diminished"
     }
-    if (deviation == 1) {
-      return "augmented"
-    }
-    if (deviation == 2) {
-      return "doubly augmented"
-    }
-    s"${deviation}x augmented"
-  }
+    lazy val positiveQuality = (deviation match {
+      case 1 => ""
+      case 2 => "doubly "
+      case it => s"${it}x "
+    }) + "augmented"
 
+    deviation match {
+      case 0 => defaultQuality
+      case it if it < 0 => negativeQuality
+      case it if it > 0 => positiveQuality
+    }
+  }
 }
