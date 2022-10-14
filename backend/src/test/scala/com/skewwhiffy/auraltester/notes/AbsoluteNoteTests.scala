@@ -12,7 +12,7 @@ class AbsoluteNoteTests {
 
     val actual = AbsoluteNote.MIDDLE_C
 
-    assertThat(actual.getAbc).isEqualTo(expected)
+    assertThat(actual.abc).isEqualTo(expected)
   }
 
   @Test
@@ -73,7 +73,7 @@ class AbsoluteNoteTests {
   }
 
   private def testGeneric(start: AbsoluteNote, interval: Interval, expectedAbc: String) = {
-    val actual = start.add(interval).getAbc
+    val actual = start.add(interval).abc
 
     assertThat(actual).isEqualTo(expectedAbc)
   }

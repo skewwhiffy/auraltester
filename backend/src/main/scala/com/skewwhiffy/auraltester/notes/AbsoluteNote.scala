@@ -1,53 +1,44 @@
 package com.skewwhiffy.auraltester.notes
 
+import scala.util.chaining._
+
 object AbsoluteNote {
-  val MIDDLE_C: AbsoluteNote = AbsoluteNote(Note.C, Octave.DEFAULT)
+  lazy val MIDDLE_C: AbsoluteNote = AbsoluteNote(Note.C, Octave.DEFAULT)
 }
 
 private class AbsoluteNote(val note: Note, val octave: Octave) {
   def add(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
-      case 2 => addMajorSecond()
-      case 3 => addMajorSecond().addMajorSecond()
-      case 4 => add(Interval.major(3)).addMinorSecond()
-      case 5 => add(Interval.perfect(4)).addMajorSecond()
-      case 6 => add(Interval.perfect(5)).addMajorSecond()
-      case 7 => add(Interval.major(6)).addMajorSecond()
+      case 2 => upMajorSecond
+      case 3 => upMajorSecond.upMajorSecond
+      case 4 => add(Interval.major(3)).upMinorSecond
+      case 5 => add(Interval.perfect(4)).upMajorSecond
+      case 6 => add(Interval.perfect(5)).upMajorSecond
+      case 7 => add(Interval.major(6)).upMajorSecond
       case 8 => AbsoluteNote(note, octave.getUp)
       case _ => throw new IllegalArgumentException()
     }
 
     if (interval.deviation < 0) {
       return List.range(0, -interval.deviation)
-        .foldRight(defaultNote)((_, note) => note.getFlat)
+        .foldRight(defaultNote)((_, note) => note.flat)
     }
     if (interval.deviation > 0) {
       return List.range(0, interval.deviation)
-        .foldRight(defaultNote)((_, note) => note.getSharp)
+        .foldRight(defaultNote)((_, note) => note.sharp)
     }
     defaultNote
   }
 
-  def getAbc: String = {
-    octave.getAbc(note)
-  }
+  lazy val abc: String = octave.getAbc(note)
 
-  def getSharp: AbsoluteNote = {
-    AbsoluteNote(note.getSharp, octave)
-  }
+  private lazy val sharp = AbsoluteNote(note.getSharp, octave)
 
-  private def getFlat: AbsoluteNote = {
-    AbsoluteNote(note.getFlat, octave)
-  }
+  private lazy val flat = AbsoluteNote(note.getFlat, octave)
 
-  private def addMinorSecond(): AbsoluteNote = {
-    val majorSecondUp = addMajorSecond()
-    AbsoluteNote(majorSecondUp.note.getFlat, majorSecondUp.octave)
-  }
+  private lazy val upMinorSecond = upMajorSecond.pipe(it => AbsoluteNote(it.note.getFlat, it.octave))
 
-  def addMajorSecond(): AbsoluteNote = {
-    val newOctave = if "B" == note.noteName then octave.getUp else octave
-    new AbsoluteNote(note.addMajorSecond(), newOctave)
-  }
+  private lazy val upMajorSecond = (if "B" == note.noteName then octave.getUp else octave)
+    .pipe(it => AbsoluteNote(note.addMajorSecond(), it))
 }
