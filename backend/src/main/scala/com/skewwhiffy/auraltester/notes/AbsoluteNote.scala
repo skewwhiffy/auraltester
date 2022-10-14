@@ -6,7 +6,7 @@ object AbsoluteNote {
 
 private class AbsoluteNote(val note: Note, val octave: Octave) {
   def add(interval: Interval): AbsoluteNote = {
-    val defaultNote: AbsoluteNote = interval.getDegree match {
+    val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => addMajorSecond()
       case 3 => addMajorSecond().addMajorSecond()
@@ -18,12 +18,12 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
       case _ => throw new IllegalArgumentException()
     }
 
-    if (interval.getDeviation < 0) {
-      return List.range(0, -interval.getDeviation)
+    if (interval.deviation < 0) {
+      return List.range(0, -interval.deviation)
         .foldRight(defaultNote)((_, note) => note.getFlat)
     }
-    if (interval.getDeviation > 0) {
-      return List.range(0, interval.getDeviation)
+    if (interval.deviation > 0) {
+      return List.range(0, interval.deviation)
         .foldRight(defaultNote)((_, note) => note.getSharp)
     }
     defaultNote
