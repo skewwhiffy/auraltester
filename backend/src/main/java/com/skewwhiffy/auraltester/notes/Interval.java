@@ -67,15 +67,25 @@ public class Interval {
     return deviation + "x augmented";
   }
 
+  static Interval augmented(int degree) {
+    val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : major(degree);
+    return baseInterval.getAugmented();
+  }
+
+  static Interval diminished(int degree) {
+    val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : minor(degree);
+    return baseInterval.getDiminished();
+  }
+
+  static Interval minor(int degree) {
+    return major(degree).getDiminished();
+  }
+
   static Interval major(int degree) {
     if (perfectDegrees.contains(degree)) {
       throw new IllegalArgumentException("Cannot instantiate major interval of degree " + degree);
     }
     return new Interval(degree, 0);
-  }
-
-  static Interval minor(int degree) {
-    return major(degree).getDiminished();
   }
 
   static Interval perfect(int degree) {

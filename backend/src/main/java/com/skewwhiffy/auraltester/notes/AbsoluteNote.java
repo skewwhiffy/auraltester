@@ -1,8 +1,11 @@
 package com.skewwhiffy.auraltester.notes;
 
+import com.skewwhiffy.auraltester.helper.StreamHelper;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.val;
+
+import java.util.stream.IntStream;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AbsoluteNote {
@@ -12,7 +15,7 @@ public class AbsoluteNote {
   private final Octave octave;
 
   AbsoluteNote add(Interval interval) {
-    return switch (interval.getDegree()) {
+    val defaultNote = switch (interval.getDegree()) {
       case 1:
         yield this;
       case 2:
@@ -32,10 +35,31 @@ public class AbsoluteNote {
       default:
         throw new IllegalArgumentException();
     };
+    if (interval.getDeviation() < 0) {
+      return IntStream
+        .range(0, -interval.getDeviation())
+        .boxed()
+        .reduce(defaultNote, (note, i) -> note.getFlat(), StreamHelper::noParallel);
+    }
+    if (interval.getDeviation() > 0) {
+      return IntStream
+        .range(0, interval.getDeviation())
+        .boxed()
+        .reduce(defaultNote, (note, i) -> note.getSharp(), StreamHelper::noParallel);
+    }
+    return defaultNote;
   }
 
   String getAbc() {
     return octave.getAbc(note);
+  }
+
+  private AbsoluteNote getSharp() {
+    return new AbsoluteNote(note.getSharp(), octave);
+  }
+
+  private AbsoluteNote getFlat() {
+    return new AbsoluteNote(note.getFlat(), octave);
   }
 
   private AbsoluteNote addMinorSecond() {
