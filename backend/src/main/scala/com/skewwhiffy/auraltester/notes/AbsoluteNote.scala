@@ -47,7 +47,7 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
   }
 
   def addMajorSecond(): AbsoluteNote = {
-    val newOctave = if "B" == note.getNoteName then octave.getUp else octave
+    val newOctave = if "B" == note.noteName then octave.getUp else octave
     new AbsoluteNote(note.addMajorSecond(), newOctave)
   }
 }
