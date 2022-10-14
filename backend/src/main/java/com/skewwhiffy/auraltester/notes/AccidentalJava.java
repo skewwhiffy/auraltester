@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Accidental {
+public class AccidentalJava {
   private final int offset;
 
   public String getDisplayString() {

@@ -15,7 +15,7 @@ public class AccidentalTests {
   @Test
   void when_natural_then_displaysCorrectly() {
     val expected = "";
-    val natural = Accidental.NATURAL;
+    val natural = Accidental.NATURAL();
 
     val actual = natural.getDisplayString();
 
@@ -25,7 +25,7 @@ public class AccidentalTests {
   @Test
   void when_flattening_natural_then_displaysFlat() {
     val expected = "b";
-    val natural = Accidental.NATURAL;
+    val natural = Accidental.NATURAL();
 
     val actual = natural.getFlat();
 
@@ -35,7 +35,7 @@ public class AccidentalTests {
   @Test
   void when_sharpening_natural_then_displaysSharp() {
     val expected = "#";
-    val natural = Accidental.NATURAL;
+    val natural = Accidental.NATURAL();
 
     val actual = natural.getSharp();
 
@@ -45,7 +45,7 @@ public class AccidentalTests {
   @Test
   void when_flat_then_displaysFlat() {
     val expected = "b";
-    val flat = Accidental.FLAT;
+    val flat = Accidental.FLAT();
 
     val actual = flat.getDisplayString();
 
@@ -55,7 +55,7 @@ public class AccidentalTests {
   @Test
   void when_flatteningFlat_then_displaysDoubleFlat() {
     val expected = "bb";
-    val flat = Accidental.FLAT;
+    val flat = Accidental.FLAT();
 
     val actual = flat.getFlat();
 
@@ -65,7 +65,7 @@ public class AccidentalTests {
   @Test
   void when_sharpeningFlat_then_displaysNatural() {
     val expected = "";
-    val flat = Accidental.FLAT;
+    val flat = Accidental.FLAT();
 
     val actual = flat.getSharp();
 
@@ -79,7 +79,7 @@ public class AccidentalTests {
     BiFunction<Accidental, Integer, Accidental> reducer = (acc, i) -> acc.getFlat();
     val accidental = IntStream
       .range(0, flats).boxed()
-      .reduce(Accidental.NATURAL, reducer, StreamHelper::noParallel);
+      .reduce(Accidental.NATURAL(), reducer, StreamHelper::noParallel);
 
     val actual = accidental.getDisplayString();
 
@@ -89,7 +89,7 @@ public class AccidentalTests {
   @Test
   void when_sharp_then_displaysSharp() {
     val expected = "#";
-    val sharp = Accidental.SHARP;
+    val sharp = Accidental.SHARP();
 
     val actual = sharp.getDisplayString();
 
@@ -99,7 +99,7 @@ public class AccidentalTests {
   @Test
   void when_sharpeningSharp_then_displaysDoubleSharp() {
     val expected = "x";
-    val sharp = Accidental.SHARP;
+    val sharp = Accidental.SHARP();
 
     val actual = sharp.getSharp();
 
@@ -109,7 +109,7 @@ public class AccidentalTests {
   @Test
   void when_flatteningSharp_then_displaysNatural() {
     val expected = "";
-    val sharp = Accidental.SHARP;
+    val sharp = Accidental.SHARP();
 
     val actual = sharp.getFlat();
 
@@ -123,7 +123,7 @@ public class AccidentalTests {
     val accidental = IntStream
       .range(0, numberOfSharps)
       .boxed()
-      .reduce(Accidental.NATURAL, (it, i) -> it.getSharp(), StreamHelper::noParallel);
+      .reduce(Accidental.NATURAL(), (it, i) -> it.getSharp(), StreamHelper::noParallel);
 
     val actual = accidental.getDisplayString();
 
@@ -137,7 +137,7 @@ public class AccidentalTests {
     val accidental = IntStream
       .range(0, numberOfSharps)
       .boxed()
-      .reduce(Accidental.NATURAL, (it, i) -> it.getSharp(), StreamHelper::noParallel);
+      .reduce(Accidental.NATURAL(), (it, i) -> it.getSharp(), StreamHelper::noParallel);
 
     val actual = accidental.getDisplayString();
 
