@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.notes;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Note {
@@ -14,9 +13,13 @@ public class Note {
   static final Note F = new Note("F", Accidental.NATURAL);
   static final Note G = new Note("G", Accidental.NATURAL);
 
-  @Getter
   private final String noteName;
-  @Getter
+  public String getNoteName() {
+    return noteName;
+  }
+  public Accidental getAccidental() {
+    return accidental;
+  }
   private final Accidental accidental;
 
   String getDisplayString() {

@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.notes;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.val;
 
 import java.util.Arrays;
@@ -24,10 +23,14 @@ public class Interval {
 
   private static final Collection<Integer> perfectDegrees = Arrays.asList(1, 4, 5, 8);
 
-  @Getter
   private final int degree;
-  @Getter
+  public int getDegree() {
+    return degree;
+  }
   private final int deviation;
+  public int getDeviation() {
+    return deviation;
+  }
 
   Interval getDiminished() {
     return new Interval(degree, deviation - 1);

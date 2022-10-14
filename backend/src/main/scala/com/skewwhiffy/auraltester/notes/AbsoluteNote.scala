@@ -1,12 +1,12 @@
 package com.skewwhiffy.auraltester.notes
 
 object AbsoluteNote {
-  val MIDDLE_C: AbsoluteNote = new AbsoluteNote(Note.C, Octave.DEFAULT)
+  val MIDDLE_C: AbsoluteNote = AbsoluteNote(Note.C, Octave.DEFAULT)
 }
 
-class AbsoluteNote(val note: Note, val octave: Octave) {
+private class AbsoluteNote(val note: Note, val octave: Octave) {
   def add(interval: Interval): AbsoluteNote = {
-    val defaultNote = interval.getDegree match {
+    val defaultNote: AbsoluteNote = interval.getDegree match {
       case 1 => this
       case 2 => addMajorSecond()
       case 3 => addMajorSecond().addMajorSecond()
@@ -17,6 +17,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
       case 8 => AbsoluteNote(note, octave.getUp)
       case _ => throw new IllegalArgumentException()
     }
+
     if (interval.getDeviation < 0) {
       return List.range(0, -interval.getDeviation)
         .foldRight(defaultNote)((_, note) => note.getFlat)
@@ -45,7 +46,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     AbsoluteNote(majorSecondUp.note.getFlat, majorSecondUp.octave)
   }
 
-  private def addMajorSecond(): AbsoluteNote = {
+  def addMajorSecond(): AbsoluteNote = {
     val newOctave = if "B" == note.getNoteName then octave.getUp else octave
     new AbsoluteNote(note.addMajorSecond(), newOctave)
   }
