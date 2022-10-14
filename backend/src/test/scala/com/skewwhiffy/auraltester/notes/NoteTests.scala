@@ -8,26 +8,26 @@ class NoteTests {
   def when_natural_then_displayStringCorrect(): Unit = {
     val note = Note.A
 
-    val actual = note.getDisplayString
+    val actual = note.displayString
 
     assertThat(actual).isEqualTo("A")
   }
 
   @Test
   def when_sharp_then_displayStringCorrect(): Unit = {
-    val note = Note.B.getSharp
+    val note = Note.B.sharp
 
-    val actual = note.getDisplayString
+    val actual = note.displayString
 
     assertThat(actual).isEqualTo("B#")
   }
 
   @Test
   def when_flat_then_displayStringCorrect(): Unit = {
-    val note = Note.C.getFlat
+    val note = Note.D.flat
 
-    val actual = note.getDisplayString
+    val actual = note.displayString
 
-    assertThat(actual).isEqualTo("Cb")
+    assertThat(actual).isEqualTo("Db")
   }
 }

@@ -7,14 +7,14 @@ object Octave {
 private class Octave(val offsetFromDefault: Int) {
   def getAbc(note: Note): String = {
     if (offsetFromDefault == 0) {
-      return note.getDisplayString
+      return note.displayString
     }
     if (offsetFromDefault > 0) {
       val apostropheSuffix = "'".repeat(offsetFromDefault - 1)
-      return note.getDisplayString.toLowerCase() + apostropheSuffix
+      return note.displayString.toLowerCase() + apostropheSuffix
     }
     val commaSuffix = ",".repeat(-offsetFromDefault)
-    note.getDisplayString + commaSuffix
+    note.displayString + commaSuffix
   }
 
   def getUp: Octave = {

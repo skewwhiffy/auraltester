@@ -29,12 +29,12 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
 
   lazy val abc: String = octave.getAbc(note)
 
-  private lazy val sharp = AbsoluteNote(note.getSharp, octave)
+  private lazy val sharp = AbsoluteNote(note.sharp, octave)
 
-  private lazy val flat = AbsoluteNote(note.getFlat, octave)
+  private lazy val flat = AbsoluteNote(note.flat, octave)
 
-  private lazy val upMinorSecond = upMajorSecond.pipe(it => AbsoluteNote(it.note.getFlat, it.octave))
+  private lazy val upMinorSecond = upMajorSecond.pipe(it => AbsoluteNote(it.note.flat, it.octave))
 
   private lazy val upMajorSecond = (if "B" == note.noteName then octave.getUp else octave)
-    .pipe(it => AbsoluteNote(note.addMajorSecond(), it))
+    .pipe(it => AbsoluteNote(note.upMajorSecond, it))
 }
