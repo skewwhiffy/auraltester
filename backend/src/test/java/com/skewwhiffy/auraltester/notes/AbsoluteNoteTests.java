@@ -1,38 +1,44 @@
 package com.skewwhiffy.auraltester.notes;
 
+import lombok.val;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class AbsoluteNoteTests {
-  /*
+  @Test
+  void canDisplayMiddleC() {
+    val expected = "C";
 
-import AbsoluteNote from './AbsoluteNote'
-import Interval from './Interval'
+    val actual = AbsoluteNote.MIDDLE_C;
 
-describe('Absolute note', () => {
-  it('can display middle C', () => {
-    const expected = 'C'
+    assertThat(actual.getAbc()).isEqualTo(expected);
+  }
 
-    const actual = AbsoluteNote.MiddleC
+  @Test
+  void canAddMajorAndPerfectIntervals() {
+    val intervals = Arrays.asList(
+      Interval.perfect(1),
+      Interval.major(2),
+      Interval.major(3),
+      Interval.perfect(4),
+      Interval.perfect(5),
+      Interval.major(6),
+      Interval.major(7),
+      Interval.perfect(8)
+    );
+    val middleC = AbsoluteNote.MIDDLE_C;
+    val expected = Arrays.asList("C", "D", "E", "F", "G", "A", "B", "c");
 
-    expect(actual.abc).toEqual(expected)
-  })
+    val actual = intervals
+      .stream()
+      .map(middleC::add)
+      .map(AbsoluteNote::getAbc)
+      .collect(Collectors.toList());
 
-  it('can add major/perfect intervals', () => {
-    const intervals = [
-      Interval.Perfect(1),
-      Interval.Major(2),
-      Interval.Major(3),
-      Interval.Perfect(4),
-      Interval.Perfect(5),
-      Interval.Major(6),
-      Interval.Major(7),
-      Interval.Perfect(8),
-    ]
-    const middleC = AbsoluteNote.MiddleC
-    const expected = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'c']
-
-    const actual = intervals.map(it => middleC.add(it))
-
-    expect(actual.map(it => it.abc)).toEqual(expected)
-  })
-})
-   */
+    assertThat(actual).isEqualTo(expected);
+  }
 }

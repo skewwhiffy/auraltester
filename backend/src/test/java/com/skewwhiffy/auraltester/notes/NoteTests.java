@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NoteTests {
   @Test
   void when_natural_then_displayStringCorrect() {
-    val note = Note.getA();
+    val note = Note.A;
 
     val actual = note.getDisplayString();
 
@@ -17,7 +17,7 @@ public class NoteTests {
 
   @Test
   void when_sharp_then_displayStringCorrect() {
-    val note = Note.getB().getSharp();
+    val note = Note.B.getSharp();
 
     val actual = note.getDisplayString();
 
@@ -26,7 +26,7 @@ public class NoteTests {
 
   @Test
   void when_flat_then_displayStringCorrect() {
-    val note = Note.getC().getFlat();
+    val note = Note.C.getFlat();
 
     val actual = note.getDisplayString();
 

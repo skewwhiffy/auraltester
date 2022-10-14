@@ -1,34 +1,31 @@
 package com.skewwhiffy.auraltester.notes;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.val;
+
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Octave {
-  /*
-  private readonly offsetFromDefault: number
+  static Octave DEFAULT = new Octave(0);
+  private final int offsetFromDefault;
 
-  constructor(offsetFromDefault: number) {
-    this.offsetFromDefault = offsetFromDefault
-  }
-
-  abc(note: Note) {
-    if (this.offsetFromDefault === 0) {
-      return note.displayString
+  String getAbc(Note note) {
+    if (offsetFromDefault == 0) {
+      return note.getDisplayString();
     }
-    if (this.offsetFromDefault > 0) {
-      const apostropheSuffix = '\''.repeat(this.offsetFromDefault - 1)
-      return `${note.displayString.toLowerCase()}${apostropheSuffix}`
+    if (offsetFromDefault > 0) {
+      val apostropheSuffix = "'".repeat(offsetFromDefault - 1);
+      return note.getDisplayString().toLowerCase() + apostropheSuffix;
     }
-    const commaSuffix = ','.repeat(-this.offsetFromDefault)
-    return `${note.displayString}${commaSuffix}`
+    val commaSuffix = ",".repeat(-offsetFromDefault);
+    return note.getDisplayString() + commaSuffix;
   }
 
-  get up(): Octave {
-    return new Octave(this.offsetFromDefault + 1)
+  Octave getUp() {
+    return new Octave(offsetFromDefault + 1);
   }
 
-  get down(): Octave {
-    return new Octave(this.offsetFromDefault - 1)
+  Octave getDown() {
+    return new Octave(offsetFromDefault - 1);
   }
-
-  static Default = new Octave(0)
-  
-   */
 }

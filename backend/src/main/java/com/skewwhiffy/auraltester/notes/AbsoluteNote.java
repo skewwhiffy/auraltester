@@ -1,22 +1,21 @@
 package com.skewwhiffy.auraltester.notes;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AbsoluteNote {
+  static final AbsoluteNote MIDDLE_C = new AbsoluteNote(Note.C, Octave.DEFAULT);
 
-  private readonly note: Note
-  private readonly octave: Octave
+  private final Note note;
+  private final Octave octave;
 
-  constructor(note: Note, octave: Octave) {
-    this.note = note
-    this.octave = octave
+  AbsoluteNote add(Interval interval) {
+    return this;
   }
 
-  add(interval: Interval) {
-    return this
+  String getAbc() {
+    return octave.getAbc(note);
   }
 
-  get abc() {
-    return this.octave.abc(this.note)
-  }
-
-  static MiddleC = new AbsoluteNote(Note.C, Octave.Default)
 }
