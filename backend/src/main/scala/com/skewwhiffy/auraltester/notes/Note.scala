@@ -12,21 +12,21 @@ object Note {
 
 private class Note(val noteName: String, val accidental: Accidental) {
   def getDisplayString: String = {
-    noteName + accidental.getDisplayString
+    noteName + accidental.displayString
   }
 
   def getSharp: Note = {
-    Note(noteName, accidental.getSharp)
+    Note(noteName, accidental.sharp)
   }
 
   def getFlat: Note = {
-    new Note(noteName, accidental.getFlat)
+    new Note(noteName, accidental.flat)
   }
 
   def addMajorSecond(): Note = {
     noteName match
       case "A" | "C" | "D" | "F" | "G" => Note(getNextNoteName, accidental)
-      case _ => Note(getNextNoteName, accidental.getSharp)
+      case _ => Note(getNextNoteName, accidental.sharp)
   }
 
   private def getNextNoteName: String = {

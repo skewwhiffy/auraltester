@@ -11,7 +11,7 @@ class AccidentalTests {
     val expected = ""
     val natural = Accidental.NATURAL
 
-    val actual = natural.getDisplayString
+    val actual = natural.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -21,9 +21,9 @@ class AccidentalTests {
     val expected = "b"
     val natural = Accidental.NATURAL
 
-    val actual = natural.getFlat
+    val actual = natural.flat
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @Test
@@ -31,9 +31,9 @@ class AccidentalTests {
     val expected = "#"
     val natural = Accidental.NATURAL
 
-    val actual = natural.getSharp
+    val actual = natural.sharp
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @Test
@@ -41,7 +41,7 @@ class AccidentalTests {
     val expected = "b"
     val flat = Accidental.FLAT
 
-    val actual = flat.getDisplayString
+    val actual = flat.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -51,9 +51,9 @@ class AccidentalTests {
     val expected = "bb"
     val flat = Accidental.FLAT
 
-    val actual = flat.getFlat
+    val actual = flat.flat
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @Test
@@ -61,18 +61,18 @@ class AccidentalTests {
     val expected = ""
     val flat = Accidental.FLAT
 
-    val actual = flat.getSharp
+    val actual = flat.sharp
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @ParameterizedTest
   @ValueSource(ints = Array(3, 7))
   def when_multipleFlats_then_displaysCorrectly(flats: Int): Unit = {
     val expected = "b".repeat(flats)
-    val accidental = List.range(0, flats).foldRight(Accidental.NATURAL)((_, acc) => acc.getFlat)
+    val accidental = List.range(0, flats).foldRight(Accidental.NATURAL)((_, acc) => acc.flat)
 
-    val actual = accidental.getDisplayString
+    val actual = accidental.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -82,7 +82,7 @@ class AccidentalTests {
     val expected = "#"
     val sharp = Accidental.SHARP
 
-    val actual = sharp.getDisplayString
+    val actual = sharp.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -92,9 +92,9 @@ class AccidentalTests {
     val expected = "x"
     val sharp = Accidental.SHARP
 
-    val actual = sharp.getSharp
+    val actual = sharp.sharp
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @Test
@@ -102,18 +102,18 @@ class AccidentalTests {
     val expected = ""
     val sharp = Accidental.SHARP
 
-    val actual = sharp.getFlat
+    val actual = sharp.flat
 
-    assertThat(actual.getDisplayString).isEqualTo(expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
   @ParameterizedTest
   @ValueSource(ints = Array(6, 10))
   def when_multipleEvenSharps_then_displaysCorrectly(numberOfSharps: Int): Unit = {
     val expected = "x".repeat(numberOfSharps / 2)
-    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.NATURAL)((_, it) => it.getSharp)
+    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.NATURAL)((_, it) => it.sharp)
 
-    val actual = accidental.getDisplayString
+    val actual = accidental.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -122,9 +122,9 @@ class AccidentalTests {
   @ValueSource(ints = Array(7, 13))
   def when_multipleOddSharps_then_displaysCorrectly(numberOfSharps: Int): Unit = {
     val expected = "x".repeat(numberOfSharps / 2) + "#"
-    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.NATURAL)((_, it) => it.getSharp)
+    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.NATURAL)((_, it) => it.sharp)
 
-    val actual = accidental.getDisplayString
+    val actual = accidental.displayString
 
     assertThat(actual).isEqualTo(expected)
   }
