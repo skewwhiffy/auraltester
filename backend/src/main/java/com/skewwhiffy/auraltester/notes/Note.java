@@ -2,6 +2,7 @@ package com.skewwhiffy.auraltester.notes;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Note {
@@ -13,7 +14,9 @@ public class Note {
   static final Note F = new Note("F", Accidental.NATURAL);
   static final Note G = new Note("G", Accidental.NATURAL);
 
+  @Getter
   private final String noteName;
+  @Getter
   private final Accidental accidental;
 
   String getDisplayString() {
@@ -26,6 +29,34 @@ public class Note {
 
   Note getFlat() {
     return new Note(noteName, accidental.getFlat());
+  }
+
+  protected Note addMajorSecond() {
+    return switch (noteName) {
+      case "A", "C", "D", "F", "G" -> new Note(getNextNoteName(), accidental);
+      default -> new Note(getNextNoteName(), accidental.getSharp());
+    };
+  }
+
+  private String getNextNoteName() {
+    return switch (noteName) {
+      case "A":
+        yield "B";
+      case "B":
+        yield "C";
+      case "C":
+        yield "D";
+      case "D":
+        yield "E";
+      case "E":
+        yield "F";
+      case "F":
+        yield "G";
+      case "G":
+        yield "A";
+      default:
+        throw new IllegalArgumentException(String.format("Not a valid note name: '%s'", noteName));
+    };
   }
 
 }
