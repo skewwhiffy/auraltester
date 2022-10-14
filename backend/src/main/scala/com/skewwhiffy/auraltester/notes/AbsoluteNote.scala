@@ -16,7 +16,7 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
       case 5 => add(Interval.perfect(4)).upMajorSecond
       case 6 => add(Interval.perfect(5)).upMajorSecond
       case 7 => add(Interval.major(6)).upMajorSecond
-      case 8 => AbsoluteNote(note, octave.getUp)
+      case 8 => AbsoluteNote(note, octave.up)
       case _ => throw new IllegalArgumentException()
     }
 
@@ -35,6 +35,6 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
 
   private lazy val upMinorSecond = upMajorSecond.pipe(it => AbsoluteNote(it.note.flat, it.octave))
 
-  private lazy val upMajorSecond = (if "B" == note.noteName then octave.getUp else octave)
+  private lazy val upMajorSecond = (if "B" == note.noteName then octave.up else octave)
     .pipe(it => AbsoluteNote(note.upMajorSecond, it))
 }

@@ -7,7 +7,7 @@ object Accidental {
 }
 
 private class Accidental(offset: Int) {
-  val displayString: String = offset match {
+  lazy val displayString: String = offset match {
     case 0 => ""
     case it if it < 0 => "b".repeat(-it)
     case it if it % 2 == 0 => "x".repeat(it / 2)

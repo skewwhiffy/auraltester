@@ -10,7 +10,7 @@ object Note {
   lazy val G: Note = Note("G", Accidental.NATURAL)
 }
 
-private class Note(val noteName: String, val accidental: Accidental) {
+private class Note(val noteName: String, private val accidental: Accidental) {
   lazy val displayString: String = s"$noteName${accidental.displayString}"
 
   lazy val sharp: Note = Note(noteName, accidental.sharp)
