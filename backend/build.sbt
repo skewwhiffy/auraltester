@@ -1,10 +1,10 @@
 lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
-      organization := "com.example",
+      organization := "com.skewwhiffy",
       scalaVersion := "3.2.0"
     )),
-    name := "example"
+    name := "Aural Tester"
   )
 
 libraryDependencies += "org.junit.jupiter" % "junit-jupiter" % "5.9.1" % Test
