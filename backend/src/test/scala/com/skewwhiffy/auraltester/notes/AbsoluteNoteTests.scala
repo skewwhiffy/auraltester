@@ -3,7 +3,6 @@ package com.skewwhiffy.auraltester.notes
 import org.assertj.core.api.Assert
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-
 import org.assertj.core.api.Assertions.fail
 
 class AbsoluteNoteTests {
