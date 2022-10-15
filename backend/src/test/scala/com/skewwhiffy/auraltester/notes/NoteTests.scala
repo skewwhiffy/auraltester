@@ -30,4 +30,14 @@ class NoteTests {
 
     assertThat(actual).isEqualTo("Db")
   }
+
+  @Test
+  def when_notesEquivalent_then_equalsWorks(): Unit = {
+    def note = Note("a", Accidental.sharp)
+
+    val first = note
+    val second = note
+
+    assertThat(first).isEqualTo(second)
+  }
 }

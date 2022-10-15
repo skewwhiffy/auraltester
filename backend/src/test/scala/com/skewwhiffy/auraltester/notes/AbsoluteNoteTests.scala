@@ -10,7 +10,7 @@ class AbsoluteNoteTests {
   def canDisplayMiddleC(): Unit = {
     val expected = "C"
 
-    val actual = AbsoluteNote.MIDDLE_C
+    val actual = AbsoluteNote.middleC
 
     assertThat(actual.abc).isEqualTo(expected)
   }
@@ -27,7 +27,7 @@ class AbsoluteNoteTests {
       Interval.major(7),
       Interval.perfect(8)
     )
-    val start = AbsoluteNote.MIDDLE_C
+    val start = AbsoluteNote.middleC
     val expected = List("C", "D", "E", "F", "G", "A", "B", "c")
 
     testGeneric(start, intervals, expected)
@@ -35,7 +35,7 @@ class AbsoluteNoteTests {
 
   @Test
   def canAddMinorInterval(): Unit = {
-    val start = AbsoluteNote.MIDDLE_C.add(Interval.major(6))
+    val start = AbsoluteNote.middleC.add(Interval.major(6))
     val intervals = List(
       Interval.perfect(1),
       Interval.minor(2),
@@ -59,10 +59,19 @@ class AbsoluteNoteTests {
       Interval.augmented(5),
       Interval.augmented(6)
     )
-    val start = AbsoluteNote.MIDDLE_C
+    val start = AbsoluteNote.middleC
     val expected = List("Ebb", "Fb", "G#", "A#")
 
     testGeneric(start, intervals, expected)
+  }
+
+  @Test
+  def equivalentNotesAreEqual() : Unit = {
+    def note = AbsoluteNote(Note.D.sharp, Octave.default.up)
+    val first = note
+    val second = note
+
+    assertThat(first).isEqualTo(second)
   }
 
   private def testGeneric(start: AbsoluteNote, intervals: List[Interval], expectedAbcs: List[String]): Unit = {

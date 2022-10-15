@@ -1,10 +1,10 @@
 package com.skewwhiffy.auraltester.notes
 
 object Octave {
-  lazy val DEFAULT: Octave = Octave(0)
+  lazy val default: Octave = Octave(0)
 }
 
-private class Octave(offsetFromDefault: Int) {
+class Octave(val offsetFromDefault: Int) {
   lazy val getAbc: Note => String = note => offsetFromDefault match {
     case 0 => note.displayString
     case it if it > 0 => s"${note.displayString.toLowerCase}${"'".repeat(it - 1)}"
@@ -14,4 +14,8 @@ private class Octave(offsetFromDefault: Int) {
   lazy val up: Octave = Octave(offsetFromDefault + 1)
 
   lazy val down: Octave = Octave(offsetFromDefault - 1)
+
+  override def equals(obj: Any): Boolean = obj match
+    case it: Octave => it.offsetFromDefault == offsetFromDefault
+    case _ => false
 }

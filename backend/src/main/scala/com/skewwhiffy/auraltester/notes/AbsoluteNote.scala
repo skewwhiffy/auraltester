@@ -3,10 +3,10 @@ package com.skewwhiffy.auraltester.notes
 import scala.util.chaining._
 
 object AbsoluteNote {
-  lazy val MIDDLE_C: AbsoluteNote = AbsoluteNote(Note.C, Octave.DEFAULT)
+  lazy val middleC: AbsoluteNote = AbsoluteNote(Note.C, Octave.default)
 }
 
-private class AbsoluteNote(val note: Note, val octave: Octave) {
+class AbsoluteNote(val note: Note, val octave: Octave) {
   lazy val add: Interval => AbsoluteNote = interval => {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
@@ -28,6 +28,10 @@ private class AbsoluteNote(val note: Note, val octave: Octave) {
   }
 
   lazy val abc: String = octave.getAbc(note)
+
+  override def equals(obj: Any): Boolean = obj match
+    case other: AbsoluteNote => other.note == note && other.octave == octave
+    case _ => false
 
   private lazy val sharp = AbsoluteNote(note.sharp, octave)
 

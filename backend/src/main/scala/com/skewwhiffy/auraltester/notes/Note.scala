@@ -1,16 +1,16 @@
 package com.skewwhiffy.auraltester.notes
 
 object Note {
-  lazy val A: Note = Note("A", Accidental.NATURAL)
-  lazy val B: Note = Note("B", Accidental.NATURAL)
-  lazy val C: Note = Note("C", Accidental.NATURAL)
-  lazy val D: Note = Note("D", Accidental.NATURAL)
-  lazy val E: Note = Note("E", Accidental.NATURAL)
-  lazy val F: Note = Note("F", Accidental.NATURAL)
-  lazy val G: Note = Note("G", Accidental.NATURAL)
+  lazy val A: Note = Note("A", Accidental.natural)
+  lazy val B: Note = Note("B", Accidental.natural)
+  lazy val C: Note = Note("C", Accidental.natural)
+  lazy val D: Note = Note("D", Accidental.natural)
+  lazy val E: Note = Note("E", Accidental.natural)
+  lazy val F: Note = Note("F", Accidental.natural)
+  lazy val G: Note = Note("G", Accidental.natural)
 }
 
-private class Note(val noteName: String, private val accidental: Accidental) {
+class Note(val noteName: String, private val accidental: Accidental) {
   lazy val displayString: String = s"$noteName${accidental.displayString}"
 
   lazy val sharp: Note = Note(noteName, accidental.sharp)
@@ -20,6 +20,10 @@ private class Note(val noteName: String, private val accidental: Accidental) {
   lazy val upMajorSecond: Note = noteName match
     case "A" | "C" | "D" | "F" | "G" => Note(nextNoteName, accidental)
     case _ => Note(nextNoteName, accidental.sharp)
+
+  override def equals(obj: Any): Boolean = obj match
+    case other: Note => other.noteName == noteName && other.accidental == accidental
+    case _ => false
 
   private lazy val nextNoteName: String = noteName match
     case "A" => "B"
