@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Note, Octave}
+import scala.util.chaining._
 
 import scala.annotation.tailrec
 
@@ -15,40 +16,40 @@ class NoteFactory(private val abc: String) {
       case it => throw IllegalArgumentException(s"'$it' is not a valid note name'")
   }
 
-  private lazy val accidental: Accidental = {
-    val raw = rawAccidental
-    val noteName = abc.substring(0, 1)
-    val stripNote = abc.substring(1)
-    if (noteName.toLowerCase == noteName) {
-      Accidental.natural
-    } else {
-      Accidental.natural
-    }
-  }
+  private lazy val accidental: Accidental = rawAccidental
+    .toCharArray
+    .map(it => it match
+      case 'x' => 2
+      case '#' => 1
+      case 'b' => -1
+      case _ => throw IllegalArgumentException(s"Not valid accidental: '$it'")
+    )
+    .sum
+    .pipe(it => Accidental(it))
 
-  private val octave: Octave = {
-    val noteName = abc.substring(0, 1)
-    val stripNote = abc.substring(1)
-
-    @tailrec
-    def stripAccidental(toStrip: String): String =
-      if toStrip.nonEmpty && "#xb".contains(toStrip.substring(0, 1)) then stripAccidental(toStrip.substring(1))
-      else toStrip
-
-    val accidentalStripped = stripAccidental(stripNote)
-    noteName match
-      case it if it.toLowerCase == it => Octave(accidentalStripped.length + 1)
-      case _ => Octave(-accidentalStripped.length)
-  }
+  private val octave: Octave = rawOctave
+    .toCharArray
+    .map(it => it match
+      case '\'' => 1
+      case ',' => -1
+      case _ => throw IllegalArgumentException(s"Not valid octave indicator: '$it'")
+    )
+    .sum
+    .pipe(it => it + (if rawNote.toLowerCase == rawNote then 1 else 0))
+    .pipe(it => Octave(it))
 
   private lazy val rawNote: String = abc.substring(0, 1)
 
   private lazy val rawAccidental: String = {
     @tailrec
     def getRawAccidental(str: String): String = {
-      if (str.endsWith("'")) then getRawAccidental(str.substring(0, str.length - 1))
+      if str.endsWith("'") || str.endsWith(",") then getRawAccidental(str.substring(0, str.length - 1))
       else str
     }
+
     getRawAccidental(abc.substring(1))
   }
+
+  private lazy val rawOctave: String = abc
+    .substring(rawNote.length + rawAccidental.length)
 }
