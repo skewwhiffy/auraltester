@@ -76,4 +76,9 @@ class Interval(val degree: Int, val deviation: Int) {
       case it if it > 0 => positiveQuality
     }
   }
+
+  override def equals(obj: Any): Boolean = obj match
+    case other: Interval => other.deviation == deviation && other.degree == degree
+
+  override def toString: String = displayString
 }

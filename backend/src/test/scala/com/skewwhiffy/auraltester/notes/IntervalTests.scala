@@ -156,4 +156,14 @@ class IntervalTests {
 
     assertThat(actual.displayString).isEqualTo(expected)
   }
+
+  @Test
+  def when_equivalent_then_equal(): Unit = {
+    def interval = Interval(6, 69)
+
+    val first = interval
+    val second = interval
+
+    assertThat(first).isEqualTo(second)
+  }
 }
