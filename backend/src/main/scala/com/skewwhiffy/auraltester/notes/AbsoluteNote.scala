@@ -33,6 +33,8 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     case other: AbsoluteNote => other.note == note && other.octave == octave
     case _ => false
 
+  override def toString: String = abc
+
   private lazy val sharp = AbsoluteNote(note.sharp, octave)
 
   private lazy val flat = AbsoluteNote(note.flat, octave)
