@@ -66,6 +66,28 @@ class AbsoluteNoteTests {
   }
 
   @Test
+  def canApplyUpInterval() : Unit = {
+    val interval = Interval.minor(3).up
+    val start = AbsoluteNote.middleC
+    val expected = "Eb"
+
+    val actual = start.apply(interval)
+
+    assertThat(actual.abc).isEqualTo(expected)
+  }
+
+  @Test
+  def canApplyDownInterval() : Unit = {
+    val interval = Interval.minor(3).down
+    val start = AbsoluteNote.middleC
+    val expected = "A,"
+
+    val actual = start.apply(interval)
+
+    assertThat(actual.abc).isEqualTo(expected)
+  }
+
+  @Test
   def equivalentNotesAreEqual() : Unit = {
     def note = AbsoluteNote(Note.D.sharp, Octave.default.up)
     val first = note

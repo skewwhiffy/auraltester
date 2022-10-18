@@ -21,6 +21,10 @@ class Note(val noteName: String, private val accidental: Accidental) {
     case "A" | "C" | "D" | "F" | "G" => Note(nextNoteName, accidental)
     case _ => Note(nextNoteName, accidental.sharp)
 
+  lazy val downMajorSecond: Note = noteName match
+    case "B" | "A" | "G" | "E" | "D" => Note(previousNoteName, accidental)
+    case _ => Note(previousNoteName, accidental.flat)
+
   override def equals(obj: Any): Boolean = obj match
     case other: Note => other.noteName == noteName && other.accidental == accidental
     case _ => false
@@ -33,5 +37,15 @@ class Note(val noteName: String, private val accidental: Accidental) {
     case "E" => "F"
     case "F" => "G"
     case "G" => "A"
+    case _ => throw new IllegalArgumentException(s"Not a valid note name: '$noteName'")
+
+  private lazy val previousNoteName: String = noteName match
+    case "A" => "G"
+    case "B" => "A"
+    case "C" => "B"
+    case "D" => "C"
+    case "E" => "D"
+    case "F" => "E"
+    case "G" => "F"
     case _ => throw new IllegalArgumentException(s"Not a valid note name: '$noteName'")
 }
