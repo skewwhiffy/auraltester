@@ -37,9 +37,9 @@ class AbcFactoryTest {
   @ParameterizedTest
   @ValueSource(ints = Array(2, 3, 6, 7))
   def canInstantiateMajorInterval(degree: Int): Unit = {
-    val expected = Interval.major(degree)
+    val expected = Interval.major(degree).up
 
-    val actual = AbcFactory.interval(degree.toString)
+    val actual = AbcFactory.directedInterval(degree.toString)
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -47,18 +47,18 @@ class AbcFactoryTest {
   @ParameterizedTest
   @ValueSource(ints = Array(1, 4, 5, 8))
   def canInstantiatePerfectInterval(degree: Int): Unit = {
-    val expected = Interval.perfect(degree)
+    val expected = Interval.perfect(degree).up
 
-    val actual = AbcFactory.interval(degree.toString)
+    val actual = AbcFactory.directedInterval(degree.toString)
 
     assertThat(actual).isEqualTo(expected)
   }
 
   @Test
   def canInstantiateMinorThird(): Unit = {
-    val expected = Interval.minor(3)
+    val expected = Interval.minor(3).up
 
-    val actual = AbcFactory.interval("3-")
+    val actual = AbcFactory.directedInterval("3-")
 
     assertThat(actual).isEqualTo(expected)
   }
