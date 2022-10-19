@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.notes.Interval.{displayStrings, perfectDegrees
 
 import java.util
 
-object Interval {
+object Interval:
   lazy val displayStrings: List[String] = List(
     "unison",
     "second",
@@ -32,18 +32,15 @@ object Interval {
 
   lazy val major: Int => Interval = degree => {
     if (perfectDegrees.contains(degree)) {
-      throw new IllegalArgumentException(s"Cannot instantiate major interval of degree '$degree'")
+      throw IllegalArgumentException(s"Cannot instantiate major interval of degree '$degree'")
     }
     Interval(degree, 0)
   }
 
   lazy val perfect: Int => Interval = degree => {
-    if (!perfectDegrees.contains(degree)) {
-      throw new IllegalArgumentException(s"Cannot instantiate perfect interval of degree '$degree'")
-    }
-    new Interval(degree, 0)
+    if !perfectDegrees.contains(degree) then throw IllegalArgumentException(s"Cannot instantiate perfect interval of degree '$degree'")
+    else Interval(degree, 0)
   }
-}
 
 class Interval(val degree: Int, val deviation: Int) {
   lazy val diminished: Interval = Interval(degree, deviation - 1)
@@ -52,9 +49,9 @@ class Interval(val degree: Int, val deviation: Int) {
 
   lazy val displayString: String = s"$quality ${displayStrings(degree - 1)}"
 
-  lazy val up: DirectedInterval = new DirectedInterval(this, IntervalDirection.Up)
+  lazy val up: DirectedInterval = DirectedInterval(this, IntervalDirection.Up)
 
-  lazy val down: DirectedInterval = new DirectedInterval(this, IntervalDirection.Down)
+  lazy val down: DirectedInterval = DirectedInterval(this, IntervalDirection.Down)
 
   private def quality: String = {
     lazy val defaultQuality = if perfectDegrees.contains(degree) then "perfect" else "major"
