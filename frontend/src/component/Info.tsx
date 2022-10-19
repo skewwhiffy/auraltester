@@ -13,7 +13,7 @@ function Info() {
   const [information, setInformation] = useState(initialInformation)
 
   async function getInformation() {
-    const newInformationResponse = await fetch('/info/')
+    const newInformationResponse = await fetch('http://localhost:3001/info')
     const newInformation = await newInformationResponse.json()
     console.log(newInformation)
     setInformation(it => newInformation)

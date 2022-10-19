@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
-object Note {
+object Note:
   lazy val A: Note = Note("A", Accidental.natural)
   lazy val B: Note = Note("B", Accidental.natural)
   lazy val C: Note = Note("C", Accidental.natural)
@@ -8,9 +8,8 @@ object Note {
   lazy val E: Note = Note("E", Accidental.natural)
   lazy val F: Note = Note("F", Accidental.natural)
   lazy val G: Note = Note("G", Accidental.natural)
-}
 
-class Note(val noteName: String, private val accidental: Accidental) {
+class Note(val noteName: String, private val accidental: Accidental):
   lazy val displayString: String = s"$noteName${accidental.displayString}"
 
   lazy val sharp: Note = Note(noteName, accidental.sharp)
@@ -48,4 +47,3 @@ class Note(val noteName: String, private val accidental: Accidental) {
     case "F" => "E"
     case "G" => "F"
     case _ => throw new IllegalArgumentException(s"Not a valid note name: '$noteName'")
-}

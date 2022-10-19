@@ -2,11 +2,10 @@ package com.skewwhiffy.auraltester.notes
 
 import scala.util.chaining._
 
-object AbsoluteNote {
+object AbsoluteNote:
   lazy val middleC: AbsoluteNote = AbsoluteNote(Note.C, Octave.default)
-}
 
-class AbsoluteNote(val note: Note, val octave: Octave) {
+class AbsoluteNote(val note: Note, val octave: Octave):
   lazy val apply: DirectedInterval => AbsoluteNote = interval => {
     interval.direction match
       case IntervalDirection.Up => add(interval.interval)
@@ -75,4 +74,3 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
 
   private lazy val downMajorSecond = (if "C" == note.noteName then octave.down else octave)
     .pipe(it => AbsoluteNote(note.downMajorSecond, it))
-}

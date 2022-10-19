@@ -7,7 +7,7 @@
     "test": "cd backend && mvn clean test",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\"",
+    "dev": "cd frontend && npm run dev",
     "install": "cd backend && sbt clean compile && cd ../frontend && npm install"
   },
   "repository": {
