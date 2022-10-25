@@ -1,15 +1,16 @@
+import React from 'react'
 import Info from './component/Info'
-import { Notation } from "react-abc";
+import Scale from './component/Scale'
 
-const notation = 'CDEF GABc|';
-
-function App() {
-  return (
-    <div className="App">
-      <Info />
-      <Notation notation={notation} />
-    </div>
-  )
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <Info />
+        <Scale />
+      </div>
+    )
+  }
 }
 
 export default App
