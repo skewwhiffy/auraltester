@@ -1,4 +1,5 @@
-import React from "react"
+import React from 'react'
+import { RadioGroup, RadioButton } from 'react-radio-buttons'
 
 type OnChangeHandler = (clef: String, note: String, type: String) => void
 
@@ -22,33 +23,21 @@ class ScaleSelector extends React.Component<Props, State> {
     }
   }
 
-  onNoteChange = (e: any) => {
+  onNoteChange = (newNote: String) => {
     this.setState({
       ...this.state,
-      note: e.target.value
+      note: newNote
     })
-    this.props.onChange(this.state.clef, e.target.value, this.state.type)
+    this.props.onChange(this.state.clef, newNote, this.state.type)
   }
 
   render() {
     return (
       <form>
-        <input
-          name='note'
-          type='radio'
-          value='A'
-          id='noteA'
-          onChange={this.onNoteChange}
-        />
-        <label htmlFor='noteA'>A</label>
-        <input
-          name='note'
-          type='radio'
-          value='B'
-          id='noteB'
-          onChange={this.onNoteChange}
-        />
-        <label htmlFor='noteB'>B</label>
+        <RadioGroup onChange={this.onNoteChange}>
+          <RadioButton value='A'>A</RadioButton>
+          <RadioButton value='B'>B</RadioButton>
+        </RadioGroup>
       </form>
     )
   }

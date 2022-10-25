@@ -1,6 +1,6 @@
-import React from "react"
-import { Notation } from "react-abc"
-import ScaleSelector from "./ScaleSelector"
+import React from 'react'
+import { Notation } from 'react-abc'
+import ScaleSelector from './ScaleSelector'
 
 interface Props {}
 
@@ -16,9 +16,21 @@ class Scale extends React.Component<Props, State> {
     }
   }
   
-  scaleSelected(clef: String, note: String, type: String) {
-    console.log('Hello')
-    console.log(clef, note, type)
+  scaleSelected = async (clef: String, note: String, type: String) => {
+    if (clef === '' || note === '' || type === '') {
+      this.setState({
+        ...this.state,
+        abc: ''
+      })
+      return
+    }
+    const response = await fetch(`/api/scale/${clef}/${note}/${type}`)
+    const json = await response.json()
+    const newAbc = json.abc
+    this.setState({
+      ...this.state,
+      abc: newAbc
+    })
   }
 
   render() {
