@@ -17,7 +17,7 @@ class ScaleSelector extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      clef: 'treble',
+      clef: '',
       note: '',
       type: 'major'
     }
@@ -29,14 +29,14 @@ class ScaleSelector extends React.Component<Props, State> {
       note: newNote
     })
   }
-  
+
   onClefChange = (newClef: String) => {
     this.onFormChange({
       ...this.state,
       clef: newClef
     })
   }
-  
+
   onFormChange = (newState: State) => {
     this.setState(newState)
     this.props.onChange(newState.clef, newState.note, newState.type)
@@ -48,6 +48,11 @@ class ScaleSelector extends React.Component<Props, State> {
         <RadioGroup onChange={this.onNoteChange}>
           <RadioButton value='A'>A</RadioButton>
           <RadioButton value='B'>B</RadioButton>
+          <RadioButton value='C'>C</RadioButton>
+          <RadioButton value='D'>D</RadioButton>
+          <RadioButton value='E'>E</RadioButton>
+          <RadioButton value='F'>F</RadioButton>
+          <RadioButton value='G'>G</RadioButton>
         </RadioGroup>
         <RadioGroup onChange={this.onClefChange}>
           <RadioButton value='treble'>Treble Clef</RadioButton>
