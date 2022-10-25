@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notes
 
-import scala.util.chaining._
+import scala.annotation.targetName
+import scala.util.chaining.*
 
 object AbsoluteNote:
   lazy val middleC: AbsoluteNote = AbsoluteNote(Note.C, Octave.default)
@@ -11,6 +12,9 @@ class AbsoluteNote(val note: Note, val octave: Octave):
       case IntervalDirection.Up => add(interval.interval)
       case IntervalDirection.Down => subtract(interval.interval)
   }
+
+  @targetName("add")
+  def +(interval: Interval): AbsoluteNote = add(interval)
 
   lazy val add: Interval => AbsoluteNote = interval => {
     val defaultNote: AbsoluteNote = interval.degree match {
@@ -32,6 +36,9 @@ class AbsoluteNote(val note: Note, val octave: Octave):
     }
   }
 
+  @targetName("subtract")
+  def -(interval: Interval): AbsoluteNote = subtract(interval)
+
   lazy val subtract: Interval => AbsoluteNote = interval => {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
@@ -51,7 +58,22 @@ class AbsoluteNote(val note: Note, val octave: Octave):
       case 0 => defaultNote
     }
   }
+  
   lazy val abc: String = octave.getAbc(note)
+
+  @targetName("lowerThanOrEqualTo")
+  def <=(other: AbsoluteNote): Boolean = this < other || this == other
+
+  @targetName("higherThanOrEqualTo")
+  def >=(other: AbsoluteNote): Boolean = this > other || this == other
+
+  @targetName("lowerThan")
+  def <(other: AbsoluteNote): Boolean = this.octave < other.octave
+    || (this.octave == other.octave && this.note < other.note)
+
+  @targetName("higherThan")
+  def >(other: AbsoluteNote): Boolean = this.octave > other.octave
+    || (this.octave == other.octave && this.note > other.note)
 
   override def equals(obj: Any): Boolean = obj match
     case other: AbsoluteNote => other.note == note && other.octave == octave

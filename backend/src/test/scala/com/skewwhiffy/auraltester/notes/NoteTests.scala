@@ -33,11 +33,23 @@ class NoteTests {
 
   @Test
   def when_notesEquivalent_then_equalsWorks(): Unit = {
-    def note = Note("a", Accidental.sharp)
+    def note = Note("A", Accidental.sharp)
 
     val first = note
     val second = note
 
     assertThat(first).isEqualTo(second)
+    assertThat(first <= second).isTrue
+    assertThat(first >= second).isTrue
+  }
+  
+  @Test
+  def when_notesNotEquivalent_then_canCompare(): Unit = {
+    def lower = Note.C
+    def higher = Note.A
+    
+    assertThat(lower < higher).isTrue
+    assertThat(lower > higher).isFalse
+    // TODO: > and < with #s and bs
   }
 }

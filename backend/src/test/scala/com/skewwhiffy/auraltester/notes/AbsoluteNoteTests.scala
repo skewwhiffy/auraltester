@@ -35,7 +35,7 @@ class AbsoluteNoteTests {
 
   @Test
   def canAddMinorInterval(): Unit = {
-    val start = AbsoluteNote.middleC.add(Interval.major(6))
+    val start = AbsoluteNote.middleC + Interval.major(6)
     val intervals = List(
       Interval.perfect(1),
       Interval.minor(2),
@@ -46,7 +46,7 @@ class AbsoluteNoteTests {
       Interval.minor(7),
       Interval.perfect(8)
     )
-    val expected = List("A", "Bb", "c", "d", "e", "f", "g", "a")
+    val expected = List("A", "_B", "c", "d", "e", "f", "g", "a")
 
     testGeneric(start, intervals, expected)
   }
@@ -60,7 +60,7 @@ class AbsoluteNoteTests {
       Interval.augmented(6)
     )
     val start = AbsoluteNote.middleC
-    val expected = List("Ebb", "Fb", "G#", "A#")
+    val expected = List("__E", "_F", "^G", "^A")
 
     testGeneric(start, intervals, expected)
   }
@@ -69,7 +69,7 @@ class AbsoluteNoteTests {
   def canApplyUpInterval() : Unit = {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
-    val expected = "Eb"
+    val expected = "_E"
 
     val actual = start.apply(interval)
 
@@ -94,6 +94,19 @@ class AbsoluteNoteTests {
     val second = note
 
     assertThat(first).isEqualTo(second)
+    assertThat(first <= second).isTrue
+    assertThat(first >= second).isTrue
+  }
+
+  @Test
+  def nonEquivalentNotesInSameOctaveAreComparable(): Unit = {
+    val lower = AbsoluteNote(Note.D, Octave.default)
+    val higher = AbsoluteNote(Note.B, Octave.default)
+
+    assertThat(lower < higher).isTrue
+    assertThat(lower > higher).isFalse
+    assertThat(lower <= higher).isTrue
+    assertThat(lower >= higher).isFalse
   }
 
   private def testGeneric(start: AbsoluteNote, intervals: List[Interval], expectedAbcs: List[String]): Unit = {

@@ -49,5 +49,17 @@ class OctaveTests {
     val second = octave
 
     assertThat(first).isEqualTo(second)
+    assertThat(first >= second).isTrue
+  }
+
+  @Test
+  def when_firstHigherThanSecond_then_relativeOperatorWorks(): Unit = {
+    val first = Octave(20)
+    val second = Octave(21)
+
+    assertThat(first > second).isFalse
+    assertThat(first < second).isTrue
+    assertThat(first >= second).isFalse
+    assertThat(first <= second).isTrue
   }
 }

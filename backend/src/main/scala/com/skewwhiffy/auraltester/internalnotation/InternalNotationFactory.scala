@@ -1,4 +1,4 @@
-package com.skewwhiffy.auraltester.abc
+package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.clefs.Clef
 
@@ -7,7 +7,7 @@ import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInter
 
 import scala.annotation.tailrec
 
-object AbcFactory {
+object InternalNotationFactory {
   lazy val clef: String => Clef = abc => abc.toLowerCase match
     case "treble" => Clef.treble
     case "alto" => Clef.alto

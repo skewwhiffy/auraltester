@@ -1,5 +1,9 @@
 package com.skewwhiffy.auraltester.notes
 
+import com.skewwhiffy.auraltester.notes.Note.noteNames
+
+import scala.annotation.targetName
+
 object Note:
   lazy val A: Note = Note("A", Accidental.natural)
   lazy val B: Note = Note("B", Accidental.natural)
@@ -8,8 +12,12 @@ object Note:
   lazy val E: Note = Note("E", Accidental.natural)
   lazy val F: Note = Note("F", Accidental.natural)
   lazy val G: Note = Note("G", Accidental.natural)
+  //noinspection SpellCheckingInspection
+  private lazy val noteNames = "CDEFGAB"
 
 class Note(val noteName: String, private val accidental: Accidental):
+  lazy val abc: String = s"${accidental.abc}$noteName"
+  
   lazy val displayString: String = s"$noteName${accidental.displayString}"
 
   lazy val sharp: Note = Note(noteName, accidental.sharp)
@@ -23,6 +31,15 @@ class Note(val noteName: String, private val accidental: Accidental):
   lazy val downMajorSecond: Note = noteName match
     case "B" | "A" | "G" | "E" | "D" => Note(previousNoteName, accidental)
     case _ => Note(previousNoteName, accidental.flat)
+
+  @targetName("lowerThanOrEqual")
+  def <=(other: Note): Boolean = this == other || this < other
+  @targetName("higherThanOrEqual")
+  def >=(other: Note): Boolean = this == other || this > other
+  @targetName("lowerThan")
+  def <(other: Note): Boolean = noteNames.indexOf(this.noteName) < noteNames.indexOf(other.noteName)
+  @targetName("higherThan")
+  def >(other: Note): Boolean = noteNames.indexOf(this.noteName) > noteNames.indexOf(other.noteName)
 
   override def equals(obj: Any): Boolean = obj match
     case other: Note => other.noteName == noteName && other.accidental == accidental

@@ -1,4 +1,4 @@
-package com.skewwhiffy.auraltester.abc
+package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
 import org.assertj.core.api.Assertions.assertThat
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-class AbcFactoryTest {
+class InternalNotationFactoryTest {
   @Test
   def canInstantiateMiddleC(): Unit = {
     val expected = AbsoluteNote.middleC
 
-    val actual = AbcFactory.note("C")
+    val actual = InternalNotationFactory.note("C")
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -20,16 +20,17 @@ class AbcFactoryTest {
   def canInstantiateNoteAboveMiddleC(): Unit = {
     val expected = "c''"
 
-    val actual = AbcFactory.note(expected)
+    val actual = InternalNotationFactory.note(expected)
 
     assertThat(actual.abc).isEqualTo(expected)
   }
 
   @Test
   def canInstantiateNoteBelowMiddleC(): Unit = {
-    val expected = "Dx#,,,"
+    val internalNotation = "Dx#,,,"
+    val expected = "^^^D,,,"
 
-    val actual = AbcFactory.note(expected)
+    val actual = InternalNotationFactory.note(internalNotation)
 
     assertThat(actual.abc).isEqualTo(expected)
   }
@@ -39,7 +40,7 @@ class AbcFactoryTest {
   def canInstantiateMajorInterval(degree: Int): Unit = {
     val expected = Interval.major(degree).up
 
-    val actual = AbcFactory.directedInterval(degree.toString)
+    val actual = InternalNotationFactory.directedInterval(degree.toString)
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -49,7 +50,7 @@ class AbcFactoryTest {
   def canInstantiatePerfectInterval(degree: Int): Unit = {
     val expected = Interval.perfect(degree).up
 
-    val actual = AbcFactory.directedInterval(degree.toString)
+    val actual = InternalNotationFactory.directedInterval(degree.toString)
 
     assertThat(actual).isEqualTo(expected)
   }
@@ -58,7 +59,7 @@ class AbcFactoryTest {
   def canInstantiateMinorThird(): Unit = {
     val expected = Interval.minor(3).up
 
-    val actual = AbcFactory.directedInterval("3-")
+    val actual = InternalNotationFactory.directedInterval("3-")
 
     assertThat(actual).isEqualTo(expected)
   }

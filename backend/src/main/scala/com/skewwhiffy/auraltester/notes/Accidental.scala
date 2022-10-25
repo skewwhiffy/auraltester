@@ -6,6 +6,11 @@ object Accidental:
   lazy val sharp: Accidental = Accidental(1)
 
 class Accidental(private val offset: Int):
+  lazy val abc: String = offset match
+    case 0 => ""
+    case it if it < 0 => "_".repeat(-it)
+    case it => "^".repeat(it)
+
   lazy val displayString: String = offset match
     case 0 => ""
     case it if it < 0 => "b".repeat(-it)
