@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.controller.dto.ScaleResponse
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval, Note}
@@ -17,9 +18,7 @@ class ScaleController:
     @PathVariable rawScaleType: String
   ): ScaleResponse = {
     val clef = InternalNotationFactory.clef(rawClef)
-    val candidateStartingNote = AbsoluteNote(InternalNotationFactory.note(rawNote).note, clef.lowLedgerNote.octave)
-    val startingNote = if (candidateStartingNote < clef.lowLedgerNote) candidateStartingNote + Interval.perfect(8) else
-      candidateStartingNote
+    val startingNote = getStartingNote(clef, rawNote, rawScaleType)
     val scale = rawScaleType.toLowerCase match
       case "major" => Scale.major(startingNote)
       case "minor-harmonic" => Scale.minor.harmonic(startingNote)
@@ -35,4 +34,14 @@ L:1
 ${scale.notes.map(it => s"${it.abc}").mkString(" ")}
     """.stripMargin
     ScaleResponse(abc)
+  }
+
+  private def getStartingNote(clef: Clef, rawNote: String, rawScaleType: String): AbsoluteNote = {
+    if (rawScaleType != "minor-melodic-descending") {
+      val candidateStartingNote = AbsoluteNote(InternalNotationFactory.note(rawNote).note, clef.lowLedgerNote.octave)
+      if (candidateStartingNote < clef.lowLedgerNote) candidateStartingNote + Interval.perfect(8) else candidateStartingNote
+    } else {
+      val candidateStartingNote = AbsoluteNote(InternalNotationFactory.note(rawNote).note, clef.highLedgerNote.octave)
+      if (candidateStartingNote > clef.highLedgerNote) candidateStartingNote - Interval.perfect(8) else candidateStartingNote
+    }
   }
