@@ -20,7 +20,12 @@ class ScaleController:
     val candidateStartingNote = AbsoluteNote(InternalNotationFactory.note(rawNote).note, clef.lowLedgerNote.octave)
     val startingNote = if (candidateStartingNote < clef.lowLedgerNote) candidateStartingNote + Interval.perfect(8) else
       candidateStartingNote
-    val scale = Scale.major(startingNote)
+    val scale = rawScaleType.toLowerCase match
+      case "major" => Scale.major(startingNote)
+      case "minor-harmonic" => Scale.minor.harmonic(startingNote)
+      case "minor-melodic-ascending" => Scale.minor.melodic.ascending(startingNote)
+      case "minor-melodic-descending" => Scale.minor.melodic.descending(startingNote)
+      case _ => throw IllegalArgumentException(s"Unrecognized scale type '$rawScaleType'")
     val abc =
       s"""
 X:1
