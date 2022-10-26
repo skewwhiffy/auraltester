@@ -1,5 +1,6 @@
 import React from 'react'
 import { Notation } from 'react-abc'
+import { Container } from 'react-bootstrap'
 import ScaleSelector from './ScaleSelector'
 
 interface Props {}
@@ -36,10 +37,10 @@ class Scale extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="Scale">
+      <Container>
         <Notation notation={this.state.abc} />
         <ScaleSelector onChange={this.scaleSelected} />
-      </div>
+      </Container>
     )
   }
 }

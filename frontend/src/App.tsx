@@ -1,5 +1,4 @@
 import React from 'react'
-import Info from './component/Info'
 import Scale from './component/Scale'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -11,7 +10,6 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <NavBar />
-          <Info />
           <Routes>
             <Route index element={<p>Hello</p>} />
             <Route path="scales" element={<Scale />} />

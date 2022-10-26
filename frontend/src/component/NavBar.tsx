@@ -3,10 +3,24 @@ import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 interface Props { }
-interface State { }
+interface State {
+  information: {
+    version: string
+  }
+}
 class NavBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
+  }
+  
+  async componentDidMount() {
+    const newInformationResponse = await fetch('info')
+    const newInformation = await newInformationResponse.json()
+    console.log(newInformation)
+    this.setState({
+      ...this.state,
+      information: newInformation
+    })
   }
 
   render() {
@@ -29,6 +43,11 @@ class NavBar extends React.Component<Props, State> {
                 title="Scales"
               >Scales</Nav.Link>
             </Nav>
+          </Navbar.Collapse>
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              { this.state?.information?.version == null ? 'No version information yet' : `Version: ${this.state.information.version}`}
+            </Navbar.Text>
           </Navbar.Collapse>
         </Container>
       </Navbar>
