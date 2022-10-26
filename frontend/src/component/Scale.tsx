@@ -1,9 +1,9 @@
 import React from 'react'
 import { Notation } from 'react-abc'
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import ScaleSelector from './ScaleSelector'
 
-interface Props {}
+interface Props { }
 
 interface State {
   abc: string
@@ -16,7 +16,7 @@ class Scale extends React.Component<Props, State> {
       abc: ''
     }
   }
-  
+
   scaleSelected = async (clef: string, note: string, type: string) => {
     if (clef === '' || note === '' || type === '') {
       this.setState({
@@ -38,8 +38,12 @@ class Scale extends React.Component<Props, State> {
   render() {
     return (
       <Container>
-        <Notation notation={this.state.abc} />
-        <ScaleSelector onChange={this.scaleSelected} />
+        <Row>
+          <Notation notation={this.state.abc} />
+        </Row>
+        <Row>
+          <ScaleSelector onChange={this.scaleSelected} />
+        </Row>
       </Container>
     )
   }

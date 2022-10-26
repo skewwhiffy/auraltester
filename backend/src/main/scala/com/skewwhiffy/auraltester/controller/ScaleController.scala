@@ -34,7 +34,10 @@ L:1
 ${scale.notes.map(it => s"${it.abc}").mkString("")}
     """
       .stripMargin
-      .pipe(it => ScaleResponse(it))
+      .pipe(it => {
+        println(it)
+        ScaleResponse(it)
+      })
   }
 
   private def getStartingNote(clef: Clef, rawNote: String, rawScaleType: String): AbsoluteNote = {
