@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FormEventHandler } from 'react'
 import { RadioGroup, RadioButton } from 'react-radio-buttons'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Form, Container, Row, Col } from 'react-bootstrap'
 
 type OnChangeHandler = (clef: string, note: string, type: string) => void
 
@@ -26,58 +26,21 @@ class ScaleSelector extends React.Component<Props, State> {
     }
   }
 
-  onTypeChange = (newType: string) => {
-    this.onFormChange({
-      ...this.state,
-      type: newType
-    })
-  }
-
-  onAccidentalChange = (newAccidental: string) => {
-    this.onFormChange({
-      ...this.state,
-      accidental: newAccidental
-    })
-  }
-
-  onNoteChange = (newNote: string) => {
-    this.onFormChange({
-      ...this.state,
-      note: newNote
-    })
-  }
-
-  onClefChange = (newClef: string) => {
-    this.onFormChange({
-      ...this.state,
-      clef: newClef
-    })
-  }
-
-  onFormChange = (newState: State) => {
-    this.setState(newState)
-    this.props.onChange(
-      newState.clef,
-      `${newState.note}${newState.accidental}`,
-      newState.type
-    )
-  }
-
   render() {
     return (
       <Container>
-        <form>
+        <Form>
           <Row>
             <Col>
-              <RadioGroup onChange={this.onNoteChange}>
-                <RadioButton value='A'>A</RadioButton>
-                <RadioButton value='B'>B</RadioButton>
-                <RadioButton value='C'>C</RadioButton>
-                <RadioButton value='D'>D</RadioButton>
-                <RadioButton value='E'>E</RadioButton>
-                <RadioButton value='F'>F</RadioButton>
-                <RadioButton value='G'>G</RadioButton>
-              </RadioGroup>
+              <Form.Group onChange={e => this.onNoteChange(e.target)}>
+                <Form.Check name='note' value='A' type='radio' label='A'></Form.Check>
+                <Form.Check name='note' value='B' type='radio' label='B'></Form.Check>
+                <Form.Check name='note' value='C' type='radio' label='C'></Form.Check>
+                <Form.Check name='note' value='D' type='radio' label='D'></Form.Check>
+                <Form.Check name='note' value='E' type='radio' label='E'></Form.Check>
+                <Form.Check name='note' value='F' type='radio' label='F'></Form.Check>
+                <Form.Check name='note' value='G' type='radio' label='G'></Form.Check>
+              </Form.Group>
             </Col>
             <Col>
               <RadioGroup onChange={this.onAccidentalChange}>
@@ -105,10 +68,48 @@ class ScaleSelector extends React.Component<Props, State> {
               </RadioGroup>
             </Col>
           </Row>
-        </form>
+        </Form>
       </Container>
     )
   }
+
+  onFormChange = (newState: State) => {
+    this.setState(newState)
+    this.props.onChange(
+      newState.clef,
+      `${newState.note}${newState.accidental}`,
+      newState.type
+    )
+  }
+
+  onTypeChange = (newType: string) => {
+    this.onFormChange({
+      ...this.state,
+      type: newType
+    })
+  }
+
+  onAccidentalChange = (newAccidental: string) => {
+    this.onFormChange({
+      ...this.state,
+      accidental: newAccidental
+    })
+  }
+
+  onNoteChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      note: e.value
+    })
+  }
+
+  onClefChange = (newClef: string) => {
+    this.onFormChange({
+      ...this.state,
+      clef: newClef
+    })
+  }
+
 }
 
 export default ScaleSelector
