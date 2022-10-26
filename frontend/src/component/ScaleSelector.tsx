@@ -1,5 +1,5 @@
 import React from 'react'
-import { RadioGroup, RadioButton } from 'react-radio-buttons'
+import { Form, Container, Row, Col } from 'react-bootstrap'
 
 type OnChangeHandler = (clef: string, note: string, type: string) => void
 
@@ -25,35 +25,78 @@ class ScaleSelector extends React.Component<Props, State> {
     }
   }
 
-  onTypeChange = (newType: string) => {
-    this.onFormChange({
-      ...this.state,
-      type: newType
-    })
+  render() {
+    return (
+      <Container>
+        <Form>
+          <Row>
+            <Col>
+              <Form.Group onChange={e => this.onNoteChange(e.target)}>
+                {this.renderNoteRadioButtons()}
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group onChange={e => this.onAccidentalChange(e.target)}>
+                {this.renderAccidentalRadioButtons()}
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group onChange={e => this.onClefChange(e.target)}>
+                {this.renderClefRadioButtons()}
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group onChange={e => this.onTypeChange(e.target)}>
+                {this.renderTypeRadioButtons()}
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </Container>
+    )
   }
 
-  onAccidentalChange = (newAccidental: string) => {
-    this.onFormChange({
-      ...this.state,
-      accidental: newAccidental
-    })
+  private renderTypeRadioButtons() {
+    return ['major', 'minor-harmonic', 'minor-melodic-ascending', 'minor-melodic-descending']
+      .map(it => {
+        const label = it.split('-').map(this.capitaliseFirstCharacter).join(' ')
+        return this.renderCheckbox('type', it, label)
+      })
   }
 
-  onNoteChange = (newNote: string) => {
-    this.onFormChange({
-      ...this.state,
-      note: newNote
-    })
+  private renderClefRadioButtons() {
+    return ['treble', 'alto', 'tenor', 'bass']
+      .map(it => {
+        const label = `${this.capitaliseFirstCharacter(it)} Clef`
+        return this.renderCheckbox('clef', it, label)
+      })
   }
 
-  onClefChange = (newClef: string) => {
-    this.onFormChange({
-      ...this.state,
-      clef: newClef
-    })
+  private renderNoteRadioButtons() {
+    return 'ABCDEFG'
+      .split('')
+      .map(it => this.renderCheckbox('note', it, it))
   }
 
-  onFormChange = (newState: State) => {
+  private renderAccidentalRadioButtons() {
+    return [
+      ['#', '#'],
+      ['', 'natural'],
+      ['b', 'b']
+    ]
+      .map(it => this.renderCheckbox('accidental', it[0], it[1]))
+  }
+
+  private renderCheckbox(name: string, value: string, label: string) {
+    const key = `${name}${value}`
+    return (<Form.Check key={key} name={name} value={value} type='radio' label={label} />)
+  }
+
+  private capitaliseFirstCharacter(source: string) {
+    return `${source[0].toUpperCase()}${source.substring(1)}`
+  }
+
+  private onFormChange = (newState: State) => {
     this.setState(newState)
     this.props.onChange(
       newState.clef,
@@ -62,40 +105,35 @@ class ScaleSelector extends React.Component<Props, State> {
     )
   }
 
-  render() {
-    return (
-      <form>
-        <RadioGroup onChange={this.onNoteChange}>
-          <RadioButton value='A'>A</RadioButton>
-          <RadioButton value='B'>B</RadioButton>
-          <RadioButton value='C'>C</RadioButton>
-          <RadioButton value='D'>D</RadioButton>
-          <RadioButton value='E'>E</RadioButton>
-          <RadioButton value='F'>F</RadioButton>
-          <RadioButton value='G'>G</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onAccidentalChange}>
-          <RadioButton value='x'>x</RadioButton>
-          <RadioButton value='#'>#</RadioButton>
-          <RadioButton value=''>natural</RadioButton>
-          <RadioButton value='b'>b</RadioButton>
-          <RadioButton value='bb'>bb</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onClefChange}>
-          <RadioButton value='treble'>Treble Clef</RadioButton>
-          <RadioButton value='alto'>Alto Clef</RadioButton>
-          <RadioButton value='tenor'>Tenor Clef</RadioButton>
-          <RadioButton value='bass'>Bass Clef</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onTypeChange}>
-          <RadioButton value='major'>Major</RadioButton>
-          <RadioButton value='minor-harmonic'>Minor Harmonic</RadioButton>
-          <RadioButton value='minor-melodic-ascending'>Minor Melodic Ascending</RadioButton>
-          <RadioButton value='minor-melodic-descending'>Minor Melodic Descending</RadioButton>
-        </RadioGroup>
-      </form>
-    )
+  onTypeChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      type: e.value
+    })
   }
+
+  onAccidentalChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      accidental: e.value
+    })
+  }
+
+  onNoteChange = (e: any) => {
+    console.log(e.value)
+    this.onFormChange({
+      ...this.state,
+      note: e.value
+    })
+  }
+
+  onClefChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      clef: e.value
+    })
+  }
+
 }
 
 export default ScaleSelector
