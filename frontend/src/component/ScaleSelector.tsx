@@ -1,5 +1,6 @@
 import React from 'react'
 import { RadioGroup, RadioButton } from 'react-radio-buttons'
+import { Container, Row, Col } from 'react-bootstrap'
 
 type OnChangeHandler = (clef: string, note: string, type: string) => void
 
@@ -64,36 +65,48 @@ class ScaleSelector extends React.Component<Props, State> {
 
   render() {
     return (
-      <form>
-        <RadioGroup onChange={this.onNoteChange}>
-          <RadioButton value='A'>A</RadioButton>
-          <RadioButton value='B'>B</RadioButton>
-          <RadioButton value='C'>C</RadioButton>
-          <RadioButton value='D'>D</RadioButton>
-          <RadioButton value='E'>E</RadioButton>
-          <RadioButton value='F'>F</RadioButton>
-          <RadioButton value='G'>G</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onAccidentalChange}>
-          <RadioButton value='x'>x</RadioButton>
-          <RadioButton value='#'>#</RadioButton>
-          <RadioButton value=''>natural</RadioButton>
-          <RadioButton value='b'>b</RadioButton>
-          <RadioButton value='bb'>bb</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onClefChange}>
-          <RadioButton value='treble'>Treble Clef</RadioButton>
-          <RadioButton value='alto'>Alto Clef</RadioButton>
-          <RadioButton value='tenor'>Tenor Clef</RadioButton>
-          <RadioButton value='bass'>Bass Clef</RadioButton>
-        </RadioGroup>
-        <RadioGroup onChange={this.onTypeChange}>
-          <RadioButton value='major'>Major</RadioButton>
-          <RadioButton value='minor-harmonic'>Minor Harmonic</RadioButton>
-          <RadioButton value='minor-melodic-ascending'>Minor Melodic Ascending</RadioButton>
-          <RadioButton value='minor-melodic-descending'>Minor Melodic Descending</RadioButton>
-        </RadioGroup>
-      </form>
+      <Container>
+        <form>
+          <Row>
+            <Col>
+              <RadioGroup onChange={this.onNoteChange}>
+                <RadioButton value='A'>A</RadioButton>
+                <RadioButton value='B'>B</RadioButton>
+                <RadioButton value='C'>C</RadioButton>
+                <RadioButton value='D'>D</RadioButton>
+                <RadioButton value='E'>E</RadioButton>
+                <RadioButton value='F'>F</RadioButton>
+                <RadioButton value='G'>G</RadioButton>
+              </RadioGroup>
+            </Col>
+            <Col>
+              <RadioGroup onChange={this.onAccidentalChange}>
+                <RadioButton value='x'>x</RadioButton>
+                <RadioButton value='#'>#</RadioButton>
+                <RadioButton value=''>natural</RadioButton>
+                <RadioButton value='b'>b</RadioButton>
+                <RadioButton value='bb'>bb</RadioButton>
+              </RadioGroup>
+            </Col>
+            <Col>
+              <RadioGroup onChange={this.onClefChange}>
+                <RadioButton value='treble'>Treble Clef</RadioButton>
+                <RadioButton value='alto'>Alto Clef</RadioButton>
+                <RadioButton value='tenor'>Tenor Clef</RadioButton>
+                <RadioButton value='bass'>Bass Clef</RadioButton>
+              </RadioGroup>
+            </Col>
+            <Col>
+              <RadioGroup onChange={this.onTypeChange}>
+                <RadioButton value='major'>Major</RadioButton>
+                <RadioButton value='minor-harmonic'>Minor Harmonic</RadioButton>
+                <RadioButton value='minor-melodic-ascending'>Minor Melodic Ascending</RadioButton>
+                <RadioButton value='minor-melodic-descending'>Minor Melodic Descending</RadioButton>
+              </RadioGroup>
+            </Col>
+          </Row>
+        </form>
+      </Container>
     )
   }
 }

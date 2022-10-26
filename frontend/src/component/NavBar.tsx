@@ -16,7 +16,8 @@ class NavBar extends React.Component<Props, State> {
   async componentDidMount() {
     const newInformationResponse = await fetch('info')
     const newInformation = await newInformationResponse.json()
-    console.log(newInformation)
+    // TODO: This gets called twice. Why?
+    console.log('Component did mount in NavBar')
     this.setState({
       ...this.state,
       information: newInformation
