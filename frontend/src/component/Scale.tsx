@@ -16,7 +16,7 @@ class Scale extends React.Component<Props, State> {
     }
   }
   
-  scaleSelected = async (clef: String, note: String, type: String) => {
+  scaleSelected = async (clef: string, note: string, type: string) => {
     if (clef === '' || note === '' || type === '') {
       this.setState({
         ...this.state,
@@ -24,7 +24,8 @@ class Scale extends React.Component<Props, State> {
       })
       return
     }
-    const response = await fetch(`/api/scale/${clef}/${note}/${type}`)
+    console.log(encodeURI(`/api/scale/${clef}/${note}/${type}`))
+    const response = await fetch(`/api/scale/${clef}/${encodeURIComponent(note)}/${type}`)
     const json = await response.json()
     const newAbc = json.abc
     this.setState({
