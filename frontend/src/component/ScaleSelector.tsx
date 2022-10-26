@@ -84,6 +84,7 @@ class ScaleSelector extends React.Component<Props, State> {
         <RadioGroup onChange={this.onClefChange}>
           <RadioButton value='treble'>Treble Clef</RadioButton>
           <RadioButton value='alto'>Alto Clef</RadioButton>
+          <RadioButton value='tenor'>Tenor Clef</RadioButton>
           <RadioButton value='bass'>Bass Clef</RadioButton>
         </RadioGroup>
         <RadioGroup onChange={this.onTypeChange}>

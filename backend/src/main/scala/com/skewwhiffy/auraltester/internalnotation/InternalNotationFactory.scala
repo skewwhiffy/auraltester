@@ -11,6 +11,7 @@ object InternalNotationFactory {
   lazy val clef: String => Clef = abc => abc.toLowerCase match
     case "treble" => Clef.treble
     case "alto" => Clef.alto
+    case "tenor" => Clef.tenor
     case "bass" => Clef.bass
     case _ => throw IllegalArgumentException(s"Unrecognized clef type: '$abc'")
   lazy val directedInterval: String => DirectedInterval = abc => IntervalFactory(abc).directedInterval
