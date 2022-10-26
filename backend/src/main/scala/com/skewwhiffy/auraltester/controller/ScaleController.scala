@@ -7,6 +7,7 @@ import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval, Note}
 import com.skewwhiffy.auraltester.scales.Scale
 import org.springframework.http.{MediaType, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
+import scala.util.chaining.*
 
 @RestController
 @RequestMapping(path = Array("/api/scale"))
@@ -25,15 +26,15 @@ class ScaleController:
       case "minor-melodic-ascending" => Scale.minor.melodic.ascending(startingNote)
       case "minor-melodic-descending" => Scale.minor.melodic.descending(startingNote)
       case _ => throw IllegalArgumentException(s"Unrecognized scale type '$rawScaleType'")
-    val abc =
-      s"""
+    s"""
 X:1
-T:TODO, the scale name
+T:${scale.displayName}
 K:clef=${clef.name}
 L:1
-${scale.notes.map(it => s"${it.abc}").mkString(" ")}
-    """.stripMargin
-    ScaleResponse(abc)
+${scale.notes.map(it => s"${it.abc}").mkString("")}
+    """
+      .stripMargin
+      .pipe(it => ScaleResponse(it))
   }
 
   private def getStartingNote(clef: Clef, rawNote: String, rawScaleType: String): AbsoluteNote = {
