@@ -1,9 +1,8 @@
 package com.skewwhiffy.auraltester.notes
 
 import org.assertj.core.api.Assert
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy, fail}
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.fail
 
 class AbsoluteNoteTests {
   @Test
@@ -35,7 +34,7 @@ class AbsoluteNoteTests {
 
   @Test
   def canAddMinorInterval(): Unit = {
-    val start = AbsoluteNote.middleC.add(Interval.major(6))
+    val start = AbsoluteNote.middleC + Interval.major(6)
     val intervals = List(
       Interval.perfect(1),
       Interval.minor(2),
@@ -46,7 +45,7 @@ class AbsoluteNoteTests {
       Interval.minor(7),
       Interval.perfect(8)
     )
-    val expected = List("A", "Bb", "c", "d", "e", "f", "g", "a")
+    val expected = List("A", "_B", "c", "d", "e", "f", "g", "a")
 
     testGeneric(start, intervals, expected)
   }
@@ -60,16 +59,24 @@ class AbsoluteNoteTests {
       Interval.augmented(6)
     )
     val start = AbsoluteNote.middleC
-    val expected = List("Ebb", "Fb", "G#", "A#")
+    val expected = List("__E", "_F", "^G", "^A")
 
     testGeneric(start, intervals, expected)
+  }
+
+  @Test
+  def cannotAddCompoundIntervalsYet(): Unit = {
+    val start = AbsoluteNote.middleC
+
+    assertThatThrownBy(() => start.add(Interval.major(9)))
+      .isInstanceOf(classOf[IllegalArgumentException])
   }
 
   @Test
   def canApplyUpInterval() : Unit = {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
-    val expected = "Eb"
+    val expected = "_E"
 
     val actual = start.apply(interval)
 
@@ -78,13 +85,24 @@ class AbsoluteNoteTests {
 
   @Test
   def canApplyDownInterval() : Unit = {
-    val interval = Interval.minor(3).down
+    val interval = Interval.minor(3)
+    val directedInterval = interval.down
     val start = AbsoluteNote.middleC
     val expected = "A,"
 
-    val actual = start.apply(interval)
+    val actualWithApply = start.apply(directedInterval)
+    val actualWithSubtract = start - interval
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assertThat(actualWithApply.abc).isEqualTo(expected)
+    assertThat(actualWithSubtract.abc).isEqualTo(expected)
+  }
+
+  @Test
+  def cannotSubtractCompoundIntervalsYet(): Unit = {
+    val interval = Interval.major(9)
+
+    assertThatThrownBy(() => AbsoluteNote.middleC - interval)
+      .isInstanceOf(classOf[IllegalArgumentException])
   }
 
   @Test
@@ -94,6 +112,34 @@ class AbsoluteNoteTests {
     val second = note
 
     assertThat(first).isEqualTo(second)
+    assertThat(first <= second).isTrue
+    assertThat(first >= second).isTrue
+  }
+
+  @Test
+  def absoluteNoteIsNotEqualToNonAbsoluteNote(): Unit = {
+    def note = AbsoluteNote.middleC
+    def someOtherObject = Note.C
+
+    assertThat(note).isNotEqualTo(someOtherObject)
+  }
+
+  @Test
+  def toStringReturnsAbc(): Unit = {
+    def note = AbsoluteNote.middleC
+
+    assertThat(note.toString).isEqualTo(note.abc)
+  }
+
+  @Test
+  def nonEquivalentNotesInSameOctaveAreComparable(): Unit = {
+    val lower = AbsoluteNote(Note.D, Octave.default)
+    val higher = AbsoluteNote(Note.B, Octave.default)
+
+    assertThat(lower < higher).isTrue
+    assertThat(lower > higher).isFalse
+    assertThat(lower <= higher).isTrue
+    assertThat(lower >= higher).isFalse
   }
 
   private def testGeneric(start: AbsoluteNote, intervals: List[Interval], expectedAbcs: List[String]): Unit = {

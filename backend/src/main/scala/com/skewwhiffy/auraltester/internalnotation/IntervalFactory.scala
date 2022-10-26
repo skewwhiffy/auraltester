@@ -1,4 +1,4 @@
-package com.skewwhiffy.auraltester.abc
+package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{DirectedInterval, Interval}
 
