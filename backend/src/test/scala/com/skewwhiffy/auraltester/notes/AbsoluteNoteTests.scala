@@ -1,9 +1,8 @@
 package com.skewwhiffy.auraltester.notes
 
 import org.assertj.core.api.Assert
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy, fail}
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.fail
 
 class AbsoluteNoteTests {
   @Test
@@ -66,6 +65,14 @@ class AbsoluteNoteTests {
   }
 
   @Test
+  def cannotAddCompoundIntervalsYet(): Unit = {
+    val start = AbsoluteNote.middleC
+
+    assertThatThrownBy(() => start.add(Interval.major(9)))
+      .isInstanceOf(classOf[IllegalArgumentException])
+  }
+
+  @Test
   def canApplyUpInterval() : Unit = {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
@@ -78,13 +85,24 @@ class AbsoluteNoteTests {
 
   @Test
   def canApplyDownInterval() : Unit = {
-    val interval = Interval.minor(3).down
+    val interval = Interval.minor(3)
+    val directedInterval = interval.down
     val start = AbsoluteNote.middleC
     val expected = "A,"
 
-    val actual = start.apply(interval)
+    val actualWithApply = start.apply(directedInterval)
+    val actualWithSubtract = start - interval
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assertThat(actualWithApply.abc).isEqualTo(expected)
+    assertThat(actualWithSubtract.abc).isEqualTo(expected)
+  }
+
+  @Test
+  def cannotSubtractCompoundIntervalsYet(): Unit = {
+    val interval = Interval.major(9)
+
+    assertThatThrownBy(() => AbsoluteNote.middleC - interval)
+      .isInstanceOf(classOf[IllegalArgumentException])
   }
 
   @Test
@@ -96,6 +114,21 @@ class AbsoluteNoteTests {
     assertThat(first).isEqualTo(second)
     assertThat(first <= second).isTrue
     assertThat(first >= second).isTrue
+  }
+
+  @Test
+  def absoluteNoteIsNotEqualToNonAbsoluteNote(): Unit = {
+    def note = AbsoluteNote.middleC
+    def someOtherObject = Note.C
+
+    assertThat(note).isNotEqualTo(someOtherObject)
+  }
+
+  @Test
+  def toStringReturnsAbc(): Unit = {
+    def note = AbsoluteNote.middleC
+
+    assertThat(note.toString).isEqualTo(note.abc)
   }
 
   @Test

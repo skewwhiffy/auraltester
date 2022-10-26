@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
 import org.junit.jupiter.api.Test
 
 class ScaleControllerTest:
@@ -44,3 +44,8 @@ class ScaleControllerTest:
     assertThat(result.abc).contains("K:clef=treble")
   }
 
+  @Test
+  def when_scaleTypeNotRecognized_then_throws(): Unit = {
+    assertThatThrownBy(() => scaleController.get("treble", "B", "demented"))
+      .isInstanceOf(classOf[IllegalArgumentException])
+  }

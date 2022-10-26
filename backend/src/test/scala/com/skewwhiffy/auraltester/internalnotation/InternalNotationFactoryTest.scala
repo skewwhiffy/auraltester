@@ -1,7 +1,7 @@
 package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -35,6 +35,12 @@ class InternalNotationFactoryTest {
     assertThat(actual.abc).isEqualTo(expected)
   }
 
+  @Test
+  def when_noteNameInvalid_then_throws(): Unit = {
+    assertThatThrownBy(() => InternalNotationFactory.note("H"))
+      .isInstanceOf(classOf[IllegalArgumentException])
+  }
+
   @ParameterizedTest
   @ValueSource(ints = Array(2, 3, 6, 7))
   def canInstantiateMajorInterval(degree: Int): Unit = {
@@ -43,6 +49,11 @@ class InternalNotationFactoryTest {
     val actual = InternalNotationFactory.directedInterval(degree.toString)
 
     assertThat(actual).isEqualTo(expected)
+  }
+
+  def when_invalidDeviation_then_throws(): Unit = {
+    assertThatThrownBy(() => InternalNotationFactory.directedInterval("5*"))
+      .isInstanceOf(classOf[IllegalArgumentException])
   }
 
   @ParameterizedTest
