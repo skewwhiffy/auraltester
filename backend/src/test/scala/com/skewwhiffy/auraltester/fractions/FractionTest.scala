@@ -12,12 +12,45 @@ class FractionTest:
 
     assertThat(actual.toString).isEqualTo(expected)
   }
-  
+
   @Test
   def canInstantiateMixedFraction(): Unit = {
     val expected = "1 2/3"
-    
+
     val actual = Fraction(1, 2, 3)
-    
+
     assertThat(actual.toString).isEqualTo(expected)
+  }
+
+  @Test
+  def canAddFractions(): Unit = {
+    val expected = "11/12"
+
+    val actual = Fraction(3, 4) + Fraction(1, 6)
+
+    assertThat(actual.toString).isEqualTo(expected)
+  }
+
+  @Test
+  def canSubtractFractions(): Unit = {
+    val expected = "1/2"
+
+    val actual = Fraction(3, 4) - Fraction(1, 4)
+
+    assertThat(actual.toString).isEqualTo(expected)
+  }
+
+  @Test
+  def integerFractionsAreEqualToInteger(): Unit = {
+    val source = Fraction(4, 2)
+
+    assertThat(source).isEqualTo(2)
+  }
+
+  @Test
+  def equivalentFractionsAreEqual(): Unit = {
+    val first = Fraction(2, 4)
+    val second = Fraction(-3, -6)
+
+    assertThat(first).isEqualTo(second)
   }
