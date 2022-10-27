@@ -16,6 +16,7 @@ class ScaleControllerTest:
 
   @Test
   def when_majorScaleRequested_then_abcCorrect(): Unit = {
+    // Transferred
     val result = scaleController.get("treble", "D", "major")
 
     //noinspection SpellCheckingInspection

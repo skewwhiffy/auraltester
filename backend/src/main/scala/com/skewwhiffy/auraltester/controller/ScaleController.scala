@@ -35,7 +35,7 @@ X:1
 T:${scale.displayName}
 K:clef=${clef.name}
 L:1
-${scale.notes.map(it => s"${it.abc}").mkString("")}
+${scale.abc}
     """
       .stripMargin
       .pipe(it => {
