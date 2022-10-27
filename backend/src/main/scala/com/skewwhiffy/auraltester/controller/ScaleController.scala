@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.controller.dto.ScaleResponse
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval, Note}
-import com.skewwhiffy.auraltester.scales.Scale
+import com.skewwhiffy.auraltester.scales.{Scale, ScaleType}
 import com.skewwhiffy.auraltester.services.ScaleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{MediaType, ResponseEntity}
@@ -22,13 +22,14 @@ class ScaleController(@Autowired private val scaleService: ScaleService):
     @PathVariable rawScaleType: String
   ): ScaleResponse = {
     val clef = InternalNotationFactory.clef(rawClef)
-    val startingNote = getStartingNote(clef, rawNote, rawScaleType)
-    val scale = rawScaleType.toLowerCase match
-      case "major" => Scale.major(startingNote)
-      case "minor-harmonic" => Scale.minor.harmonic(startingNote)
-      case "minor-melodic-ascending" => Scale.minor.melodic.ascending(startingNote)
-      case "minor-melodic-descending" => Scale.minor.melodic.descending(startingNote)
-      case _ => throw IllegalArgumentException(s"Unrecognized scale type '$rawScaleType'")
+    val note = InternalNotationFactory.note(rawNote).note
+    val scaleType = rawScaleType match
+      case "major" => ScaleType.major
+      case "minor-harmonic" => ScaleType.minorHarmonic
+      case "minor-melodic-ascending" => ScaleType.minorMelodicAscending
+      case "minor-melodic-descending" => ScaleType.minorMelodicDescending
+      case _ => throw IllegalArgumentException(s"Unrecognized scale type: '$rawScaleType'")
+    val scale = scaleService.getScale(clef, note, scaleType)
     s"""
 X:1
 T:${scale.displayName}

@@ -10,9 +10,9 @@ import org.mockito.{InjectMocks, Mock}
 @ExtendWith(Array(classOf[MockitoExtension]))
 class ScaleControllerTest:
   @Mock
-  var scaleService: ScaleService = _
+  private var scaleService: ScaleService = _
   @InjectMocks
-  var scaleController: ScaleController = _
+  private var scaleController: ScaleController = _
 
   @Test
   def when_majorScaleRequested_then_abcCorrect(): Unit = {

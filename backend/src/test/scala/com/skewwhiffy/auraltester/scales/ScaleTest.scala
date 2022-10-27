@@ -11,7 +11,7 @@ class ScaleTest {
   def canInstantiateMajorScale(): Unit = {
     val expected = InternalNotationFactory.notes("C D E F G A B c")
 
-    val actual = Scale.major(AbsoluteNote.middleC)
+    val actual = Scale(AbsoluteNote.middleC, ScaleType.major)
 
     assertThat(actual.notes).isEqualTo(expected)
   }
@@ -20,7 +20,7 @@ class ScaleTest {
   def canInstantiateMinorHarmonicScale(): Unit = {
     val expected = InternalNotationFactory.notes("D E F G A Bb c# d")
 
-    val actual = Scale.minor.harmonic(InternalNotationFactory.note("D"))
+    val actual = Scale(InternalNotationFactory.note("D"), ScaleType.minorHarmonic)
 
     assertThat(actual.notes).isEqualTo(expected)
   }
@@ -29,7 +29,7 @@ class ScaleTest {
   def canInstantiateMinorMelodicAscendingScale(): Unit = {
     val expected = InternalNotationFactory.notes("E F# G A B c# d# e")
 
-    val actual = Scale.minor.melodic.ascending(InternalNotationFactory.note("E"))
+    val actual = Scale(InternalNotationFactory.note("E"), ScaleType.minorMelodicAscending)
 
     assertThat(actual.notes).isEqualTo(expected)
   }
@@ -38,7 +38,7 @@ class ScaleTest {
   def canInstantiateMinorMelodicDescendingScale(): Unit = {
     val expected = InternalNotationFactory.notes("a g f e d c B A")
 
-    val actual = Scale.minor.melodic.descending(InternalNotationFactory.note("a"))
+    val actual = Scale(InternalNotationFactory.note("a"), ScaleType.minorMelodicDescending)
 
     assertThat(actual.notes).isEqualTo(expected)
   }
