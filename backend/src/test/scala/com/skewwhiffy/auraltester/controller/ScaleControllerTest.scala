@@ -1,10 +1,18 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.skewwhiffy.auraltester.services.ScaleService
 import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.{InjectMocks, Mock}
 
+@ExtendWith(Array(classOf[MockitoExtension]))
 class ScaleControllerTest:
-  private val scaleController = ScaleController()
+  @Mock
+  var scaleService: ScaleService = _
+  @InjectMocks
+  var scaleController: ScaleController = _
 
   @Test
   def when_majorScaleRequested_then_abcCorrect(): Unit = {

@@ -5,13 +5,16 @@ import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.controller.dto.ScaleResponse
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval, Note}
 import com.skewwhiffy.auraltester.scales.Scale
+import com.skewwhiffy.auraltester.services.ScaleService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{MediaType, ResponseEntity}
 import org.springframework.web.bind.annotation.{GetMapping, PathVariable, RequestMapping, RestController}
+
 import scala.util.chaining.*
 
 @RestController
 @RequestMapping(path = Array("/api/scale"))
-class ScaleController:
+class ScaleController(@Autowired private val scaleService: ScaleService):
   @GetMapping(path = Array("/{rawClef}/{rawNote}/{rawScaleType}"))
   def get(
     @PathVariable rawClef: String,
