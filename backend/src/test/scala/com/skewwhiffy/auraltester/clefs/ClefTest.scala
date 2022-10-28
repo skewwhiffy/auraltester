@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.clefs
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ClefTest:
+class ClefTest {
   @Test
   def trebleClef(): Unit = {
     val actual = Clef.treble
@@ -39,3 +39,4 @@ class ClefTest:
     assertThat(actual.lowLedgerNote.abc).isEqualTo("E,,")
     assertThat(actual.highLedgerNote.abc).isEqualTo("C")
   }
+}

@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.assertj.core.api.Assert
+import com.skewwhiffy.auraltester.notes.Interval.Interval
 import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy, fail}
 import org.junit.jupiter.api.Test
 
@@ -107,7 +107,7 @@ class AbsoluteNoteTests {
 
   @Test
   def equivalentNotesAreEqual() : Unit = {
-    def note = AbsoluteNote(Note.D.sharp, Octave.default.up)
+    def note = new AbsoluteNote(Note.D.sharp, Octave.default.up)
     val first = note
     val second = note
 
@@ -133,8 +133,8 @@ class AbsoluteNoteTests {
 
   @Test
   def nonEquivalentNotesInSameOctaveAreComparable(): Unit = {
-    val lower = AbsoluteNote(Note.D, Octave.default)
-    val higher = AbsoluteNote(Note.B, Octave.default)
+    val lower = new AbsoluteNote(Note.D, Octave.default)
+    val higher = new AbsoluteNote(Note.B, Octave.default)
 
     assertThat(lower < higher).isTrue
     assertThat(lower > higher).isFalse

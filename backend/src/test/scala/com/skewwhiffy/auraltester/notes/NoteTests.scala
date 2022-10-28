@@ -33,7 +33,7 @@ class NoteTests {
 
   @Test
   def when_notesEquivalent_then_equalsWorks(): Unit = {
-    def note = Note("A", Accidental.sharp)
+    def note = new Note("A", Accidental.sharp)
 
     val first = note
     val second = note

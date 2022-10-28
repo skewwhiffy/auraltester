@@ -5,7 +5,7 @@ lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
       organization := "com.skewwhiffy",
-      scalaVersion := "3.2.0"
+      scalaVersion := "2.13.10"
     )),
     name := "Aural Tester"
   )

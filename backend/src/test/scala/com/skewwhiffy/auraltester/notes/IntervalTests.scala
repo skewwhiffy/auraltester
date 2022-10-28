@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+import com.skewwhiffy.auraltester.notes.Interval.Interval
 import org.junit.jupiter.params.provider.ValueSource
 import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
 import org.junit.jupiter.api.Test
@@ -159,7 +160,7 @@ class IntervalTests {
 
   @Test
   def when_equivalent_then_equal(): Unit = {
-    def interval = Interval(6, 69)
+    def interval = new Interval(6, 69)
 
     val first = interval
     val second = interval

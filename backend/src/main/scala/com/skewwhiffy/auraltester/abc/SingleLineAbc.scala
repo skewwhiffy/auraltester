@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.abc
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
 
-object SingleLineAbc:
+object SingleLineAbc {
   def apply(
     displayName: String,
     clef: Clef,
@@ -13,13 +13,14 @@ object SingleLineAbc:
 
   def apply(clef: Clef, noteLength: NoteLength, notes: List[AbsoluteNote]) =
     new SingleLineAbc(None, clef, noteLength, notes)
+}
 
 class SingleLineAbc(
   private val displayName: Option[String],
   private val clef: Clef,
   private val noteLength: NoteLength,
   private val notes: List[AbsoluteNote],
-):
+) {
   lazy val abc: String =
     List(
       "X:1",
@@ -30,3 +31,4 @@ class SingleLineAbc(
     )
       .filter(it => it.nonEmpty)
       .mkString(System.lineSeparator())
+}

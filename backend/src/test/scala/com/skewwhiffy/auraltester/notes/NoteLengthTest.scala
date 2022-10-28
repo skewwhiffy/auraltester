@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.fractions.Fraction
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class NoteLengthTest:
+class NoteLengthTest {
   @Test
   def correctlyAddsDot(): Unit = {
     val original = NoteLength.crotchet
@@ -37,3 +37,4 @@ class NoteLengthTest:
     assertThat(demisemiquaver.abc).isEqualTo("1/32")
     assertThat(hemidemisemiquaver.abc).isEqualTo("1/64")
   }
+}

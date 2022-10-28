@@ -43,7 +43,7 @@ class OctaveTests {
 
   @Test
   def when_sameOctaves_then_equal(): Unit = {
-    def octave = Octave(52)
+    def octave = new Octave(52)
 
     val first = octave
     val second = octave
@@ -54,8 +54,8 @@ class OctaveTests {
 
   @Test
   def when_firstHigherThanSecond_then_relativeOperatorWorks(): Unit = {
-    val first = Octave(20)
-    val second = Octave(21)
+    val first = new Octave(20)
+    val second = new Octave(21)
 
     assertThat(first > second).isFalse
     assertThat(first < second).isTrue

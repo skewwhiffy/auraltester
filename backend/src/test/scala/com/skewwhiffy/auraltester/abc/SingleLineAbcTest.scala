@@ -2,15 +2,12 @@ package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
-import com.skewwhiffy.auraltester.scales.Scale
 import com.skewwhiffy.auraltester.testutils.TestData
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.{BeforeEach, Test}
 import org.mockito.Mockito.{mock, when}
-import org.mockito.junit.jupiter.MockitoExtension
 
-class SingleLineAbcTest:
+class SingleLineAbcTest {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
@@ -50,3 +47,4 @@ class SingleLineAbcTest:
 
     assertThat(abc.abc).doesNotContain("T:")
   }
+}

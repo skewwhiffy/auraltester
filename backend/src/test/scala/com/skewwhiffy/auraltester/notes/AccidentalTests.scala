@@ -131,7 +131,7 @@ class AccidentalTests {
 
   @Test
   def when_accidentalsEquivalent_then_equal(): Unit = {
-    def accidental = Accidental(5)
+    def accidental = new Accidental(5)
 
     val first = accidental
     val second = accidental

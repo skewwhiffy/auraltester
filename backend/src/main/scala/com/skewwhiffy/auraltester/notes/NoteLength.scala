@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.notes
 import com.skewwhiffy.auraltester.fractions.Fraction
 import scala.util.chaining._
 
-object NoteLength:
+object NoteLength {
   lazy val breve: NoteLength = NoteLength(2)
   lazy val semibreve: NoteLength = NoteLength(1)
   lazy val minim: NoteLength = NoteLength(Fraction(1, 2))
@@ -14,16 +14,21 @@ object NoteLength:
   lazy val demisemiquaver: NoteLength = NoteLength(Fraction(1, 32))
   //noinspection SpellCheckingInspection
   lazy val hemidemisemiquaver: NoteLength = NoteLength(Fraction(1, 64))
-  def apply(length: Int): NoteLength = NoteLength(Fraction(length, 1))
-  def apply(length: Fraction): NoteLength = new NoteLength(length)
 
-class NoteLength(private val length: Fraction):
+  def apply(length: Int): NoteLength = NoteLength(Fraction(length, 1))
+
+  def apply(length: Fraction): NoteLength = new NoteLength(length)
+}
+
+class NoteLength(private val length: Fraction) {
   lazy val dotted: NoteLength = Fraction(3, 2)
-    .pipe(it => it*length)
+    .pipe(it => it * length)
     .pipe(it => NoteLength(it))
 
   lazy val abc: String = length.topHeavyString
 
-  override def equals(obj: Any): Boolean = obj match
+  override def equals(obj: Any): Boolean = obj match {
     case it: NoteLength => it.length == length
     case _ => false
+  }
+}

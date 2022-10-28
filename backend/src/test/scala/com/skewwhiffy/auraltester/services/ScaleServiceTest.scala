@@ -10,7 +10,7 @@ import org.mockito.InjectMocks
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(Array(classOf[MockitoExtension]))
-class ScaleServiceTest:
+class ScaleServiceTest {
   @InjectMocks
   private var scaleService: ScaleService = _
 
@@ -32,4 +32,4 @@ class ScaleServiceTest:
 
     assertThat(result.abc).contains(expected)
   }
-
+}
