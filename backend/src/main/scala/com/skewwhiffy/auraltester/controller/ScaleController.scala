@@ -33,7 +33,7 @@ class ScaleController(@Autowired private val scaleService: ScaleService):
     s"""
 X:1
 T:${scale.displayName}
-K:clef=${clef.name}
+K:clef=${clef.abc}
 L:1
 ${scale.abc}
     """

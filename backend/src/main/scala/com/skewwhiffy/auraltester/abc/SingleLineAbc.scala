@@ -11,6 +11,9 @@ object SingleLineAbc:
     notes: List[AbsoluteNote]
   ) = new SingleLineAbc(Some(displayName), clef, noteLength, notes)
 
+  def apply(clef: Clef, noteLength: NoteLength, notes: List[AbsoluteNote]) =
+    new SingleLineAbc(None, clef, noteLength, notes)
+
 class SingleLineAbc(
   private val displayName: Option[String],
   private val clef: Clef,
@@ -21,8 +24,8 @@ class SingleLineAbc(
     List(
       "X:1",
       displayName.map(it => s"T:$it").getOrElse(""),
-      s"K:clef=${clef.name}",
-      "L:1",
+      s"K:clef=${clef.abc}",
+      s"L:${noteLength.abc}",
       notes.map(it => it.abc).mkString
     )
       .filter(it => it.nonEmpty)

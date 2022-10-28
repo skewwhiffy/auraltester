@@ -9,4 +9,4 @@ object Clef:
   lazy val tenor: Clef = Clef("tenor", InternalNotationFactory.note("B,,"), InternalNotationFactory.note("G"))
   lazy val bass: Clef = Clef("bass", InternalNotationFactory.note("E,,"), AbsoluteNote.middleC)
 
-class Clef(val name: String, val lowLedgerNote: AbsoluteNote, val highLedgerNote: AbsoluteNote)
+class Clef(val abc: String, val lowLedgerNote: AbsoluteNote, val highLedgerNote: AbsoluteNote)

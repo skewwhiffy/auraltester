@@ -8,7 +8,7 @@ class ClefTest:
   def trebleClef(): Unit = {
     val actual = Clef.treble
 
-    assertThat(actual.name).isEqualTo("treble")
+    assertThat(actual.abc).isEqualTo("treble")
     assertThat(actual.lowLedgerNote.abc).isEqualTo("C")
     assertThat(actual.highLedgerNote.abc).isEqualTo("a")
   }
@@ -17,7 +17,7 @@ class ClefTest:
   def altoClef(): Unit = {
     val actual = Clef.alto
 
-    assertThat(actual.name).isEqualTo("alto")
+    assertThat(actual.abc).isEqualTo("alto")
     assertThat(actual.lowLedgerNote.abc).isEqualTo("D,")
     assertThat(actual.highLedgerNote.abc).isEqualTo("B")
   }
@@ -26,7 +26,7 @@ class ClefTest:
   def tenorClef(): Unit = {
     val actual = Clef.tenor
 
-    assertThat(actual.name).isEqualTo("tenor")
+    assertThat(actual.abc).isEqualTo("tenor")
     assertThat(actual.lowLedgerNote.abc).isEqualTo("B,,")
     assertThat(actual.highLedgerNote.abc).isEqualTo("G")
   }
@@ -35,7 +35,7 @@ class ClefTest:
   def bassClef(): Unit = {
     val actual = Clef.bass
 
-    assertThat(actual.name).isEqualTo("bass")
+    assertThat(actual.abc).isEqualTo("bass")
     assertThat(actual.lowLedgerNote.abc).isEqualTo("E,,")
     assertThat(actual.highLedgerNote.abc).isEqualTo("C")
   }

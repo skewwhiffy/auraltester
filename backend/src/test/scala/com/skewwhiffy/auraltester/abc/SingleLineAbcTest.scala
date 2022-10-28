@@ -37,6 +37,16 @@ class SingleLineAbcTest:
   def when_titleSupplied_then_titlePopulated(): Unit = {
     val abc = SingleLineAbc(title, clef, noteLength, notes)
 
+    assertThat(abc.abc).contains("X:1")
     assertThat(abc.abc).contains(s"T:$title")
+    assertThat(abc.abc).contains(s"K:clef=${clef.abc}")
+    assertThat(abc.abc).contains(s"L:${noteLength.abc}")
     assertThat(abc.abc).contains(notesAbc.mkString)
+  }
+
+  @Test
+  def when_titleNotSupplied_then_titleNotPopulated(): Unit = {
+    val abc = SingleLineAbc(clef, noteLength, notes)
+
+    assertThat(abc.abc).doesNotContain("T:")
   }
