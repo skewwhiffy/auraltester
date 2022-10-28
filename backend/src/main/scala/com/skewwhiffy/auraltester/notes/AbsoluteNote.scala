@@ -1,11 +1,12 @@
 package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Interval.Interval
+import com.skewwhiffy.auraltester.scales.Key
 
 import scala.util.chaining.scalaUtilChainingOps
 
 object AbsoluteNote {
-  lazy val middleC: AbsoluteNote = new AbsoluteNote(Note.C, Octave.default)
+  lazy val middleC: AbsoluteNote = new AbsoluteNote(Note.c, Octave.default)
 }
 
 class AbsoluteNote(val note: Note, val octave: Octave) {
@@ -60,7 +61,9 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     }
   }
 
-  lazy val abc: String = octave.getAbc(note)
+  def abc(key: Key): String = {
+    octave.getAbc(note, key)
+  }
 
   def <=(other: AbsoluteNote): Boolean = this < other || this == other
 
@@ -77,7 +80,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     case _ => false
   }
 
-  override def toString: String = abc
+  override def toString: String = abc(Key.cMajor)
 
   private lazy val sharp = new AbsoluteNote(note.sharp, octave)
 

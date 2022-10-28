@@ -26,7 +26,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
     )
     notesAbc = Range(0, 10).map(_ => TestData.random.string).toList
     notes = notesAbc.map(it => {
-      class AbsoluteNoteMock extends AbsoluteNote(Note.C, Octave.default) {
+      class AbsoluteNoteMock extends AbsoluteNote(Note.c, Octave.default) {
         override lazy val abc: String = it
       }
       new AbsoluteNoteMock()

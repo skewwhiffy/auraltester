@@ -3,13 +3,13 @@ package com.skewwhiffy.auraltester.notes
 import com.skewwhiffy.auraltester.notes.Note.noteNames
 
 object Note {
-  lazy val A: Note = new Note("A", Accidental.natural)
-  lazy val B: Note = new Note("B", Accidental.natural)
-  lazy val C: Note = new Note("C", Accidental.natural)
-  lazy val D: Note = new Note("D", Accidental.natural)
-  lazy val E: Note = new Note("E", Accidental.natural)
-  lazy val F: Note = new Note("F", Accidental.natural)
-  lazy val G: Note = new Note("G", Accidental.natural)
+  lazy val a: Note = new Note("A", Accidental.natural)
+  lazy val b: Note = new Note("B", Accidental.natural)
+  lazy val c: Note = new Note("C", Accidental.natural)
+  lazy val d: Note = new Note("D", Accidental.natural)
+  lazy val e: Note = new Note("E", Accidental.natural)
+  lazy val f: Note = new Note("F", Accidental.natural)
+  lazy val g: Note = new Note("G", Accidental.natural)
   //noinspection SpellCheckingInspection
   private lazy val noteNames = "CDEFGAB"
 }

@@ -5,7 +5,7 @@ import org.scalatest.funsuite.AnyFunSuite
 class OctaveTests extends AnyFunSuite {
   test("when getAbc in default octave then correct response") {
     val octave = Octave.default
-    val note = Note.F
+    val note = Note.f
     val expected = "F"
 
     val actual = octave.getAbc(note)
@@ -13,10 +13,12 @@ class OctaveTests extends AnyFunSuite {
     assert(actual == expected)
   }
 
+  test("with key signatures") { ??? }
+
   List(1, 5).foreach(octavesHigher => {
     test(s"when getAbc in octave $octavesHigher higher then correct response") {
       val octave = List.range(0, octavesHigher).foldRight(Octave.default)((_, it) => it.up)
-      val note = Note.E
+      val note = Note.e
       val expected = "e" + "'".repeat(octavesHigher - 1)
 
       val actual = octave.getAbc(note)
@@ -28,7 +30,7 @@ class OctaveTests extends AnyFunSuite {
   List(1, 6).foreach(octavesLower => {
     test(s"when getAbc in octave $octavesLower lower then correct response") {
       val octave = List.range(0, octavesLower).foldRight(Octave.default)((_, it) => it.down)
-      val note = Note.G
+      val note = Note.g
       val expected = "G" + ",".repeat(octavesLower)
 
       val actual = octave.getAbc(note)

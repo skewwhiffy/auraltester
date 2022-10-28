@@ -8,43 +8,54 @@ object ScaleType {
   private lazy val minorHarmonicIntervals: String = "1 2 3- 4 5 6- 7 8"
   private lazy val minorMelodicAscendingIntervals: String = "1 2 3- 4 5 6 7 8"
   private lazy val minorMelodicDescendingIntervals: String = "1 2 3- 4 5 6- 7- 8"
-  lazy val major: ScaleType = ScaleType("major", majorIntervals)
-  lazy val minorHarmonic: ScaleType = ScaleType("minor harmonic", minorHarmonicIntervals)
+  lazy val major: ScaleType = ScaleType("major", "", majorIntervals)
+  lazy val minorHarmonic: ScaleType = ScaleType("minor harmonic", "min", minorHarmonicIntervals)
   lazy val minorMelodic: ScaleType = ScaleType(
-    "minor melodic ascending",
+    "minor melodic",
+    "min",
     minorMelodicAscendingIntervals,
     minorMelodicDescendingIntervals
   )
 
   private def apply(
     displayName: String,
+    abc: String,
     intervalsString: String
   ): ScaleType = ScaleType(
     displayName,
+    abc,
     InternalNotationFactory.directedIntervals(intervalsString)
   )
 
   //noinspection SameParameterValue
   private def apply(
     displayName: String,
+    abc: String,
     ascendingIntervalsString: String,
     descendingIntervalsString: String
   ): ScaleType = ScaleType(
     displayName,
+    abc,
     InternalNotationFactory.directedIntervals(ascendingIntervalsString),
     InternalNotationFactory.directedIntervals(descendingIntervalsString))
 
-  private def apply(displayName: String, intervals: List[DirectedInterval]): ScaleType = ScaleType(displayName, intervals, intervals)
+  private def apply(
+    displayName: String,
+    abc: String,
+    intervals: List[DirectedInterval]
+  ): ScaleType = ScaleType(displayName, abc, intervals, intervals)
 
   private def apply(
     displayName: String,
+    abc: String,
     ascendingIntervals: List[DirectedInterval],
     descendingIntervals: List[DirectedInterval]
-  ) = new ScaleType(displayName, ascendingIntervals, descendingIntervals)
+  ) = new ScaleType(displayName, abc, ascendingIntervals, descendingIntervals)
 }
 
 class ScaleType private(
   val displayName: String,
+  val abc: String,
   private val ascendingIntervals: List[DirectedInterval],
   private val descendingIntervals: List[DirectedInterval]
 ) {

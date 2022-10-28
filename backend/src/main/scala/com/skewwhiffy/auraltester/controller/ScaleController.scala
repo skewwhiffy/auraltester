@@ -1,7 +1,9 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.skewwhiffy.auraltester.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.controller.dto.ScaleResponse
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.notes.NoteLength
 import com.skewwhiffy.auraltester.scales.{ScaleDirection, ScaleType}
 import com.skewwhiffy.auraltester.services.ScaleService
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,18 +36,10 @@ class ScaleController(@Autowired private val scaleService: ScaleService) {
       // TODO: Check this throws with non valid
     }
     val scale = scaleService.getScale(clefObject, noteObject, scaleTypeObject, directionObject)
-    s"""
-          }
-X:1
-T:${scale.displayName}
-K:clef=${clefObject.abc}
-L:1
-${scale.abc}
-    """
-      .stripMargin
-      .pipe(it => {
-        println(it)
-        new ScaleResponse(it)
-      })
+    val displayName = s"${scale.displayName} $direction"
+    SingleLineAbc(displayName, clefObject, NoteLength.semibreve, scale.notes)
+      .includeKeySignature(scale)
+      .abc
+      .pipe(it => new ScaleResponse(it))
   }
 }

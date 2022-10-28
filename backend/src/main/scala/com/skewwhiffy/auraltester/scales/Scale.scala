@@ -5,9 +5,9 @@ import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import scala.util.chaining.scalaUtilChainingOps
 
 class Scale(
-  private val lowestNote: AbsoluteNote,
-  private val scaleType: ScaleType,
-  private val direction: ScaleDirection
+  val lowestNote: AbsoluteNote,
+  val scaleType: ScaleType,
+  val direction: ScaleDirection
 ) {
   lazy val displayName: String = s"${lowestNote.note.displayString} ${scaleType.displayName}"
   lazy val notes: List[AbsoluteNote] = scaleType
@@ -19,5 +19,5 @@ class Scale(
       // TODO: Check what happens with invalid choice
     })
 
-  lazy val abc: String = notes.map(it => it.abc).mkString("")
+  def abc(key: Key): String = notes.map(it => it.abc(key)).mkString("")
 }

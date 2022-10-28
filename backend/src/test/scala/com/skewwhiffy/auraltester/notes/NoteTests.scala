@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class NoteTests extends AnyFunSuite {
   test("when natural then display string correct") {
-    val note = Note.A
+    val note = Note.a
 
     val actual = note.displayString
 
@@ -12,7 +12,7 @@ class NoteTests extends AnyFunSuite {
   }
 
   test("when sharp then display string correct") {
-    val note = Note.B.sharp
+    val note = Note.b.sharp
 
     val actual = note.displayString
 
@@ -20,7 +20,7 @@ class NoteTests extends AnyFunSuite {
   }
 
   test("when flat then display string correct") {
-    val note = Note.D.flat
+    val note = Note.d.flat
 
     val actual = note.displayString
 
@@ -39,9 +39,9 @@ class NoteTests extends AnyFunSuite {
   }
 
   test("when notes not equivalent then can compare") {
-    def lower = Note.C
+    def lower = Note.c
 
-    def higher = Note.A
+    def higher = Note.a
 
     assert(lower < higher)
     assert(!(lower > higher))

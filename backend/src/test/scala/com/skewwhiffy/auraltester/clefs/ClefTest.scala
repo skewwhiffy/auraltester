@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.clefs
 
+import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.funsuite.AnyFunSuite
 
 class ClefTest extends AnyFunSuite {
@@ -7,31 +8,31 @@ class ClefTest extends AnyFunSuite {
     val actual = Clef.treble
 
     assert(actual.abc == "treble")
-    assert(actual.lowLedgerNote.abc == "C")
-    assert(actual.highLedgerNote.abc == "a")
+    assert(actual.lowLedgerNote.abc(Key.cMajor) == "C")
+    assert(actual.highLedgerNote.abc(Key.cMajor) == "a")
   }
 
   test("alto clef") {
     val actual = Clef.alto
 
     assert(actual.abc == "alto")
-    assert(actual.lowLedgerNote.abc == "D,")
-    assert(actual.highLedgerNote.abc == "B")
+    assert(actual.lowLedgerNote.abc(Key.cMajor) == "D,")
+    assert(actual.highLedgerNote.abc(Key.cMajor) == "B")
   }
 
   test("tenor clef") {
     val actual = Clef.tenor
 
     assert(actual.abc == "tenor")
-    assert(actual.lowLedgerNote.abc == "B,,")
-    assert(actual.highLedgerNote.abc == "G")
+    assert(actual.lowLedgerNote.abc(Key.cMajor) == "B,,")
+    assert(actual.highLedgerNote.abc(Key.cMajor) == "G")
   }
 
   test("bass clef") {
     val actual = Clef.bass
 
     assert(actual.abc == "bass")
-    assert(actual.lowLedgerNote.abc == "E,,")
-    assert(actual.highLedgerNote.abc == "C")
+    assert(actual.lowLedgerNote.abc(Key.cMajor) == "E,,")
+    assert(actual.highLedgerNote.abc(Key.cMajor) == "C")
   }
 }

@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
+import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.funsuite.AnyFunSuite
 
 class InternalNotationFactoryTest extends AnyFunSuite {
@@ -17,7 +18,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
 
     val actual = InternalNotationFactory.note(expected)
 
-    assert(actual.abc == expected)
+    assert(actual.abc(Key.cMajor) == expected)
   }
 
   test("can instantiate note below middle C") {
@@ -26,7 +27,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
 
     val actual = InternalNotationFactory.note(internalNotation)
 
-    assert(actual.abc == expected)
+    assert(actual.abc(Key.cMajor) == expected)
   }
 
   test("when note name invalid then throws") {
