@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+/*
 import org.junit.jupiter.api.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
@@ -139,3 +140,6 @@ class AccidentalTests {
     assertThat(first).isEqualTo(second)
   }
 }
+
+
+ */

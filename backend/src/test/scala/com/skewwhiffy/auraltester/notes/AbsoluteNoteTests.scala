@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+/*
 import com.skewwhiffy.auraltester.notes.Interval.Interval
 import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy, fail}
 import org.junit.jupiter.api.Test
@@ -155,3 +156,6 @@ class AbsoluteNoteTests {
     assertThat(actual).isEqualTo(expectedAbc)
   }
 }
+
+
+ */

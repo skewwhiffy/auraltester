@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
+/*
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.scales.{Scale, ScaleType}
 import com.skewwhiffy.auraltester.services.ScaleService
@@ -69,3 +70,5 @@ class ScaleControllerTest {
       .isInstanceOf(classOf[IllegalArgumentException])
   }
 }
+
+ */

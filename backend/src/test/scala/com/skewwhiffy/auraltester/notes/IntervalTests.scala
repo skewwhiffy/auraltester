@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+/*
 import com.skewwhiffy.auraltester.notes.Interval.Interval
 import org.junit.jupiter.params.provider.ValueSource
 import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
@@ -168,3 +169,6 @@ class IntervalTests {
     assertThat(first).isEqualTo(second)
   }
 }
+
+
+ */

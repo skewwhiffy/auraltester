@@ -1,21 +1,20 @@
 package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.Clef
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
 import com.skewwhiffy.auraltester.testutils.TestData
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.{BeforeEach, Test}
-import org.mockito.Mockito.{mock, when}
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.Outcome
+import org.scalatest.funsuite.AnyFunSuite
 
-class SingleLineAbcTest {
+class SingleLineAbcTest extends AnyFunSuite with MockFactory {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
   private var notes: List[AbsoluteNote] = _
   private var notesAbc: List[String] = _
 
-  @BeforeEach
-  def setUp(): Unit = {
+  override def withFixture(test: NoArgTest): Outcome = {
     title = TestData.random.string
     clef = TestData.random.oneOf(Clef.treble, Clef.alto, Clef.tenor, Clef.bass)
     noteLength = TestData.random.oneOf(
@@ -25,26 +24,29 @@ class SingleLineAbcTest {
       NoteLength.crotchet,
       NoteLength.quaver
     )
-    notes = Range(0, 10).map(_ => mock(classOf[AbsoluteNote])).toList
-    notesAbc = notes.map(_ => TestData.random.string)
-    notes.zip(notesAbc).foreach(pair => when(pair._1.abc).thenReturn(pair._2))
+    notesAbc = Range(0, 10).map(_ => TestData.random.string).toList
+    notes = notesAbc.map(it => {
+      class AbsoluteNoteMock extends AbsoluteNote(Note.C, Octave.default) {
+        override lazy val abc: String = it
+      }
+      new AbsoluteNoteMock()
+    })
+    test()
   }
 
-  @Test
-  def when_titleSupplied_then_titlePopulated(): Unit = {
+  test("when title supplied then title populated") {
     val abc = SingleLineAbc(title, clef, noteLength, notes)
 
-    assertThat(abc.abc).contains("X:1")
-    assertThat(abc.abc).contains(s"T:$title")
-    assertThat(abc.abc).contains(s"K:clef=${clef.abc}")
-    assertThat(abc.abc).contains(s"L:${noteLength.abc}")
-    assertThat(abc.abc).contains(notesAbc.mkString)
+    assert(abc.abc.contains("X:1"))
+    assert(abc.abc.contains(s"T:$title"))
+    assert(abc.abc.contains(s"K:clef=${clef.abc}"))
+    assert(abc.abc.contains(s"L:${noteLength.abc}"))
+    assert(abc.abc.contains(notesAbc.mkString))
   }
 
-  @Test
-  def when_titleNotSupplied_then_titleNotPopulated(): Unit = {
+  test("when title not supplied then title not populated") {
     val abc = SingleLineAbc(clef, noteLength, notes)
 
-    assertThat(abc.abc).doesNotContain("T:")
+    assert(!abc.abc.contains("T:"))
   }
 }

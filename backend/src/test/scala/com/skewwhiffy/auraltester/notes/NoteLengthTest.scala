@@ -1,4 +1,5 @@
 package com.skewwhiffy.auraltester.notes
+/*
 
 import com.skewwhiffy.auraltester.fractions.Fraction
 import org.assertj.core.api.Assertions.assertThat
@@ -38,3 +39,5 @@ class NoteLengthTest {
     assertThat(hemidemisemiquaver.abc).isEqualTo("1/64")
   }
 }
+
+ */

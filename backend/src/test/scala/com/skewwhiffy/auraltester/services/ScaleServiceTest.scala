@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.services
 
+/*
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.Note
 import com.skewwhiffy.auraltester.scales.ScaleType
@@ -33,3 +34,6 @@ class ScaleServiceTest {
     assertThat(result.abc).contains(expected)
   }
 }
+
+
+ */

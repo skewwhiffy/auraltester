@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.scales
 
+/*
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import org.assertj.core.api.Assertions.assertThat
@@ -42,3 +43,6 @@ class ScaleTest {
     assertThat(actual.notes).isEqualTo(expected)
   }
 }
+
+
+ */

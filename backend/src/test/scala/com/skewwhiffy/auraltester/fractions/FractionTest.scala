@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.fractions
 
+/*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -64,3 +65,5 @@ class FractionTest {
     assertThat(first).isEqualTo(second)
   }
 }
+
+ */

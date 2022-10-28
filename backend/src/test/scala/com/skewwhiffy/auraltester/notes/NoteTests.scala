@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+/*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -53,3 +54,6 @@ class NoteTests {
     // TODO: > and < with #s and bs
   }
 }
+
+
+ */
