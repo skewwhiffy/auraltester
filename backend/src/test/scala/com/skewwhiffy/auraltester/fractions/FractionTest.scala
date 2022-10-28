@@ -1,69 +1,59 @@
 package com.skewwhiffy.auraltester.fractions
 
-/*
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class FractionTest {
-  @Test
-  def canInstantiateSimpleFraction(): Unit = {
+class FractionTest extends AnyFunSuite {
+  test("can instantiate simple fraction") {
     val expected = "1/2"
 
     val actual = Fraction(1, 2)
 
-    assertThat(actual.toString).isEqualTo(expected)
+    assert(actual.toString == expected)
   }
 
-  @Test
-  def canInstantiateMixedFraction(): Unit = {
+  test("can instantiate mixed fraction") {
     val expected = "1 2/3"
 
     val actual = Fraction(1, 2, 3)
 
-    assertThat(actual.toString).isEqualTo(expected)
+    assert(actual.toString == expected)
   }
 
-  @Test
-  def canAddFractions(): Unit = {
+  test("can add fractions") {
     val expected = "11/12"
 
     val actual = Fraction(3, 4) + Fraction(1, 6)
 
-    assertThat(actual.toString).isEqualTo(expected)
+    assert(actual.toString == expected)
   }
 
-  @Test
-  def canSubtractFractions(): Unit = {
+  test("can subtract fractions") {
     val expected = "1/2"
 
     val actual = Fraction(3, 4) - Fraction(1, 4)
 
-    assertThat(actual.toString).isEqualTo(expected)
+    assert(actual.toString == expected)
   }
 
-  @Test
-  def canMultiplyFractions(): Unit = {
+  test("can multiply fractions") {
     val expected = "3/8"
 
     val actual = Fraction(1, 4) * Fraction(3, 2)
 
-    assertThat(actual.toString).isEqualTo(expected)
+    assert(actual.toString == expected)
   }
 
-  @Test
-  def integerFractionsAreEqualToInteger(): Unit = {
+  test("integer fractions are equal to integer") {
     val source = Fraction(4, 2)
 
-    assertThat(source).isEqualTo(2)
+    //noinspection ComparingUnrelatedTypes
+    assert(source == 2)
   }
 
-  @Test
-  def equivalentFractionsAreEqual(): Unit = {
+  test("equivalent fractions are equal") {
     val first = Fraction(2, 4)
     val second = Fraction(-3, -6)
 
-    assertThat(first).isEqualTo(second)
+    assert(first == second)
   }
 }
-
- */

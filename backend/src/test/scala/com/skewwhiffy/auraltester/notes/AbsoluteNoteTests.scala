@@ -1,22 +1,18 @@
 package com.skewwhiffy.auraltester.notes
 
-/*
 import com.skewwhiffy.auraltester.notes.Interval.Interval
-import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy, fail}
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class AbsoluteNoteTests {
-  @Test
-  def canDisplayMiddleC(): Unit = {
+class AbsoluteNoteTests extends AnyFunSuite {
+  test("can display middle C") {
     val expected = "C"
 
     val actual = AbsoluteNote.middleC
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assert(actual.abc == expected)
   }
 
-  @Test
-  def canAddMajorAndPerfectIntervals(): Unit = {
+  test("can add major and perfect intervals") {
     val intervals = List(
       Interval.perfect(1),
       Interval.major(2),
@@ -33,8 +29,7 @@ class AbsoluteNoteTests {
     testGeneric(start, intervals, expected)
   }
 
-  @Test
-  def canAddMinorInterval(): Unit = {
+  test("can add minor interval") {
     val start = AbsoluteNote.middleC + Interval.major(6)
     val intervals = List(
       Interval.perfect(1),
@@ -51,8 +46,7 @@ class AbsoluteNoteTests {
     testGeneric(start, intervals, expected)
   }
 
-  @Test
-  def canAddDiminishedAndAugmentedInterval(): Unit = {
+  test("can add diminished and augmented interval") {
     val intervals = List(
       Interval.diminished(3),
       Interval.diminished(4),
@@ -65,27 +59,25 @@ class AbsoluteNoteTests {
     testGeneric(start, intervals, expected)
   }
 
-  @Test
-  def cannotAddCompoundIntervalsYet(): Unit = {
+  test("cannot add compound intervals yet") {
     val start = AbsoluteNote.middleC
 
-    assertThatThrownBy(() => start.add(Interval.major(9)))
-      .isInstanceOf(classOf[IllegalArgumentException])
+    assertThrows[IllegalArgumentException] {
+      start.add(Interval.major(9))
+    }
   }
 
-  @Test
-  def canApplyUpInterval() : Unit = {
+  test("can apply up interval") {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
     val expected = "_E"
 
     val actual = start.apply(interval)
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assert(actual.abc == expected)
   }
 
-  @Test
-  def canApplyDownInterval() : Unit = {
+  test("can apply down interval") {
     val interval = Interval.minor(3)
     val directedInterval = interval.down
     val start = AbsoluteNote.middleC
@@ -94,53 +86,52 @@ class AbsoluteNoteTests {
     val actualWithApply = start.apply(directedInterval)
     val actualWithSubtract = start - interval
 
-    assertThat(actualWithApply.abc).isEqualTo(expected)
-    assertThat(actualWithSubtract.abc).isEqualTo(expected)
+    assert(actualWithApply.abc == expected)
+    assert(actualWithSubtract.abc == expected)
   }
 
-  @Test
-  def cannotSubtractCompoundIntervalsYet(): Unit = {
+  test("cannot subtract compound intervals yet") {
     val interval = Interval.major(9)
 
-    assertThatThrownBy(() => AbsoluteNote.middleC - interval)
-      .isInstanceOf(classOf[IllegalArgumentException])
+    assertThrows[IllegalArgumentException] {
+      AbsoluteNote.middleC - interval
+    }
   }
 
-  @Test
-  def equivalentNotesAreEqual() : Unit = {
+  test("equivalent notes are equal") {
     def note = new AbsoluteNote(Note.D.sharp, Octave.default.up)
+
     val first = note
     val second = note
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first <= second).isTrue
-    assertThat(first >= second).isTrue
+    assert(first == second)
+    assert(first <= second)
+    assert(first >= second)
   }
 
-  @Test
-  def absoluteNoteIsNotEqualToNonAbsoluteNote(): Unit = {
+  test("absolute note is not equal to non absolute note") {
     def note = AbsoluteNote.middleC
+
     def someOtherObject = Note.C
 
-    assertThat(note).isNotEqualTo(someOtherObject)
+    //noinspection ComparingUnrelatedTypes
+    assert(!note.equals(someOtherObject))
   }
 
-  @Test
-  def toStringReturnsAbc(): Unit = {
+  test("toString returns abc") {
     def note = AbsoluteNote.middleC
 
-    assertThat(note.toString).isEqualTo(note.abc)
+    assert(note.toString == note.abc)
   }
 
-  @Test
-  def nonEquivalentNotesInSameOctaveAreComparable(): Unit = {
+  test("non equivalent notes in same octave are comparable") {
     val lower = new AbsoluteNote(Note.D, Octave.default)
     val higher = new AbsoluteNote(Note.B, Octave.default)
 
-    assertThat(lower < higher).isTrue
-    assertThat(lower > higher).isFalse
-    assertThat(lower <= higher).isTrue
-    assertThat(lower >= higher).isFalse
+    assert(lower < higher)
+    assert(!(lower > higher))
+    assert(lower <= higher)
+    assert(!(lower >= higher))
   }
 
   private def testGeneric(start: AbsoluteNote, intervals: List[Interval], expectedAbcs: List[String]): Unit = {
@@ -153,9 +144,6 @@ class AbsoluteNoteTests {
   private def testGeneric(start: AbsoluteNote, interval: Interval, expectedAbc: String) = {
     val actual = start.add(interval).abc
 
-    assertThat(actual).isEqualTo(expectedAbc)
+    assert(actual == expectedAbc)
   }
 }
-
-
- */
