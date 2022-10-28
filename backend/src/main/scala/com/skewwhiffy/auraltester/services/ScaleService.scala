@@ -8,7 +8,7 @@ import util.chaining.scalaUtilChainingOps
 
 @Service
 class ScaleService {
-  lazy val getScale: (Clef, Note, ScaleType) => Scale = (clef, note, scaleType) => {
+  def getScale(clef: Clef, note: Note, scaleType: ScaleType) : Scale = {
     getStartingNote(clef, note, scaleType).pipe(it => new Scale(it, scaleType))
   }
 

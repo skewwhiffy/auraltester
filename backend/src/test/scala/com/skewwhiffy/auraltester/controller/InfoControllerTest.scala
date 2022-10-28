@@ -1,18 +1,13 @@
 package com.skewwhiffy.auraltester.controller
 
-/*
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class InfoControllerTest {
+class InfoControllerTest extends AnyFunSuite {
   private val infoController = new InfoController()
 
-  @Test
-  def when_scaleRequested_then_abcCorrect(): Unit = {
+  test("when scale requested then abc correct") {
     val result = infoController.get()
 
-    assertThat(result).isNotNull
+    assert(result != null)
   }
 }
-
- */

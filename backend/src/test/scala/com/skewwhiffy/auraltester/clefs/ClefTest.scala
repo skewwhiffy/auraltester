@@ -1,46 +1,37 @@
 package com.skewwhiffy.auraltester.clefs
 
-/*
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-
-class ClefTest {
-  @Test
-  def trebleClef(): Unit = {
+class ClefTest extends AnyFunSuite {
+  test("treble clef") {
     val actual = Clef.treble
 
-    assertThat(actual.abc).isEqualTo("treble")
-    assertThat(actual.lowLedgerNote.abc).isEqualTo("C")
-    assertThat(actual.highLedgerNote.abc).isEqualTo("a")
+    assert(actual.abc == "treble")
+    assert(actual.lowLedgerNote.abc == "C")
+    assert(actual.highLedgerNote.abc == "a")
   }
 
-  @Test
-  def altoClef(): Unit = {
+  test("alto clef") {
     val actual = Clef.alto
 
-    assertThat(actual.abc).isEqualTo("alto")
-    assertThat(actual.lowLedgerNote.abc).isEqualTo("D,")
-    assertThat(actual.highLedgerNote.abc).isEqualTo("B")
+    assert(actual.abc == "alto")
+    assert(actual.lowLedgerNote.abc == "D,")
+    assert(actual.highLedgerNote.abc == "B")
   }
 
-  @Test
-  def tenorClef(): Unit = {
+  test("tenor clef") {
     val actual = Clef.tenor
 
-    assertThat(actual.abc).isEqualTo("tenor")
-    assertThat(actual.lowLedgerNote.abc).isEqualTo("B,,")
-    assertThat(actual.highLedgerNote.abc).isEqualTo("G")
+    assert(actual.abc == "tenor")
+    assert(actual.lowLedgerNote.abc == "B,,")
+    assert(actual.highLedgerNote.abc == "G")
   }
 
-  @Test
-  def bassClef(): Unit = {
+  test("bass clef") {
     val actual = Clef.bass
 
-    assertThat(actual.abc).isEqualTo("bass")
-    assertThat(actual.lowLedgerNote.abc).isEqualTo("E,,")
-    assertThat(actual.highLedgerNote.abc).isEqualTo("C")
+    assert(actual.abc == "bass")
+    assert(actual.lowLedgerNote.abc == "E,,")
+    assert(actual.highLedgerNote.abc == "C")
   }
 }
-
- */
