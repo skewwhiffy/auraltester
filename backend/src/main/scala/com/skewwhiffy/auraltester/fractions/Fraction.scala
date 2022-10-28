@@ -54,6 +54,8 @@ class Fraction(val top: Int, val bottom: Int):
   @targetName("unary_minus")
   def unary_- : Fraction = Fraction(-top, bottom)
 
+  lazy val topHeavyString: String = if bottom == 1 then s"$top" else s"$top/$bottom"
+
   override lazy val toString: String = (if whole == 0 then "" else s"$whole ")
     .pipe(it => s"$it$topWithoutWhole/$bottom")
 
