@@ -1,8 +1,7 @@
 package com.skewwhiffy.auraltester.controller
 
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
-import com.skewwhiffy.auraltester.notes.AbsoluteNote
-import com.skewwhiffy.auraltester.scales.{Scale, ScaleType}
+import com.skewwhiffy.auraltester.scales.{Key, Scale, ScaleDirection, ScaleType}
 import com.skewwhiffy.auraltester.services.ScaleService
 import com.skewwhiffy.auraltester.testutils.TestData
 import org.scalamock.scalatest.MockFactory
@@ -22,22 +21,32 @@ class ScaleControllerTest extends AnyFunSuite with MockFactory {
   test("abc correct") {
     val clef = InternalNotationFactory.clef("treble")
     val note = InternalNotationFactory.note("A").note
-    val scaleType = ScaleType.minorMelodicDescending
+    val scaleType = ScaleType.minorMelodic
     val expectedAbc = TestData.random.string
-    class MockScale extends Scale(AbsoluteNote.middleC, ScaleType.major) {
-      override lazy val abc: String = expectedAbc
-    }
-    val scale = new MockScale()
-    (scaleService.getScale _).expects(clef, note, scaleType).returns(scale)
+    val direction = ScaleDirection.descending
+    val key = Key.cMajor
+    val scale = mock[Scale]
+    (scale.abc _).expects(key).returns(expectedAbc)
+    (scaleService.getScale _).expects(clef, note, scaleType, direction).returns(scale)
 
-    val result = scaleController.get(clef.abc, note.noteName, "minor-melodic-descending")
+    val result = scaleController.get(
+      clef.abc,
+      note.noteName,
+      "minor-melodic",
+      "descending",
+      withKeySignature = false
+    )
 
     assert(result.abc.contains(expectedAbc))
   }
 
+  test("abc correct with key signature") {
+    ???
+  }
+
   test("when scale type not recognized then throws") {
     assertThrows[IllegalArgumentException] {
-      scaleController.get("treble", "B", "demented")
+      scaleController.get("treble", "B", "demented", "ascending", withKeySignature = false)
     }
   }
 }

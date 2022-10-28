@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notes
 
+import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.funsuite.AnyFunSuite
 
 class OctaveTests extends AnyFunSuite {
@@ -8,7 +9,7 @@ class OctaveTests extends AnyFunSuite {
     val note = Note.f
     val expected = "F"
 
-    val actual = octave.getAbc(note)
+    val actual = octave.getAbc(note, Key.cMajor)
 
     assert(actual == expected)
   }
@@ -21,7 +22,7 @@ class OctaveTests extends AnyFunSuite {
       val note = Note.e
       val expected = "e" + "'".repeat(octavesHigher - 1)
 
-      val actual = octave.getAbc(note)
+      val actual = octave.getAbc(note, Key.cMajor)
 
       assert(actual == expected)
     }
@@ -33,7 +34,7 @@ class OctaveTests extends AnyFunSuite {
       val note = Note.g
       val expected = "G" + ",".repeat(octavesLower)
 
-      val actual = octave.getAbc(note)
+      val actual = octave.getAbc(note, Key.cMajor)
 
       assert(actual == expected)
     }

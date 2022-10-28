@@ -2,6 +2,7 @@ package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
+import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.testutils.TestData
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
@@ -26,10 +27,9 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
     )
     notesAbc = Range(0, 10).map(_ => TestData.random.string).toList
     notes = notesAbc.map(it => {
-      class AbsoluteNoteMock extends AbsoluteNote(Note.c, Octave.default) {
-        override lazy val abc: String = it
-      }
-      new AbsoluteNoteMock()
+      val note = mock[AbsoluteNote]
+      (note.abc _).expects(Key.cMajor).returns(it)
+      note
     })
     test()
   }

@@ -6,6 +6,10 @@ object Key {
   lazy val cMajor: Key = new Key(Note.c)
 }
 
-class Key(val note: Note, val minor: Boolean = false) {
-  lazy val abc: String = if (minor) s"${note.abc}m" else note.abc
+class Key(val note: Note, val isMinor: Boolean = false) {
+  lazy val abc: String = if (isMinor) s"${note.abc}m" else note.abc
+
+  def accidentalAbc(note: Note): String = {
+    ???
+  }
 }
