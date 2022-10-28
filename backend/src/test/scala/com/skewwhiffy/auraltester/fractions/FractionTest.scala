@@ -39,6 +39,15 @@ class FractionTest:
 
     assertThat(actual.toString).isEqualTo(expected)
   }
+  
+  @Test
+  def canMultiplyFractions(): Unit = {
+    val expected = "3/8"
+    
+    val actual = Fraction(1, 4) * Fraction(3, 2)
+    
+    assertThat(actual.toString).isEqualTo(expected)
+  }
 
   @Test
   def integerFractionsAreEqualToInteger(): Unit = {

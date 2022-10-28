@@ -29,7 +29,7 @@ object Fraction:
 
   def hcf(first: Int, second: Int): Int = first * second / lcm(first, second)
 
-private class Fraction(val top: Int, val bottom: Int):
+class Fraction(val top: Int, val bottom: Int):
   // Can assume bottom > 0
 
   lazy val whole: Int = top / bottom
@@ -47,6 +47,9 @@ private class Fraction(val top: Int, val bottom: Int):
 
   @targetName("minus")
   def -(other: Fraction): Fraction = this + -other
+
+  @targetName("multipliedBy")
+  def *(other: Fraction): Fraction = Fraction(top * other.top, bottom * other.bottom).simplified
 
   @targetName("unary_minus")
   def unary_- : Fraction = Fraction(-top, bottom)
