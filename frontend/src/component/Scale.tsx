@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
@@ -21,7 +22,8 @@ class Scale extends React.Component<Props, State> {
     clef: string,
     note: string,
     type: string,
-    direction: string
+    direction: string,
+    withKeySignature: boolean
   ) => {
     if ([clef, note, type, direction].includes('')) {
       this.setState({
@@ -30,9 +32,17 @@ class Scale extends React.Component<Props, State> {
       })
       return
     }
-    console.log(encodeURI(`/api/scale/${clef}/${note}/${type}/${direction}`))
-    const response = await fetch(`/api/scale/${clef}/${encodeURIComponent(note)}/${type}`)
-    const json = await response.json()
+
+    const response = await axios.get('api/scale', {
+      params: {
+        clef,
+        note,
+        scaleType: type,
+        direction,
+        withKeySignature
+      }
+    })
+    const json = response.data
     const newAbc = json.abc
     this.setState({
       ...this.state,

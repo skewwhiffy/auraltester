@@ -9,7 +9,7 @@ class DirectedIntervalTests extends AnyFunSuite {
     val actual = interval.up
 
     assert(actual.interval == interval)
-    assert(actual.direction == IntervalDirection.Up)
+    assert(actual.direction == IntervalDirection.up)
   }
 
   test("can instantiate down interval") {
@@ -18,7 +18,7 @@ class DirectedIntervalTests extends AnyFunSuite {
     val actual = interval.down
 
     assert(actual.interval == interval)
-    assert(actual.direction == IntervalDirection.Down)
+    assert(actual.direction == IntervalDirection.down)
   }
 
   test("equivalent directed intervals are equal") {

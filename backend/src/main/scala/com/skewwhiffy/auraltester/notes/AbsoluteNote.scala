@@ -11,8 +11,8 @@ object AbsoluteNote {
 class AbsoluteNote(val note: Note, val octave: Octave) {
   lazy val apply: DirectedInterval => AbsoluteNote = interval => {
     interval.direction match {
-      case IntervalDirection.Up => add(interval.interval)
-      case IntervalDirection.Down => subtract(interval.interval)
+      case IntervalDirection.`up` => add(interval.interval)
+      case IntervalDirection.`down` => subtract(interval.interval)
     }
   }
 

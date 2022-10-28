@@ -71,7 +71,7 @@ class ScaleSelector extends React.Component<Props, State> {
                 type='checkbox'
                 onChange={e => this.onWithKeySignatureChange(e.target)}
                 label='Use key signature'
-                checked={this.state.withKeySignature}
+                defaultChecked={this.state.withKeySignature}
               />
             </Col>
           </Row>
@@ -145,7 +145,7 @@ class ScaleSelector extends React.Component<Props, State> {
   onWithKeySignatureChange = (e: any) => {
     this.onFormChange({
       ...this.state,
-      withKeySignature: e.value
+      withKeySignature: e.checked
     })
   }
 

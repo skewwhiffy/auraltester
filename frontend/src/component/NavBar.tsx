@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -12,8 +13,8 @@ interface State {
 class NavBar extends React.Component<Props, State> {
   
   async componentDidMount() {
-    const newInformationResponse = await fetch('info')
-    const newInformation = await newInformationResponse.json()
+    const newInformationResponse = await axios.get('info')
+    const newInformation = newInformationResponse.data
     // TODO: This gets called twice. Why?
     console.log('Component did mount in NavBar')
     this.setState({
