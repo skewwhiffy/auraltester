@@ -1,7 +1,13 @@
 import React from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
 
-type OnChangeHandler = (clef: string, note: string, type: string) => void
+type OnChangeHandler = (
+  clef: string,
+  note: string,
+  type: string,
+  direction: string,
+  withKeySignature: boolean
+) => void
 
 interface Props {
   onChange: OnChangeHandler
@@ -11,7 +17,9 @@ interface State {
   clef: string,
   note: string,
   accidental: string,
-  type: string
+  type: string,
+  direction: string,
+  withKeySignature: boolean
 }
 
 class ScaleSelector extends React.Component<Props, State> {
@@ -21,7 +29,9 @@ class ScaleSelector extends React.Component<Props, State> {
       clef: 'treble',
       note: 'C',
       accidental: '',
-      type: 'major'
+      type: 'major',
+      direction: 'ascending',
+      withKeySignature: true
     }
     this.onStateChange(this.state)
   }
@@ -51,17 +61,37 @@ class ScaleSelector extends React.Component<Props, State> {
                 {this.renderTypeRadioButtons()}
               </Form.Group>
             </Col>
+            <Col>
+              <Form.Group onChange={e => this.onDirectionChange(e.target)}>
+                {this.renderDirectionRadioButtons()}
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Check 
+                type='checkbox'
+                onChange={e => this.onWithKeySignatureChange(e.target)}
+                label='Use key signature'
+                checked={this.state.withKeySignature}
+              />
+            </Col>
           </Row>
         </Form>
       </Container>
     )
   }
 
+  private renderDirectionRadioButtons() {
+    return ['ascending', 'descending']
+      .map(it => {
+        return this.renderRadioButton('direction', it, this.capitaliseFirstCharacter(it), this.state.direction)
+      })
+  }
+
   private renderTypeRadioButtons() {
-    return ['major', 'minor-harmonic', 'minor-melodic-ascending', 'minor-melodic-descending']
+    return ['major', 'minor-harmonic', 'minor-melodic']
       .map(it => {
         const label = it.split('-').map(this.capitaliseFirstCharacter).join(' ')
-        return this.renderCheckbox('type', it, label, this.state.type)
+        return this.renderRadioButton('type', it, label, this.state.type)
       })
   }
 
@@ -69,14 +99,14 @@ class ScaleSelector extends React.Component<Props, State> {
     return ['treble', 'alto', 'tenor', 'bass']
       .map(it => {
         const label = `${this.capitaliseFirstCharacter(it)} Clef`
-        return this.renderCheckbox('clef', it, label, this.state.clef)
+        return this.renderRadioButton('clef', it, label, this.state.clef)
       })
   }
 
   private renderNoteRadioButtons() {
     return 'ABCDEFG'
       .split('')
-      .map(it => this.renderCheckbox('note', it, it, this.state.note))
+      .map(it => this.renderRadioButton('note', it, it, this.state.note))
   }
 
   private renderAccidentalRadioButtons() {
@@ -85,12 +115,12 @@ class ScaleSelector extends React.Component<Props, State> {
       ['', 'natural'],
       ['b', 'b']
     ]
-      .map(it => this.renderCheckbox('accidental', it[0], it[1], this.state.accidental))
+      .map(it => this.renderRadioButton('accidental', it[0], it[1], this.state.accidental))
   }
 
-  private renderCheckbox(name: string, value: string, label: string, selectedValue: string) {
+  private renderRadioButton(name: string, value: string, label: string, selectedValue: string) {
     const key = `${name}${value}`
-    return (<Form.Check key={key} name={name} value={value} type='radio' label={label} defaultChecked={value === selectedValue}/>)
+    return (<Form.Check key={key} name={name} value={value} type='radio' label={label} defaultChecked={value === selectedValue} />)
   }
 
   private capitaliseFirstCharacter(source: string) {
@@ -101,13 +131,29 @@ class ScaleSelector extends React.Component<Props, State> {
     this.setState(newState)
     this.onStateChange(newState)
   }
-  
+
   private onStateChange(state: State) {
     this.props.onChange(
       state.clef,
       `${state.note}${state.accidental}`,
-      state.type
+      state.type,
+      state.direction,
+      state.withKeySignature
     )
+  }
+
+  onWithKeySignatureChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      withKeySignature: e.value
+    })
+  }
+
+  onDirectionChange = (e: any) => {
+    this.onFormChange({
+      ...this.state,
+      direction: e.value
+    })
   }
 
   onTypeChange = (e: any) => {

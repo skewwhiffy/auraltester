@@ -17,15 +17,20 @@ class Scale extends React.Component<Props, State> {
     }
   }
 
-  scaleSelected = async (clef: string, note: string, type: string) => {
-    if (clef === '' || note === '' || type === '') {
+  scaleSelected = async (
+    clef: string,
+    note: string,
+    type: string,
+    direction: string
+  ) => {
+    if ([clef, note, type, direction].includes('')) {
       this.setState({
         ...this.state,
         abc: ''
       })
       return
     }
-    console.log(encodeURI(`/api/scale/${clef}/${note}/${type}`))
+    console.log(encodeURI(`/api/scale/${clef}/${note}/${type}/${direction}`))
     const response = await fetch(`/api/scale/${clef}/${encodeURIComponent(note)}/${type}`)
     const json = await response.json()
     const newAbc = json.abc
