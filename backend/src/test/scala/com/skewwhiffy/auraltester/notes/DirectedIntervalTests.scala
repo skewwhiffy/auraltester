@@ -1,41 +1,32 @@
 package com.skewwhiffy.auraltester.notes
 
-/*
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class DirectedIntervalTests {
-  @Test
-  def canInstantiateUpInterval(): Unit = {
+class DirectedIntervalTests extends AnyFunSuite {
+  test("can instantiate up interval") {
     val interval = Interval.major(6)
 
     val actual = interval.up
 
-    assertThat(actual.interval).isEqualTo(interval)
-    assertThat(actual.direction).isEqualTo(IntervalDirection.Up)
+    assert(actual.interval == interval)
+    assert(actual.direction == IntervalDirection.Up)
   }
 
-  @Test
-  def canInstantiateDownInterval(): Unit = {
+  test("can instantiate down interval") {
     val interval = Interval.major(7)
 
     val actual = interval.down
 
-    assertThat(actual.interval).isEqualTo(interval)
-    assertThat(actual.direction).isEqualTo(IntervalDirection.Down)
+    assert(actual.interval == interval)
+    assert(actual.direction == IntervalDirection.Down)
   }
 
-  @Test
-  def equivalentDirectedIntervalsAreEqual(): Unit = {
+  test("equivalent directed intervals are equal") {
     def interval = Interval.perfect(5).up
 
     val first = interval
     val second = interval
 
-    assertThat(first).isEqualTo(second)
+    assert(first == second)
   }
-
 }
-
-
- */

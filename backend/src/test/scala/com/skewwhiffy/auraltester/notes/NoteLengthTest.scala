@@ -1,23 +1,19 @@
 package com.skewwhiffy.auraltester.notes
-/*
 
 import com.skewwhiffy.auraltester.fractions.Fraction
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class NoteLengthTest {
-  @Test
-  def correctlyAddsDot(): Unit = {
+class NoteLengthTest extends AnyFunSuite {
+  test("correctly adds dot") {
     val original = NoteLength.crotchet
     val expected = NoteLength(Fraction(3, 8))
 
     val actual = original.dotted
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @Test
-  def canInstantiateSpecializedNoteLengths(): Unit = {
+  test("can instantiate specialized note lengths") {
     val breve = NoteLength.breve
     val semibreve = NoteLength.semibreve
     val minim = NoteLength.minim
@@ -29,15 +25,13 @@ class NoteLengthTest {
     //noinspection SpellCheckingInspection
     val hemidemisemiquaver = NoteLength.hemidemisemiquaver
 
-    assertThat(breve.abc).isEqualTo("2")
-    assertThat(semibreve.abc).isEqualTo("1")
-    assertThat(minim.abc).isEqualTo("1/2")
-    assertThat(crotchet.abc).isEqualTo("1/4")
-    assertThat(quaver.abc).isEqualTo("1/8")
-    assertThat(semiquaver.abc).isEqualTo("1/16")
-    assertThat(demisemiquaver.abc).isEqualTo("1/32")
-    assertThat(hemidemisemiquaver.abc).isEqualTo("1/64")
+    assert(breve.abc == "2")
+    assert(semibreve.abc == "1")
+    assert(minim.abc == "1/2")
+    assert(crotchet.abc == "1/4")
+    assert(quaver.abc == "1/8")
+    assert(semiquaver.abc == "1/16")
+    assert(demisemiquaver.abc == "1/32")
+    assert(hemidemisemiquaver.abc == "1/64")
   }
 }
-
- */
