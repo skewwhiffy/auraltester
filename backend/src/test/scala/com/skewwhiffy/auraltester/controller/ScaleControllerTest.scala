@@ -1,51 +1,43 @@
 package com.skewwhiffy.auraltester.controller
 
-import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
-import org.junit.jupiter.api.Test
+import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.notes.AbsoluteNote
+import com.skewwhiffy.auraltester.scales.{Scale, ScaleType}
+import com.skewwhiffy.auraltester.services.ScaleService
+import com.skewwhiffy.auraltester.testutils.TestData
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.Outcome
+import org.scalatest.funsuite.AnyFunSuite
 
-class ScaleControllerTest:
-  private val scaleController = ScaleController()
+class ScaleControllerTest extends AnyFunSuite with MockFactory {
+  private var scaleService: ScaleService = _
+  private var scaleController: ScaleController = _
 
-  @Test
-  def when_majorScaleRequested_then_abcCorrect(): Unit = {
-    val result = scaleController.get("treble", "D", "major")
-
-    //noinspection SpellCheckingInspection
-    assertThat(result.abc).contains("DE^FGAB^cd")
-    assertThat(result.abc).contains("T:D major")
-    assertThat(result.abc).contains("K:clef=treble")
+  override def withFixture(test: NoArgTest): Outcome = {
+    scaleService = mock[ScaleService]
+    scaleController = new ScaleController(scaleService)
+    test()
   }
 
-  @Test
-  def when_minorHarmonicScaleRequested_then_abcCorrect(): Unit = {
-    val result = scaleController.get("bass", "C", "minor-harmonic")
+  test("abc correct") {
+    val clef = InternalNotationFactory.clef("treble")
+    val note = InternalNotationFactory.note("A").note
+    val scaleType = ScaleType.minorMelodicDescending
+    val expectedAbc = TestData.random.string
+    class MockScale extends Scale(AbsoluteNote.middleC, ScaleType.major) {
+      override lazy val abc: String = expectedAbc
+    }
+    val scale = new MockScale()
+    (scaleService.getScale _).expects(clef, note, scaleType).returns(scale)
 
-    assertThat(result.abc).contains("C,D,_E,F,G,_A,B,C")
-    assertThat(result.abc).contains("T:C minor harmonic")
-    assertThat(result.abc).contains("K:clef=bass")
+    val result = scaleController.get(clef.abc, note.noteName, "minor-melodic-descending")
+
+    assert(result.abc.contains(expectedAbc))
   }
 
-  @Test
-  def when_minorMelodicAscendingRequested_then_abcCorrect(): Unit = {
-    val result = scaleController.get("alto", "E", "minor-melodic-ascending")
-
-    assertThat(result.abc).contains("E,^F,G,A,B,^C^DE")
-    assertThat(result.abc).contains("T:E minor melodic ascending")
-    assertThat(result.abc).contains("K:clef=alto")
+  test("when scale type not recognized then throws") {
+    assertThrows[IllegalArgumentException] {
+      scaleController.get("treble", "B", "demented")
+    }
   }
-
-  @Test
-  def when_minorMelodicDescendingRequested_then_abcCorrect(): Unit = {
-    val result = scaleController.get("treble", "A", "minor-melodic-descending")
-
-    //noinspection SpellCheckingInspection
-    assertThat(result.abc).contains("agfedcBA")
-    assertThat(result.abc).contains("T:A minor melodic descending")
-    assertThat(result.abc).contains("K:clef=treble")
-  }
-
-  @Test
-  def when_scaleTypeNotRecognized_then_throws(): Unit = {
-    assertThatThrownBy(() => scaleController.get("treble", "B", "demented"))
-      .isInstanceOf(classOf[IllegalArgumentException])
-  }
+}

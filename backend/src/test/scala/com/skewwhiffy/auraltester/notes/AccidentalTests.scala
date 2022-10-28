@@ -1,141 +1,127 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.scalatest.funsuite.AnyFunSuite
 
-class AccidentalTests {
-  @Test
-  def when_natural_then_displaysCorrectly(): Unit = {
+class AccidentalTests extends AnyFunSuite {
+  test("when natural then displays correctly") {
     val expected = ""
     val natural = Accidental.natural
 
     val actual = natural.displayString
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @Test
-  def when_flattening_natural_then_displaysFlat(): Unit = {
+  test("when flattening natural then displays flat") {
     val expected = "b"
     val natural = Accidental.natural
 
     val actual = natural.flat
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @Test
-  def when_sharpening_natural_then_displaysSharp(): Unit = {
+  test("when sharpening natural then displays sharp") {
     val expected = "#"
     val natural = Accidental.natural
 
     val actual = natural.sharp
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @Test
-  def when_flat_then_displaysFlat(): Unit = {
+  test("when flat then displays flat") {
     val expected = "b"
     val flat = Accidental.flat
 
     val actual = flat.displayString
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @Test
-  def when_flatteningFlat_then_displaysDoubleFlat(): Unit = {
+  test("when flattening flat then displays double flat") {
     val expected = "bb"
     val flat = Accidental.flat
 
     val actual = flat.flat
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @Test
-  def when_sharpeningFlat_then_displaysNatural(): Unit = {
+  test("when sharpening flat then displays natural") {
     val expected = ""
     val flat = Accidental.flat
 
     val actual = flat.sharp
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(3, 7))
-  def when_multipleFlats_then_displaysCorrectly(flats: Int): Unit = {
-    val expected = "b".repeat(flats)
-    val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
+  List(3, 7).foreach(flats => {
+    test(s"when $flats flats then displays correctly") {
+      val expected = "b".repeat(flats)
+      val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
 
-    val actual = accidental.displayString
+      val actual = accidental.displayString
 
-    assertThat(actual).isEqualTo(expected)
-  }
+      assert(actual == expected)
+    }
+  })
 
-  @Test
-  def when_sharp_then_displaysSharp(): Unit = {
+  test("when sharp then displays sharp") {
     val expected = "#"
     val sharp = Accidental.sharp
 
     val actual = sharp.displayString
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @Test
-  def when_sharpeningSharp_then_displaysDoubleSharp(): Unit = {
+  test("when sharpening sharp then displays double sharp") {
     val expected = "x"
     val sharp = Accidental.sharp
 
     val actual = sharp.sharp
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @Test
-  def when_flatteningSharp_then_displaysNatural(): Unit = {
+  test("when flattening sharp then displays natural") {
     val expected = ""
     val sharp = Accidental.sharp
 
     val actual = sharp.flat
 
-    assertThat(actual.displayString).isEqualTo(expected)
+    assert(actual.displayString == expected)
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(6, 10))
-  def when_multipleEvenSharps_then_displaysCorrectly(numberOfSharps: Int): Unit = {
-    val expected = "x".repeat(numberOfSharps / 2)
-    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
+  List(6, 10).foreach(numberOfSharps => {
+    test(s"when $numberOfSharps then displays correctly") {
+      val expected = "x".repeat(numberOfSharps / 2)
+      val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
-    val actual = accidental.displayString
+      val actual = accidental.displayString
 
-    assertThat(actual).isEqualTo(expected)
-  }
+      assert(actual == expected)
+    }
+  })
+  List(7, 13).foreach(numberOfSharps => {
+    test(s"when $numberOfSharps then displays correctly") {
+      val expected = "x".repeat(numberOfSharps / 2) + "#"
+      val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(7, 13))
-  def when_multipleOddSharps_then_displaysCorrectly(numberOfSharps: Int): Unit = {
-    val expected = "x".repeat(numberOfSharps / 2) + "#"
-    val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
+      val actual = accidental.displayString
 
-    val actual = accidental.displayString
+      assert(actual == expected)
+    }
+  })
 
-    assertThat(actual).isEqualTo(expected)
-  }
-
-  @Test
-  def when_accidentalsEquivalent_then_equal(): Unit = {
-    def accidental = Accidental(5)
+  test("when accidentals equivalent then equal") {
+    def accidental = new Accidental(5)
 
     val first = accidental
     val second = accidental
 
-    assertThat(first).isEqualTo(second)
+    assert(first == second)
   }
 }

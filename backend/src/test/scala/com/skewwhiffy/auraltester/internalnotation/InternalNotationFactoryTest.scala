@@ -1,77 +1,71 @@
 package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
-import org.assertj.core.api.Assertions.{assertThat, assertThatThrownBy}
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.scalatest.funsuite.AnyFunSuite
 
-class InternalNotationFactoryTest {
-  @Test
-  def canInstantiateMiddleC(): Unit = {
+class InternalNotationFactoryTest extends AnyFunSuite {
+  test("can instantiate middle C") {
     val expected = AbsoluteNote.middleC
 
     val actual = InternalNotationFactory.note("C")
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @Test
-  def canInstantiateNoteAboveMiddleC(): Unit = {
+  test("can instantiate note above middle C") {
     val expected = "c''"
 
     val actual = InternalNotationFactory.note(expected)
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assert(actual.abc == expected)
   }
 
-  @Test
-  def canInstantiateNoteBelowMiddleC(): Unit = {
+  test("can instantiate note below middle C") {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
 
     val actual = InternalNotationFactory.note(internalNotation)
 
-    assertThat(actual.abc).isEqualTo(expected)
+    assert(actual.abc == expected)
   }
 
-  @Test
-  def when_noteNameInvalid_then_throws(): Unit = {
-    assertThatThrownBy(() => InternalNotationFactory.note("H"))
-      .isInstanceOf(classOf[IllegalArgumentException])
+  test("when note name invalid then throws") {
+    assertThrows[IllegalArgumentException] {
+      InternalNotationFactory.note("H")
+    }
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(2, 3, 6, 7))
-  def canInstantiateMajorInterval(degree: Int): Unit = {
-    val expected = Interval.major(degree).up
+  List(2, 3, 6, 7).foreach(it => {
+    test(s"can instantiate major $it") {
+      val expected = Interval.major(it).up
 
-    val actual = InternalNotationFactory.directedInterval(degree.toString)
+      val actual = InternalNotationFactory.directedInterval(it.toString)
 
-    assertThat(actual).isEqualTo(expected)
+      assert(actual == expected)
+    }
+  })
+
+  test("when invalid deviation then throws") {
+    assertThrows[IllegalArgumentException] {
+      InternalNotationFactory.directedInterval("5*")
+    }
   }
 
-  def when_invalidDeviation_then_throws(): Unit = {
-    assertThatThrownBy(() => InternalNotationFactory.directedInterval("5*"))
-      .isInstanceOf(classOf[IllegalArgumentException])
-  }
+  List(1, 4, 5, 8).foreach(degree => {
+    test(s"can instantiate perfect $degree") {
+      val expected = Interval.perfect(degree).up
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(1, 4, 5, 8))
-  def canInstantiatePerfectInterval(degree: Int): Unit = {
-    val expected = Interval.perfect(degree).up
+      val actual = InternalNotationFactory.directedInterval(degree.toString)
 
-    val actual = InternalNotationFactory.directedInterval(degree.toString)
+      assert(actual == expected)
+    }
+  })
 
-    assertThat(actual).isEqualTo(expected)
-  }
-
-  @Test
-  def canInstantiateMinorThird(): Unit = {
+  test("can instantiate minor third") {
     val expected = Interval.minor(3).up
 
     val actual = InternalNotationFactory.directedInterval("3-")
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 }

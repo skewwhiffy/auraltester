@@ -1,65 +1,59 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import org.scalatest.funsuite.AnyFunSuite
 
-class OctaveTests {
-  @Test
-  def when_getAbcInDefaultOctave_then_correctResponse(): Unit = {
+class OctaveTests extends AnyFunSuite {
+  test("when getAbc in default octave then correct response") {
     val octave = Octave.default
     val note = Note.F
     val expected = "F"
 
     val actual = octave.getAbc(note)
 
-    assertThat(actual).isEqualTo(expected)
+    assert(actual == expected)
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(1, 5))
-  def when_getAbcInHigherOctaves_then_correctResponse(octavesHigher: Int): Unit = {
-    val octave = List.range(0, octavesHigher).foldRight(Octave.default)((_, it) => it.up)
-    val note = Note.E
-    val expected = "e" + "'".repeat(octavesHigher - 1)
+  List(1, 5).foreach(octavesHigher => {
+    test(s"when getAbc in octave $octavesHigher higher then correct response") {
+      val octave = List.range(0, octavesHigher).foldRight(Octave.default)((_, it) => it.up)
+      val note = Note.E
+      val expected = "e" + "'".repeat(octavesHigher - 1)
 
-    val actual = octave.getAbc(note)
+      val actual = octave.getAbc(note)
 
-    assertThat(actual).isEqualTo(expected)
-  }
+      assert(actual == expected)
+    }
+  })
 
-  @ParameterizedTest
-  @ValueSource(ints = Array(1, 6))
-  def when_getAbcInLowerOctaves_then_correctResponse(octavesLower: Int): Unit = {
-    val octave = List.range(0, octavesLower).foldRight(Octave.default)((_, it) => it.down)
-    val note = Note.G
-    val expected = "G" + ",".repeat(octavesLower)
+  List(1, 6).foreach(octavesLower => {
+    test(s"when getAbc in octave $octavesLower lower then correct response") {
+      val octave = List.range(0, octavesLower).foldRight(Octave.default)((_, it) => it.down)
+      val note = Note.G
+      val expected = "G" + ",".repeat(octavesLower)
 
-    val actual = octave.getAbc(note)
+      val actual = octave.getAbc(note)
 
-    assertThat(actual).isEqualTo(expected)
-  }
+      assert(actual == expected)
+    }
+  })
 
-  @Test
-  def when_sameOctaves_then_equal(): Unit = {
-    def octave = Octave(52)
+  test("when same octaves then equal") {
+    def octave = new Octave(52)
 
     val first = octave
     val second = octave
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first >= second).isTrue
+    assert(first==second)
+    assert(first >= second)
   }
 
-  @Test
-  def when_firstHigherThanSecond_then_relativeOperatorWorks(): Unit = {
-    val first = Octave(20)
-    val second = Octave(21)
+  test("when first higher than second then relative operator works") {
+    val first = new Octave(20)
+    val second = new Octave(21)
 
-    assertThat(first > second).isFalse
-    assertThat(first < second).isTrue
-    assertThat(first >= second).isFalse
-    assertThat(first <= second).isTrue
+    assert(!(first > second))
+    assert(first < second)
+    assert(!(first >= second))
+    assert(first <= second)
   }
 }

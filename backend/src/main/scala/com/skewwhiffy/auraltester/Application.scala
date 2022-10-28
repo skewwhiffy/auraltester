@@ -5,8 +5,10 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.{Bean, Profile}
 
-@SpringBootApplication
-class Application
+object Application {
+  def main(args: Array[String]): Unit = SpringApplication.run(classOf[Application])
+}
 
-@main
-def main(): Unit = SpringApplication.run(classOf[Application])
+@SpringBootApplication
+class Application {
+}

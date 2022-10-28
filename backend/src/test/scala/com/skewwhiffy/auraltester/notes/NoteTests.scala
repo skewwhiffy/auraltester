@@ -1,55 +1,50 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import org.scalatest.funsuite.AnyFunSuite
 
-class NoteTests {
-  @Test
-  def when_natural_then_displayStringCorrect(): Unit = {
+class NoteTests extends AnyFunSuite {
+  test("when natural then display string correct") {
     val note = Note.A
 
     val actual = note.displayString
 
-    assertThat(actual).isEqualTo("A")
+    assert(actual == "A")
   }
 
-  @Test
-  def when_sharp_then_displayStringCorrect(): Unit = {
+  test("when sharp then display string correct") {
     val note = Note.B.sharp
 
     val actual = note.displayString
 
-    assertThat(actual).isEqualTo("B#")
+    assert(actual == "B#")
   }
 
-  @Test
-  def when_flat_then_displayStringCorrect(): Unit = {
+  test("when flat then display string correct") {
     val note = Note.D.flat
 
     val actual = note.displayString
 
-    assertThat(actual).isEqualTo("Db")
+    assert(actual == "Db")
   }
 
-  @Test
-  def when_notesEquivalent_then_equalsWorks(): Unit = {
-    def note = Note("A", Accidental.sharp)
+  test("when notes equivalent then equals works") {
+    def note = new Note("A", Accidental.sharp)
 
     val first = note
     val second = note
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first <= second).isTrue
-    assertThat(first >= second).isTrue
+    assert(first==second)
+    assert(first <= second)
+    assert(first >= second)
   }
-  
-  @Test
-  def when_notesNotEquivalent_then_canCompare(): Unit = {
+
+  test("when notes not equivalent then can compare") {
     def lower = Note.C
+
     def higher = Note.A
-    
-    assertThat(lower < higher).isTrue
-    assertThat(lower > higher).isFalse
+
+    assert(lower < higher)
+    assert(!(lower > higher))
     // TODO: > and < with #s and bs
   }
 }
