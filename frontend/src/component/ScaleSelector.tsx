@@ -18,11 +18,12 @@ class ScaleSelector extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      clef: '',
-      note: '',
+      clef: 'treble',
+      note: 'C',
       accidental: '',
-      type: ''
+      type: 'major'
     }
+    this.onStateChange(this.state)
   }
 
   render() {
@@ -60,7 +61,7 @@ class ScaleSelector extends React.Component<Props, State> {
     return ['major', 'minor-harmonic', 'minor-melodic-ascending', 'minor-melodic-descending']
       .map(it => {
         const label = it.split('-').map(this.capitaliseFirstCharacter).join(' ')
-        return this.renderCheckbox('type', it, label)
+        return this.renderCheckbox('type', it, label, this.state.type)
       })
   }
 
@@ -68,14 +69,14 @@ class ScaleSelector extends React.Component<Props, State> {
     return ['treble', 'alto', 'tenor', 'bass']
       .map(it => {
         const label = `${this.capitaliseFirstCharacter(it)} Clef`
-        return this.renderCheckbox('clef', it, label)
+        return this.renderCheckbox('clef', it, label, this.state.clef)
       })
   }
 
   private renderNoteRadioButtons() {
     return 'ABCDEFG'
       .split('')
-      .map(it => this.renderCheckbox('note', it, it))
+      .map(it => this.renderCheckbox('note', it, it, this.state.note))
   }
 
   private renderAccidentalRadioButtons() {
@@ -84,12 +85,12 @@ class ScaleSelector extends React.Component<Props, State> {
       ['', 'natural'],
       ['b', 'b']
     ]
-      .map(it => this.renderCheckbox('accidental', it[0], it[1]))
+      .map(it => this.renderCheckbox('accidental', it[0], it[1], this.state.accidental))
   }
 
-  private renderCheckbox(name: string, value: string, label: string) {
+  private renderCheckbox(name: string, value: string, label: string, selectedValue: string) {
     const key = `${name}${value}`
-    return (<Form.Check key={key} name={name} value={value} type='radio' label={label} />)
+    return (<Form.Check key={key} name={name} value={value} type='radio' label={label} defaultChecked={value == selectedValue}/>)
   }
 
   private capitaliseFirstCharacter(source: string) {
@@ -98,10 +99,14 @@ class ScaleSelector extends React.Component<Props, State> {
 
   private onFormChange = (newState: State) => {
     this.setState(newState)
+    this.onStateChange(newState)
+  }
+  
+  private onStateChange(state: State) {
     this.props.onChange(
-      newState.clef,
-      `${newState.note}${newState.accidental}`,
-      newState.type
+      state.clef,
+      `${state.note}${state.accidental}`,
+      state.type
     )
   }
 
