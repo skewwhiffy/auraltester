@@ -41,7 +41,7 @@ class ScaleTest extends AnyFunSuite {
     val expected = InternalNotationFactory.notes("a g f e d c B A")
 
     val actual = new Scale(
-      InternalNotationFactory.note("a"),
+      InternalNotationFactory.note("A"),
       ScaleType.minorMelodic,
       ScaleDirection.descending
     )
