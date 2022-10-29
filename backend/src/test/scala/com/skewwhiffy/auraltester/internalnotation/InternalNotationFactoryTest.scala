@@ -2,7 +2,7 @@ package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
-import com.skewwhiffy.auraltester.scales.Key
+import com.skewwhiffy.auraltester.testutils.TestData
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
@@ -21,35 +21,14 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockFactory{
     test()
   }
 
-  test("can instantiate middle C") {
-    val expected = AbsoluteNote.middleC
+  test("when getNote then proxies to noteFactory") {
+    val rawNote = TestData.random.string
+    val expected = TestData.random.absoluteNote
+    (noteFactory.getAbsoluteNote _).expects(rawNote).returns(expected)
 
-    val actual = internalNotationFactory.getNote("C")
+    val actual = internalNotationFactory.getNote(rawNote)
 
     assert(actual == expected)
-  }
-
-  test("can instantiate note above middle C") {
-    val expected = "c''"
-
-    val actual = internalNotationFactory.getNote(expected)
-
-    assert(actual.abc(Key.cMajor) == expected)
-  }
-
-  test("can instantiate note below middle C") {
-    val internalNotation = "Dx#,,,"
-    val expected = "^^^D,,,"
-
-    val actual = internalNotationFactory.getNote(internalNotation)
-
-    assert(actual.abc(Key.cMajor) == expected)
-  }
-
-  test("when note name invalid then throws") {
-    assertThrows[IllegalArgumentException] {
-      internalNotationFactory.getNote("H")
-    }
   }
 
   List(2, 3, 6, 7).foreach(it => {

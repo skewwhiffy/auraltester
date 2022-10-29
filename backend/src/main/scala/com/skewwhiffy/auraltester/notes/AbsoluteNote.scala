@@ -62,7 +62,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
   }
 
   def abc(key: Key): String = {
-    "BUM" //octave.getAbc(note, key)
+    octave.getAbc(note, key)
   }
 
   def sharp = new AbsoluteNote(note.sharp, octave)

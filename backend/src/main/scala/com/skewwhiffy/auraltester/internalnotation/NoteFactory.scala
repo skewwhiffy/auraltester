@@ -14,7 +14,7 @@ class NoteFactory {
   private def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
 
   private def getNoteName(rawNote: String) = {
-     rawNote.toUpperCase match {
+     getNoteLetter(rawNote).toUpperCase match {
       case it if it >= "A" && it <= "G" => it
       case it => throw new IllegalArgumentException(s"'$it' is not a valid note name'")
     }
