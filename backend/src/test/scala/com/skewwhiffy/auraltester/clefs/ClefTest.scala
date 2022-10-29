@@ -1,14 +1,18 @@
 package com.skewwhiffy.auraltester.clefs
 
+import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.scales.Key
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class ClefTest extends AnyFunSuite {
+class ClefTest extends AnyFunSuite with MockFactory {
+  private var noteFactory: NoteFactory = _
   private var clefFactory: ClefFactory = _
 
-  override protected def withFixture(test: NoArgTest): Outcome = {
-    clefFactory = new ClefFactory()
+  override def withFixture(test: NoArgTest): Outcome = {
+    noteFactory = mock[NoteFactory]
+    clefFactory = new ClefFactory(noteFactory)
     test()
   }
 

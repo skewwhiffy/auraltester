@@ -1,22 +1,30 @@
 package com.skewwhiffy.auraltester.internalnotation
 
+import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
 import com.skewwhiffy.auraltester.scales.Key
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class InternalNotationFactoryTest extends AnyFunSuite {
-  var internalNotationFactory: InternalNotationFactory = _
+class InternalNotationFactoryTest extends AnyFunSuite with MockFactory{
+  private var clefFactory: ClefFactory = _
+  private var noteFactory: NoteFactory = _
+  private var intervalFactory: IntervalFactory = _
+  private var internalNotationFactory: InternalNotationFactory = _
 
   override def withFixture(test: NoArgTest): Outcome = {
-    internalNotationFactory = new InternalNotationFactory()
+    clefFactory = mock[ClefFactory]
+    noteFactory = mock[NoteFactory]
+    intervalFactory = mock[IntervalFactory]
+    internalNotationFactory = new InternalNotationFactory(clefFactory, noteFactory, intervalFactory)
     test()
   }
 
   test("can instantiate middle C") {
     val expected = AbsoluteNote.middleC
 
-    val actual = internalNotationFactory.note("C")
+    val actual = internalNotationFactory.getNote("C")
 
     assert(actual == expected)
   }
@@ -24,7 +32,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
   test("can instantiate note above middle C") {
     val expected = "c''"
 
-    val actual = internalNotationFactory.note(expected)
+    val actual = internalNotationFactory.getNote(expected)
 
     assert(actual.abc(Key.cMajor) == expected)
   }
@@ -33,14 +41,14 @@ class InternalNotationFactoryTest extends AnyFunSuite {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
 
-    val actual = internalNotationFactory.note(internalNotation)
+    val actual = internalNotationFactory.getNote(internalNotation)
 
     assert(actual.abc(Key.cMajor) == expected)
   }
 
   test("when note name invalid then throws") {
     assertThrows[IllegalArgumentException] {
-      internalNotationFactory.note("H")
+      internalNotationFactory.getNote("H")
     }
   }
 
@@ -48,7 +56,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
     test(s"can instantiate major $it") {
       val expected = Interval.major(it).up
 
-      val actual = internalNotationFactory.directedInterval(it.toString)
+      val actual = internalNotationFactory.getDirectedInterval(it.toString)
 
       assert(actual == expected)
     }
@@ -56,7 +64,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
 
   test("when invalid deviation then throws") {
     assertThrows[IllegalArgumentException] {
-      internalNotationFactory.directedInterval("5*")
+      internalNotationFactory.getDirectedInterval("5*")
     }
   }
 
@@ -64,7 +72,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
     test(s"can instantiate perfect $degree") {
       val expected = Interval.perfect(degree).up
 
-      val actual = internalNotationFactory.directedInterval(degree.toString)
+      val actual = internalNotationFactory.getDirectedInterval(degree.toString)
 
       assert(actual == expected)
     }
@@ -73,7 +81,7 @@ class InternalNotationFactoryTest extends AnyFunSuite {
   test("can instantiate minor third") {
     val expected = Interval.minor(3).up
 
-    val actual = internalNotationFactory.directedInterval("3-")
+    val actual = internalNotationFactory.getDirectedInterval("3-")
 
     assert(actual == expected)
   }

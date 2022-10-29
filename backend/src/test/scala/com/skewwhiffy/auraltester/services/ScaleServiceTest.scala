@@ -1,17 +1,19 @@
 package com.skewwhiffy.auraltester.services
 
-import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
-import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.internalnotation.{IntervalFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.Note
-import com.skewwhiffy.auraltester.scales.{Key, ScaleDirection, ScaleType}
+import com.skewwhiffy.auraltester.scales.{Key, ScaleDirection, ScaleTypeFactory}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
 
 class ScaleServiceTest extends AnyFunSuite with MockFactory {
-  private val clefFactory = new ClefFactory()
-  private val internalNotationFactory = new InternalNotationFactory(clefFactory)
+  private val noteFactory = new NoteFactory()
+  private val clefFactory = new ClefFactory(noteFactory)
+  private val intervalFactory = new IntervalFactory()
+  private val scaleTypeFactory = new ScaleTypeFactory(intervalFactory)
   private var scaleService: ScaleService = _
 
   override def withFixture(test: NoArgTest): Outcome = {
@@ -22,7 +24,7 @@ class ScaleServiceTest extends AnyFunSuite with MockFactory {
   test("when major scale requested then abc correct") {
     //noinspection SpellCheckingInspection
     val expected = "DE^FGAB^cd"
-    val result = scaleService.getScale(clefFactory.treble, Note.d, ScaleType.major, ScaleDirection.ascending)
+    val result = scaleService.getScale(clefFactory.treble, Note.d, scaleTypeFactory.major, ScaleDirection.ascending)
 
     assert(result.abc(Key.cMajor).contains(expected))
   }
@@ -31,7 +33,7 @@ class ScaleServiceTest extends AnyFunSuite with MockFactory {
     //noinspection SpellCheckingInspection
     val expected = "agfedcBA"
 
-    val result = scaleService.getScale(clefFactory.treble, Note.a, ScaleType.minorMelodic, ScaleDirection.descending)
+    val result = scaleService.getScale(clefFactory.treble, Note.a, scaleTypeFactory.minorMelodic, ScaleDirection.descending)
 
     assert(result.abc(Key.cMajor).contains(expected))
   }

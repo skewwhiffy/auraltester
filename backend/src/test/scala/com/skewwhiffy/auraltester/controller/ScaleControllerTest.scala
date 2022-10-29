@@ -1,8 +1,8 @@
 package com.skewwhiffy.auraltester.controller
 
-import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory}
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
-import com.skewwhiffy.auraltester.scales.{Key, Scale, ScaleDirection, ScaleType}
+import com.skewwhiffy.auraltester.scales.{Key, Scale, ScaleDirection, ScaleTypeFactory}
 import com.skewwhiffy.auraltester.services.ScaleService
 import com.skewwhiffy.auraltester.testutils.TestData
 import org.scalamock.scalatest.MockFactory
@@ -10,21 +10,25 @@ import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
 class ScaleControllerTest extends AnyFunSuite with MockFactory {
-  private var scaleService: ScaleService = _
   private var internalNotationFactory: InternalNotationFactory = _
+  private var scaleService: ScaleService = _
+  private var scaleTypeFactory: ScaleTypeFactory = _
   private var scaleController: ScaleController = _
 
   override def withFixture(test: NoArgTest): Outcome = {
-    scaleService = mock[ScaleService]
     internalNotationFactory = mock[InternalNotationFactory]
-    scaleController = new ScaleController(internalNotationFactory, scaleService)
+    scaleService = mock[ScaleService]
+    scaleTypeFactory = mock[ScaleTypeFactory]
+    scaleController = new ScaleController(internalNotationFactory, scaleService, scaleTypeFactory)
     test()
   }
 
   test("abc correct") {
     val clef = internalNotationFactory.clef("treble")
-    val note = internalNotationFactory.note("A").note
-    val scaleType = ScaleType.minorMelodic
+    val note = internalNotationFactory.getNote("A").note
+    val intervalFactory = new IntervalFactory()
+    val scaleType = new ScaleTypeFactory(intervalFactory)
+      .minorMelodic
     val expectedAbc = TestData.random.string
     val direction = ScaleDirection.descending
     val displayName = TestData.random.string

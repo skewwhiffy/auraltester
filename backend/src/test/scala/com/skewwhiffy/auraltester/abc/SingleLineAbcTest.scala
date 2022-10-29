@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
+import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
 import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.testutils.TestData
@@ -17,7 +18,8 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
 
   override def withFixture(test: NoArgTest): Outcome = {
     title = TestData.random.string
-    val clefFactory = new ClefFactory()
+    val noteFactory = new NoteFactory()
+    val clefFactory = new ClefFactory(noteFactory)
     clef = TestData.random.oneOf(clefFactory.treble, clefFactory.alto, clefFactory.tenor, clefFactory.bass)
     noteLength = TestData.random.oneOf(
       NoteLength.breve,
@@ -36,7 +38,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
   }
 
   test("when title supplied then title populated") {
-    val abc = SingleLineAbc(title, clef, noteLength, notes)
+    val abc = new SingleLineAbc(title, clef, noteLength, notes)
 
     assert(abc.abc.contains("X:1"))
     assert(abc.abc.contains(s"T:$title"))
@@ -46,7 +48,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
   }
 
   test("when title not supplied then title not populated") {
-    val abc = SingleLineAbc(clef, noteLength, notes)
+    val abc = new SingleLineAbc(clef, noteLength, notes)
 
     assert(!abc.abc.contains("T:"))
   }

@@ -8,6 +8,11 @@ import scala.util.chaining.scalaUtilChainingOps
 
 @Component
 class IntervalFactory() {
+  def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = rawIntervals
+    .split(' ')
+    .map(getDirectedInterval)
+    .toList
+
   def getDirectedInterval(rawInterval: String): DirectedInterval = {
     getRawDeviations(rawInterval)
       .toCharArray

@@ -2,19 +2,7 @@ package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
-import com.skewwhiffy.auraltester.scales.{Key, Scale}
-
-object SingleLineAbc {
-  def apply(
-    displayName: String,
-    clef: Clef,
-    noteLength: NoteLength,
-    notes: List[AbsoluteNote]
-  ) = new SingleLineAbc(Some(displayName), clef, noteLength, notes)
-
-  def apply(clef: Clef, noteLength: NoteLength, notes: List[AbsoluteNote]) =
-    new SingleLineAbc(None, clef, noteLength, notes)
-}
+import com.skewwhiffy.auraltester.scales.Key
 
 class SingleLineAbc(
   private val displayName: Option[String],
@@ -23,6 +11,15 @@ class SingleLineAbc(
   private val notes: List[AbsoluteNote],
   private val keySignature: Option[Key] = None
 ) {
+  def this(
+    displayName: String,
+    clef: Clef,
+    noteLength: NoteLength,
+    notes: List[AbsoluteNote]
+  ) = this(Some(displayName), clef, noteLength, notes)
+
+  def this(clef: Clef, noteLength: NoteLength, notes: List[AbsoluteNote]) = this(None, clef, noteLength, notes)
+
   def includeKeySignature(key: Key): SingleLineAbc =
     new SingleLineAbc(displayName, clef, noteLength, notes, Some(key))
 

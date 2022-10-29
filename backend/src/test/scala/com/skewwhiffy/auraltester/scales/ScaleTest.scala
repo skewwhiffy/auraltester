@@ -1,32 +1,35 @@
 package com.skewwhiffy.auraltester.scales
 
-import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
-import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
 class ScaleTest extends AnyFunSuite {
-  private var internalNotationFactory: InternalNotationFactory = _
-
-  override def withFixture(test: NoArgTest): Outcome = {
-    internalNotationFactory = new InternalNotationFactory()
-    test()
-  }
+  private val noteFactory = new NoteFactory()
+  private val clefFactory = new ClefFactory(noteFactory)
+  private val intervalFactory = new IntervalFactory()
+  private val scaleTypeFactory = new ScaleTypeFactory(intervalFactory)
+  private val internalNotationFactory: InternalNotationFactory = new InternalNotationFactory(
+    clefFactory,
+    noteFactory,
+    intervalFactory
+  )
 
   test("can instantiate major scale") {
-    val expected = internalNotationFactory.notes("C D E F G A B c")
+    val expected = internalNotationFactory.getNotes("C D E F G A B c")
 
-    val actual = new Scale(AbsoluteNote.middleC, ScaleType.major, ScaleDirection.ascending)
+    val actual = new Scale(AbsoluteNote.middleC, scaleTypeFactory.major, ScaleDirection.ascending)
 
     assert(actual.notes == expected)
   }
 
   test("can instantiate minor harmonic scale") {
-    val expected = internalNotationFactory.notes("D E F G A Bb c# d")
+    val expected = internalNotationFactory.getNotes("D E F G A Bb c# d")
 
     val actual = new Scale(
-      internalNotationFactory.note("D"),
-      ScaleType.minorHarmonic,
+      internalNotationFactory.getNote("D"),
+      scaleTypeFactory.minorHarmonic,
       ScaleDirection.ascending
     )
 
@@ -34,11 +37,11 @@ class ScaleTest extends AnyFunSuite {
   }
 
   test("can instantiate minor melodic ascending scale") {
-    val expected = internalNotationFactory.notes("E F# G A B c# d# e")
+    val expected = internalNotationFactory.getNotes("E F# G A B c# d# e")
 
     val actual = new Scale(
-      internalNotationFactory.note("E"),
-      ScaleType.minorMelodic,
+      internalNotationFactory.getNote("E"),
+      scaleTypeFactory.minorMelodic,
       ScaleDirection.ascending
     )
 
@@ -46,11 +49,11 @@ class ScaleTest extends AnyFunSuite {
   }
 
   test("can instantiate minor melodic descending scale") {
-    val expected = internalNotationFactory.notes("a g f e d c B A")
+    val expected = internalNotationFactory.getNotes("a g f e d c B A")
 
     val actual = new Scale(
-      internalNotationFactory.note("A"),
-      ScaleType.minorMelodic,
+      internalNotationFactory.getNote("A"),
+      scaleTypeFactory.minorMelodic,
       ScaleDirection.descending
     )
 

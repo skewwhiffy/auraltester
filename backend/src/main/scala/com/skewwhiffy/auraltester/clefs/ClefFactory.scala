@@ -2,12 +2,16 @@ package com.skewwhiffy.auraltester.clefs
 
 import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class ClefFactory() {
-  def treble: Clef = new Clef("treble", AbsoluteNote.middleC, new NoteFactory("a").absoluteNote)
-  def alto: Clef = new Clef("alto", new NoteFactory("D,").absoluteNote, new NoteFactory("B").absoluteNote)
-  def tenor: Clef = new Clef("tenor", new NoteFactory("B,,").absoluteNote, new NoteFactory("G").absoluteNote)
-  def bass: Clef = new Clef("bass", new NoteFactory("E,,").absoluteNote, AbsoluteNote.middleC)
+class ClefFactory(@Autowired noteFactory: NoteFactory) {
+  def treble: Clef = new Clef("treble", AbsoluteNote.middleC, noteFactory.getAbsoluteNote("a"))
+
+  def alto: Clef = new Clef("alto", noteFactory.getAbsoluteNote("D,"), noteFactory.getAbsoluteNote("B"))
+
+  def tenor: Clef = new Clef("tenor", noteFactory.getAbsoluteNote("B,,"), noteFactory.getAbsoluteNote("G"))
+
+  def bass: Clef = new Clef("bass", noteFactory.getAbsoluteNote("E,,"), AbsoluteNote.middleC)
 }

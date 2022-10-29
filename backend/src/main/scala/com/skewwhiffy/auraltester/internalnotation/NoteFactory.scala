@@ -1,23 +1,26 @@
 package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Note, Octave}
-import scala.util.chaining.scalaUtilChainingOps
+import org.springframework.stereotype.Component
 
+import scala.util.chaining.scalaUtilChainingOps
 import scala.annotation.tailrec
 
-class NoteFactory(private val abc: String) {
-  lazy val absoluteNote: AbsoluteNote = new AbsoluteNote(note, octave)
+@Component
+class NoteFactory {
+  def getAbsoluteNote(rawNote: String): AbsoluteNote =
+    new AbsoluteNote(getNote(rawNote), getOctave(rawNote))
 
-  private lazy val note: Note = new Note(noteName, accidental)
+  private def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
 
-  private lazy val noteName: String = {
-    rawNote.toUpperCase match {
+  private def getNoteName(rawNote: String) = {
+     rawNote.toUpperCase match {
       case it if it >= "A" && it <= "G" => it
       case it => throw new IllegalArgumentException(s"'$it' is not a valid note name'")
     }
   }
 
-  private lazy val accidental: Accidental = rawAccidental
+  private def getAccidental(rawNote: String) = getRawAccidental(rawNote)
     .toCharArray
     .map {
       case 'x' => 2
@@ -28,7 +31,7 @@ class NoteFactory(private val abc: String) {
     .sum
     .pipe(it => new Accidental(it))
 
-  private val octave: Octave = rawOctave
+  private def getOctave(rawNote: String) = getRawOctave(rawNote)
     .toCharArray
     .map {
       case '\'' => 1
@@ -39,18 +42,18 @@ class NoteFactory(private val abc: String) {
     .pipe(it => it + (if (rawNote.toLowerCase == rawNote) 1 else 0))
     .pipe(it => new Octave(it))
 
-  private lazy val rawNote: String = abc.substring(0, 1)
+  private def getNoteLetter(rawNote: String) = rawNote.substring(0, 1)
 
-  private lazy val rawAccidental: String = {
+  private def getRawAccidental(rawNote: String) = {
     @tailrec
     def getRawAccidental(str: String): String = {
       if (str.endsWith("'") || str.endsWith(",")) getRawAccidental(str.substring(0, str.length - 1))
       else str
     }
 
-    getRawAccidental(abc.substring(1))
+    getRawAccidental(rawNote.substring(1))
   }
 
-  private lazy val rawOctave: String = abc
-    .substring(rawNote.length + rawAccidental.length)
+  private def getRawOctave(rawNote: String) = rawNote
+    .substring(getNoteLetter(rawNote).length + getRawAccidental(rawNote).length)
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class InternalNotationFactory(
   @Autowired clefFactory: ClefFactory,
+  @Autowired noteFactory: NoteFactory,
   @Autowired intervalFactory: IntervalFactory
 ) {
   def clef(clefRaw: String): Clef = clefRaw.toLowerCase match {
@@ -18,16 +19,16 @@ class InternalNotationFactory(
     case _ => throw new IllegalArgumentException(s"Unrecognized clef type: '$clefRaw'")
   }
 
-  def note(noteRaw: String): AbsoluteNote = new NoteFactory(noteRaw).absoluteNote
+  def getNote(noteRaw: String): AbsoluteNote = noteFactory.getAbsoluteNote(noteRaw)
 
-  def notes(notesRaw: String): List[AbsoluteNote] = notesRaw
+  def getNotes(notesRaw: String): List[AbsoluteNote] = notesRaw
     .split(' ')
-    .map(note)
+    .map(getNote)
     .toList
 
-  def directedInterval(rawInterval: String) : DirectedInterval = intervalFactory.getDirectedInterval(rawInterval)
-  lazy val directedIntervals: String => List[DirectedInterval] = abc => abc
-    .split(' ')
-    .map(directedInterval)
-    .toList
+  def getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory
+    .getDirectedInterval(rawInterval)
+
+  def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = intervalFactory
+    .getDirectedIntervals(rawIntervals)
 }
