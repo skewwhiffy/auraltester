@@ -2,23 +2,28 @@ package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, DirectedInterval}
+import org.springframework.stereotype.Component
 
-object InternalNotationFactory {
-  lazy val clef: String => Clef = abc => abc.toLowerCase match {
+@Component
+class InternalNotationFactory {
+  def clef(clefRaw: String): Clef = clefRaw.toLowerCase match {
     case "treble" => Clef.treble
     case "alto" => Clef.alto
     case "tenor" => Clef.tenor
     case "bass" => Clef.bass
-    case _ => throw new IllegalArgumentException(s"Unrecognized clef type: '$abc'")
+    case _ => throw new IllegalArgumentException(s"Unrecognized clef type: '$clefRaw'")
   }
-  lazy val directedInterval: String => DirectedInterval = abc => new IntervalFactory(abc).directedInterval
+
+  def note(noteRaw: String): AbsoluteNote = new NoteFactory(noteRaw).absoluteNote
+
+  def notes(notesRaw: String): List[AbsoluteNote] = notesRaw
+    .split(' ')
+    .map(note)
+    .toList
+
+  def directedInterval(rawInterval: String) : DirectedInterval = new IntervalFactory(rawInterval).directedInterval
   lazy val directedIntervals: String => List[DirectedInterval] = abc => abc
     .split(' ')
     .map(directedInterval)
-    .toList
-  lazy val note: String => AbsoluteNote = abc => new NoteFactory(abc).absoluteNote
-  lazy val notes: String => List[AbsoluteNote] = abc => abc
-    .split(' ')
-    .map(note)
     .toList
 }

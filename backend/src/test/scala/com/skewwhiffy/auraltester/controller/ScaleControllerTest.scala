@@ -11,17 +11,19 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class ScaleControllerTest extends AnyFunSuite with MockFactory {
   private var scaleService: ScaleService = _
+  private var internalNotationFactory: InternalNotationFactory = _
   private var scaleController: ScaleController = _
 
   override def withFixture(test: NoArgTest): Outcome = {
     scaleService = mock[ScaleService]
-    scaleController = new ScaleController(scaleService)
+    internalNotationFactory = mock[InternalNotationFactory]
+    scaleController = new ScaleController(internalNotationFactory, scaleService)
     test()
   }
 
   test("abc correct") {
-    val clef = InternalNotationFactory.clef("treble")
-    val note = InternalNotationFactory.note("A").note
+    val clef = internalNotationFactory.clef("treble")
+    val note = internalNotationFactory.note("A").note
     val scaleType = ScaleType.minorMelodic
     val expectedAbc = TestData.random.string
     val direction = ScaleDirection.descending

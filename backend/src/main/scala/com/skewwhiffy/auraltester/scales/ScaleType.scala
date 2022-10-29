@@ -4,6 +4,7 @@ import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.notes.DirectedInterval
 
 object ScaleType {
+  private val internalNotationFactory = new InternalNotationFactory()
   private lazy val majorIntervals: String = "1 2 3 4 5 6 7 8"
   private lazy val minorHarmonicIntervals: String = "1 2 3- 4 5 6- 7 8"
   private lazy val minorMelodicAscendingIntervals: String = "1 2 3- 4 5 6 7 8"
@@ -24,7 +25,7 @@ object ScaleType {
   ): ScaleType = ScaleType(
     displayName,
     abc,
-    InternalNotationFactory.directedIntervals(intervalsString)
+    internalNotationFactory.directedIntervals(intervalsString)
   )
 
   //noinspection SameParameterValue
@@ -36,8 +37,8 @@ object ScaleType {
   ): ScaleType = ScaleType(
     displayName,
     abc,
-    InternalNotationFactory.directedIntervals(ascendingIntervalsString),
-    InternalNotationFactory.directedIntervals(descendingIntervalsString))
+    internalNotationFactory.directedIntervals(ascendingIntervalsString),
+    internalNotationFactory.directedIntervals(descendingIntervalsString))
 
   private def apply(
     displayName: String,

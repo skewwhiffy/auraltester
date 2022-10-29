@@ -13,7 +13,10 @@ import scala.util.chaining.scalaUtilChainingOps
 
 @RestController
 @RequestMapping(path = Array("/api/scale"))
-class ScaleController(@Autowired private val scaleService: ScaleService) {
+class ScaleController(
+  @Autowired private val internalNotationFactory: InternalNotationFactory,
+  @Autowired private val scaleService: ScaleService
+) {
   @GetMapping
   def get(
     @RequestParam(required = true) clef: String,
@@ -22,8 +25,8 @@ class ScaleController(@Autowired private val scaleService: ScaleService) {
     @RequestParam(required = true) direction: String,
     @RequestParam(required = true) withKeySignature: Boolean
   ): ScaleResponse = {
-    val clefObject = InternalNotationFactory.clef(clef)
-    val noteObject = InternalNotationFactory.note(note).note
+    val clefObject = internalNotationFactory.clef(clef)
+    val noteObject = internalNotationFactory.note(note).note
     val scaleTypeObject = scaleType match {
       case "major" => ScaleType.major
       case "minor-harmonic" => ScaleType.minorHarmonic
