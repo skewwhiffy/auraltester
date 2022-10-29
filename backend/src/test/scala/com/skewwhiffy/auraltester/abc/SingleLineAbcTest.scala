@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.abc
 
-import com.skewwhiffy.auraltester.clefs.Clef
+import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
 import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.testutils.TestData
@@ -17,7 +17,8 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
 
   override def withFixture(test: NoArgTest): Outcome = {
     title = TestData.random.string
-    clef = TestData.random.oneOf(Clef.treble, Clef.alto, Clef.tenor, Clef.bass)
+    val clefFactory = new ClefFactory()
+    clef = TestData.random.oneOf(clefFactory.treble, clefFactory.alto, clefFactory.tenor, clefFactory.bass)
     noteLength = TestData.random.oneOf(
       NoteLength.breve,
       NoteLength.semibreve,

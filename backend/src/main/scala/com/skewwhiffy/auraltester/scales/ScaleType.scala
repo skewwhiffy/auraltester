@@ -1,10 +1,14 @@
 package com.skewwhiffy.auraltester.scales
 
-import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
+import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory}
 import com.skewwhiffy.auraltester.notes.DirectedInterval
 
 object ScaleType {
-  private val internalNotationFactory = new InternalNotationFactory()
+  private val clefFactory = new ClefFactory()
+  private val intervalFactory = new IntervalFactory()
+  private val internalNotationFactory = new InternalNotationFactory(clefFactory, intervalFactory)
+
   private lazy val majorIntervals: String = "1 2 3 4 5 6 7 8"
   private lazy val minorHarmonicIntervals: String = "1 2 3- 4 5 6- 7 8"
   private lazy val minorMelodicAscendingIntervals: String = "1 2 3- 4 5 6 7 8"

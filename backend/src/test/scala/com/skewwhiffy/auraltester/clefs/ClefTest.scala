@@ -1,11 +1,19 @@
 package com.skewwhiffy.auraltester.clefs
 
 import com.skewwhiffy.auraltester.scales.Key
+import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
 class ClefTest extends AnyFunSuite {
+  private var clefFactory: ClefFactory = _
+
+  override protected def withFixture(test: NoArgTest): Outcome = {
+    clefFactory = new ClefFactory()
+    test()
+  }
+
   test("treble clef") {
-    val actual = Clef.treble
+    val actual = clefFactory.treble
 
     assert(actual.abc == "treble")
     assert(actual.lowLedgerNote.abc(Key.cMajor) == "C")
@@ -13,7 +21,7 @@ class ClefTest extends AnyFunSuite {
   }
 
   test("alto clef") {
-    val actual = Clef.alto
+    val actual = clefFactory.alto
 
     assert(actual.abc == "alto")
     assert(actual.lowLedgerNote.abc(Key.cMajor) == "D,")
@@ -21,7 +29,7 @@ class ClefTest extends AnyFunSuite {
   }
 
   test("tenor clef") {
-    val actual = Clef.tenor
+    val actual = clefFactory.tenor
 
     assert(actual.abc == "tenor")
     assert(actual.lowLedgerNote.abc(Key.cMajor) == "B,,")
@@ -29,7 +37,7 @@ class ClefTest extends AnyFunSuite {
   }
 
   test("bass clef") {
-    val actual = Clef.bass
+    val actual = clefFactory.bass
 
     assert(actual.abc == "bass")
     assert(actual.lowLedgerNote.abc(Key.cMajor) == "E,,")
