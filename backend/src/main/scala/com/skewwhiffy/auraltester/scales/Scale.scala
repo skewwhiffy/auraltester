@@ -5,12 +5,15 @@ import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import scala.util.chaining.scalaUtilChainingOps
 
 class Scale(
-  val lowestNote: AbsoluteNote,
+  private val _lowestNote: AbsoluteNote,
   val scaleType: ScaleType,
   val direction: ScaleDirection
 ) {
-  lazy val displayName: String = s"${lowestNote.note.displayString} ${scaleType.displayName}"
-  lazy val notes: List[AbsoluteNote] = scaleType
+  def lowestNote: AbsoluteNote = _lowestNote
+
+  def displayName: String = s"${lowestNote.note.displayString} ${scaleType.displayName}"
+
+  def notes: List[AbsoluteNote] = scaleType
     .intervals(direction)
     .map(lowestNote.apply)
     .pipe(it => direction match {
