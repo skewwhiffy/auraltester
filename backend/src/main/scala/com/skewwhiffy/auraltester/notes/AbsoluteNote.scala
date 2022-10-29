@@ -10,7 +10,7 @@ object AbsoluteNote {
 }
 
 class AbsoluteNote(val note: Note, val octave: Octave) {
-  lazy val apply: DirectedInterval => AbsoluteNote = interval => {
+  def apply(interval: DirectedInterval): AbsoluteNote = {
     interval.direction match {
       case IntervalDirection.`up` => add(interval.interval)
       case IntervalDirection.`down` => subtract(interval.interval)
@@ -19,7 +19,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
 
   def +(interval: Interval): AbsoluteNote = add(interval)
 
-  lazy val add: Interval => AbsoluteNote = interval => {
+  def add(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => upMajorSecond
@@ -41,7 +41,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
 
   def -(interval: Interval): AbsoluteNote = subtract(interval)
 
-  lazy val subtract: Interval => AbsoluteNote = interval => {
+  def subtract(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => downMajorSecond
@@ -62,8 +62,12 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
   }
 
   def abc(key: Key): String = {
-    octave.getAbc(note, key)
+    "BUM" //octave.getAbc(note, key)
   }
+
+  def sharp = new AbsoluteNote(note.sharp, octave)
+
+  def flat = new AbsoluteNote(note.flat, octave)
 
   def <=(other: AbsoluteNote): Boolean = this < other || this == other
 
@@ -81,10 +85,6 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
   }
 
   override def toString: String = abc(Key.cMajor)
-
-  private lazy val sharp = new AbsoluteNote(note.sharp, octave)
-
-  private lazy val flat = new AbsoluteNote(note.flat, octave)
 
   private lazy val upMinorSecond = upMajorSecond
     .pipe(it => new AbsoluteNote(it.note.flat, it.octave))
