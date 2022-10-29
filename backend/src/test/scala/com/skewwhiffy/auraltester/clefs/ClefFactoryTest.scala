@@ -31,4 +31,38 @@ class ClefFactoryTest extends AnyFunSuite with MockFactory {
     assert(actual.lowLedgerNote == AbsoluteNote.middleC)
     assert(actual.highLedgerNote == highLedgerNote)
   }
+
+  test("alto clef initializes correctly") {
+    testGeneric("alto", "D,", "B", _ => clefFactory.alto)
+  }
+
+  test("tenor clef initializes correctly") {
+    testGeneric("tenor", "B,,", "G", _ => clefFactory.tenor)
+  }
+
+  test("bass clef initializes correctly") {
+    (noteFactory.getAbsoluteNote _).expects("E,,").returns(lowLedgerNote)
+
+    val actual = clefFactory.bass
+
+    assert(actual.abc == "bass")
+    assert(actual.lowLedgerNote == lowLedgerNote)
+    assert(actual.highLedgerNote == AbsoluteNote.middleC)
+  }
+
+  private def testGeneric(
+    abc: String,
+    expectedLowLedgerNote: String,
+    expectedHighLedgerNote: String,
+    getClef: Unit => Clef
+  ) = {
+    (noteFactory.getAbsoluteNote _).expects(expectedLowLedgerNote).returns(lowLedgerNote)
+    (noteFactory.getAbsoluteNote _).expects(expectedHighLedgerNote).returns(highLedgerNote)
+
+    val actual = getClef()
+
+    assert(actual.abc == abc)
+    assert(actual.lowLedgerNote == lowLedgerNote)
+    assert(actual.highLedgerNote == highLedgerNote)
+  }
 }
