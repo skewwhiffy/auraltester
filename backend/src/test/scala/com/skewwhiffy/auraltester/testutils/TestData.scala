@@ -42,7 +42,7 @@ object TestData {
   object noteFactories {
     lazy val clef: ClefFactory = new ClefFactory(note)
     lazy val interval: IntervalFactory = new IntervalFactory()
-    lazy val key: KeyFactory = new KeyFactory()
+    lazy val key: KeyFactory = new KeyFactory(note)
     lazy val note: NoteFactory = new NoteFactory()
     lazy val internalNotation: InternalNotationFactory = new InternalNotationFactory(
       clef,

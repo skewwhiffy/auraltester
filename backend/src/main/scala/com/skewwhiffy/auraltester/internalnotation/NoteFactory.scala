@@ -11,10 +11,10 @@ class NoteFactory {
   def getAbsoluteNote(rawNote: String): AbsoluteNote =
     new AbsoluteNote(getNote(rawNote), getOctave(rawNote))
 
-  private def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
+  def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
 
   private def getNoteName(rawNote: String) = {
-     getNoteLetter(rawNote).toUpperCase match {
+    getNoteLetter(rawNote).toUpperCase match {
       case it if it >= "A" && it <= "G" => it
       case it => throw new IllegalArgumentException(s"'$it' is not a valid note name'")
     }

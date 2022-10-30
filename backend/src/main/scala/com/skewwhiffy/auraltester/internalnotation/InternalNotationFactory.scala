@@ -34,5 +34,5 @@ class InternalNotationFactory(
   def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = intervalFactory
     .getDirectedIntervals(rawIntervals)
 
-  def getKey(rawKey: String): Key = ???
+  def getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
 }
