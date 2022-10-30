@@ -2,29 +2,25 @@ package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.notes.Interval
-import com.skewwhiffy.auraltester.testutils.TestData
-import org.scalamock.scalatest.MockFactory
-import org.scalatest.Outcome
+import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
+import org.mockito.Mockito.{mock, when}
+import org.mockito.{InjectMocks, Mock}
 import org.scalatest.funsuite.AnyFunSuite
 
-class InternalNotationFactoryTest extends AnyFunSuite with MockFactory{
+class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
+  @Mock
   private var clefFactory: ClefFactory = _
+  @Mock
   private var noteFactory: NoteFactory = _
+  @Mock
   private var intervalFactory: IntervalFactory = _
+  @InjectMocks
   private var internalNotationFactory: InternalNotationFactory = _
-
-  override def withFixture(test: NoArgTest): Outcome = {
-    clefFactory = mock[ClefFactory]
-    noteFactory = mock[NoteFactory]
-    intervalFactory = mock[IntervalFactory]
-    internalNotationFactory = new InternalNotationFactory(clefFactory, noteFactory, intervalFactory)
-    test()
-  }
 
   test("when getNote then proxies to noteFactory") {
     val rawNote = TestData.random.string
     val expected = TestData.random.absoluteNote
-    (noteFactory.getAbsoluteNote _).expects(rawNote).returns(expected)
+    when(noteFactory.getAbsoluteNote(rawNote)).thenReturn(expected)
 
     val actual = internalNotationFactory.getNote(rawNote)
 
@@ -35,7 +31,7 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockFactory{
     val rawNotes = Range(0, 10).map(_ => TestData.random.string)
     val expected = rawNotes.map(_ => TestData.random.absoluteNote)
     rawNotes.zip(expected).foreach(it => {
-      (noteFactory.getAbsoluteNote _).expects(it._1).returns(it._2)
+      when(noteFactory.getAbsoluteNote(it._1)).thenReturn(it._2)
     })
 
     val actual = internalNotationFactory.getNotes(rawNotes.mkString(" "))
