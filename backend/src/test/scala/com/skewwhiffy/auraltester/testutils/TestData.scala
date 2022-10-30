@@ -1,8 +1,9 @@
 package com.skewwhiffy.auraltester.testutils
 
-import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory, NoteFactory}
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Note, Octave}
+import com.skewwhiffy.auraltester.notes.Interval.Interval
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInterval, Note, Octave}
 
 import java.util.UUID
 import scala.util.Random
@@ -26,6 +27,12 @@ object TestData {
       val note = new Note(oneOf("ABCDEFG"), accidental)
       new AbsoluteNote(note, octave)
     }
+
+    def clef: Clef = new Clef(string, absoluteNote, absoluteNote)
+
+    def interval: Interval = new Interval(random.nextInt(9), random.nextInt(3) - 1)
+
+    def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
   }
 
   object noteFactories {

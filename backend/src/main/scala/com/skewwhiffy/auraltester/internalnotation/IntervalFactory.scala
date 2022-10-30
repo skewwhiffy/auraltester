@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import scala.util.chaining.scalaUtilChainingOps
 
 @Component
-class IntervalFactory() {
+class IntervalFactory {
   def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = rawIntervals
     .split(' ')
     .map(getDirectedInterval)
