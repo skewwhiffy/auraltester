@@ -42,9 +42,14 @@ class ScaleController(
     val scale = scaleService.getScale(clefObject, noteObject, scaleTypeObject, directionObject)
     val key = new Key(scale.lowestNote.note, scaleType != "major")
     val displayName = s"${scale.displayName} $direction"
-    new SingleLineAbc(displayName, clefObject, NoteLength.semibreve, scale.notes)
-      .includeKeySignature(key)
+    val baseAbcObject = new SingleLineAbc(displayName, clefObject, NoteLength.semibreve, scale.notes)
+    val abcObjectWithKey = if (withKeySignature) baseAbcObject.includeKeySignature(key) else baseAbcObject
+    abcObjectWithKey
       .abc
+      .pipe(it => {
+        println(it)
+        it
+      })
       .pipe(it => new ScaleResponse(it))
   }
 }

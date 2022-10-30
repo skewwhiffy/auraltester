@@ -7,7 +7,7 @@ object Key {
 }
 
 class Key(val note: Note, val isMinor: Boolean = false) {
-  lazy val abc: String = if (isMinor) s"${note.noteName}m" else note.noteName
+  lazy val abc: String = if (isMinor) s"${note.displayString}m" else note.displayString
 
   def abc(note: AbsoluteNote): String = {
     s"${accidentalAbc(note.note)}${noteAbc(note)}"
