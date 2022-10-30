@@ -1,15 +1,27 @@
 package com.skewwhiffy.auraltester.scales
 
-import com.skewwhiffy.auraltester.notes.{Accidental, Note}
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Note}
 
 object Key {
   lazy val cMajor: Key = new Key(Note.c)
 }
 
 class Key(val note: Note, val isMinor: Boolean = false) {
-  lazy val abc: String = if (isMinor) s"${note.abc}m" else note.abc
+  lazy val abc: String = if (isMinor) s"${note.noteName}m" else note.noteName
 
-  def accidentalAbc(note: Note): String = {
+  def abc(note: AbsoluteNote): String = {
+    s"${accidentalAbc(note.note)}${noteAbc(note)}"
+  }
+
+  private def noteAbc(note: AbsoluteNote): String = {
+    note.octave.offsetFromDefault match {
+      case 0 => note.note.noteName
+      case it if it > 0 => s"${note.note.noteName.toLowerCase}${"'".repeat(it - 1)}"
+      case it if it < 0 => s"${note.note.noteName}${",".repeat(-it)}"
+    }
+  }
+
+  private def accidentalAbc(note: Note): String = {
     notes.find(it => it.noteName == note.noteName) match {
       case None => throw new IllegalArgumentException(s"No note ${note.noteName} in scale")
       case Some(it) => note.accidental match {

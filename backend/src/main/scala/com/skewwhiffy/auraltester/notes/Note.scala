@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Note.noteNames
+import com.skewwhiffy.auraltester.scales.Key
 
 object Note {
   lazy val a: Note = new Note("A", Accidental.natural)
@@ -15,20 +16,18 @@ object Note {
 }
 
 class Note(val noteName: String, val accidental: Accidental) {
-  lazy val abc: String = s"${accidental.abc}$noteName"
+  def displayString: String = s"$noteName${accidental.displayString}"
 
-  lazy val displayString: String = s"$noteName${accidental.displayString}"
+  def sharp: Note = new Note(noteName, accidental.sharp)
 
-  lazy val sharp: Note = new Note(noteName, accidental.sharp)
+  def flat: Note = new Note(noteName, accidental.flat)
 
-  lazy val flat: Note = new Note(noteName, accidental.flat)
-
-  lazy val upMajorSecond: Note = noteName match {
+  def upMajorSecond: Note = noteName match {
     case "A" | "C" | "D" | "F" | "G" => new Note(nextNoteName, accidental)
     case _ => new Note(nextNoteName, accidental.sharp)
   }
 
-  lazy val downMajorSecond: Note = noteName match {
+  def downMajorSecond: Note = noteName match {
     case "B" | "A" | "G" | "E" | "D" => new Note(previousNoteName, accidental)
     case _ => new Note(previousNoteName, accidental.flat)
   }

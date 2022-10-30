@@ -1,34 +1,34 @@
 package com.skewwhiffy.auraltester.scales
 
-import com.skewwhiffy.auraltester.notes.Note
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, Octave}
 import org.scalatest.funsuite.AnyFunSuite
 
 class KeyTest extends AnyFunSuite {
   test("when note has accidental in key then no accidental is given in abc") {
-    val note = Note.f.sharp
+    val note = new AbsoluteNote(Note.f.sharp, Octave.default)
     val key = new Key(Note.d)
 
-    val actual = key.accidentalAbc(note)
+    val actual = key.abc(note)
 
-    assert(actual == "")
+    assert(actual == "F")
   }
 
   test("when note has accidental different to key then note accidental is given in abc") {
-    val note = Note.e.flat
+    val note = new AbsoluteNote(Note.e.flat, Octave.default)
     val key = new Key(Note.g)
 
-    val actual = key.accidentalAbc(note)
+    val actual = key.abc(note)
 
-    assert(actual == "_")
+    assert(actual == "_E")
   }
 
   test("when note is natural but key has accidental then note accidental is natual in abc") {
-    val note = Note.g
+    val note = new AbsoluteNote(Note.g, Octave.default)
     val key = new Key(Note.e)
 
-    val actual = key.accidentalAbc(note)
+    val actual = key.abc(note)
 
-    assert(actual == "=")
+    assert(actual == "=G")
   }
 
   test("when relativeMinor then correct") {
