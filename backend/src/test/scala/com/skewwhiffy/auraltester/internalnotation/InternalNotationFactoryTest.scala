@@ -8,13 +8,13 @@ import org.scalatest.funsuite.AnyFunSuite
 
 class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
   @Mock
-  private var clefFactory: ClefFactory = _
+  private val clefFactory: ClefFactory = null
   @Mock
-  private var noteFactory: NoteFactory = _
+  private val noteFactory: NoteFactory = null
   @Mock
-  private var intervalFactory: IntervalFactory = _
+  private val intervalFactory: IntervalFactory = null
   @InjectMocks
-  private var internalNotationFactory: InternalNotationFactory = _
+  private val internalNotationFactory: InternalNotationFactory = null
 
   List("treble", "alto", "tenor", "bass").foreach(it => {
     test(s"when $it then proxies to clefFactory") {
