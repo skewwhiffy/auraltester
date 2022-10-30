@@ -4,6 +4,7 @@ import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInterval, Note, Octave}
+import com.skewwhiffy.auraltester.scales.Key
 
 import java.util.UUID
 import scala.util.Random
@@ -21,18 +22,21 @@ object TestData {
     def oneOf[T](source: List[T]): T = source(random.nextInt(source.size))
 
     //noinspection SpellCheckingInspection
-    def absoluteNote: AbsoluteNote = {
-      val octave = new Octave(random.nextInt(8) - 4)
-      val accidental = new Accidental(random.nextInt(3) - 1)
-      val note = new Note(oneOf("ABCDEFG"), accidental)
-      new AbsoluteNote(note, octave)
-    }
+    def absoluteNote: AbsoluteNote = new AbsoluteNote(note, octave)
+
+    def accidental: Accidental = new Accidental(random.nextInt(3) - 1)
 
     def clef: Clef = new Clef(string, absoluteNote, absoluteNote)
 
+    def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
+
     def interval: Interval = new Interval(random.nextInt(9), random.nextInt(3) - 1)
 
-    def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
+    def key: Key = new Key(note, isMinor = random.nextBoolean())
+    
+    def note: Note = new Note(oneOf("ABCDEFG"), accidental)
+
+    def octave: Octave = new Octave(random.nextInt(8) - 4)
   }
 
   object noteFactories {

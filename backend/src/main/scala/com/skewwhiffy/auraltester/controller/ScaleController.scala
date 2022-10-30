@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.controller.dto.ScaleResponse
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
 import com.skewwhiffy.auraltester.notes.NoteLength
-import com.skewwhiffy.auraltester.scales.{Key, ScaleDirection, ScaleType, ScaleTypeFactory}
+import com.skewwhiffy.auraltester.scales.{ScaleDirection, ScaleTypeFactory}
 import com.skewwhiffy.auraltester.services.ScaleService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.{GetMapping, RequestMapping, RequestParam, RestController}
@@ -24,7 +24,7 @@ class ScaleController(
     @RequestParam(required = true) note: String,
     @RequestParam(required = true) scaleType: String,
     @RequestParam(required = true) direction: String,
-    @RequestParam(required = true) withKeySignature: Boolean
+    @RequestParam(required = true) keySignature: String
   ): ScaleResponse = {
     val clefObject = internalNotationFactory.clef(clef)
     val noteObject = internalNotationFactory.getNote(note).note
@@ -37,19 +37,14 @@ class ScaleController(
     val directionObject = direction match {
       case "ascending" => ScaleDirection.ascending
       case "descending" => ScaleDirection.descending
-      // TODO: Check this throws with non valid
+      case _ => throw new IllegalArgumentException(s"Unrecognized direction: '$direction'")
     }
     val scale = scaleService.getScale(clefObject, noteObject, scaleTypeObject, directionObject)
-    val key = new Key(scale.lowestNote.note, scaleType != "major")
+    val key = internalNotationFactory.getKey(keySignature)
     val displayName = s"${scale.displayName} $direction"
-    val baseAbcObject = new SingleLineAbc(displayName, clefObject, NoteLength.semibreve, scale.notes)
-    val abcObjectWithKey = if (withKeySignature) baseAbcObject.includeKeySignature(key) else baseAbcObject
-    abcObjectWithKey
+    new SingleLineAbc(displayName, clefObject, NoteLength.semibreve, scale.notes)
+      .includeKeySignature(key)
       .abc
-      .pipe(it => {
-        println(it)
-        it
-      })
       .pipe(it => new ScaleResponse(it))
   }
 }

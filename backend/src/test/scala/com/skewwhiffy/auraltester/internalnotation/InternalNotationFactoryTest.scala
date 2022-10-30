@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
-import org.mockito.Mockito.when
 import org.mockito.{InjectMocks, Mock}
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -10,9 +9,11 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
   @Mock
   private val clefFactory: ClefFactory = null
   @Mock
-  private val noteFactory: NoteFactory = null
-  @Mock
   private val intervalFactory: IntervalFactory = null
+  @Mock
+  private val keyFactory: KeyFactory = null
+  @Mock
+  private val noteFactory: NoteFactory = null
   @InjectMocks
   private val internalNotationFactory: InternalNotationFactory = null
 
@@ -62,6 +63,16 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
     when(intervalFactory.getDirectedInterval(rawInterval)).thenReturn(expected)
 
     val actual = internalNotationFactory.getDirectedInterval(rawInterval)
+
+    assert(actual == expected)
+  }
+
+  test("when getKey then proxies to keyFactory") {
+    val rawKey = TestData.random.string
+    val expected = TestData.random.key
+    when(keyFactory.getKey(rawKey)).thenReturn(expected)
+
+    val actual = internalNotationFactory.getKey(rawKey)
 
     assert(actual == expected)
   }
