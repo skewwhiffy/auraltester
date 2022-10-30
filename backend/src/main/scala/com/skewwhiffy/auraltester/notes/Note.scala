@@ -14,7 +14,7 @@ object Note {
   private lazy val noteNames = "CDEFGAB"
 }
 
-class Note(val noteName: String, private val accidental: Accidental) {
+class Note(val noteName: String, val accidental: Accidental) {
   lazy val abc: String = s"${accidental.abc}$noteName"
 
   lazy val displayString: String = s"$noteName${accidental.displayString}"
