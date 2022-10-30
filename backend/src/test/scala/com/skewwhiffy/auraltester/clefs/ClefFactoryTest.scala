@@ -2,16 +2,18 @@ package com.skewwhiffy.auraltester.clefs
 
 import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
-import com.skewwhiffy.auraltester.testutils.TestData
-import org.scalamock.scalatest.MockFactory
+import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
+import org.mockito.{InjectMocks, Mock}
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class ClefFactoryTest extends AnyFunSuite with MockFactory {
-  var noteFactory: NoteFactory = _
-  var clefFactory: ClefFactory = _
-  var highLedgerNote: AbsoluteNote = _
-  var lowLedgerNote: AbsoluteNote = _
+class ClefFactoryTest extends AnyFunSuite with MockInstantiation {
+  @Mock
+  private var noteFactory: NoteFactory = _
+  @InjectMocks
+  private var clefFactory: ClefFactory = _
+  private var highLedgerNote: AbsoluteNote = _
+  private var lowLedgerNote: AbsoluteNote = _
 
   override def withFixture(test: NoArgTest): Outcome = {
     noteFactory = mock[NoteFactory]
@@ -23,7 +25,7 @@ class ClefFactoryTest extends AnyFunSuite with MockFactory {
   }
 
   test("treble clef initializes correctly") {
-    (noteFactory.getAbsoluteNote _).expects("a").returns(highLedgerNote)
+    when(noteFactory.getAbsoluteNote("a")).thenReturn(highLedgerNote)
 
     val actual = clefFactory.treble
 
@@ -45,7 +47,7 @@ class ClefFactoryTest extends AnyFunSuite with MockFactory {
   }
 
   test("bass clef initializes correctly") {
-    (noteFactory.getAbsoluteNote _).expects("E,,").returns(lowLedgerNote)
+    when(noteFactory.getAbsoluteNote("E,,")).thenReturn(lowLedgerNote)
 
     val actual = clefFactory.bass
 
@@ -59,8 +61,8 @@ class ClefFactoryTest extends AnyFunSuite with MockFactory {
     expectedLowLedgerNote: String,
     expectedHighLedgerNote: String
   )(getClef: => Clef) = {
-    (noteFactory.getAbsoluteNote _).expects(expectedLowLedgerNote).returns(lowLedgerNote)
-    (noteFactory.getAbsoluteNote _).expects(expectedHighLedgerNote).returns(highLedgerNote)
+    when(noteFactory.getAbsoluteNote(expectedLowLedgerNote)).thenReturn(lowLedgerNote)
+    when(noteFactory.getAbsoluteNote(expectedHighLedgerNote)).thenReturn(highLedgerNote)
 
     val actual = getClef
 

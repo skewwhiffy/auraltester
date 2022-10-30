@@ -1,17 +1,17 @@
 package com.skewwhiffy.auraltester.testutils
 
-import org.mockito.{InjectMocks, Mock}
-import org.mockito.Mockito.mock
+import org.mockito.{InjectMocks, Mock, MockitoSugar}
+import org.mockito.Mockito
 import org.scalatest.{Outcome, TestSuite}
 
-trait MockInstantiation extends TestSuite {
+trait MockInstantiation extends TestSuite with MockitoSugar {
   override def withFixture(test: NoArgTest): Outcome = {
     val mockFields = getClass
       .getDeclaredFields
       .filter(it => it.getDeclaredAnnotations.exists(it => it.isInstanceOf[Mock]))
     val mocks = mockFields.map(field => {
       field.setAccessible(true)
-      val mockInstance = mock(field.getType)
+      val mockInstance = Mockito.mock(field.getType)
       field.set(this, mockInstance)
       mockInstance
     })

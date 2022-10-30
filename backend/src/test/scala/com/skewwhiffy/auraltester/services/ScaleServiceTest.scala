@@ -4,12 +4,11 @@ import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.internalnotation.{IntervalFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.Note
 import com.skewwhiffy.auraltester.scales.{Key, ScaleDirection, ScaleTypeFactory}
-import org.scalamock.scalatest.MockFactory
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
 
-class ScaleServiceTest extends AnyFunSuite with MockFactory {
+class ScaleServiceTest extends AnyFunSuite {
   private val noteFactory = new NoteFactory()
   private val clefFactory = new ClefFactory(noteFactory)
   private val intervalFactory = new IntervalFactory()

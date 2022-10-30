@@ -2,14 +2,13 @@ package com.skewwhiffy.auraltester.abc
 
 import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.internalnotation.NoteFactory
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
 import com.skewwhiffy.auraltester.scales.Key
-import com.skewwhiffy.auraltester.testutils.TestData
-import org.scalamock.scalatest.MockFactory
+import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class SingleLineAbcTest extends AnyFunSuite with MockFactory {
+class SingleLineAbcTest extends AnyFunSuite with MockInstantiation {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
@@ -31,7 +30,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
     notesAbc = Range(0, 10).map(_ => TestData.random.string).toList
     notes = notesAbc.map(it => {
       val note = mock[AbsoluteNote]
-      (note.abc _).expects(Key.cMajor).returns(it)
+      when(note.abc(Key.cMajor)).thenReturn(it)
       note
     })
     test()

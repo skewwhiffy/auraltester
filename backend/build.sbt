@@ -16,6 +16,5 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
   "com.fasterxml.jackson.module" % "jackson-module-scala_2.13" % jacksonVersion,
   "org.mockito" %% "mockito-scala-scalatest" % "1.17.12" % Test,
-  "org.scalamock" %% "scalamock" % "5.2.0" % Test,
   "org.scalatest" %% "scalatest" % "3.2.14" % Test
 )
