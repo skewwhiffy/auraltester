@@ -1,8 +1,10 @@
 package com.skewwhiffy.auraltester.scales
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Note}
+import com.skewwhiffy.auraltester.scales.Key.renderableKeys
 
 object Key {
+  private lazy val renderableKeys: List[String] = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".split(' ').toList
   lazy val cMajor: Key = new Key(Note.c)
 }
 
@@ -11,6 +13,13 @@ class Key(val note: Note, val isMinor: Boolean = false) {
 
   def abc(note: AbsoluteNote): String = {
     s"${accidentalAbc(note.note)}${noteAbc(note)}"
+  }
+
+  def canRenderSignature: Boolean = {
+    if (isMinor) {
+      return relativeMajor.canRenderSignature
+    }
+    renderableKeys.contains(note.displayString)
   }
 
   private def noteAbc(note: AbsoluteNote): String = {

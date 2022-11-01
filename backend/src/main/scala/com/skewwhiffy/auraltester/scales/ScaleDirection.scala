@@ -1,8 +1,8 @@
 package com.skewwhiffy.auraltester.scales
 
 object ScaleDirection {
-  case object ascending extends ScaleDirection
-  case object descending extends ScaleDirection
+  case object ascending extends ScaleDirection("ascending")
+  case object descending extends ScaleDirection("descending")
 }
 
-trait ScaleDirection
+class ScaleDirection(val displayString: String)

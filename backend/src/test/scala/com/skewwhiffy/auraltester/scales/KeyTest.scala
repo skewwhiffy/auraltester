@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.scales
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, Octave}
+import com.skewwhiffy.auraltester.testutils.TestData
 import org.scalatest.funsuite.AnyFunSuite
 
 class KeyTest extends AnyFunSuite {
@@ -29,6 +30,51 @@ class KeyTest extends AnyFunSuite {
     val actual = key.abc(note)
 
     assert(actual == "=G")
+  }
+
+  private val renderableMajors = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
+    .split(' ')
+    .map(it => TestData.noteFactories.note.getNote(it))
+
+  private val renderableMinors = "A E B F# C# G# D# A# D G C F Bb Eb Ab"
+    .split(' ')
+    .map(it => TestData.noteFactories.note.getNote(it))
+
+  private val allNotes = "A B C D E F G"
+    .split(' ')
+    .map(it => TestData.noteFactories.note.getNote(it))
+    .flatMap(it => List(it, it.sharp, it.flat))
+
+  renderableMajors.foreach { note =>
+    test(s"can render ${note.displayString} major") {
+      val key = new Key(note)
+
+      assert(key.canRenderSignature)
+    }
+  }
+
+  allNotes.filter(it => !renderableMajors.contains(it)).foreach { note =>
+    test(s"cannot render ${note.displayString} major") {
+      val key = new Key(note)
+
+      assert(!key.canRenderSignature)
+    }
+  }
+
+  allNotes.filter(it => !renderableMinors.contains(it)).foreach { note =>
+    test(s"cannot render ${note.displayString} minor") {
+      val key = new Key(note, true)
+
+      assert(!key.canRenderSignature)
+    }
+  }
+
+  renderableMinors.foreach { note =>
+    test(s"can render ${note.displayString} minor") {
+      val key = new Key(note, true)
+
+      assert(key.canRenderSignature)
+    }
   }
 
   test("when relativeMinor then correct") {

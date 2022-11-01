@@ -1,3 +1,6 @@
 package com.skewwhiffy.auraltester.controller.dto
 
-class ScaleResponse(val abc: String)
+class ScaleResponse(
+  val withoutKeySignature: String,
+  val withKeySignature: String
+)
