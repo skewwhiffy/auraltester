@@ -18,12 +18,16 @@ class AbcService {
   }
 
   def getAbc(clef: Clef, scale: Scale, key: Key): String = {
-    new SingleLineAbc(
-      s"${scale.displayName} ${scale.direction.displayString} (with key signature)",
-      clef,
-      NoteLength.semibreve,
-      scale.notes
-    ).includeKeySignature(key).abc
+    if (!key.canRenderSignature) {
+      ""
+    } else {
+      new SingleLineAbc(
+        s"${scale.displayName} ${scale.direction.displayString} (with key signature)",
+        clef,
+        NoteLength.semibreve,
+        scale.notes
+      ).includeKeySignature(key).abc
+    }
   }
 
 }
