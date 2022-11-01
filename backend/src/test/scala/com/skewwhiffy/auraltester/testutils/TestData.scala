@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory, KeyFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInterval, Note, Octave}
-import com.skewwhiffy.auraltester.scales.{Key, ScaleTypeFactory}
+import com.skewwhiffy.auraltester.scales.{Key, ScaleType, ScaleTypeFactory}
 
 import java.util.UUID
 import scala.util.Random
@@ -37,6 +37,13 @@ object TestData {
     def note: Note = new Note(oneOf("ABCDEFG"), accidental)
 
     def octave: Octave = new Octave(random.nextInt(8) - 4)
+
+    def scaleType: ScaleType = new ScaleType(
+      string,
+      string,
+      Range(0, 7).map(_ => directedInterval).toList,
+      Range(1, 8).map(_ => directedInterval).toList
+    )
   }
 
   object noteFactories {

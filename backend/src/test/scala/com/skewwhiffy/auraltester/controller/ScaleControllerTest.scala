@@ -25,36 +25,60 @@ class ScaleControllerTest extends AnyFunSuite with MockInstantiation {
     ("major", () => scaleTypeFactory.major),
     ("minor-harmonic", () => scaleTypeFactory.minorHarmonic),
     ("minor-melodic", () => scaleTypeFactory.minorMelodic)
-  ).foreach(testCase =>
-    test(s"scale type ${testCase._1} is parsed correctly") {
-      val clefString = TestData.random.string
-      val noteString = TestData.random.string
-      val direction = "ascending"
-      val abcWithoutKeySignature = TestData.random.string
-      val abcWithKeySignature = TestData.random.string
-      val clefObject = mock[Clef]
-      val scale = mock[Scale]
-      val key = new Key(TestData.random.note)
-      val scaleLowestNote = new AbsoluteNote(key.note, Octave.default)
-      val scaleType = mock[ScaleType]
-      when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
-      when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-      when(testCase._2()).thenReturn(scaleType)
-      when(scale.lowestNote).thenReturn(new AbsoluteNote(key.note, Octave.default))
-      when(scaleService.getScale(clefObject, key.note, scaleType, ScaleDirection.ascending)).thenReturn(scale)
-      when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
-      when(abcService.getAbc(clefObject, scale, key)).thenReturn(abcWithKeySignature)
+  ).foreach(scaleTypeTestCase =>
+    Map(
+      ("ascending", ScaleDirection.ascending),
+      ("descending", ScaleDirection.descending)
+    ).foreach(directionTestCase =>
+      test(s"scale type ${scaleTypeTestCase._1} ${directionTestCase._1} is parsed correctly") {
+        val clefString = TestData.random.string
+        val noteString = TestData.random.string
+        val direction = directionTestCase._1
+        val abcWithoutKeySignature = TestData.random.string
+        val abcWithKeySignature = TestData.random.string
+        val scaleLowestNote = TestData.random.absoluteNote
+        val key = new Key(scaleLowestNote.note)
+        val clefObject = mock[Clef]
+        val scale = mock[Scale]
+        val scaleType = mock[ScaleType]
+        when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
+        when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
+        when(scaleTypeTestCase._2()).thenReturn(scaleType)
+        when(scale.lowestNote).thenReturn(new AbsoluteNote(key.note, Octave.default))
+        when(scaleService.getScale(clefObject, key.note, scaleType, directionTestCase._2)).thenReturn(scale)
+        when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
+        when(abcService.getAbc(clefObject, scale, key)).thenReturn(abcWithKeySignature)
 
-      val actual = scaleController.get(
-        clefString,
-        noteString,
-        testCase._1,
-        direction
-      )
+        val actual = scaleController.get(
+          clefString,
+          noteString,
+          scaleTypeTestCase._1,
+          direction
+        )
 
-      assert(actual.withKeySignature == abcWithKeySignature)
-      assert(actual.withoutKeySignature == abcWithoutKeySignature)
-    }
+        assert(actual.withKeySignature == abcWithKeySignature)
+        assert(actual.withoutKeySignature == abcWithoutKeySignature)
+      }
+    )
   )
+
+  test("invalid scale type throws") {
+    val note = TestData.random.string
+    when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
+
+    assertThrows[IllegalArgumentException] {
+      scaleController.get("alto", note, "not-a-scale", "ascending")
+    }
+  }
+
+  test("invalid direction throws") {
+    val note = TestData.random.string
+    when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
+    when(scaleTypeFactory.major).thenReturn(TestData.random.scaleType)
+
+    assertThrows[IllegalArgumentException] {
+      scaleController.get("bass", note, "major", "stationary")
+    }
+  }
 
 }
