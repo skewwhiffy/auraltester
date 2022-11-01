@@ -32,7 +32,7 @@ class ScaleController(
       case "minor-melodic" => scaleTypeFactory.minorMelodic
       case _ => throw new IllegalArgumentException(s"Unrecognized scale type: '$scaleType'")
     }
-    val isMinor = scaleTypeObject.displayName == "major"
+    val isMinor = scaleTypeObject.displayName != "major"
     val directionObject = direction match {
       case "ascending" => ScaleDirection.ascending
       case "descending" => ScaleDirection.descending

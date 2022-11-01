@@ -18,7 +18,6 @@ class ScaleType(
     direction match {
       case ScaleDirection.ascending => ascendingIntervals
       case ScaleDirection.descending => descendingIntervals
-      // TODO: Check what happens with invalid choice
     }
   }
 }

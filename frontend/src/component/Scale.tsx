@@ -7,14 +7,16 @@ import ScaleSelector from './ScaleSelector'
 interface Props { }
 
 interface State {
-  abc: string
+  withKeySignature: string,
+  withoutKeySignature: string
 }
 
 class Scale extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      abc: ''
+      withKeySignature: '',
+      withoutKeySignature: ''
     }
   }
 
@@ -22,13 +24,13 @@ class Scale extends React.Component<Props, State> {
     clef: string,
     note: string,
     type: string,
-    direction: string,
-    withKeySignature: boolean
+    direction: string
   ) => {
     if ([clef, note, type, direction].includes('')) {
       this.setState({
         ...this.state,
-        abc: ''
+        withKeySignature: '',
+        withoutKeySignature: ''
       })
       return
     }
@@ -38,15 +40,15 @@ class Scale extends React.Component<Props, State> {
         clef,
         note,
         scaleType: type,
-        direction,
-        withKeySignature
+        direction
       }
     })
     const json = response.data
-    const newAbc = json.abc
+    const newAbc = json.with
     this.setState({
       ...this.state,
-      abc: newAbc
+      withKeySignature: json.withKeySignature,
+      withoutKeySignature: json.withoutKeySignature
     })
   }
 
@@ -54,7 +56,10 @@ class Scale extends React.Component<Props, State> {
     return (
       <Container>
         <Row>
-          <Notation notation={this.state.abc} />
+          <Notation notation={this.state.withoutKeySignature} />
+        </Row>
+        <Row>
+          <Notation notation={this.state.withKeySignature} />
         </Row>
         <Row>
           <ScaleSelector onChange={this.scaleSelected} />
