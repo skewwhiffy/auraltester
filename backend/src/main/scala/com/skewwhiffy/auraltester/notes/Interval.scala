@@ -45,9 +45,9 @@ object Interval {
 
     lazy val displayString: String = s"$quality ${displayStrings(degree - 1)}"
 
-    lazy val up: DirectedInterval = new DirectedInterval(this, IntervalDirection.Up)
+    lazy val up: DirectedInterval = new DirectedInterval(this, IntervalDirection.up)
 
-    lazy val down: DirectedInterval = new DirectedInterval(this, IntervalDirection.Down)
+    lazy val down: DirectedInterval = new DirectedInterval(this, IntervalDirection.down)
 
     private def quality: String = {
       lazy val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"

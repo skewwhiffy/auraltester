@@ -1,24 +1,38 @@
 package com.skewwhiffy.auraltester.internalnotation
 
-import com.skewwhiffy.auraltester.clefs.Clef
+import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, DirectedInterval}
+import com.skewwhiffy.auraltester.scales.Key
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
-object InternalNotationFactory {
-  lazy val clef: String => Clef = abc => abc.toLowerCase match {
-    case "treble" => Clef.treble
-    case "alto" => Clef.alto
-    case "tenor" => Clef.tenor
-    case "bass" => Clef.bass
-    case _ => throw new IllegalArgumentException(s"Unrecognized clef type: '$abc'")
+@Component
+class InternalNotationFactory(
+  @Autowired clefFactory: ClefFactory,
+  @Autowired intervalFactory: IntervalFactory,
+  @Autowired keyFactory: KeyFactory,
+  @Autowired noteFactory: NoteFactory
+) {
+  def clef(clefRaw: String): Clef = clefRaw.toLowerCase match {
+    case "treble" => clefFactory.treble
+    case "alto" => clefFactory.alto
+    case "tenor" => clefFactory.tenor
+    case "bass" => clefFactory.bass
+    case _ => throw new IllegalArgumentException(s"Unrecognized clef type: '$clefRaw'")
   }
-  lazy val directedInterval: String => DirectedInterval = abc => new IntervalFactory(abc).directedInterval
-  lazy val directedIntervals: String => List[DirectedInterval] = abc => abc
+
+  def getNote(noteRaw: String): AbsoluteNote = noteFactory.getAbsoluteNote(noteRaw)
+
+  def getNotes(notesRaw: String): List[AbsoluteNote] = notesRaw
     .split(' ')
-    .map(directedInterval)
+    .map(getNote)
     .toList
-  lazy val note: String => AbsoluteNote = abc => new NoteFactory(abc).absoluteNote
-  lazy val notes: String => List[AbsoluteNote] = abc => abc
-    .split(' ')
-    .map(note)
-    .toList
+
+  def getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory
+    .getDirectedInterval(rawInterval)
+
+  def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = intervalFactory
+    .getDirectedIntervals(rawIntervals)
+
+  def getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
 }

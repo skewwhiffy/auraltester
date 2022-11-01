@@ -1,13 +1,18 @@
 package com.skewwhiffy.auraltester.services
 
-import com.skewwhiffy.auraltester.clefs.Clef
+import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.internalnotation.{IntervalFactory, NoteFactory}
 import com.skewwhiffy.auraltester.notes.Note
-import com.skewwhiffy.auraltester.scales.ScaleType
-import org.scalamock.scalatest.MockFactory
+import com.skewwhiffy.auraltester.scales.{Key, ScaleDirection, ScaleTypeFactory}
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class ScaleServiceTest extends AnyFunSuite with MockFactory {
+
+class ScaleServiceTest extends AnyFunSuite {
+  private val noteFactory = new NoteFactory()
+  private val clefFactory = new ClefFactory(noteFactory)
+  private val intervalFactory = new IntervalFactory()
+  private val scaleTypeFactory = new ScaleTypeFactory(intervalFactory)
   private var scaleService: ScaleService = _
 
   override def withFixture(test: NoArgTest): Outcome = {
@@ -18,17 +23,17 @@ class ScaleServiceTest extends AnyFunSuite with MockFactory {
   test("when major scale requested then abc correct") {
     //noinspection SpellCheckingInspection
     val expected = "DE^FGAB^cd"
-    val result = scaleService.getScale(Clef.treble, Note.D, ScaleType.major)
+    val result = scaleService.getScale(clefFactory.treble, Note.d, scaleTypeFactory.major, ScaleDirection.ascending)
 
-    assert(result.abc.contains(expected))
+    assert(result.abc(Key.cMajor).contains(expected))
   }
 
   test("when minor melodic descending requested then abc correct") {
     //noinspection SpellCheckingInspection
     val expected = "agfedcBA"
 
-    val result = scaleService.getScale(Clef.treble, Note.A, ScaleType.minorMelodicDescending)
+    val result = scaleService.getScale(clefFactory.treble, Note.a, scaleTypeFactory.minorMelodic, ScaleDirection.descending)
 
-    assert(result.abc.contains(expected))
+    assert(result.abc(Key.cMajor).contains(expected))
   }
 }

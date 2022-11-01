@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Interval.Interval
+import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.funsuite.AnyFunSuite
 
 class AbsoluteNoteTests extends AnyFunSuite {
@@ -9,7 +10,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
 
     val actual = AbsoluteNote.middleC
 
-    assert(actual.abc == expected)
+    assert(actual.abc(Key.cMajor) == expected)
   }
 
   test("can add major and perfect intervals") {
@@ -74,7 +75,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
 
     val actual = start.apply(interval)
 
-    assert(actual.abc == expected)
+    assert(actual.abc(Key.cMajor) == expected)
   }
 
   test("can apply down interval") {
@@ -86,8 +87,8 @@ class AbsoluteNoteTests extends AnyFunSuite {
     val actualWithApply = start.apply(directedInterval)
     val actualWithSubtract = start - interval
 
-    assert(actualWithApply.abc == expected)
-    assert(actualWithSubtract.abc == expected)
+    assert(actualWithApply.abc(Key.cMajor) == expected)
+    assert(actualWithSubtract.abc(Key.cMajor) == expected)
   }
 
   test("cannot subtract compound intervals yet") {
@@ -99,7 +100,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
   }
 
   test("equivalent notes are equal") {
-    def note = new AbsoluteNote(Note.D.sharp, Octave.default.up)
+    def note = new AbsoluteNote(Note.d.sharp, Octave.default.up)
 
     val first = note
     val second = note
@@ -112,7 +113,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
   test("absolute note is not equal to non absolute note") {
     def note = AbsoluteNote.middleC
 
-    def someOtherObject = Note.C
+    def someOtherObject = Note.c
 
     //noinspection ComparingUnrelatedTypes
     assert(!note.equals(someOtherObject))
@@ -121,12 +122,12 @@ class AbsoluteNoteTests extends AnyFunSuite {
   test("toString returns abc") {
     def note = AbsoluteNote.middleC
 
-    assert(note.toString == note.abc)
+    assert(note.toString == note.abc(Key.cMajor))
   }
 
   test("non equivalent notes in same octave are comparable") {
-    val lower = new AbsoluteNote(Note.D, Octave.default)
-    val higher = new AbsoluteNote(Note.B, Octave.default)
+    val lower = new AbsoluteNote(Note.d, Octave.default)
+    val higher = new AbsoluteNote(Note.b, Octave.default)
 
     assert(lower < higher)
     assert(!(lower > higher))
@@ -142,7 +143,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
   }
 
   private def testGeneric(start: AbsoluteNote, interval: Interval, expectedAbc: String) = {
-    val actual = start.add(interval).abc
+    val actual = start.add(interval).abc(Key.cMajor)
 
     assert(actual == expectedAbc)
   }

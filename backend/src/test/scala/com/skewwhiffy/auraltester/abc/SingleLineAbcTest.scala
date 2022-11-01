@@ -1,13 +1,14 @@
 package com.skewwhiffy.auraltester.abc
 
-import com.skewwhiffy.auraltester.clefs.Clef
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, NoteLength, Octave}
-import com.skewwhiffy.auraltester.testutils.TestData
-import org.scalamock.scalatest.MockFactory
+import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
+import com.skewwhiffy.auraltester.internalnotation.NoteFactory
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
+import com.skewwhiffy.auraltester.scales.Key
+import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.scalatest.Outcome
 import org.scalatest.funsuite.AnyFunSuite
 
-class SingleLineAbcTest extends AnyFunSuite with MockFactory {
+class SingleLineAbcTest extends AnyFunSuite with MockInstantiation {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
@@ -16,7 +17,9 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
 
   override def withFixture(test: NoArgTest): Outcome = {
     title = TestData.random.string
-    clef = TestData.random.oneOf(Clef.treble, Clef.alto, Clef.tenor, Clef.bass)
+    val noteFactory = new NoteFactory()
+    val clefFactory = new ClefFactory(noteFactory)
+    clef = TestData.random.oneOf(clefFactory.treble, clefFactory.alto, clefFactory.tenor, clefFactory.bass)
     noteLength = TestData.random.oneOf(
       NoteLength.breve,
       NoteLength.semibreve,
@@ -26,16 +29,15 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
     )
     notesAbc = Range(0, 10).map(_ => TestData.random.string).toList
     notes = notesAbc.map(it => {
-      class AbsoluteNoteMock extends AbsoluteNote(Note.C, Octave.default) {
-        override lazy val abc: String = it
-      }
-      new AbsoluteNoteMock()
+      val note = mock[AbsoluteNote]
+      when(note.abc(Key.cMajor)).thenReturn(it)
+      note
     })
     test()
   }
 
   test("when title supplied then title populated") {
-    val abc = SingleLineAbc(title, clef, noteLength, notes)
+    val abc = new SingleLineAbc(title, clef, noteLength, notes)
 
     assert(abc.abc.contains("X:1"))
     assert(abc.abc.contains(s"T:$title"))
@@ -45,7 +47,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockFactory {
   }
 
   test("when title not supplied then title not populated") {
-    val abc = SingleLineAbc(clef, noteLength, notes)
+    val abc = new SingleLineAbc(clef, noteLength, notes)
 
     assert(!abc.abc.contains("T:"))
   }

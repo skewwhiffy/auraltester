@@ -5,12 +5,6 @@ object Octave {
 }
 
 class Octave(val offsetFromDefault: Int) {
-  lazy val getAbc: Note => String = note => offsetFromDefault match {
-    case 0 => note.abc
-    case it if it > 0 => s"${note.abc.toLowerCase}${"'".repeat(it - 1)}"
-    case it if it < 0 => s"${note.abc}${",".repeat(-it)}"
-  }
-
   lazy val up: Octave = new Octave(offsetFromDefault + 1)
 
   lazy val down: Octave = new Octave(offsetFromDefault - 1)

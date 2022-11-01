@@ -1,24 +1,25 @@
 package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Interval.Interval
+import com.skewwhiffy.auraltester.scales.Key
 
 import scala.util.chaining.scalaUtilChainingOps
 
 object AbsoluteNote {
-  lazy val middleC: AbsoluteNote = new AbsoluteNote(Note.C, Octave.default)
+  lazy val middleC: AbsoluteNote = new AbsoluteNote(Note.c, Octave.default)
 }
 
 class AbsoluteNote(val note: Note, val octave: Octave) {
-  lazy val apply: DirectedInterval => AbsoluteNote = interval => {
+  def apply(interval: DirectedInterval): AbsoluteNote = {
     interval.direction match {
-      case IntervalDirection.Up => add(interval.interval)
-      case IntervalDirection.Down => subtract(interval.interval)
+      case IntervalDirection.`up` => add(interval.interval)
+      case IntervalDirection.`down` => subtract(interval.interval)
     }
   }
 
   def +(interval: Interval): AbsoluteNote = add(interval)
 
-  lazy val add: Interval => AbsoluteNote = interval => {
+  def add(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => upMajorSecond
@@ -40,7 +41,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
 
   def -(interval: Interval): AbsoluteNote = subtract(interval)
 
-  lazy val subtract: Interval => AbsoluteNote = interval => {
+  def subtract(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => downMajorSecond
@@ -60,7 +61,13 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     }
   }
 
-  lazy val abc: String = octave.getAbc(note)
+  def abc(key: Key): String = {
+    key.abc(this)
+  }
+
+  def sharp = new AbsoluteNote(note.sharp, octave)
+
+  def flat = new AbsoluteNote(note.flat, octave)
 
   def <=(other: AbsoluteNote): Boolean = this < other || this == other
 
@@ -77,11 +84,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     case _ => false
   }
 
-  override def toString: String = abc
-
-  private lazy val sharp = new AbsoluteNote(note.sharp, octave)
-
-  private lazy val flat = new AbsoluteNote(note.flat, octave)
+  override def toString: String = abc(Key.cMajor)
 
   private lazy val upMinorSecond = upMajorSecond
     .pipe(it => new AbsoluteNote(it.note.flat, it.octave))

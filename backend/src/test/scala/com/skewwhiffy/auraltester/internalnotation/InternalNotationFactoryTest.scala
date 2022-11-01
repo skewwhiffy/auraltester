@@ -1,70 +1,78 @@
 package com.skewwhiffy.auraltester.internalnotation
 
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Interval}
+import com.skewwhiffy.auraltester.clefs.ClefFactory
+import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
+import org.mockito.{InjectMocks, Mock}
 import org.scalatest.funsuite.AnyFunSuite
 
-class InternalNotationFactoryTest extends AnyFunSuite {
-  test("can instantiate middle C") {
-    val expected = AbsoluteNote.middleC
+class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
+  @Mock
+  private val clefFactory: ClefFactory = null
+  @Mock
+  private val intervalFactory: IntervalFactory = null
+  @Mock
+  private val keyFactory: KeyFactory = null
+  @Mock
+  private val noteFactory: NoteFactory = null
+  @InjectMocks
+  private val internalNotationFactory: InternalNotationFactory = null
 
-    val actual = InternalNotationFactory.note("C")
+  List("treble", "alto", "tenor", "bass").foreach(it => {
+    test(s"when $it then proxies to clefFactory") {
+      val expected = TestData.random.clef
+      val method = classOf[ClefFactory].getMethod(it)
+      when(method.invoke(clefFactory)).thenReturn(expected)
+
+      val actual = internalNotationFactory.clef(it)
+
+      assert(actual == expected)
+    }
+  })
+
+  test("when clef name invalid then blows up") {
+    assertThrows[IllegalArgumentException] {
+      internalNotationFactory.clef("not a clef name")
+    }
+  }
+
+  test("when getNote then proxies to noteFactory") {
+    val rawNote = TestData.random.string
+    val expected = TestData.random.absoluteNote
+    when(noteFactory.getAbsoluteNote(rawNote)).thenReturn(expected)
+
+    val actual = internalNotationFactory.getNote(rawNote)
 
     assert(actual == expected)
   }
 
-  test("can instantiate note above middle C") {
-    val expected = "c''"
+  test("when getNotes then proxies to noteFactory") {
+    val rawNotes = Range(0, 10).map(_ => TestData.random.string)
+    val expected = rawNotes.map(_ => TestData.random.absoluteNote)
+    rawNotes.zip(expected).foreach(it => {
+      when(noteFactory.getAbsoluteNote(it._1)).thenReturn(it._2)
+    })
 
-    val actual = InternalNotationFactory.note(expected)
+    val actual = internalNotationFactory.getNotes(rawNotes.mkString(" "))
 
-    assert(actual.abc == expected)
+    assert(actual == expected)
   }
 
-  test("can instantiate note below middle C") {
-    val internalNotation = "Dx#,,,"
-    val expected = "^^^D,,,"
+  test("when getDirectedInterval then proxies to intervalFactory") {
+    val rawInterval = TestData.random.string
+    val expected = TestData.random.directedInterval
+    when(intervalFactory.getDirectedInterval(rawInterval)).thenReturn(expected)
 
-    val actual = InternalNotationFactory.note(internalNotation)
+    val actual = internalNotationFactory.getDirectedInterval(rawInterval)
 
-    assert(actual.abc == expected)
+    assert(actual == expected)
   }
 
-  test("when note name invalid then throws") {
-    assertThrows[IllegalArgumentException] {
-      InternalNotationFactory.note("H")
-    }
-  }
+  test("when getKey then proxies to keyFactory") {
+    val rawKey = TestData.random.string
+    val expected = TestData.random.key
+    when(keyFactory.getKey(rawKey)).thenReturn(expected)
 
-  List(2, 3, 6, 7).foreach(it => {
-    test(s"can instantiate major $it") {
-      val expected = Interval.major(it).up
-
-      val actual = InternalNotationFactory.directedInterval(it.toString)
-
-      assert(actual == expected)
-    }
-  })
-
-  test("when invalid deviation then throws") {
-    assertThrows[IllegalArgumentException] {
-      InternalNotationFactory.directedInterval("5*")
-    }
-  }
-
-  List(1, 4, 5, 8).foreach(degree => {
-    test(s"can instantiate perfect $degree") {
-      val expected = Interval.perfect(degree).up
-
-      val actual = InternalNotationFactory.directedInterval(degree.toString)
-
-      assert(actual == expected)
-    }
-  })
-
-  test("can instantiate minor third") {
-    val expected = Interval.minor(3).up
-
-    val actual = InternalNotationFactory.directedInterval("3-")
+    val actual = internalNotationFactory.getKey(rawKey)
 
     assert(actual == expected)
   }

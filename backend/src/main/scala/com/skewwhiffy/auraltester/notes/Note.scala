@@ -1,34 +1,33 @@
 package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Note.noteNames
+import com.skewwhiffy.auraltester.scales.Key
 
 object Note {
-  lazy val A: Note = new Note("A", Accidental.natural)
-  lazy val B: Note = new Note("B", Accidental.natural)
-  lazy val C: Note = new Note("C", Accidental.natural)
-  lazy val D: Note = new Note("D", Accidental.natural)
-  lazy val E: Note = new Note("E", Accidental.natural)
-  lazy val F: Note = new Note("F", Accidental.natural)
-  lazy val G: Note = new Note("G", Accidental.natural)
+  lazy val a: Note = new Note("A", Accidental.natural)
+  lazy val b: Note = new Note("B", Accidental.natural)
+  lazy val c: Note = new Note("C", Accidental.natural)
+  lazy val d: Note = new Note("D", Accidental.natural)
+  lazy val e: Note = new Note("E", Accidental.natural)
+  lazy val f: Note = new Note("F", Accidental.natural)
+  lazy val g: Note = new Note("G", Accidental.natural)
   //noinspection SpellCheckingInspection
   private lazy val noteNames = "CDEFGAB"
 }
 
-class Note(val noteName: String, private val accidental: Accidental) {
-  lazy val abc: String = s"${accidental.abc}$noteName"
+class Note(val noteName: String, val accidental: Accidental) {
+  def displayString: String = s"$noteName${accidental.displayString}"
 
-  lazy val displayString: String = s"$noteName${accidental.displayString}"
+  def sharp: Note = new Note(noteName, accidental.sharp)
 
-  lazy val sharp: Note = new Note(noteName, accidental.sharp)
+  def flat: Note = new Note(noteName, accidental.flat)
 
-  lazy val flat: Note = new Note(noteName, accidental.flat)
-
-  lazy val upMajorSecond: Note = noteName match {
+  def upMajorSecond: Note = noteName match {
     case "A" | "C" | "D" | "F" | "G" => new Note(nextNoteName, accidental)
     case _ => new Note(nextNoteName, accidental.sharp)
   }
 
-  lazy val downMajorSecond: Note = noteName match {
+  def downMajorSecond: Note = noteName match {
     case "B" | "A" | "G" | "E" | "D" => new Note(previousNoteName, accidental)
     case _ => new Note(previousNoteName, accidental.flat)
   }
