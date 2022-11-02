@@ -1,6 +1,5 @@
 import React from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
 
 type OnChangeHandler = (

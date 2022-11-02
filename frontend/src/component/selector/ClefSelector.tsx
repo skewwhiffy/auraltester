@@ -1,5 +1,7 @@
-import React from "react"
-import RadioButtons from "../../util/RadioButtons"
+import React from 'react'
+import RadioButtons from '../../util/RadioButtons'
+import { capitalizeFirstCharacter } from '../../util'
+import { Col, Container, Row } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void
 
@@ -18,7 +20,7 @@ class ClefSelector extends React.Component<Props, State> {
     const values = ['treble', 'alto', 'tenor', 'bass']
       .map(it => ({
         value: it,
-        label: `${this.capitaliseFirstCharacter(it)} Clef`
+        label: `${capitalizeFirstCharacter(it)} Clef`
       }))
     this.radioButtons = new RadioButtons({
       values,
@@ -29,11 +31,12 @@ class ClefSelector extends React.Component<Props, State> {
   }
 
   render() {
-    return this.radioButtons.render()
-  }
-
-  private capitaliseFirstCharacter(source: string) {
-    return `${source[0].toUpperCase()}${source.substring(1)}`
+    return (
+      <Container>
+        <Row><Col>Clef</Col></Row>
+        <Row><Col>{this.radioButtons.render()}</Col></Row>
+      </Container>
+    )
   }
 }
 

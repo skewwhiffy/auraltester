@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
+import { capitalizeFirstCharacter } from '../../util'
 
 type OnChangeHandler = (
   clef: string,
@@ -41,29 +42,36 @@ class ScaleSelector extends React.Component<Props, State> {
         <Form>
           <Row>
             <Col>
-              <RadioButtons
-                values={'ABCDEFG'.split('').map(it => ({ value: it }))}
-                name='note'
-                defaultValue={this.state.note}
-                onChange={note => this.onFormChange({ ...this.state, note })}
-              />
-            </Col>
-            <Col>
-              <RadioButtons
-                values={[
-                  { value: '#' },
-                  { value: '', label: 'natural' },
-                  { value: 'b' }
-                ]}
-                name='accidental'
-                defaultValue={this.state.accidental}
-                onChange={accidental => this.onFormChange({ ...this.state, accidental })}
-              />
+              <Container>
+                <Row><Col>Note</Col></Row>
+                <Row>
+                  <Col>
+                    <RadioButtons
+                      values={'ABCDEFG'.split('').map(it => ({ value: it }))}
+                      name='note'
+                      defaultValue={this.state.note}
+                      onChange={note => this.onFormChange({ ...this.state, note })}
+                    />
+                  </Col>
+                  <Col>
+                    <RadioButtons
+                      values={[
+                        { value: '#' },
+                        { value: '', label: 'natural' },
+                        { value: 'b' }
+                      ]}
+                      name='accidental'
+                      defaultValue={this.state.accidental}
+                      onChange={accidental => this.onFormChange({ ...this.state, accidental })}
+                    />
+                  </Col>
+                </Row>
+              </Container>
             </Col>
             <Col>
               <ClefSelector
                 defaultValue={this.state.clef}
-                onChange={clef => this.onFormChange({...this.state, clef})}
+                onChange={clef => this.onFormChange({ ...this.state, clef })}
               />
             </Col>
             <Col>
@@ -71,7 +79,7 @@ class ScaleSelector extends React.Component<Props, State> {
                 values={['major', 'minor-harmonic', 'minor-melodic']
                   .map(it => ({
                     value: it,
-                    label: it.split('-').map(this.capitaliseFirstCharacter).join(' ')
+                    label: it.split('-').map(capitalizeFirstCharacter).join(' ')
                   }))}
                 name='type'
                 defaultValue={this.state.type}
@@ -83,7 +91,7 @@ class ScaleSelector extends React.Component<Props, State> {
                 values={['ascending', 'descending']
                   .map(it => ({
                     value: it,
-                    label: this.capitaliseFirstCharacter(it)
+                    label: capitalizeFirstCharacter(it)
                   }))}
                 name='direction'
                 defaultValue={this.state.direction}
@@ -94,10 +102,6 @@ class ScaleSelector extends React.Component<Props, State> {
         </Form>
       </Container>
     )
-  }
-
-  private capitaliseFirstCharacter(source: string) {
-    return `${source[0].toUpperCase()}${source.substring(1)}`
   }
 
   private onFormChange = (newState: State) => {
