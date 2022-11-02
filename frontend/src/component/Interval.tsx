@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import IntervalSelector from './selector/IntervalSelector'
+import axios from 'axios'
 
 interface Props { }
 
@@ -24,7 +25,29 @@ class Interval extends React.Component<Props, State> {
     intervalSize: string,
     keySignature: string
   ) => {
-    console.log("Hello all")
+    if ([clef, bottomNote, intervalQuality, intervalSize, keySignature].includes('')) {
+      this.setState({
+        ...this.state,
+        abc: ''
+      })
+      return
+    }
+    
+    const response = await axios.get('api/interval', {
+      params: {
+        clef,
+        bottomNote,
+        intervalQuality,
+        intervalSize,
+        keySignature
+      }
+    })
+    const json = response.data
+    console.log(json)
+    this.setState({
+      ...this.state,
+      abc: json.abc
+    })
   }
   
   render() {

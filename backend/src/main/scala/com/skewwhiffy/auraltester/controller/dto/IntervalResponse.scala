@@ -1,5 +1,5 @@
 package com.skewwhiffy.auraltester.controller.dto
 
-class IntervalResponse(val poo: String) {
+class IntervalResponse(val abc: String) {
 
 }

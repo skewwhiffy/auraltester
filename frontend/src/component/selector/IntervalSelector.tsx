@@ -87,9 +87,9 @@ class IntervalSelector extends React.Component<Props, State> {
                   <Col>
                     <RadioButtons
                       values={Array.from(Array(8).keys()).map(it => it + 1).map(it => ({ value: `${it}` }))}
-                      name='intervalQuality'
+                      name='intervalSize'
                       defaultValue={this.state.intervalQuality}
-                      onChange={intervalQuality => this.onFormChange({ ...this.state, intervalQuality })}
+                      onChange={intervalSize => this.onFormChange({ ...this.state, intervalSize })}
                     />
                   </Col>
                 </Row>

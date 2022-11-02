@@ -14,6 +14,6 @@ class IntervalController {
     @RequestParam(required = true) intervalSize: String,
     @RequestParam(required = false) keySignature: String
   ): IntervalResponse = {
-    new IntervalResponse("Hello world")
+    new IntervalResponse("c")
   }
 }
