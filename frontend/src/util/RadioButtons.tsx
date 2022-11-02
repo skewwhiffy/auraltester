@@ -22,8 +22,8 @@ interface State {
 
 class RadioButtons extends React.Component<Props, State> {
   constructor(props: Props) {
-    if (props.values.length == 0) {
-      throw 'Need at least one radio button'
+    if (props.values.length === 0) {
+      throw Error('Need at least one radio button')
     }
     super(props);
   }

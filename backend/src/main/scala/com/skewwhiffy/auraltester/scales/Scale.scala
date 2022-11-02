@@ -8,7 +8,7 @@ class Scale(
   private val _lowestNote: AbsoluteNote,
   val scaleType: ScaleType,
   val direction: ScaleDirection
-) {
+) extends NoteSequence {
   def lowestNote: AbsoluteNote = _lowestNote
 
   def displayName: String = s"${lowestNote.note.displayString} ${scaleType.displayName}"

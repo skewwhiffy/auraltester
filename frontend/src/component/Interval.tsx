@@ -43,7 +43,6 @@ class Interval extends React.Component<Props, State> {
       }
     })
     const json = response.data
-    console.log(json)
     this.setState({
       ...this.state,
       abc: json.abc
