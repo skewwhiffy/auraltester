@@ -1,4 +1,7 @@
 import React from 'react'
+import { Container, Row } from 'react-bootstrap'
+import { Notation } from 'react-abc'
+import IntervalSelector from './IntervalSelector'
 
 interface Props { }
 
@@ -10,15 +13,30 @@ class Interval extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      abc: `
-
-      `
+      abc: ''
     }
+  }
+  
+  intervalSelected = async (
+    clef: string,
+    bottomNote: string,
+    intervalQuality: string,
+    intervalSize: string,
+    keySignature: string
+  ) => {
+    console.log("Hello all")
   }
   
   render() {
     return (
-      <h1>Hello mum</h1>
+      <Container>
+        <Row>
+          <Notation notation={this.state.abc} />
+        </Row>
+        <Row>
+          <IntervalSelector onChange={this.intervalSelected} />
+        </Row>
+      </Container>
     )
   }
 }

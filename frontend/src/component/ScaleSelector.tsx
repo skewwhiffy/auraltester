@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
+import RadioButtons from '../util/RadioButtons'
 
 type OnChangeHandler = (
   clef: string,
@@ -42,9 +43,12 @@ class ScaleSelector extends React.Component<Props, State> {
         <Form>
           <Row>
             <Col>
-              <Form.Group onChange={e => this.onNoteChange(e.target)}>
-                {this.renderNoteRadioButtons()}
-              </Form.Group>
+              <RadioButtons 
+                values={ 'ABCDEFG'.split('').map(it => ({ value: it })) } 
+                name='note' 
+                defaultValue={ this.state.note }
+                onChange={this.onNoteChange}
+              />
             </Col>
             <Col>
               <Form.Group onChange={e => this.onAccidentalChange(e.target)}>
@@ -106,7 +110,7 @@ class ScaleSelector extends React.Component<Props, State> {
   private renderNoteRadioButtons() {
     return 'ABCDEFG'
       .split('')
-      .map(it => this.renderRadioButton('note', it, it, this.state.note))
+      .map(it => this.renderRadioButton('noteOld', it, it, this.state.note))
   }
 
   private renderAccidentalRadioButtons() {
@@ -170,11 +174,10 @@ class ScaleSelector extends React.Component<Props, State> {
     })
   }
 
-  onNoteChange = (e: any) => {
-    console.log(e.value)
+  onNoteChange = (note: string) => {
     this.onFormChange({
       ...this.state,
-      note: e.value
+      note
     })
   }
 

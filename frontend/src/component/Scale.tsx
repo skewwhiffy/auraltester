@@ -44,7 +44,6 @@ class Scale extends React.Component<Props, State> {
       }
     })
     const json = response.data
-    const newAbc = json.with
     this.setState({
       ...this.state,
       withKeySignature: json.withKeySignature,
