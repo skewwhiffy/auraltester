@@ -6,8 +6,7 @@ type OnChangeHandler = (
   clef: string,
   note: string,
   type: string,
-  direction: string,
-  withKeySignature: boolean
+  direction: string
 ) => void
 
 interface Props {
@@ -19,8 +18,7 @@ interface State {
   note: string,
   accidental: string,
   type: string,
-  direction: string,
-  withKeySignature: boolean
+  direction: string
 }
 
 class ScaleSelector extends React.Component<Props, State> {
@@ -31,8 +29,7 @@ class ScaleSelector extends React.Component<Props, State> {
       note: 'C',
       accidental: '',
       type: 'major',
-      direction: 'ascending',
-      withKeySignature: true
+      direction: 'ascending'
     }
     this.onStateChange(this.state)
   }
@@ -69,14 +66,6 @@ class ScaleSelector extends React.Component<Props, State> {
               <Form.Group onChange={e => this.onDirectionChange(e.target)}>
                 {this.renderDirectionRadioButtons()}
               </Form.Group>
-            </Col>
-            <Col>
-              <Form.Check 
-                type='checkbox'
-                onChange={e => this.onWithKeySignatureChange(e.target)}
-                label='Use key signature'
-                defaultChecked={this.state.withKeySignature}
-              />
             </Col>
           </Row>
         </Form>
@@ -141,16 +130,8 @@ class ScaleSelector extends React.Component<Props, State> {
       state.clef,
       `${state.note}${state.accidental}`,
       state.type,
-      state.direction,
-      state.withKeySignature
+      state.direction
     )
-  }
-
-  onWithKeySignatureChange = (e: any) => {
-    this.onFormChange({
-      ...this.state,
-      withKeySignature: e.checked
-    })
   }
 
   onDirectionChange = (e: any) => {
