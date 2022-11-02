@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
-import RadioButtons from '../util/RadioButtons'
+import RadioButtons from '../../util/RadioButtons'
+import ClefSelector from './ClefSelector'
 
 type OnChangeHandler = (
   clef: string,
@@ -60,15 +61,9 @@ class ScaleSelector extends React.Component<Props, State> {
               />
             </Col>
             <Col>
-              <RadioButtons
-                values={['treble', 'alto', 'tenor', 'bass']
-                  .map(it => ({
-                    value: it,
-                    label: `${this.capitaliseFirstCharacter(it)} Clef`
-                  }))}
-                name='clef'
+              <ClefSelector
                 defaultValue={this.state.clef}
-                onChange={clef => this.onFormChange({ ...this.state, clef })}
+                onChange={clef => this.onFormChange({...this.state, clef})}
               />
             </Col>
             <Col>

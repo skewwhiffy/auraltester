@@ -2,7 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
-import ScaleSelector from './ScaleSelector'
+import ScaleSelector from './selector/ScaleSelector'
 
 interface Props { }
 

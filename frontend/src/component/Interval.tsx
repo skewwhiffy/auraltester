@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
-import IntervalSelector from './IntervalSelector'
+import IntervalSelector from './selector/IntervalSelector'
 
 interface Props { }
 
