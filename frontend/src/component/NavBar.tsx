@@ -42,6 +42,12 @@ class NavBar extends React.Component<Props, State> {
                 eventKey="/scales"
                 title="Scales"
               >Scales</Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/intervals"
+                eventKey="/intervals"
+                title="Intervals"
+              >Intervals</Nav.Link>
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
