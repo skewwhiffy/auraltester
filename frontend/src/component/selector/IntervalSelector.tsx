@@ -1,6 +1,7 @@
 import React from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import ClefSelector from './ClefSelector'
+import NoteSelector from './NoteSelector'
 
 type OnChangeHandler = (
   clef: string,
@@ -27,7 +28,7 @@ class IntervalSelector extends React.Component<Props, State> {
     super(props);
     this.state = {
       clef: 'treble',
-      bottomNote: '',
+      bottomNote: 'C',
       intervalQuality: '',
       intervalSize: '',
       keySignature: ''
@@ -43,6 +44,13 @@ class IntervalSelector extends React.Component<Props, State> {
               <ClefSelector 
                 defaultValue={this.state.clef} 
                 onChange={clef => this.onFormChange({ ...this.state, clef})}
+              />
+            </Col>
+            <Col>
+              <NoteSelector
+                defaultValue={this.state.bottomNote}
+                includeDoubleAccidentals={true}
+                onChange={bottomNote => this.onFormChange({...this.state, bottomNote})}
               />
             </Col>
           </Row>

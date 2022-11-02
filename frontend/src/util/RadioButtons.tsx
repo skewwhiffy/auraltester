@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 
 type OnChangeHandler = (value: string) => void
 
-interface RadioButtonDefinition {
+export interface RadioButtonDefinition {
   key?: string,
   value: string,
   label?: string
