@@ -29,14 +29,16 @@ class RadioButtons extends React.Component<Props, State> {
   }
 
   private onChange = (ev: any) => {
-    (this.props.onChange || (_ => {}))(ev.target.value)
+    (this.props.onChange || (_ => { }))(ev.target.value)
   }
-  
+
   private renderRadioButton = (radioButton: RadioButtonDefinition) => {
     const value = radioButton.value
     const key = radioButton.key || value
     const label = radioButton.label || value
-    const defaultValue = this.props.defaultValue || this.props.values[0].value
+    const defaultValue = this.props.defaultValue === undefined
+      ? this.props.values[0].value
+      : this.props.defaultValue
     return (
       <Form.Check key={key} name={this.props.name} value={value} label={label} type='radio' defaultChecked={value === defaultValue} />
     )
@@ -45,7 +47,7 @@ class RadioButtons extends React.Component<Props, State> {
   render() {
     return (
       <Form.Group onChange={this.onChange}>
-        { this.props.values.map(this.renderRadioButton) }
+        {this.props.values.map(this.renderRadioButton)}
       </Form.Group>
     )
   }

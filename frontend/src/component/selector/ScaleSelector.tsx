@@ -3,6 +3,7 @@ import { Form, Container, Row, Col } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
 import { capitalizeFirstCharacter } from '../../util'
+import NoteSelector from './NoteSelector'
 
 type OnChangeHandler = (
   clef: string,
@@ -18,7 +19,6 @@ interface Props {
 interface State {
   clef: string,
   note: string,
-  accidental: string,
   type: string,
   direction: string
 }
@@ -29,7 +29,6 @@ class ScaleSelector extends React.Component<Props, State> {
     this.state = {
       clef: 'treble',
       note: 'C',
-      accidental: '',
       type: 'major',
       direction: 'ascending'
     }
@@ -42,31 +41,10 @@ class ScaleSelector extends React.Component<Props, State> {
         <Form>
           <Row>
             <Col>
-              <Container>
-                <Row><Col>Note</Col></Row>
-                <Row>
-                  <Col>
-                    <RadioButtons
-                      values={'ABCDEFG'.split('').map(it => ({ value: it }))}
-                      name='note'
-                      defaultValue={this.state.note}
-                      onChange={note => this.onFormChange({ ...this.state, note })}
-                    />
-                  </Col>
-                  <Col>
-                    <RadioButtons
-                      values={[
-                        { value: '#' },
-                        { value: '', label: 'natural' },
-                        { value: 'b' }
-                      ]}
-                      name='accidental'
-                      defaultValue={this.state.accidental}
-                      onChange={accidental => this.onFormChange({ ...this.state, accidental })}
-                    />
-                  </Col>
-                </Row>
-              </Container>
+              <NoteSelector
+                defaultValue={this.state.note}
+                onChange={note => this.onFormChange({ ...this.state, note })}
+              />
             </Col>
             <Col>
               <ClefSelector
@@ -112,7 +90,7 @@ class ScaleSelector extends React.Component<Props, State> {
   private onStateChange(state: State) {
     this.props.onChange(
       state.clef,
-      `${state.note}${state.accidental}`,
+      state.note,
       state.type,
       state.direction
     )
