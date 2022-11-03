@@ -6,9 +6,8 @@ import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.mockito.{InjectMocks, Mock}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
 
-class ClefFactoryTest extends AnyFlatSpec with MockInstantiation with should.Matchers with BeforeAndAfter {
+class ClefFactoryTest extends AnyFlatSpec with MockInstantiation with BeforeAndAfter {
   @Mock
   private var noteFactory: NoteFactory = _
   @InjectMocks
@@ -22,7 +21,7 @@ class ClefFactoryTest extends AnyFlatSpec with MockInstantiation with should.Mat
     lowLedgerNote = TestData.random.absoluteNote
   }
 
-  it should "treble clef initializes correctly" in {
+  it should "initialize treble clef correctly" in {
     when(noteFactory.getAbsoluteNote("a")).thenReturn(highLedgerNote)
 
     val actual = clefFactory.treble
@@ -32,13 +31,13 @@ class ClefFactoryTest extends AnyFlatSpec with MockInstantiation with should.Mat
     assert(actual.highLedgerNote == highLedgerNote)
   }
 
-  it should "alto clef initializes correctly" in {
+  it should "initialize alto clef correctly" in {
     testGeneric("alto", "D,", "B") {
       clefFactory.alto
     }
   }
 
-  it should "tenor clef initializes correctly" in {
+  it should "initialize tenor clef correctly" in {
     testGeneric("tenor", "B,,", "G") {
       clefFactory.tenor
     }

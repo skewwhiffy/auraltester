@@ -16,7 +16,7 @@ class ScaleServiceTest extends AnyFlatSpec with MockInstantiation {
   @InjectMocks
   private var scaleService: ScaleService = _
 
-  it should "when major scale requested then abc correct" in {
+  it should "return correct abc for major scale" in {
     //noinspection SpellCheckingInspection
     val expected = "DE^FGAB^cd"
     val result = scaleService.getScale(clefFactory.treble, Note.d, scaleTypeFactory.major, ScaleDirection.ascending)
@@ -24,7 +24,7 @@ class ScaleServiceTest extends AnyFlatSpec with MockInstantiation {
     assert(result.abc(Key.cMajor).contains(expected))
   }
 
-  it should "when minor melodic descending requested then abc correct" in {
+  it should "return correct abc for minor melodic descending scale" in {
     //noinspection SpellCheckingInspection
     val expected = "agfedcBA"
 

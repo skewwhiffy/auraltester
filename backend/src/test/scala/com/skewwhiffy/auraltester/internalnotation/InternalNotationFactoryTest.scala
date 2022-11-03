@@ -19,7 +19,7 @@ class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with 
   private val internalNotationFactory: InternalNotationFactory = null
 
   List("treble", "alto", "tenor", "bass").foreach(it => {
-    it should s"when $it then proxies to clefFactory" in {
+    it should s"proxy to clefFactory when $it clef is requested" in {
       val expected = TestData.random.clef
       val method = classOf[ClefFactory].getMethod(it)
       when(method.invoke(clefFactory)).thenReturn(expected)
@@ -30,13 +30,13 @@ class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with 
     }
   })
 
-  it should "when clef name invalid then blows up" in {
+  it should "throw when clef name invalid" in {
     assertThrows[IllegalArgumentException] {
       internalNotationFactory.clef("not a clef name")
     }
   }
 
-  it should "when getNote then proxies to noteFactory" in {
+  it should "proxy to noteFactory when note is requested" in {
     val rawNote = TestData.random.string
     val expected = TestData.random.absoluteNote
     when(noteFactory.getAbsoluteNote(rawNote)).thenReturn(expected)
@@ -46,7 +46,7 @@ class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with 
     assert(actual == expected)
   }
 
-  it should "when getNotes then proxies to noteFactory" in {
+  it should "proxy to noteFactory when notes are requested" in {
     val rawNotes = Range(0, 10).map(_ => TestData.random.string)
     val expected = rawNotes.map(_ => TestData.random.absoluteNote)
     rawNotes.zip(expected).foreach(it => {
@@ -58,7 +58,7 @@ class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with 
     assert(actual == expected)
   }
 
-  it should "when getDirectedInterval then proxies to intervalFactory" in {
+  it should "proxy to intervalFactory when directed interval is requested" in {
     val rawInterval = TestData.random.string
     val expected = TestData.random.directedInterval
     when(intervalFactory.getDirectedInterval(rawInterval)).thenReturn(expected)
@@ -68,7 +68,7 @@ class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with 
     assert(actual == expected)
   }
 
-  it should "when getKey then proxies to keyFactory" in {
+  it should "proxy to keyFactory when key is requested" in {
     val rawKey = TestData.random.string
     val expected = TestData.random.key
     when(keyFactory.getKey(rawKey)).thenReturn(expected)

@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.notes
 import org.scalatest.flatspec.AnyFlatSpec
 
 class OctaveTests extends AnyFlatSpec {
-  it should "when up then higher octave" in {
+  it should "return higher octave when up called" in {
     def start = new Octave(70)
 
     def actual = start.up
@@ -11,7 +11,7 @@ class OctaveTests extends AnyFlatSpec {
     assert(actual.offsetFromDefault == start.offsetFromDefault + 1)
   }
 
-  it should "when down then lower octave" in {
+  it should "return lower octave when down called" in {
     def start = new Octave(81)
 
     def actual = start.down
@@ -19,7 +19,7 @@ class OctaveTests extends AnyFlatSpec {
     assert(actual.offsetFromDefault == start.offsetFromDefault - 1)
   }
 
-  it should "when same octaves then equal" in {
+  it should "equate same octaves" in {
     def octave = new Octave(52)
 
     val first = octave
@@ -29,7 +29,7 @@ class OctaveTests extends AnyFlatSpec {
     assert(first >= second)
   }
 
-  it should "when first higher than second then relative operator works" in {
+  it should "be able to compare octaves" in {
     val first = new Octave(20)
     val second = new Octave(21)
 

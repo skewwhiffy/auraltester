@@ -11,7 +11,7 @@ class NoteFactoryTest extends AnyFlatSpec with should.Matchers with MockInstanti
   @InjectMocks
   private var noteFactory: NoteFactory = _
 
-  it should "can instantiate middle C" in {
+  it should "instantiate middle C" in {
     val expected = AbsoluteNote.middleC
 
     val actual = noteFactory.getAbsoluteNote("C")
@@ -19,7 +19,7 @@ class NoteFactoryTest extends AnyFlatSpec with should.Matchers with MockInstanti
     assert(actual == expected)
   }
 
-  it should "can instantiate note above middle C" in {
+  it should "instantiate note above middle C" in {
     val expected = "c''"
 
     val actual = noteFactory.getAbsoluteNote(expected)
@@ -27,7 +27,7 @@ class NoteFactoryTest extends AnyFlatSpec with should.Matchers with MockInstanti
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  it should "can instantiate note below middle C" in {
+  it should "instantiate note below middle C" in {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
 
@@ -36,7 +36,7 @@ class NoteFactoryTest extends AnyFlatSpec with should.Matchers with MockInstanti
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  it should "when note name invalid then throws" in {
+  it should "throw when note name invalid" in {
     assertThrows[IllegalArgumentException] {
       noteFactory.getAbsoluteNote("H")
     }

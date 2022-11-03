@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.notes
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AccidentalTests extends AnyFlatSpec {
-  it should "when natural then displays correctly" in {
+  it should "display correctly when natural" in {
     val expected = ""
     val natural = Accidental.natural
 
@@ -12,7 +12,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual == expected)
   }
 
-  it should "when flattening natural then displays flat" in {
+  it should "display flat when flattening natural" in {
     val expected = "b"
     val natural = Accidental.natural
 
@@ -21,7 +21,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual.displayString == expected)
   }
 
-  it should "when sharpening natural then displays sharp" in {
+  it should "display sharp when sharpening natural" in {
     val expected = "#"
     val natural = Accidental.natural
 
@@ -30,7 +30,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual.displayString == expected)
   }
 
-  it should "when flat then displays flat" in {
+  it should "display flat when flat" in {
     val expected = "b"
     val flat = Accidental.flat
 
@@ -39,7 +39,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual == expected)
   }
 
-  it should "when flattening flat then displays double flat" in {
+  it should "display double flat when flattening flat" in {
     val expected = "bb"
     val flat = Accidental.flat
 
@@ -48,7 +48,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual.displayString == expected)
   }
 
-  it should "when sharpening flat then displays natural" in {
+  it should "display natural when sharpening flat" in {
     val expected = ""
     val flat = Accidental.flat
 
@@ -58,7 +58,7 @@ class AccidentalTests extends AnyFlatSpec {
   }
 
   List(3, 7).foreach(flats => {
-    it should s"when $flats flats then displays correctly" in {
+    it should s"display correctly when $flats flats" in {
       val expected = "b".repeat(flats)
       val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
 
@@ -68,7 +68,7 @@ class AccidentalTests extends AnyFlatSpec {
     }
   })
 
-  it should "when sharp then displays sharp" in {
+  it should "display sharp when sharp" in {
     val expected = "#"
     val sharp = Accidental.sharp
 
@@ -77,7 +77,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual == expected)
   }
 
-  it should "when sharpening sharp then displays double sharp" in {
+  it should "display double sharp when sharpening sharp" in {
     val expected = "x"
     val sharp = Accidental.sharp
 
@@ -86,7 +86,7 @@ class AccidentalTests extends AnyFlatSpec {
     assert(actual.displayString == expected)
   }
 
-  it should "when flattening sharp then displays natural" in {
+  it should "display natural when flattening sharp" in {
     val expected = ""
     val sharp = Accidental.sharp
 
@@ -96,7 +96,7 @@ class AccidentalTests extends AnyFlatSpec {
   }
 
   List(6, 10).foreach(numberOfSharps => {
-    it should s"when $numberOfSharps then displays correctly" in {
+    it should s"display correctly when $numberOfSharps" in {
       val expected = "x".repeat(numberOfSharps / 2)
       val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
@@ -107,7 +107,7 @@ class AccidentalTests extends AnyFlatSpec {
   })
 
   List(7, 13).foreach(numberOfSharps => {
-    it should s"when $numberOfSharps then displays correctly" in {
+    it should s"display correctly when $numberOfSharps" in {
       val expected = "x".repeat(numberOfSharps / 2) + "#"
       val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
@@ -117,7 +117,7 @@ class AccidentalTests extends AnyFlatSpec {
     }
   })
 
-  it should "when accidentals equivalent then equal" in {
+  it should "equate equivalent accidentals" in {
     def accidental = new Accidental(5)
 
     val first = accidental

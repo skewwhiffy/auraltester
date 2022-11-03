@@ -4,7 +4,7 @@ import com.skewwhiffy.auraltester.fractions.Fraction
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NoteLengthTest extends AnyFlatSpec {
-  it should "correctly adds dot" in {
+  it should "correctly add dot" in {
     val original = NoteLength.crotchet
     val expected = NoteLength(Fraction(3, 8))
 
@@ -13,7 +13,7 @@ class NoteLengthTest extends AnyFlatSpec {
     assert(actual == expected)
   }
 
-  it should "can instantiate specialized note lengths" in {
+  it should "instantiate specialized note lengths" in {
     val breve = NoteLength.breve
     val semibreve = NoteLength.semibreve
     val minim = NoteLength.minim

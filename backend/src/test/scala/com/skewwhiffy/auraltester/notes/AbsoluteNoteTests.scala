@@ -5,7 +5,7 @@ import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AbsoluteNoteTests extends AnyFlatSpec {
-  it should "can display middle C" in {
+  it should "display middle C" in {
     val expected = "C"
 
     val actual = AbsoluteNote.middleC
@@ -13,7 +13,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  it should "can add major and perfect intervals" in {
+  it should "add major and perfect intervals" in {
     val intervals = List(
       Interval.perfect(1),
       Interval.major(2),
@@ -30,7 +30,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     testGeneric(start, intervals, expected)
   }
 
-  it should "can add minor interval" in {
+  it should "add minor interval" in {
     val start = AbsoluteNote.middleC + Interval.major(6)
     val intervals = List(
       Interval.perfect(1),
@@ -47,7 +47,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     testGeneric(start, intervals, expected)
   }
 
-  it should "can add diminished and augmented interval" in {
+  it should "add diminished and augmented interval" in {
     val intervals = List(
       Interval.diminished(3),
       Interval.diminished(4),
@@ -60,7 +60,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     testGeneric(start, intervals, expected)
   }
 
-  it should "cannot add compound intervals yet" in {
+  it should "not add compound intervals yet" in {
     val start = AbsoluteNote.middleC
 
     assertThrows[IllegalArgumentException] {
@@ -68,7 +68,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     }
   }
 
-  it should "can apply up interval" in {
+  it should "apply up interval" in {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
     val expected = "_E"
@@ -78,7 +78,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  it should "can apply down interval" in {
+  it should "apply down interval" in {
     val interval = Interval.minor(3)
     val directedInterval = interval.down
     val start = AbsoluteNote.middleC
@@ -91,7 +91,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     assert(actualWithSubtract.abc(Key.cMajor) == expected)
   }
 
-  it should "cannot subtract compound intervals yet" in {
+  it should "not subtract compound intervals yet" in {
     val interval = Interval.major(9)
 
     assertThrows[IllegalArgumentException] {

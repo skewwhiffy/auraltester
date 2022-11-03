@@ -31,31 +31,35 @@ class ScaleControllerTest extends AnyFlatSpec with MockInstantiation with should
     Map(
       ("ascending", ScaleDirection.ascending),
       ("descending", ScaleDirection.descending)
-    ).foreach(directionTestCase =>
-      it should s"scale type ${scaleTypeTestCase._1} ${directionTestCase._1} is parsed correctly" in {
+    ).foreach(directionTestCase => {
+      val scaleTypeString = scaleTypeTestCase._1
+      val direction = directionTestCase._1
+      val directionObject = directionTestCase._2
+      val getScale = scaleTypeTestCase._2
+
+      it should s"parse scale type $scaleTypeString $direction" in {
         val clefString = TestData.random.string
         val noteString = TestData.random.string
-        val direction = directionTestCase._1
         val abcWithoutKeySignature = TestData.random.string
         val abcWithKeySignature = TestData.random.string
         val scaleLowestNote = TestData.random.absoluteNote
-        val key = new Key(scaleLowestNote.note, scaleTypeTestCase._1 != "major")
+        val key = new Key(scaleLowestNote.note, scaleTypeString != "major")
         val clefObject = mock[Clef]
         val scale = mock[Scale]
         val scaleType = mock[ScaleType]
         val keyCaptor: ArgumentCaptor[Key] = ArgumentCaptor.forClass(classOf[Key])
         when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
         when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-        when(scaleTypeTestCase._2()).thenReturn(scaleType)
+        when(getScale()).thenReturn(scaleType)
         when(scale.lowestNote).thenReturn(new AbsoluteNote(key.note, Octave.default))
-        when(scaleService.getScale(clefObject, key.note, scaleType, directionTestCase._2)).thenReturn(scale)
+        when(scaleService.getScale(clefObject, key.note, scaleType, directionObject)).thenReturn(scale)
         when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
         when(abcService.getAbc(meq(clefObject), meq(scale), keyCaptor.capture())).thenReturn(abcWithKeySignature)
 
         val actual = scaleController.get(
           clefString,
           noteString,
-          scaleTypeTestCase._1,
+          scaleTypeString,
           direction
         )
 
@@ -63,10 +67,10 @@ class ScaleControllerTest extends AnyFlatSpec with MockInstantiation with should
         assert(actual.withKeySignature == abcWithKeySignature)
         assert(actual.withoutKeySignature == abcWithoutKeySignature)
       }
-    )
+    })
   )
 
-  it should "invalid scale type throws" in {
+  it should "throw when an invalid scale type is requested" in {
     val note = TestData.random.string
     when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
 
@@ -75,7 +79,7 @@ class ScaleControllerTest extends AnyFlatSpec with MockInstantiation with should
     }
   }
 
-  it should "invalid direction throws" in {
+  it should "throw when an invalid direction is requested" in {
     val note = TestData.random.string
     when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
     when(scaleTypeFactory.major).thenReturn(TestData.random.scaleType)
@@ -84,5 +88,4 @@ class ScaleControllerTest extends AnyFlatSpec with MockInstantiation with should
       scaleController.get("bass", note, "major", "stationary")
     }
   }
-
 }

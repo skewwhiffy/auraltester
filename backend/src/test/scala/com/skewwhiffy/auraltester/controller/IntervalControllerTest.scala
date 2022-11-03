@@ -31,7 +31,10 @@ class IntervalControllerTest extends AnyFlatSpec with MockInstantiation with sho
   )
 
   def test(degree: Int, testCase: (String, String)): Unit = {
-    it should s"can get ${testCase._1} $degree" in {
+    val intervalQuality = testCase._1
+    val intervalQualitySuffix = testCase._2
+
+    it should s"get $intervalQuality $degree" in {
       val clef = TestData.random.string
       val bottomNote = TestData.random.string
       val intervalQuality = testCase._1
@@ -41,7 +44,6 @@ class IntervalControllerTest extends AnyFlatSpec with MockInstantiation with sho
       val bottomNoteObject = TestData.random.absoluteNote
       val keySignatureObject = TestData.random.key
       val keySignatureNote = new AbsoluteNote(keySignatureObject.note, Octave.default)
-      val intervalQualitySuffix = testCase._2
       val expectedIntervalNotation = s"+$intervalSize$intervalQualitySuffix"
       val interval = TestData.random.interval
       val intervalNotes = mock[IntervalNotes]

@@ -3,7 +3,7 @@ package com.skewwhiffy.auraltester.notes
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DirectedIntervalTests extends AnyFlatSpec {
-  it should "can instantiate up interval" in {
+  it should "instantiate up interval" in {
     val interval = Interval.major(6)
 
     val actual = interval.up
@@ -12,7 +12,7 @@ class DirectedIntervalTests extends AnyFlatSpec {
     assert(actual.direction == IntervalDirection.up)
   }
 
-  it should "can instantiate down interval" in {
+  it should "instantiate down interval" in {
     val interval = Interval.major(7)
 
     val actual = interval.down
@@ -21,7 +21,7 @@ class DirectedIntervalTests extends AnyFlatSpec {
     assert(actual.direction == IntervalDirection.down)
   }
 
-  it should "equivalent directed intervals are equal" in {
+  it should "equate equivalent directed intervals" in {
     def interval = Interval.perfect(5).up
 
     val first = interval

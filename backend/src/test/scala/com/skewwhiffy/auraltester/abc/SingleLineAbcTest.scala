@@ -5,11 +5,10 @@ import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
 import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
-import org.scalatest.BeforeAndAfter
+import org.scalatest.{BeforeAndAfter, GivenWhenThen}
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
 
-class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with should.Matchers with BeforeAndAfter {
+class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with GivenWhenThen with BeforeAndAfter {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
@@ -36,19 +35,31 @@ class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with should.M
     })
   }
 
-  it should "when title supplied then title populated" in {
+  it should "populate title" in {
+    Given("title is supplied")
+
+    When("getting single line ABC")
     val abc = new SingleLineAbc(title, clef, noteLength, notes)
 
+    Then("abc has index")
     assert(abc.abc.contains("X:1"))
+    And("populates title")
     assert(abc.abc.contains(s"T:$title"))
+    And("clef is populated")
     assert(abc.abc.contains(s"K:clef=${clef.abc}"))
+    And("note length is populated")
     assert(abc.abc.contains(s"L:${noteLength.abc}"))
+    And("notes abc is correct")
     assert(abc.abc.contains(notesAbc.mkString))
   }
 
-  it should "when title not supplied then title not populated" in {
+  it should "not populate title" in {
+    Given("title is not supplied")
+
+    When("getting single line ABC")
     val abc = new SingleLineAbc(clef, noteLength, notes)
 
+    Then("abc has no title")
     assert(!abc.abc.contains("T:"))
   }
 }

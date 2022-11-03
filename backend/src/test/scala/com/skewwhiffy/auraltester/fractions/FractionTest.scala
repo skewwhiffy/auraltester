@@ -1,10 +1,9 @@
 package com.skewwhiffy.auraltester.fractions
 
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should
 
-class FractionTest extends AnyFlatSpec with should.Matchers {
-  it should "can instantiate simple fraction" in {
+class FractionTest extends AnyFlatSpec {
+  it should "instantiate simple fraction" in {
     val expected = "1/2"
 
     val actual = Fraction(1, 2)
@@ -12,7 +11,7 @@ class FractionTest extends AnyFlatSpec with should.Matchers {
     assert(actual.toString == expected)
   }
 
-  it should "can instantiate mixed fraction" in {
+  it should "instantiate mixed fraction" in {
     val expected = "1 2/3"
 
     val actual = Fraction(1, 2, 3)
@@ -20,7 +19,7 @@ class FractionTest extends AnyFlatSpec with should.Matchers {
     assert(actual.toString == expected)
   }
 
-  it should "can add fractions" in {
+  it should "add fractions" in {
     val expected = "11/12"
 
     val actual = Fraction(3, 4) + Fraction(1, 6)
@@ -28,7 +27,7 @@ class FractionTest extends AnyFlatSpec with should.Matchers {
     assert(actual.toString == expected)
   }
 
-  it should "can subtract fractions" in {
+  it should "subtract fractions" in {
     val expected = "1/2"
 
     val actual = Fraction(3, 4) - Fraction(1, 4)
@@ -36,7 +35,7 @@ class FractionTest extends AnyFlatSpec with should.Matchers {
     assert(actual.toString == expected)
   }
 
-  it should "can multiply fractions" in {
+  it should "multiply fractions" in {
     val expected = "3/8"
 
     val actual = Fraction(1, 4) * Fraction(3, 2)
@@ -44,14 +43,14 @@ class FractionTest extends AnyFlatSpec with should.Matchers {
     assert(actual.toString == expected)
   }
 
-  it should "integer fractions are equal to integer" in {
+  it should "equate integer fractions to integers" in {
     val source = Fraction(4, 2)
 
     //noinspection ComparingUnrelatedTypes
     assert(source == 2)
   }
 
-  it should "equivalent fractions are equal" in {
+  it should "equate equivalent fractions" in {
     val first = Fraction(2, 4)
     val second = Fraction(-3, -6)
 

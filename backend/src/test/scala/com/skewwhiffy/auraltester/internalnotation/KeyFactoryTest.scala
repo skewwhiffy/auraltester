@@ -5,13 +5,13 @@ import org.mockito.{InjectMocks, Mock}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should
 
-class KeyFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantiation {
+class KeyFactoryTest extends AnyFlatSpec with MockInstantiation {
   @Mock
   private val noteFactory: NoteFactory = null
   @InjectMocks
   private val keyFactory: KeyFactory = null
 
-  it should "can instantiate major key" in {
+  it should "instantiate major key" in {
     val rawKey = "a#"
     val expectedNote = TestData.random.note
     when(noteFactory.getNote("A#")).thenReturn(expectedNote)
@@ -22,7 +22,7 @@ class KeyFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantia
     assert(!actual.isMinor)
   }
 
-  it should "recognises m prefix for minor" in {
+  it should "recognise m prefix for minor" in {
     val rawKey = "abm"
     val expectedNote = TestData.random.note
     when(noteFactory.getNote("Ab")).thenReturn(expectedNote)
@@ -33,7 +33,7 @@ class KeyFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantia
     assert(actual.isMinor)
   }
 
-  it should "recognises minor suffix for minor" in {
+  it should "recognise minor suffix for minor" in {
     val rawKey = "bx minor"
     val expectedNote = TestData.random.note
     when(noteFactory.getNote("Bx")).thenReturn(expectedNote)
