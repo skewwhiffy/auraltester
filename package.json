@@ -4,7 +4,7 @@
   "description": "Aural testing software for music students",
   "main": "index.js",
   "scripts": {
-    "test": "cd backend && sbt clean test",
+    "test": "cd backend && sbt clean test && cd ../frontend && npm run test:once",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
     "dev": "cd frontend && npm run dev",
