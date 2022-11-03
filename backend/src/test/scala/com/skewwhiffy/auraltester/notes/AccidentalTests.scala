@@ -1,9 +1,9 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class AccidentalTests extends AnyFunSuite {
-  test("when natural then displays correctly") {
+class AccidentalTests extends AnyFlatSpec {
+  it should "when natural then displays correctly" in {
     val expected = ""
     val natural = Accidental.natural
 
@@ -12,7 +12,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("when flattening natural then displays flat") {
+  it should "when flattening natural then displays flat" in {
     val expected = "b"
     val natural = Accidental.natural
 
@@ -21,7 +21,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual.displayString == expected)
   }
 
-  test("when sharpening natural then displays sharp") {
+  it should "when sharpening natural then displays sharp" in {
     val expected = "#"
     val natural = Accidental.natural
 
@@ -30,7 +30,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual.displayString == expected)
   }
 
-  test("when flat then displays flat") {
+  it should "when flat then displays flat" in {
     val expected = "b"
     val flat = Accidental.flat
 
@@ -39,7 +39,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("when flattening flat then displays double flat") {
+  it should "when flattening flat then displays double flat" in {
     val expected = "bb"
     val flat = Accidental.flat
 
@@ -48,7 +48,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual.displayString == expected)
   }
 
-  test("when sharpening flat then displays natural") {
+  it should "when sharpening flat then displays natural" in {
     val expected = ""
     val flat = Accidental.flat
 
@@ -58,7 +58,7 @@ class AccidentalTests extends AnyFunSuite {
   }
 
   List(3, 7).foreach(flats => {
-    test(s"when $flats flats then displays correctly") {
+    it should s"when $flats flats then displays correctly" in {
       val expected = "b".repeat(flats)
       val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
 
@@ -68,7 +68,7 @@ class AccidentalTests extends AnyFunSuite {
     }
   })
 
-  test("when sharp then displays sharp") {
+  it should "when sharp then displays sharp" in {
     val expected = "#"
     val sharp = Accidental.sharp
 
@@ -77,7 +77,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("when sharpening sharp then displays double sharp") {
+  it should "when sharpening sharp then displays double sharp" in {
     val expected = "x"
     val sharp = Accidental.sharp
 
@@ -86,7 +86,7 @@ class AccidentalTests extends AnyFunSuite {
     assert(actual.displayString == expected)
   }
 
-  test("when flattening sharp then displays natural") {
+  it should "when flattening sharp then displays natural" in {
     val expected = ""
     val sharp = Accidental.sharp
 
@@ -96,7 +96,7 @@ class AccidentalTests extends AnyFunSuite {
   }
 
   List(6, 10).foreach(numberOfSharps => {
-    test(s"when $numberOfSharps then displays correctly") {
+    it should s"when $numberOfSharps then displays correctly" in {
       val expected = "x".repeat(numberOfSharps / 2)
       val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
@@ -105,8 +105,9 @@ class AccidentalTests extends AnyFunSuite {
       assert(actual == expected)
     }
   })
+
   List(7, 13).foreach(numberOfSharps => {
-    test(s"when $numberOfSharps then displays correctly") {
+    it should s"when $numberOfSharps then displays correctly" in {
       val expected = "x".repeat(numberOfSharps / 2) + "#"
       val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
 
@@ -116,7 +117,7 @@ class AccidentalTests extends AnyFunSuite {
     }
   })
 
-  test("when accidentals equivalent then equal") {
+  it should "when accidentals equivalent then equal" in {
     def accidental = new Accidental(5)
 
     val first = accidental

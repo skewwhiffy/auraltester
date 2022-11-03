@@ -3,30 +3,31 @@ package com.skewwhiffy.auraltester.internalnotation
 import com.skewwhiffy.auraltester.notes.Interval
 import com.skewwhiffy.auraltester.testutils.MockInstantiation
 import org.mockito.InjectMocks
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class IntervalFactoryTest extends AnyFunSuite with MockInstantiation {
+class IntervalFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantiation {
   @InjectMocks
   private var intervalFactory: IntervalFactory = _
 
-  List(2, 3, 6, 7).foreach(it => {
-    test(s"can instantiate major $it") {
-      val expected = Interval.major(it).up
+  List(2, 3, 6, 7).foreach(intervalDegree => {
+    it should s"can instantiate major $intervalDegree" in {
+      val expected = Interval.major(intervalDegree).up
 
-      val actual = intervalFactory.getDirectedInterval(it.toString)
+      val actual = intervalFactory.getDirectedInterval(intervalDegree.toString)
 
       assert(actual == expected)
     }
   })
 
-  test("when invalid deviation then throws") {
+  it should "when invalid deviation then throws" in {
     assertThrows[IllegalArgumentException] {
       intervalFactory.getDirectedInterval("5*")
     }
   }
 
   List(1, 4, 5, 8).foreach(degree => {
-    test(s"can instantiate perfect $degree") {
+    it should s"can instantiate perfect $degree" in {
       val expected = Interval.perfect(degree).up
 
       val actual = intervalFactory.getDirectedInterval(degree.toString)
@@ -35,7 +36,7 @@ class IntervalFactoryTest extends AnyFunSuite with MockInstantiation {
     }
   })
 
-  test("can instantiate minor third") {
+  it should "can instantiate minor third" in {
     val expected = Interval.minor(3).up
 
     val actual = intervalFactory.getDirectedInterval("3-")

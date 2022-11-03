@@ -2,10 +2,10 @@ package com.skewwhiffy.auraltester.notes
 
 import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.scales.Key
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class AbsoluteNoteTests extends AnyFunSuite {
-  test("can display middle C") {
+class AbsoluteNoteTests extends AnyFlatSpec {
+  it should "can display middle C" in {
     val expected = "C"
 
     val actual = AbsoluteNote.middleC
@@ -13,7 +13,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  test("can add major and perfect intervals") {
+  it should "can add major and perfect intervals" in {
     val intervals = List(
       Interval.perfect(1),
       Interval.major(2),
@@ -30,7 +30,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     testGeneric(start, intervals, expected)
   }
 
-  test("can add minor interval") {
+  it should "can add minor interval" in {
     val start = AbsoluteNote.middleC + Interval.major(6)
     val intervals = List(
       Interval.perfect(1),
@@ -47,7 +47,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     testGeneric(start, intervals, expected)
   }
 
-  test("can add diminished and augmented interval") {
+  it should "can add diminished and augmented interval" in {
     val intervals = List(
       Interval.diminished(3),
       Interval.diminished(4),
@@ -60,7 +60,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     testGeneric(start, intervals, expected)
   }
 
-  test("cannot add compound intervals yet") {
+  it should "cannot add compound intervals yet" in {
     val start = AbsoluteNote.middleC
 
     assertThrows[IllegalArgumentException] {
@@ -68,7 +68,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     }
   }
 
-  test("can apply up interval") {
+  it should "can apply up interval" in {
     val interval = Interval.minor(3).up
     val start = AbsoluteNote.middleC
     val expected = "_E"
@@ -78,7 +78,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  test("can apply down interval") {
+  it should "can apply down interval" in {
     val interval = Interval.minor(3)
     val directedInterval = interval.down
     val start = AbsoluteNote.middleC
@@ -91,7 +91,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     assert(actualWithSubtract.abc(Key.cMajor) == expected)
   }
 
-  test("cannot subtract compound intervals yet") {
+  it should "cannot subtract compound intervals yet" in {
     val interval = Interval.major(9)
 
     assertThrows[IllegalArgumentException] {
@@ -99,7 +99,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     }
   }
 
-  test("equivalent notes are equal") {
+  it should "equivalent notes are equal" in {
     def note = new AbsoluteNote(Note.d.sharp, Octave.default.up)
 
     val first = note
@@ -110,7 +110,7 @@ class AbsoluteNoteTests extends AnyFunSuite {
     assert(first >= second)
   }
 
-  test("absolute note is not equal to non absolute note") {
+  it should "absolute note is not equal to non absolute note" in {
     def note = AbsoluteNote.middleC
 
     def someOtherObject = Note.c
@@ -119,13 +119,13 @@ class AbsoluteNoteTests extends AnyFunSuite {
     assert(!note.equals(someOtherObject))
   }
 
-  test("toString returns abc") {
+  it should "toString returns abc" in {
     def note = AbsoluteNote.middleC
 
     assert(note.toString == note.abc(Key.cMajor))
   }
 
-  test("non equivalent notes in same octave are comparable") {
+  it should "non equivalent notes in same octave are comparable" in {
     val lower = new AbsoluteNote(Note.d, Octave.default)
     val higher = new AbsoluteNote(Note.b, Octave.default)
 

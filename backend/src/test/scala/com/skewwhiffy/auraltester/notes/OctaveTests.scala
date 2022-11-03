@@ -1,9 +1,9 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class OctaveTests extends AnyFunSuite {
-  test("when up then higher octave") {
+class OctaveTests extends AnyFlatSpec {
+  it should "when up then higher octave" in {
     def start = new Octave(70)
 
     def actual = start.up
@@ -11,7 +11,7 @@ class OctaveTests extends AnyFunSuite {
     assert(actual.offsetFromDefault == start.offsetFromDefault + 1)
   }
 
-  test("when down then lower octave") {
+  it should "when down then lower octave" in {
     def start = new Octave(81)
 
     def actual = start.down
@@ -19,7 +19,7 @@ class OctaveTests extends AnyFunSuite {
     assert(actual.offsetFromDefault == start.offsetFromDefault - 1)
   }
 
-  test("when same octaves then equal") {
+  it should "when same octaves then equal" in {
     def octave = new Octave(52)
 
     val first = octave
@@ -29,7 +29,7 @@ class OctaveTests extends AnyFunSuite {
     assert(first >= second)
   }
 
-  test("when first higher than second then relative operator works") {
+  it should "when first higher than second then relative operator works" in {
     val first = new Octave(20)
     val second = new Octave(21)
 

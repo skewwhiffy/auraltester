@@ -2,10 +2,10 @@ package com.skewwhiffy.auraltester.scales
 
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Note, Octave}
 import com.skewwhiffy.auraltester.testutils.TestData
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class KeyTest extends AnyFunSuite {
-  test("when note has accidental in key then no accidental is given in abc") {
+class KeyTest extends AnyFlatSpec {
+  it should "when note has accidental in key then no accidental is given in abc" in {
     val note = new AbsoluteNote(Note.f.sharp, Octave.default)
     val key = new Key(Note.d)
 
@@ -14,7 +14,7 @@ class KeyTest extends AnyFunSuite {
     assert(actual == "F")
   }
 
-  test("when note has accidental different to key then note accidental is given in abc") {
+  it should "when note has accidental different to key then note accidental is given in abc" in {
     val note = new AbsoluteNote(Note.e.flat, Octave.default)
     val key = new Key(Note.g)
 
@@ -23,7 +23,7 @@ class KeyTest extends AnyFunSuite {
     assert(actual == "_E")
   }
 
-  test("when note is natural but key has accidental then note accidental is natual in abc") {
+  it should "when note is natural but key has accidental then note accidental is natual in abc" in {
     val note = new AbsoluteNote(Note.g, Octave.default)
     val key = new Key(Note.e)
 
@@ -46,7 +46,7 @@ class KeyTest extends AnyFunSuite {
     .flatMap(it => List(it, it.sharp, it.flat))
 
   renderableMajors.foreach { note =>
-    test(s"can render ${note.displayString} major") {
+    it should s"can render ${note.displayString} major" in {
       val key = new Key(note)
 
       assert(key.canRenderSignature)
@@ -54,7 +54,7 @@ class KeyTest extends AnyFunSuite {
   }
 
   allNotes.filter(it => !renderableMajors.contains(it)).foreach { note =>
-    test(s"cannot render ${note.displayString} major") {
+    it should s"cannot render ${note.displayString} major" in {
       val key = new Key(note)
 
       assert(!key.canRenderSignature)
@@ -62,7 +62,7 @@ class KeyTest extends AnyFunSuite {
   }
 
   allNotes.filter(it => !renderableMinors.contains(it)).foreach { note =>
-    test(s"cannot render ${note.displayString} minor") {
+    it should s"cannot render ${note.displayString} minor" in {
       val key = new Key(note, true)
 
       assert(!key.canRenderSignature)
@@ -70,14 +70,14 @@ class KeyTest extends AnyFunSuite {
   }
 
   renderableMinors.foreach { note =>
-    test(s"can render ${note.displayString} minor") {
+    it should s"can render ${note.displayString} minor" in {
       val key = new Key(note, true)
 
       assert(key.canRenderSignature)
     }
   }
 
-  test("when relativeMinor then correct") {
+  it should "when relativeMinor then correct" in {
     val key = new Key(Note.e.flat)
 
     val actual = key.relativeMinor
@@ -86,7 +86,7 @@ class KeyTest extends AnyFunSuite {
     assert(key.relativeMajor == key)
   }
 
-  test("when relativeMajor then correct") {
+  it should "when relativeMajor then correct" in {
     val key = new Key(Note.e.flat, true)
 
     val actual = key.relativeMajor
@@ -95,7 +95,7 @@ class KeyTest extends AnyFunSuite {
     assert(key.relativeMinor == key)
   }
 
-  test("when major then notes correct") {
+  it should "when major then notes correct" in {
     val key = new Key(Note.f.sharp, false)
     val expected = "F# G# A# B C# D# E#"
 
@@ -104,7 +104,7 @@ class KeyTest extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("when minor then notes correct") {
+  it should "when minor then notes correct" in {
     val key = new Key(Note.a, true)
     val expected = "A B C D E F G"
 
@@ -113,7 +113,7 @@ class KeyTest extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("when equivalent then equal") {
+  it should "when equivalent then equal" in {
     def key = new Key(Note.g.flat, false)
 
     val first = key
@@ -122,7 +122,7 @@ class KeyTest extends AnyFunSuite {
     assert(first == second)
   }
 
-  test("when not key then not equal") {
+  it should "when not key then not equal" in {
     //noinspection ComparingUnrelatedTypes
     assert(Key.cMajor != "hello")
   }
