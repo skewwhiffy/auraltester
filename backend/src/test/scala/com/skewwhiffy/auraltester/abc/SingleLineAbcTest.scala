@@ -5,20 +5,21 @@ import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
 import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
-import org.scalatest.Outcome
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class SingleLineAbcTest extends AnyFunSuite with MockInstantiation {
+class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with should.Matchers with BeforeAndAfter {
   private var title: String = _
   private var clef: Clef = _
   private var noteLength: NoteLength = _
   private var notes: List[AbsoluteNote] = _
   private var notesAbc: List[String] = _
 
-  override def withFixture(test: NoArgTest): Outcome = {
-    title = TestData.random.string
+  before {
     val noteFactory = new NoteFactory()
     val clefFactory = new ClefFactory(noteFactory)
+    title = TestData.random.string
     clef = TestData.random.oneOf(clefFactory.treble, clefFactory.alto, clefFactory.tenor, clefFactory.bass)
     noteLength = TestData.random.oneOf(
       NoteLength.breve,
@@ -33,10 +34,9 @@ class SingleLineAbcTest extends AnyFunSuite with MockInstantiation {
       when(note.abc(Key.cMajor)).thenReturn(it)
       note
     })
-    test()
   }
 
-  test("when title supplied then title populated") {
+  it should "when title supplied then title populated" in {
     val abc = new SingleLineAbc(title, clef, noteLength, notes)
 
     assert(abc.abc.contains("X:1"))
@@ -46,7 +46,7 @@ class SingleLineAbcTest extends AnyFunSuite with MockInstantiation {
     assert(abc.abc.contains(notesAbc.mkString))
   }
 
-  test("when title not supplied then title not populated") {
+  it should "when title not supplied then title not populated" in {
     val abc = new SingleLineAbc(clef, noteLength, notes)
 
     assert(!abc.abc.contains("T:"))

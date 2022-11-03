@@ -7,9 +7,10 @@ import com.skewwhiffy.auraltester.services.{AbcService, IntervalService}
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.mockito.ArgumentMatchers.{eq => meq}
 import org.mockito.{ArgumentCaptor, InjectMocks, Mock}
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class IntervalControllerTest extends AnyFunSuite with MockInstantiation {
+class IntervalControllerTest extends AnyFlatSpec with MockInstantiation with should.Matchers {
   @Mock
   private val abcService: AbcService = null
   @Mock
@@ -30,7 +31,7 @@ class IntervalControllerTest extends AnyFunSuite with MockInstantiation {
   )
 
   def test(degree: Int, testCase: (String, String)): Unit = {
-    test(s"can get ${testCase._1} $degree") {
+    it should s"can get ${testCase._1} $degree" in {
       val clef = TestData.random.string
       val bottomNote = TestData.random.string
       val intervalQuality = testCase._1
