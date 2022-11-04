@@ -40,7 +40,15 @@ class RadioButtons extends React.Component<Props, State> {
       ? this.props.values[0].value
       : this.props.defaultValue
     return (
-      <Form.Check key={key} name={this.props.name} value={value} label={label} type='radio' defaultChecked={value === defaultValue} />
+      <Form.Check
+        id={`${this.props.name}-${key}`}
+        key={key}
+        name={this.props.name}
+        value={value}
+        label={label}
+        type='radio'
+        defaultChecked={value === defaultValue}
+      />
     )
   }
 

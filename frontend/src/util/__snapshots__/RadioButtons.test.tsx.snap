@@ -11,12 +11,14 @@ exports[`RadioButtons should match snapshot 1`] = `
       className="form-check-input"
       defaultChecked={true}
       disabled={false}
+      id="radioButtonsTest-0-key"
       name="radioButtonsTest"
       type="radio"
       value="0-value"
     />
     <label
       className="form-check-label"
+      htmlFor="radioButtonsTest-0-key"
       title=""
     >
       0-label
@@ -29,12 +31,14 @@ exports[`RadioButtons should match snapshot 1`] = `
       className="form-check-input"
       defaultChecked={false}
       disabled={false}
+      id="radioButtonsTest-1-key"
       name="radioButtonsTest"
       type="radio"
       value="1-value"
     />
     <label
       className="form-check-label"
+      htmlFor="radioButtonsTest-1-key"
       title=""
     >
       1-label
@@ -47,12 +51,14 @@ exports[`RadioButtons should match snapshot 1`] = `
       className="form-check-input"
       defaultChecked={false}
       disabled={false}
+      id="radioButtonsTest-2-key"
       name="radioButtonsTest"
       type="radio"
       value="2-value"
     />
     <label
       className="form-check-label"
+      htmlFor="radioButtonsTest-2-key"
       title=""
     >
       2-label
@@ -65,12 +71,14 @@ exports[`RadioButtons should match snapshot 1`] = `
       className="form-check-input"
       defaultChecked={false}
       disabled={false}
+      id="radioButtonsTest-3-key"
       name="radioButtonsTest"
       type="radio"
       value="3-value"
     />
     <label
       className="form-check-label"
+      htmlFor="radioButtonsTest-3-key"
       title=""
     >
       3-label
@@ -83,12 +91,14 @@ exports[`RadioButtons should match snapshot 1`] = `
       className="form-check-input"
       defaultChecked={false}
       disabled={false}
+      id="radioButtonsTest-4-key"
       name="radioButtonsTest"
       type="radio"
       value="4-value"
     />
     <label
       className="form-check-label"
+      htmlFor="radioButtonsTest-4-key"
       title=""
     >
       4-label
