@@ -9,7 +9,7 @@ export interface RadioButtonDefinition {
   label?: string
 }
 
-interface Props {
+export interface Props {
   values: Array<RadioButtonDefinition>,
   name: string,
   defaultValue?: string,

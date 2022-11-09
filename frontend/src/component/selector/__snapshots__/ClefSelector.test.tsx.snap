@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClefSelector matches snapshot when default value set 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      Clef
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      <div>
+        'default_value' 'clef' '() =&gt; {}' '[{"value":"treble","label":"Treble Clef"},{"value":"alto","label":"Alto Clef"},{"value":"tenor","label":"Tenor Clef"},{"value":"bass","label":"Bass Clef"}]'
+      </div>
+    </div>
+  </div>
+</div>
+`;
