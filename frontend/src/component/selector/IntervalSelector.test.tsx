@@ -1,6 +1,6 @@
 import IntervalSelector from './IntervalSelector'
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 
 interface Triggered {
   clef: string,
