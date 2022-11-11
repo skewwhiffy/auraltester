@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RadioButtons should match snapshot 1`] = `
+exports[`RadioButtons snapshot should match snapshot 1`] = `
 <div
   onChange={[Function]}
 >

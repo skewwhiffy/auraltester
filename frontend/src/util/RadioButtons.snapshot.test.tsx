@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import renderer from 'react-test-renderer'
 import RadioButtons, { RadioButtonDefinition } from './RadioButtons'
 
-describe('RadioButtons', () => {
+describe('RadioButtons snapshot', () => {
   let values: Array<RadioButtonDefinition>
   let onChange: (_: string) => void
   let getElement: () => ReactElement

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IntervalSelector matches snapshot 1`] = `
+exports[`IntervalSelector snapshot matches snapshot 1`] = `
 <div
   className="container"
 >

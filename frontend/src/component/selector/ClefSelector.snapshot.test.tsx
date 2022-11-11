@@ -8,7 +8,7 @@ jest.mock('../../util/RadioButtons', () => (props: Props) => (
   </div>
 ))
 
-describe('ClefSelector', () => {
+describe('ClefSelector snapshot', () => {
   it('matches snapshot when default value set', () => {
     const actual = renderer.create(
       <ClefSelector defaultValue='default_value' onChange={() => { }} />

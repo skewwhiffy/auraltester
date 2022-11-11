@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ClefSelector matches snapshot when default value set 1`] = `
+exports[`ClefSelector snapshot matches snapshot when default value set 1`] = `
 <div
   className="container"
 >
@@ -27,7 +27,7 @@ exports[`ClefSelector matches snapshot when default value set 1`] = `
 </div>
 `;
 
-exports[`ClefSelector uses treble as default value if not provided 1`] = `
+exports[`ClefSelector snapshot uses treble as default value if not provided 1`] = `
 <div
   className="container"
 >

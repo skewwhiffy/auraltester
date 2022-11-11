@@ -22,7 +22,7 @@ jest.mock('../../util/RadioButtons', () => (props: RadioButtonsProps) => (
   </div>
 ))
 
-describe('IntervalSelector', () => {
+describe('IntervalSelector snapshot', () => {
   it('matches snapshot', () => {
     const actual = renderer.create(
       <IntervalSelector onChange={() => { }} />
