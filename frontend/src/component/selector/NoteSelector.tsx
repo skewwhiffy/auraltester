@@ -61,10 +61,6 @@ class NoteSelector extends React.Component<Props, State> {
     )
   }
 
-  /*
-      note: this.extractNote(props.defaultValue),
-      accidental: this.extractAccidental(props.defaultValue)
-      */
   private extractNoteName = (note: string) => {
     return note.substring(0, 1)
   }

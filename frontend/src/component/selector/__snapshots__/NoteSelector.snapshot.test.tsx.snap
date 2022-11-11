@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteSelector snapshot matches snapshot 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      Note
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      <div>
+        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","defaultValue":"C"}
+      </div>
+    </div>
+    <div
+      className="col"
+    >
+      <div>
+        {"values":[{"value":"x","label":"double sharp"},{"value":"#"},{"value":"","label":"natural"},{"value":"b"},{"value":"bb","label":"double flat"}],"name":"accidental","defaultValue":""}
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`NoteSelector snapshot matches snapshot with no includeDoubleAccidentals 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      Note
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col"
+    >
+      <div>
+        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","defaultValue":"D"}
+      </div>
+    </div>
+    <div
+      className="col"
+    >
+      <div>
+        {"values":[{"value":"#"},{"value":"","label":"natural"},{"value":"b"}],"name":"accidental","defaultValue":""}
+      </div>
+    </div>
+  </div>
+</div>
+`;

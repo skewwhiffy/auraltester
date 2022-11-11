@@ -10,7 +10,7 @@ interface Triggered {
   keySignature: string
 }
 
-describe.only('IntervalSelector', () => {
+describe('IntervalSelector', () => {
   let triggered: Array<Triggered>
 
   beforeEach(() => {

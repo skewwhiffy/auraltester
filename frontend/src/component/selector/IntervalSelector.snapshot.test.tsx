@@ -5,21 +5,15 @@ import { Props as RadioButtonsProps } from '../../util/RadioButtons'
 import renderer from 'react-test-renderer'
 
 jest.mock('../../component/selector/ClefSelector', () => (props: ClefSelectorProps) => (
-  <div>
-    {`${JSON.stringify(props)}`}
-  </div>
+  <div>{JSON.stringify(props)}</div>
 ))
 
 jest.mock('../../component/selector/NoteSelector', () => (props: NoteSelectorProps) => (
-  <div>
-    {`${JSON.stringify(props)}`}
-  </div>
+  <div>{JSON.stringify(props)}</div>
 ))
 
 jest.mock('../../util/RadioButtons', () => (props: RadioButtonsProps) => (
-  <div>
-    {`${JSON.stringify(props)}`}
-  </div>
+  <div>{JSON.stringify(props)}</div>
 ))
 
 describe('IntervalSelector snapshot', () => {

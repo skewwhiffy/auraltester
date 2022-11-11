@@ -3,9 +3,7 @@ import { Props } from '../../util/RadioButtons'
 import renderer from 'react-test-renderer'
 
 jest.mock('../../util/RadioButtons', () => (props: Props) => (
-  <div>
-    {`'${props.defaultValue}' '${props.name}' '${props.onChange}' '${JSON.stringify(props.values)}'`}
-  </div>
+  <div>{JSON.stringify(props)}</div>
 ))
 
 describe('ClefSelector snapshot', () => {

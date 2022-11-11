@@ -20,7 +20,7 @@ exports[`ClefSelector snapshot matches snapshot when default value set 1`] = `
       className="col"
     >
       <div>
-        'default_value' 'clef' '() =&gt; {}' '[{"value":"treble","label":"Treble Clef"},{"value":"alto","label":"Alto Clef"},{"value":"tenor","label":"Tenor Clef"},{"value":"bass","label":"Bass Clef"}]'
+        {"values":[{"value":"treble","label":"Treble Clef"},{"value":"alto","label":"Alto Clef"},{"value":"tenor","label":"Tenor Clef"},{"value":"bass","label":"Bass Clef"}],"name":"clef","defaultValue":"default_value"}
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ exports[`ClefSelector snapshot uses treble as default value if not provided 1`] 
       className="col"
     >
       <div>
-        'treble' 'clef' '() =&gt; {}' '[{"value":"treble","label":"Treble Clef"},{"value":"alto","label":"Alto Clef"},{"value":"tenor","label":"Tenor Clef"},{"value":"bass","label":"Bass Clef"}]'
+        {"values":[{"value":"treble","label":"Treble Clef"},{"value":"alto","label":"Alto Clef"},{"value":"tenor","label":"Tenor Clef"},{"value":"bass","label":"Bass Clef"}],"name":"clef","defaultValue":"treble"}
       </div>
     </div>
   </div>
