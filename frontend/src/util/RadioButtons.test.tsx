@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { ReactElement, ReactNode } from 'react'
 import renderer from 'react-test-renderer'
 import RadioButtons, { RadioButtonDefinition } from './RadioButtons'
