@@ -1,28 +1,17 @@
 import ClefSelector from './ClefSelector'
-import { Props } from '../../util/RadioButtons'
-import renderer from 'react-test-renderer'
 import { render, screen } from '@testing-library/react';
 
-jest.mock('../../util/RadioButtons', () => (props: Props) => (
-  <div>
-    {`'${props.defaultValue}' '${props.name}' '${props.onChange}' '${JSON.stringify(props.values)}'`}
-  </div>
-))
-
 describe('ClefSelector', () => {
-  it('matches snapshot when default value set', () => {
-    const actual = renderer.create(
-      <ClefSelector defaultValue='default_value' onChange={() => { }} />
+  it('triggers onChange function supplied', () => {
+    const toTrigger = ['Alto Clef', 'Bass Clef', 'Tenor Clef', 'Treble Clef']
+    const expected = ['alto', 'bass', 'tenor', 'treble']
+    const triggered: Array<String> = []
+    render(
+      <ClefSelector onChange={it => triggered.push(it)} />
     )
 
-    expect(actual).toMatchSnapshot()
-  })
+    toTrigger.map(it => screen.getByLabelText(it)).forEach(it => it.click())
 
-  it('uses treble as default value if not provided', () => {
-    const actual = renderer.create(
-      <ClefSelector onChange={() => { }} />
-    )
-
-    expect(actual).toMatchSnapshot()
+    expect(triggered).toStrictEqual(expected)
   })
 })

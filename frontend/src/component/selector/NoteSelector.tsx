@@ -4,7 +4,7 @@ import RadioButtons, { RadioButtonDefinition } from "../../util/RadioButtons"
 
 type OnChangeHandler = (note: string) => void
 
-interface Props {
+export interface Props {
   defaultValue: string,
   includeDoubleAccidentals?: boolean,
   onChange: OnChangeHandler
@@ -70,7 +70,6 @@ class NoteSelector extends React.Component<Props, State> {
   }
 
   private extractAccidental = (note: string) => {
-    console.log(note.substring(1))
     return note.substring(1)
   }
 

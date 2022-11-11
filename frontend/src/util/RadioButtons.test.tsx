@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { ReactElement, ReactNode } from 'react'
-import renderer from 'react-test-renderer'
+import { ReactElement } from 'react'
 import RadioButtons, { RadioButtonDefinition } from './RadioButtons'
 
 describe('RadioButtons', () => {
@@ -25,12 +24,6 @@ describe('RadioButtons', () => {
         />
       )
     }
-  })
-
-  it('should match snapshot', () => {
-    const actual = renderer.create(getElement())
-
-    expect(actual).toMatchSnapshot()
   })
 
   it('populates label from value if not provided', () => {

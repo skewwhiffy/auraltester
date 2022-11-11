@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void
 
-interface Props {
+export interface Props {
   defaultValue?: string,
   onChange: OnChangeHandler
 }
