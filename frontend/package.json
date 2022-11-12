@@ -24,6 +24,7 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:once": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,6 +51,8 @@
     "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
+    "react-test-renderer": "^18.2.0",
     "typescript": "^4.8.4"
   }
 }

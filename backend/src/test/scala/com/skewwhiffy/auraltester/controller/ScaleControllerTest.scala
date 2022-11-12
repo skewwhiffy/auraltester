@@ -6,10 +6,12 @@ import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Octave}
 import com.skewwhiffy.auraltester.scales.{Key, Scale, ScaleDirection, ScaleType, ScaleTypeFactory}
 import com.skewwhiffy.auraltester.services.{AbcService, ScaleService}
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
-import org.mockito.{InjectMocks, Mock}
-import org.scalatest.funsuite.AnyFunSuite
+import org.mockito.{ArgumentCaptor, InjectMocks, Mock}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
+import org.mockito.ArgumentMatchers.{eq => meq}
 
-class ScaleControllerTest extends AnyFunSuite with MockInstantiation {
+class ScaleControllerTest extends AnyFlatSpec with MockInstantiation with should.Matchers {
   @Mock
   private val abcService: AbcService = null
   @Mock
@@ -29,40 +31,46 @@ class ScaleControllerTest extends AnyFunSuite with MockInstantiation {
     Map(
       ("ascending", ScaleDirection.ascending),
       ("descending", ScaleDirection.descending)
-    ).foreach(directionTestCase =>
-      test(s"scale type ${scaleTypeTestCase._1} ${directionTestCase._1} is parsed correctly") {
+    ).foreach(directionTestCase => {
+      val scaleTypeString = scaleTypeTestCase._1
+      val direction = directionTestCase._1
+      val directionObject = directionTestCase._2
+      val getScale = scaleTypeTestCase._2
+
+      it should s"parse scale type $scaleTypeString $direction" in {
         val clefString = TestData.random.string
         val noteString = TestData.random.string
-        val direction = directionTestCase._1
         val abcWithoutKeySignature = TestData.random.string
         val abcWithKeySignature = TestData.random.string
         val scaleLowestNote = TestData.random.absoluteNote
-        val key = new Key(scaleLowestNote.note)
+        val key = new Key(scaleLowestNote.note, scaleTypeString != "major")
         val clefObject = mock[Clef]
         val scale = mock[Scale]
         val scaleType = mock[ScaleType]
+        val keyCaptor: ArgumentCaptor[Key] = ArgumentCaptor.forClass(classOf[Key])
         when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
         when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-        when(scaleTypeTestCase._2()).thenReturn(scaleType)
+        when(getScale()).thenReturn(scaleType)
         when(scale.lowestNote).thenReturn(new AbsoluteNote(key.note, Octave.default))
-        when(scaleService.getScale(clefObject, key.note, scaleType, directionTestCase._2)).thenReturn(scale)
+        when(scaleService.getScale(clefObject, key.note, scaleType, directionObject)).thenReturn(scale)
         when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
-        when(abcService.getAbc(clefObject, scale, key)).thenReturn(abcWithKeySignature)
+        when(abcService.getAbc(meq(clefObject), meq(scale), keyCaptor.capture())).thenReturn(abcWithKeySignature)
 
         val actual = scaleController.get(
           clefString,
           noteString,
-          scaleTypeTestCase._1,
+          scaleTypeString,
           direction
         )
 
+        assert(keyCaptor.getValue == key)
         assert(actual.withKeySignature == abcWithKeySignature)
         assert(actual.withoutKeySignature == abcWithoutKeySignature)
       }
-    )
+    })
   )
 
-  test("invalid scale type throws") {
+  it should "throw when an invalid scale type is requested" in {
     val note = TestData.random.string
     when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
 
@@ -71,7 +79,7 @@ class ScaleControllerTest extends AnyFunSuite with MockInstantiation {
     }
   }
 
-  test("invalid direction throws") {
+  it should "throw when an invalid direction is requested" in {
     val note = TestData.random.string
     when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
     when(scaleTypeFactory.major).thenReturn(TestData.random.scaleType)
@@ -80,5 +88,4 @@ class ScaleControllerTest extends AnyFunSuite with MockInstantiation {
       scaleController.get("bass", note, "major", "stationary")
     }
   }
-
 }

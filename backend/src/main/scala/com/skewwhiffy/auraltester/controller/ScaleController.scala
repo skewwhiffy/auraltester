@@ -26,13 +26,12 @@ class ScaleController(
   ): ScaleResponse = {
     val clefObject = internalNotationFactory.clef(clef)
     val noteObject = internalNotationFactory.getNote(note).note
-    val scaleTypeObject = scaleType match {
-      case "major" => scaleTypeFactory.major
-      case "minor-harmonic" => scaleTypeFactory.minorHarmonic
-      case "minor-melodic" => scaleTypeFactory.minorMelodic
+    val (scaleTypeObject, isMinor) = scaleType match {
+      case "major" => (scaleTypeFactory.major, false)
+      case "minor-harmonic" => (scaleTypeFactory.minorHarmonic, true)
+      case "minor-melodic" => (scaleTypeFactory.minorMelodic, true)
       case _ => throw new IllegalArgumentException(s"Unrecognized scale type: '$scaleType'")
     }
-    val isMinor = scaleTypeObject.displayName != "major"
     val directionObject = direction match {
       case "ascending" => ScaleDirection.ascending
       case "descending" => ScaleDirection.descending

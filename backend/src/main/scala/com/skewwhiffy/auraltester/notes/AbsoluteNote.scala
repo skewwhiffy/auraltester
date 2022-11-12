@@ -61,9 +61,7 @@ class AbsoluteNote(val note: Note, val octave: Octave) {
     }
   }
 
-  def abc(key: Key): String = {
-    key.abc(this)
-  }
+  def abc(key: Key): String = key.abc(this)
 
   def sharp = new AbsoluteNote(note.sharp, octave)
 

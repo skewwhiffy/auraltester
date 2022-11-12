@@ -2,10 +2,10 @@ package com.skewwhiffy.auraltester.scales
 
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import com.skewwhiffy.auraltester.testutils.TestData.noteFactories._
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ScaleTest extends AnyFunSuite {
-  test("can instantiate major scale") {
+class ScaleTest extends AnyFlatSpec {
+  it should "instantiate major scale" in {
     val expected = internalNotation.getNotes("C D E F G A B c")
 
     val actual = new Scale(AbsoluteNote.middleC, scaleTypeFactory.major, ScaleDirection.ascending)
@@ -13,7 +13,7 @@ class ScaleTest extends AnyFunSuite {
     assert(actual.notes == expected)
   }
 
-  test("can instantiate minor harmonic scale") {
+  it should "instantiate minor harmonic scale" in {
     val expected = internalNotation.getNotes("D E F G A Bb c# d")
 
     val actual = new Scale(
@@ -25,7 +25,7 @@ class ScaleTest extends AnyFunSuite {
     assert(actual.notes == expected)
   }
 
-  test("can instantiate minor melodic ascending scale") {
+  it should "instantiate minor melodic ascending scale" in {
     val expected = internalNotation.getNotes("E F# G A B c# d# e")
 
     val actual = new Scale(
@@ -37,7 +37,7 @@ class ScaleTest extends AnyFunSuite {
     assert(actual.notes == expected)
   }
 
-  test("can instantiate minor melodic descending scale") {
+  it should "instantiate minor melodic descending scale" in {
     val expected = internalNotation.getNotes("a g f e d c B A")
 
     val actual = new Scale(

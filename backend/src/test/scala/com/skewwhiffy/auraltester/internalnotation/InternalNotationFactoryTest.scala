@@ -3,9 +3,10 @@ package com.skewwhiffy.auraltester.internalnotation
 import com.skewwhiffy.auraltester.clefs.ClefFactory
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.mockito.{InjectMocks, Mock}
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
+class InternalNotationFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantiation {
   @Mock
   private val clefFactory: ClefFactory = null
   @Mock
@@ -18,7 +19,7 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
   private val internalNotationFactory: InternalNotationFactory = null
 
   List("treble", "alto", "tenor", "bass").foreach(it => {
-    test(s"when $it then proxies to clefFactory") {
+    it should s"proxy to clefFactory when $it clef is requested" in {
       val expected = TestData.random.clef
       val method = classOf[ClefFactory].getMethod(it)
       when(method.invoke(clefFactory)).thenReturn(expected)
@@ -29,13 +30,13 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
     }
   })
 
-  test("when clef name invalid then blows up") {
+  it should "throw when clef name invalid" in {
     assertThrows[IllegalArgumentException] {
       internalNotationFactory.clef("not a clef name")
     }
   }
 
-  test("when getNote then proxies to noteFactory") {
+  it should "proxy to noteFactory when note is requested" in {
     val rawNote = TestData.random.string
     val expected = TestData.random.absoluteNote
     when(noteFactory.getAbsoluteNote(rawNote)).thenReturn(expected)
@@ -45,7 +46,7 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
     assert(actual == expected)
   }
 
-  test("when getNotes then proxies to noteFactory") {
+  it should "proxy to noteFactory when notes are requested" in {
     val rawNotes = Range(0, 10).map(_ => TestData.random.string)
     val expected = rawNotes.map(_ => TestData.random.absoluteNote)
     rawNotes.zip(expected).foreach(it => {
@@ -57,7 +58,7 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
     assert(actual == expected)
   }
 
-  test("when getDirectedInterval then proxies to intervalFactory") {
+  it should "proxy to intervalFactory when directed interval is requested" in {
     val rawInterval = TestData.random.string
     val expected = TestData.random.directedInterval
     when(intervalFactory.getDirectedInterval(rawInterval)).thenReturn(expected)
@@ -67,7 +68,7 @@ class InternalNotationFactoryTest extends AnyFunSuite with MockInstantiation {
     assert(actual == expected)
   }
 
-  test("when getKey then proxies to keyFactory") {
+  it should "proxy to keyFactory when key is requested" in {
     val rawKey = TestData.random.string
     val expected = TestData.random.key
     when(keyFactory.getKey(rawKey)).thenReturn(expected)

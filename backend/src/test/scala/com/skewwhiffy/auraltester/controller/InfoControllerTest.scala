@@ -1,13 +1,19 @@
 package com.skewwhiffy.auraltester.controller
 
-import org.scalatest.funsuite.AnyFunSuite
+import com.skewwhiffy.auraltester.testutils.MockInstantiation
+import org.mockito.InjectMocks
+import org.scalatest.GivenWhenThen
+import org.scalatest.flatspec.AnyFlatSpec
 
-class InfoControllerTest extends AnyFunSuite {
-  private val infoController = new InfoController()
+class InfoControllerTest extends AnyFlatSpec with MockInstantiation with GivenWhenThen {
+  @InjectMocks
+  private var infoController: InfoController = _
 
-  test("when scale requested then abc correct") {
+  it should "return information" in {
+    When("info is requested")
     val result = infoController.get()
 
+    Then("info is returned")
     assert(result != null)
   }
 }

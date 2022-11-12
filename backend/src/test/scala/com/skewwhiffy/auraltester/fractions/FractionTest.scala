@@ -1,9 +1,9 @@
 package com.skewwhiffy.auraltester.fractions
 
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class FractionTest extends AnyFunSuite {
-  test("can instantiate simple fraction") {
+class FractionTest extends AnyFlatSpec {
+  it should "instantiate simple fraction" in {
     val expected = "1/2"
 
     val actual = Fraction(1, 2)
@@ -11,7 +11,7 @@ class FractionTest extends AnyFunSuite {
     assert(actual.toString == expected)
   }
 
-  test("can instantiate mixed fraction") {
+  it should "instantiate mixed fraction" in {
     val expected = "1 2/3"
 
     val actual = Fraction(1, 2, 3)
@@ -19,7 +19,7 @@ class FractionTest extends AnyFunSuite {
     assert(actual.toString == expected)
   }
 
-  test("can add fractions") {
+  it should "add fractions" in {
     val expected = "11/12"
 
     val actual = Fraction(3, 4) + Fraction(1, 6)
@@ -27,7 +27,7 @@ class FractionTest extends AnyFunSuite {
     assert(actual.toString == expected)
   }
 
-  test("can subtract fractions") {
+  it should "subtract fractions" in {
     val expected = "1/2"
 
     val actual = Fraction(3, 4) - Fraction(1, 4)
@@ -35,7 +35,7 @@ class FractionTest extends AnyFunSuite {
     assert(actual.toString == expected)
   }
 
-  test("can multiply fractions") {
+  it should "multiply fractions" in {
     val expected = "3/8"
 
     val actual = Fraction(1, 4) * Fraction(3, 2)
@@ -43,14 +43,14 @@ class FractionTest extends AnyFunSuite {
     assert(actual.toString == expected)
   }
 
-  test("integer fractions are equal to integer") {
+  it should "equate integer fractions to integers" in {
     val source = Fraction(4, 2)
 
     //noinspection ComparingUnrelatedTypes
     assert(source == 2)
   }
 
-  test("equivalent fractions are equal") {
+  it should "equate equivalent fractions" in {
     val first = Fraction(2, 4)
     val second = Fraction(-3, -6)
 

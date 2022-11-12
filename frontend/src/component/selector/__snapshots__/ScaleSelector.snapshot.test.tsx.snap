@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScaleSelector snapshot matches snapshot 1`] = `
+<div
+  className="container"
+>
+  <form
+    className=""
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col"
+      >
+        <div>
+          NOTE SELECTOR 
+          {"defaultValue":"C"}
+        </div>
+      </div>
+      <div
+        className="col"
+      />
+      <div
+        className="col"
+      >
+        <div>
+          RADIO BUTTONS 
+          {"values":[{"value":"major","label":"Major"},{"value":"minor-harmonic","label":"Minor Harmonic"},{"value":"minor-melodic","label":"Minor Melodic"}],"name":"type","defaultValue":"major"}
+        </div>
+      </div>
+      <div
+        className="col"
+      >
+        <div>
+          RADIO BUTTONS 
+          {"values":[{"value":"ascending","label":"Ascending"},{"value":"descending","label":"Descending"}],"name":"direction","defaultValue":"ascending"}
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

@@ -1,9 +1,9 @@
 package com.skewwhiffy.auraltester.notes
 
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.flatspec.AnyFlatSpec
 
-class NoteTests extends AnyFunSuite {
-  test("when natural then display string correct") {
+class NoteTests extends AnyFlatSpec {
+  it should "return display string when natural" in {
     val note = Note.a
 
     val actual = note.displayString
@@ -11,7 +11,7 @@ class NoteTests extends AnyFunSuite {
     assert(actual == "A")
   }
 
-  test("when sharp then display string correct") {
+  it should "return display string when sharp" in {
     val note = Note.b.sharp
 
     val actual = note.displayString
@@ -19,7 +19,7 @@ class NoteTests extends AnyFunSuite {
     assert(actual == "B#")
   }
 
-  test("when flat then display string correct") {
+  it should "return display string when flat" in {
     val note = Note.d.flat
 
     val actual = note.displayString
@@ -27,7 +27,7 @@ class NoteTests extends AnyFunSuite {
     assert(actual == "Db")
   }
 
-  test("when notes equivalent then equals works") {
+  it should "equate equivalent notes" in {
     def note = new Note("A", Accidental.sharp)
 
     val first = note
@@ -38,7 +38,7 @@ class NoteTests extends AnyFunSuite {
     assert(first >= second)
   }
 
-  test("when notes not equivalent then can compare") {
+  it should "compare non-equivalent notes" in {
     def lower = Note.c
 
     def higher = Note.a

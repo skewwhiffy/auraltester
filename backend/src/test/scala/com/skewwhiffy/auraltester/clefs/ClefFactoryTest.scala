@@ -4,27 +4,24 @@ import com.skewwhiffy.auraltester.internalnotation.NoteFactory
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.mockito.{InjectMocks, Mock}
-import org.scalatest.Outcome
-import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
+import org.scalatest.flatspec.AnyFlatSpec
 
-class ClefFactoryTest extends AnyFunSuite with MockInstantiation {
+class ClefFactoryTest extends AnyFlatSpec with MockInstantiation with BeforeAndAfter {
   @Mock
   private var noteFactory: NoteFactory = _
   @InjectMocks
   private var clefFactory: ClefFactory = _
+
   private var highLedgerNote: AbsoluteNote = _
   private var lowLedgerNote: AbsoluteNote = _
 
-  override def withFixture(test: NoArgTest): Outcome = {
-    noteFactory = mock[NoteFactory]
-    clefFactory = new ClefFactory(noteFactory)
-
+  before {
     highLedgerNote = TestData.random.absoluteNote
     lowLedgerNote = TestData.random.absoluteNote
-    test()
   }
 
-  test("treble clef initializes correctly") {
+  it should "initialize treble clef correctly" in {
     when(noteFactory.getAbsoluteNote("a")).thenReturn(highLedgerNote)
 
     val actual = clefFactory.treble
@@ -34,19 +31,19 @@ class ClefFactoryTest extends AnyFunSuite with MockInstantiation {
     assert(actual.highLedgerNote == highLedgerNote)
   }
 
-  test("alto clef initializes correctly") {
+  it should "initialize alto clef correctly" in {
     testGeneric("alto", "D,", "B") {
       clefFactory.alto
     }
   }
 
-  test("tenor clef initializes correctly") {
+  it should "initialize tenor clef correctly" in {
     testGeneric("tenor", "B,,", "G") {
       clefFactory.tenor
     }
   }
 
-  test("bass clef initializes correctly") {
+  it should "bass clef initializes correctly" in {
     when(noteFactory.getAbsoluteNote("E,,")).thenReturn(lowLedgerNote)
 
     val actual = clefFactory.bass

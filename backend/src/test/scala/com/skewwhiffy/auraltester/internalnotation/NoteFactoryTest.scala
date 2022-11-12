@@ -2,12 +2,16 @@ package com.skewwhiffy.auraltester.internalnotation
 
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
 import com.skewwhiffy.auraltester.scales.Key
-import org.scalatest.funsuite.AnyFunSuite
+import com.skewwhiffy.auraltester.testutils.MockInstantiation
+import org.mockito.InjectMocks
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should
 
-class NoteFactoryTest extends AnyFunSuite {
-  private val noteFactory = new NoteFactory()
+class NoteFactoryTest extends AnyFlatSpec with should.Matchers with MockInstantiation {
+  @InjectMocks
+  private var noteFactory: NoteFactory = _
 
-  test("can instantiate middle C") {
+  it should "instantiate middle C" in {
     val expected = AbsoluteNote.middleC
 
     val actual = noteFactory.getAbsoluteNote("C")
@@ -15,7 +19,7 @@ class NoteFactoryTest extends AnyFunSuite {
     assert(actual == expected)
   }
 
-  test("can instantiate note above middle C") {
+  it should "instantiate note above middle C" in {
     val expected = "c''"
 
     val actual = noteFactory.getAbsoluteNote(expected)
@@ -23,7 +27,7 @@ class NoteFactoryTest extends AnyFunSuite {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  test("can instantiate note below middle C") {
+  it should "instantiate note below middle C" in {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
 
@@ -32,7 +36,7 @@ class NoteFactoryTest extends AnyFunSuite {
     assert(actual.abc(Key.cMajor) == expected)
   }
 
-  test("when note name invalid then throws") {
+  it should "throw when note name invalid" in {
     assertThrows[IllegalArgumentException] {
       noteFactory.getAbsoluteNote("H")
     }

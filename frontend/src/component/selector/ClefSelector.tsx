@@ -1,11 +1,11 @@
 import React from 'react'
-import RadioButtons from '../../util/RadioButtons'
+import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 import { capitalizeFirstCharacter } from '../../util'
 import { Col, Container, Row } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void
 
-interface Props {
+export interface Props {
   defaultValue?: string,
   onChange: OnChangeHandler
 }
@@ -13,28 +13,29 @@ interface Props {
 interface State { }
 
 class ClefSelector extends React.Component<Props, State> {
-  private radioButtons: RadioButtons
+  private values: RadioButtonDefinition[]
 
   constructor(props: Props) {
     super(props);
-    const values = ['treble', 'alto', 'tenor', 'bass']
+    this.values = ['treble', 'alto', 'tenor', 'bass']
       .map(it => ({
         value: it,
         label: `${capitalizeFirstCharacter(it)} Clef`
       }))
-    this.radioButtons = new RadioButtons({
-      values,
-      name: 'clef',
-      defaultValue: props.defaultValue || 'treble',
-      onChange: props.onChange
-    })
   }
 
   render() {
     return (
       <Container>
         <Row><Col>Clef</Col></Row>
-        <Row><Col>{this.radioButtons.render()}</Col></Row>
+        <Row><Col>
+          <RadioButtons
+            values={this.values}
+            name='clef'
+            defaultValue={this.props.defaultValue || 'treble'}
+            onChange={this.props.onChange}
+          />
+        </Col></Row>
       </Container>
     )
   }
