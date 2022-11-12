@@ -11,10 +11,14 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies ++= Seq(
-  "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
+  ("org.springframework.boot" % "spring-boot-starter-web" % springBootVersion),
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
   "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
   "com.fasterxml.jackson.module" % "jackson-module-scala_2.13" % jacksonVersion,
   "org.mockito" %% "mockito-scala-scalatest" % "1.17.12" % Test,
-  "org.scalatest" %% "scalatest" % "3.2.14" % Test
+  "org.scalatest" %% "scalatest" % "3.2.14" % Test,
 )
+assembly / assemblyMergeStrategy := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
