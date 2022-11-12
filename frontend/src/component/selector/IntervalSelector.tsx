@@ -12,7 +12,7 @@ type OnChangeHandler = (
   keySignature: string
 ) => void
 
-interface Props {
+export interface Props {
   onChange: OnChangeHandler
 }
 
