@@ -1,6 +1,8 @@
 val springBootVersion = "2.6.7"
 val jacksonVersion = "2.13.2"
 
+assembly / mainClass := Some("com.skewwhiffy.auraltester.Application")
+
 lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
@@ -19,6 +21,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.14" % Test,
 )
 assembly / assemblyMergeStrategy := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
