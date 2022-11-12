@@ -1,5 +1,5 @@
 import Interval from './Interval'
-import { render, screen, queryByAttribute, fireEvent, getByLabelText } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import axios, { AxiosRequestConfig } from 'axios'
 import { act } from 'react-dom/test-utils'
 
