@@ -24,7 +24,7 @@ object TestData {
     //noinspection SpellCheckingInspection
     def absoluteNote: AbsoluteNote = AbsoluteNote(note, octave)
 
-    def accidental: Accidental = new Accidental(random.nextInt(3) - 1)
+    def accidental: Accidental = Accidental(random.nextInt(3) - 1)
 
     def clef: Clef = Clef(string, absoluteNote, absoluteNote)
 

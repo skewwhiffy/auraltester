@@ -27,7 +27,7 @@ class NoteFactory {
       case it => throw new IllegalArgumentException(s"Not valid accidental: '$it'")
     }
     .sum
-    .pipe(it => new Accidental(it))
+    .pipe(it => Accidental(it))
 
   private def getOctave(rawNote: String) = getRawOctave(rawNote)
     .toCharArray
