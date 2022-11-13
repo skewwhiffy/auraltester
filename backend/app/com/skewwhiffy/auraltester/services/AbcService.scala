@@ -1,13 +1,10 @@
 package com.skewwhiffy.auraltester.services
 
-/*
 import com.skewwhiffy.auraltester.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.clefs.Clef
 import com.skewwhiffy.auraltester.notes.NoteLength
 import com.skewwhiffy.auraltester.scales.{IntervalNotes, Key, NoteSequence, Scale}
-import org.springframework.stereotype.Component
 
-@Component
 class AbcService {
   def getAbc(clef: Clef, scale: Scale): String = getAbcObject(
     s"${scale.displayName} ${scale.direction.displayString}",
@@ -43,7 +40,3 @@ class AbcService {
   )
 
 }
-
-
-
- */
