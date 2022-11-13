@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.controller
 
 import com.skewwhiffy.auraltester.model.InfoResponse
+import com.skewwhiffy.auraltester.testutils.MockInstantiation
+import org.mockito.InjectMocks
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.Json
 import play.api.test.Helpers._
@@ -8,12 +10,13 @@ import play.api.test._
 
 import scala.util.chaining.scalaUtilChainingOps
 
-class InfoControllerTest extends PlaySpec {
+class InfoControllerTest extends PlaySpec with MockInstantiation {
+  @InjectMocks
+  private val infoController: InfoController = null
+
   "/api/info GET" should {
     "be valid" in {
-      val controller = new InfoController(stubControllerComponents())
-
-      val actual = controller.index().apply(FakeRequest(GET, "/api/info"))
+      val actual = infoController.index().apply(FakeRequest(GET, "/api/info"))
 
       status(actual) mustBe OK
       contentType(actual) mustBe Some("application/json")

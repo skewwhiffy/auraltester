@@ -8,12 +8,10 @@ import com.skewwhiffy.auraltester.services.{AbcService, IntervalService}
 import com.skewwhiffy.auraltester.testutils.{MockInstantiation, TestData}
 import org.mockito.ArgumentMatchers.{eq => meq}
 import org.mockito.{ArgumentCaptor, InjectMocks, Mock}
-import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatestplus.play.PlaySpec
 import play.api.http.Status.OK
 import play.api.libs.json.{JsSuccess, Json}
-import play.api.mvc.{Action, AnyContent}
-import play.api.test.{DefaultAwaitTimeout, FakeRequest}
+import play.api.test.FakeRequest
 import play.api.test.Helpers.{GET, contentAsJson, contentType, defaultAwaitTimeout, status}
 
 import scala.util.chaining.scalaUtilChainingOps
