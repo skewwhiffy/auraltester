@@ -1,26 +1,17 @@
-val springBootVersion = "2.6.7"
-val jacksonVersion = "2.13.2"
+name := """auraltester"""
+organization := "com.skewwhiffy"
 
-assembly / mainClass := Some("com.skewwhiffy.auraltester.Application")
+version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file("."))
-  .settings(
-    inThisBuild(List(
-      organization := "com.skewwhiffy",
-      scalaVersion := "2.13.10"
-    )),
-    name := "Aural Tester"
-  )
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-libraryDependencies ++= Seq(
-  ("org.springframework.boot" % "spring-boot-starter-web" % springBootVersion),
-  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
-  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
-  "com.fasterxml.jackson.module" % "jackson-module-scala_2.13" % jacksonVersion,
-  "org.mockito" %% "mockito-scala-scalatest" % "1.17.12" % Test,
-  "org.scalatest" %% "scalatest" % "3.2.14" % Test,
-)
-assembly / assemblyMergeStrategy := {
-  case PathList("META-INF", xs@_*) => MergeStrategy.discard
-  case x => MergeStrategy.first
-}
+scalaVersion := "2.13.10"
+
+libraryDependencies += guice
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
+
+// Adds additional packages into Twirl
+//TwirlKeys.templateImports += "com.skewwhiffy.controllers._"
+
+// Adds additional packages into conf/routes
+// play.sbt.routes.RoutesKeys.routesImport += "com.skewwhiffy.binders._"
