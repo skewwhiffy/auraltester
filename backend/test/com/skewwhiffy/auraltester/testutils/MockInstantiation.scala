@@ -3,6 +3,8 @@ package com.skewwhiffy.auraltester.testutils
 import org.mockito.{InjectMocks, Mock, MockitoSugar}
 import org.mockito.Mockito
 import org.scalatest.{Outcome, TestSuite}
+import play.api.mvc.ControllerComponents
+import play.api.test.Helpers.stubControllerComponents
 
 trait MockInstantiation extends TestSuite with MockitoSugar {
   override def withFixture(test: NoArgTest): Outcome = {
@@ -27,7 +29,7 @@ trait MockInstantiation extends TestSuite with MockitoSugar {
       val constructor = constructors(0)
       val args: Array[Any] = constructor.getParameterTypes.map(argType => {
         mocks.find(it => argType.isAssignableFrom(it.getClass)) match {
-          case None => null
+          case None => if (argType == classOf[ControllerComponents]) stubControllerComponents() else null
           case Some(it) => it
         }
       })
