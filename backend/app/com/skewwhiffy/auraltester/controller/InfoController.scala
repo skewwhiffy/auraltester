@@ -1,11 +1,10 @@
-package controllers
+package com.skewwhiffy.auraltester.controller
 
-import akka.http.scaladsl.model.HttpHeader.ParsingResult.Ok
-import models.InformationResponse
+import com.skewwhiffy.auraltester.model.InformationResponse
 import play.api.libs.json.{Json, OFormat}
+import play.api.mvc._
 
 import javax.inject._
-import play.api.mvc._
 
 @Singleton
 class InfoController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
