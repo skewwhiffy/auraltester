@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.internalnotation
 
-/*
 import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.notes.{AbsoluteNote, DirectedInterval}
 import com.skewwhiffy.auraltester.scales.Key
@@ -36,6 +35,3 @@ class InternalNotationFactory @Inject()(
 
   def getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
 }
-
-
- */

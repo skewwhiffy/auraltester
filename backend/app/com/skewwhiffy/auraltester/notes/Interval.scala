@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.notes
 
-/*
 object Interval {
   lazy val displayStrings: List[String] = List(
     "unison",
@@ -83,6 +82,3 @@ object Interval {
     override def toString: String = displayString
   }
 }
-
-
- */
