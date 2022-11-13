@@ -3,7 +3,10 @@ package com.skewwhiffy.auraltester.scales
 import com.skewwhiffy.auraltester.internalnotation.IntervalFactory
 import com.skewwhiffy.auraltester.notes.DirectedInterval
 
-class ScaleTypeFactory(intervalFactory: IntervalFactory) {
+import javax.inject.{Inject, Singleton}
+
+@Singleton
+class ScaleTypeFactory @Inject()(intervalFactory: IntervalFactory) {
   private lazy val majorIntervals: String = "1 2 3 4 5 6 7 8"
   private lazy val minorHarmonicIntervals: String = "1 2 3- 4 5 6- 7 8"
   private lazy val minorMelodicAscendingIntervals: String = "1 2 3- 4 5 6 7 8"

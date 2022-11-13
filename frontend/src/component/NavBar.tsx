@@ -13,7 +13,7 @@ interface State {
 class NavBar extends React.Component<Props, State> {
   
   async componentDidMount() {
-    const newInformationResponse = await axios.get('info')
+    const newInformationResponse = await axios.get('/api/info')
     const newInformation = newInformationResponse.data
     // TODO: This gets called twice. Why?
     console.log('Component did mount in NavBar')

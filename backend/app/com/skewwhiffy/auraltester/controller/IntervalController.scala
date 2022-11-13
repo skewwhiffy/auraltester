@@ -1,15 +1,13 @@
 package com.skewwhiffy.auraltester.controller
 
 import com.skewwhiffy.auraltester.internalnotation.InternalNotationFactory
-import com.skewwhiffy.auraltester.model.{IntervalRequest, IntervalResponse}
+import com.skewwhiffy.auraltester.model.IntervalResponse
 import com.skewwhiffy.auraltester.notes.Interval
 import com.skewwhiffy.auraltester.scales.Key
 import com.skewwhiffy.auraltester.services.{AbcService, IntervalService}
 
 import scala.util.chaining.scalaUtilChainingOps
 
-//import com.skewwhiffy.auraltester.notes.Interval
-//import com.skewwhiffy.auraltester.services.{AbcService, IntervalService}
 import play.api.libs.json.{Json, OFormat}
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
 
