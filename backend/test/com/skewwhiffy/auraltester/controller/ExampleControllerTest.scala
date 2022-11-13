@@ -1,5 +1,8 @@
-package controllers
+package com.skewwhiffy.auraltester.controller
 
+
+/*
+import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import org.scalatestplus.play._
 import org.scalatestplus.play.guice._
 import play.api.test._
@@ -43,3 +46,6 @@ class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting
     }
   }
 }
+
+
+ */
