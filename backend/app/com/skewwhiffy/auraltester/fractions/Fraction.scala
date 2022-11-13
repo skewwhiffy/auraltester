@@ -14,7 +14,7 @@ object Fraction {
   }
 
   def apply(whole: Int, top: Int, bottom: Int): Fraction =
-    new Fraction(whole * bottom + top, bottom)
+    Fraction(whole * bottom + top, bottom)
 
   def lcm(first: Int, second: Int): Int = {
     if (first <= 0 || second <= 0) {

@@ -6,7 +6,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class KeyTest extends AnyFlatSpec {
   it should "when note has accidental in key then no accidental is given in abc" in {
-    val note = new AbsoluteNote(Note.f.sharp, Octave.default)
+    val note = AbsoluteNote(Note.f.sharp, Octave.default)
     val key = new Key(Note.d)
 
     val actual = key.abc(note)
@@ -15,7 +15,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when note has accidental different to key then note accidental is given in abc" in {
-    val note = new AbsoluteNote(Note.e.flat, Octave.default)
+    val note = AbsoluteNote(Note.e.flat, Octave.default)
     val key = new Key(Note.g)
 
     val actual = key.abc(note)
@@ -24,7 +24,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when note is natural but key has accidental then note accidental is natual in abc" in {
-    val note = new AbsoluteNote(Note.g, Octave.default)
+    val note = AbsoluteNote(Note.g, Octave.default)
     val key = new Key(Note.e)
 
     val actual = key.abc(note)

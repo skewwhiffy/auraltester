@@ -7,7 +7,7 @@ import scala.annotation.tailrec
 
 class NoteFactory {
   def getAbsoluteNote(rawNote: String): AbsoluteNote =
-    new AbsoluteNote(getNote(rawNote), getOctave(rawNote))
+    AbsoluteNote(getNote(rawNote), getOctave(rawNote))
 
   def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
 

@@ -22,11 +22,11 @@ object TestData {
     def oneOf[T](source: List[T]): T = source(random.nextInt(source.size))
 
     //noinspection SpellCheckingInspection
-    def absoluteNote: AbsoluteNote = new AbsoluteNote(note, octave)
+    def absoluteNote: AbsoluteNote = AbsoluteNote(note, octave)
 
     def accidental: Accidental = new Accidental(random.nextInt(3) - 1)
 
-    def clef: Clef = new Clef(string, absoluteNote, absoluteNote)
+    def clef: Clef = Clef(string, absoluteNote, absoluteNote)
 
     def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
 

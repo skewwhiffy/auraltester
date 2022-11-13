@@ -32,7 +32,7 @@ class AbcService {
     getAbcObject(title, clef, noteSequence).includeKeySignature(key).abc
   }
 
-  private def getAbcObject(title: String, clef: Clef, noteSequence: NoteSequence): SingleLineAbc = new SingleLineAbc(
+  private def getAbcObject(title: String, clef: Clef, noteSequence: NoteSequence): SingleLineAbc = SingleLineAbc(
     title,
     clef,
     NoteLength.semibreve,
