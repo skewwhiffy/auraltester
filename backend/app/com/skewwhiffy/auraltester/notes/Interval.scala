@@ -41,7 +41,7 @@ object Interval {
   }
 }
 
-case class Interval(degree: Int, val deviation: Int) {
+case class Interval(degree: Int, deviation: Int) {
   lazy val diminished: Interval = Interval(degree, deviation - 1)
 
   lazy val augmented: Interval = Interval(degree, deviation + 1)

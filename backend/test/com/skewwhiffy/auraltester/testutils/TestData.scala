@@ -34,7 +34,7 @@ object TestData {
     def key: Key = new Key(note, isMinor = random.nextBoolean())
 
     //noinspection SpellCheckingInspection
-    def note: Note = new Note(oneOf("ABCDEFG"), accidental)
+    def note: Note = Note(oneOf("ABCDEFG"), accidental)
 
     def octave: Octave = new Octave(random.nextInt(8) - 4)
 

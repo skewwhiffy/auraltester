@@ -28,7 +28,7 @@ class NoteTests extends AnyFlatSpec {
   }
 
   it should "equate equivalent notes" in {
-    def note = new Note("A", Accidental.sharp)
+    def note = Note("A", Accidental.sharp)
 
     val first = note
     val second = note

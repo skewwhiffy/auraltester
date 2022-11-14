@@ -9,7 +9,7 @@ class NoteFactory {
   def getAbsoluteNote(rawNote: String): AbsoluteNote =
     AbsoluteNote(getNote(rawNote), getOctave(rawNote))
 
-  def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
+  def getNote(rawNote: String): Note = Note(getNoteName(rawNote), getAccidental(rawNote))
 
   private def getNoteName(rawNote: String) = {
     getNoteLetter(rawNote).toUpperCase match {
