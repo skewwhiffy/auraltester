@@ -38,6 +38,12 @@ class NavBar extends React.Component<Props, State> {
               >Home</Nav.Link>
               <Nav.Link
                 as={Link}
+                to="/key-signatures"
+                eventKey="/key-signatures"
+                title="Key Signature"
+              >Key Signatures</Nav.Link>
+              <Nav.Link
+                as={Link}
                 to="/scales"
                 eventKey="/scales"
                 title="Scales"
