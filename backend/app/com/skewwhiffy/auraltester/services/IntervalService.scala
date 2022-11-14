@@ -1,8 +1,7 @@
 package com.skewwhiffy.auraltester.services
 
 import com.skewwhiffy.auraltester.clefs.Clef
-import com.skewwhiffy.auraltester.notes.Interval.Interval
-import com.skewwhiffy.auraltester.notes.Note
+import com.skewwhiffy.auraltester.notes.{Interval, Note}
 import com.skewwhiffy.auraltester.scales.IntervalNotes
 
 import scala.util.chaining.scalaUtilChainingOps

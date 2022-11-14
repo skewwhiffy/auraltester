@@ -2,8 +2,7 @@ package com.skewwhiffy.auraltester.testutils
 
 import com.skewwhiffy.auraltester.clefs.{Clef, ClefFactory}
 import com.skewwhiffy.auraltester.internalnotation.{InternalNotationFactory, IntervalFactory, KeyFactory, NoteFactory}
-import com.skewwhiffy.auraltester.notes.Interval.Interval
-import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInterval, Note, Octave}
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, DirectedInterval, Interval, Note, Octave}
 import com.skewwhiffy.auraltester.scales.{Key, ScaleType, ScaleTypeFactory}
 
 import java.util.UUID
@@ -30,7 +29,7 @@ object TestData {
 
     def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
 
-    def interval: Interval = new Interval(random.nextInt(9), random.nextInt(3) - 1)
+    def interval: Interval = Interval(random.nextInt(9), random.nextInt(3) - 1)
 
     def key: Key = new Key(note, isMinor = random.nextBoolean())
 

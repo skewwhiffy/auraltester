@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.notes
 
-import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.flatspec.AnyFlatSpec
 
