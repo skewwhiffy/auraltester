@@ -3,6 +3,33 @@ package com.skewwhiffy.auraltester.notes
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AccidentalTests extends AnyFlatSpec {
+  it should "have correct abc when natural" in {
+    val expected = ""
+    val natural = Accidental.natural
+
+    val actual = natural.abc
+
+    assert(actual == expected)
+  }
+
+  it should "have correct abc when flat" in {
+    val expected = "_"
+    val flat = Accidental.flat
+
+    val actual = flat.abc
+
+    assert(actual == expected)
+  }
+
+  it should "have correct abc when sharp" in {
+    val expected = "^"
+    val sharp = Accidental.sharp
+
+    val actual = sharp.abc
+
+    assert(actual == expected)
+  }
+
   it should "display correctly when natural" in {
     val expected = ""
     val natural = Accidental.natural
