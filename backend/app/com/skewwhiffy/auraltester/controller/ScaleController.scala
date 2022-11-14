@@ -39,7 +39,7 @@ class ScaleController @Inject()(
       case _ => throw new IllegalArgumentException(s"Unrecognized direction: '$direction'")
     }
     val scale = scaleService.getScale(clefObject, noteObject, scaleTypeObject, directionObject)
-    val key = scale.lowestNote.note.pipe(it => new Key(it, isMinor))
+    val key = scale.lowestNote.note.pipe(it => Key(it, isMinor))
     val response = ScaleResponse(abcService.getAbc(clefObject, scale), abcService.getAbc(clefObject, scale, key))
     Ok(Json.toJson(response))
   }

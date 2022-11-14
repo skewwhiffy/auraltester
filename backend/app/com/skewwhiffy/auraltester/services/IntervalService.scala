@@ -8,7 +8,7 @@ import scala.util.chaining.scalaUtilChainingOps
 
 class IntervalService {
   def getInterval(clef: Clef, note: Note, interval: Interval): IntervalNotes = {
-    clef.getNoteNearBottom(note).pipe(it => new IntervalNotes(it, interval))
+    clef.getNoteNearBottom(note).pipe(it => IntervalNotes(it, interval))
   }
 
 }

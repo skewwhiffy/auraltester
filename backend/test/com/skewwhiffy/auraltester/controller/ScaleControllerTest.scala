@@ -51,7 +51,7 @@ class ScaleControllerTest extends PlaySpec with MockInstantiation {
           val abcWithoutKeySignature = TestData.random.string
           val abcWithKeySignature = TestData.random.string
           val scaleLowestNote = TestData.random.absoluteNote
-          val key = new Key(scaleLowestNote.note, scaleTypeString != "major")
+          val key = Key(scaleLowestNote.note, scaleTypeString != "major")
           val clefObject = mock[Clef]
           val scale = mock[Scale]
           val scaleType = mock[ScaleType]

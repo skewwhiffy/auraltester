@@ -31,7 +31,7 @@ object TestData {
 
     def interval: Interval = Interval(random.nextInt(9), random.nextInt(3) - 1)
 
-    def key: Key = new Key(note, isMinor = random.nextBoolean())
+    def key: Key = Key(note, isMinor = random.nextBoolean())
 
     //noinspection SpellCheckingInspection
     def note: Note = Note(oneOf("ABCDEFG"), accidental)
