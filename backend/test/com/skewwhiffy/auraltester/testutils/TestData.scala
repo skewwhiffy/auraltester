@@ -36,7 +36,7 @@ object TestData {
     //noinspection SpellCheckingInspection
     def note: Note = Note(oneOf("ABCDEFG"), accidental)
 
-    def octave: Octave = new Octave(random.nextInt(8) - 4)
+    def octave: Octave = Octave(random.nextInt(8) - 4)
 
     def scaleType: ScaleType = new ScaleType(
       string,

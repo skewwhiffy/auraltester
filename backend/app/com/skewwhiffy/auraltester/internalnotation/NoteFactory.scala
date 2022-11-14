@@ -38,7 +38,7 @@ class NoteFactory {
     }
     .sum
     .pipe(it => it + (if (rawNote.toLowerCase == rawNote) 1 else 0))
-    .pipe(it => new Octave(it))
+    .pipe(it => Octave(it))
 
   private def getNoteLetter(rawNote: String) = rawNote.substring(0, 1)
 
