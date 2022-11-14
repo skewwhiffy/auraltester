@@ -41,7 +41,7 @@ class IntervalController @Inject()(
       .getDirectedInterval(s"+$intervalSize$intervalQualitySuffix")
       .interval
     val keyNote = internalNotationFactory.getNote(keySignature.getOrElse("C")).note
-    val keySignatureObject = new Key(keyNote)
+    val keySignatureObject = Key(keyNote)
     val intervalNotes = intervalService.getInterval(clefObject, bottomNoteObject, interval)
     val response = abcService.getAbc(clefObject, intervalNotes, keySignatureObject)
       .pipe(it => IntervalResponse(it))

@@ -7,9 +7,9 @@ import scala.annotation.tailrec
 
 class NoteFactory {
   def getAbsoluteNote(rawNote: String): AbsoluteNote =
-    new AbsoluteNote(getNote(rawNote), getOctave(rawNote))
+    AbsoluteNote(getNote(rawNote), getOctave(rawNote))
 
-  def getNote(rawNote: String) = new Note(getNoteName(rawNote), getAccidental(rawNote))
+  def getNote(rawNote: String): Note = Note(getNoteName(rawNote), getAccidental(rawNote))
 
   private def getNoteName(rawNote: String) = {
     getNoteLetter(rawNote).toUpperCase match {
@@ -27,7 +27,7 @@ class NoteFactory {
       case it => throw new IllegalArgumentException(s"Not valid accidental: '$it'")
     }
     .sum
-    .pipe(it => new Accidental(it))
+    .pipe(it => Accidental(it))
 
   private def getOctave(rawNote: String) = getRawOctave(rawNote)
     .toCharArray
@@ -38,7 +38,7 @@ class NoteFactory {
     }
     .sum
     .pipe(it => it + (if (rawNote.toLowerCase == rawNote) 1 else 0))
-    .pipe(it => new Octave(it))
+    .pipe(it => Octave(it))
 
   private def getNoteLetter(rawNote: String) = rawNote.substring(0, 1)
 

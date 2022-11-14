@@ -6,8 +6,8 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class KeyTest extends AnyFlatSpec {
   it should "when note has accidental in key then no accidental is given in abc" in {
-    val note = new AbsoluteNote(Note.f.sharp, Octave.default)
-    val key = new Key(Note.d)
+    val note = AbsoluteNote(Note.f.sharp, Octave.default)
+    val key = Key(Note.d)
 
     val actual = key.abc(note)
 
@@ -15,17 +15,17 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when note has accidental different to key then note accidental is given in abc" in {
-    val note = new AbsoluteNote(Note.e.flat, Octave.default)
-    val key = new Key(Note.g)
+    val note = AbsoluteNote(Note.e.flat, Octave.default)
+    val key = Key(Note.g)
 
     val actual = key.abc(note)
 
     assert(actual == "_E")
   }
 
-  it should "when note is natural but key has accidental then note accidental is natual in abc" in {
-    val note = new AbsoluteNote(Note.g, Octave.default)
-    val key = new Key(Note.e)
+  it should "when note is natural but key has accidental then note accidental is natural in abc" in {
+    val note = AbsoluteNote(Note.g, Octave.default)
+    val key = Key(Note.e)
 
     val actual = key.abc(note)
 
@@ -47,7 +47,7 @@ class KeyTest extends AnyFlatSpec {
 
   renderableMajors.foreach { note =>
     it should s"can render ${note.displayString} major" in {
-      val key = new Key(note)
+      val key = Key(note)
 
       assert(key.canRenderSignature)
     }
@@ -55,7 +55,7 @@ class KeyTest extends AnyFlatSpec {
 
   allNotes.filter(it => !renderableMajors.contains(it)).foreach { note =>
     it should s"cannot render ${note.displayString} major" in {
-      val key = new Key(note)
+      val key = Key(note)
 
       assert(!key.canRenderSignature)
     }
@@ -63,7 +63,7 @@ class KeyTest extends AnyFlatSpec {
 
   allNotes.filter(it => !renderableMinors.contains(it)).foreach { note =>
     it should s"cannot render ${note.displayString} minor" in {
-      val key = new Key(note, true)
+      val key = Key(note, isMinor = true)
 
       assert(!key.canRenderSignature)
     }
@@ -71,14 +71,14 @@ class KeyTest extends AnyFlatSpec {
 
   renderableMinors.foreach { note =>
     it should s"can render ${note.displayString} minor" in {
-      val key = new Key(note, true)
+      val key = Key(note, isMinor = true)
 
       assert(key.canRenderSignature)
     }
   }
 
   it should "when relativeMinor then correct" in {
-    val key = new Key(Note.e.flat)
+    val key = Key(Note.e.flat)
 
     val actual = key.relativeMinor
 
@@ -87,7 +87,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when relativeMajor then correct" in {
-    val key = new Key(Note.e.flat, true)
+    val key = Key(Note.e.flat, isMinor = true)
 
     val actual = key.relativeMajor
 
@@ -96,7 +96,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when major then notes correct" in {
-    val key = new Key(Note.f.sharp, false)
+    val key = Key(Note.f.sharp)
     val expected = "F# G# A# B C# D# E#"
 
     val actual = key.notes.collect(it => it.displayString).mkString(" ")
@@ -105,7 +105,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when minor then notes correct" in {
-    val key = new Key(Note.a, true)
+    val key = Key(Note.a, isMinor = true)
     val expected = "A B C D E F G"
 
     val actual = key.notes.collect(it => it.displayString).mkString(" ")
@@ -114,7 +114,7 @@ class KeyTest extends AnyFlatSpec {
   }
 
   it should "when equivalent then equal" in {
-    def key = new Key(Note.g.flat, false)
+    def key = Key(Note.g.flat)
 
     val first = key
     val second = key

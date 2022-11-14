@@ -5,10 +5,10 @@ import com.skewwhiffy.auraltester.scales.Key.renderableKeys
 
 object Key {
   private lazy val renderableKeys: List[String] = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".split(' ').toList
-  lazy val cMajor: Key = new Key(Note.c)
+  lazy val cMajor: Key = Key(Note.c)
 }
 
-class Key(val note: Note, val isMinor: Boolean = false) {
+case class Key(note: Note, isMinor: Boolean = false) {
   lazy val abc: String = if (isMinor) s"${note.displayString}m" else note.displayString
 
   def abc(note: AbsoluteNote): String = {
@@ -41,9 +41,9 @@ class Key(val note: Note, val isMinor: Boolean = false) {
     }
   }
 
-  def relativeMinor: Key = if (isMinor) this else new Key(note.downMajorSecond.downMajorSecond.sharp, true)
+  def relativeMinor: Key = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharp, true)
 
-  def relativeMajor: Key = if (isMinor) new Key(note.upMajorSecond.upMajorSecond.flat, false) else this
+  def relativeMajor: Key = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat, false) else this
 
   def notes: List[Note] = {
     (if (isMinor) List(2, 1, 2, 2, 1, 2) else List(2, 2, 1, 2, 2, 2))

@@ -16,11 +16,9 @@ object NoteLength {
   lazy val hemidemisemiquaver: NoteLength = NoteLength(Fraction(1, 64))
 
   def apply(length: Int): NoteLength = NoteLength(Fraction(length, 1))
-
-  def apply(length: Fraction): NoteLength = new NoteLength(length)
 }
 
-class NoteLength(private val length: Fraction) {
+case class NoteLength(length: Fraction) {
   lazy val dotted: NoteLength = Fraction(3, 2)
     .pipe(it => it * length)
     .pipe(it => NoteLength(it))

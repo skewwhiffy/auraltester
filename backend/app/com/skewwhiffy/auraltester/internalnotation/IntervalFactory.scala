@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.internalnotation
 
-import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.notes.{DirectedInterval, Interval}
 
 import scala.util.chaining.scalaUtilChainingOps

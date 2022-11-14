@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.notes
 
-import com.skewwhiffy.auraltester.notes.Interval.Interval
 import org.scalatest.flatspec.AnyFlatSpec
 
 class IntervalTests extends AnyFlatSpec {
@@ -145,7 +144,7 @@ class IntervalTests extends AnyFlatSpec {
   }
 
   it should "return equal when equivalent" in {
-    def interval = new Interval(6, 69)
+    def interval = Interval(6, 69)
 
     val first = interval
     val second = interval

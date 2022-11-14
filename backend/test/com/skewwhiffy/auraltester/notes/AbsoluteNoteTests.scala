@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.notes
 
-import com.skewwhiffy.auraltester.notes.Interval.Interval
 import com.skewwhiffy.auraltester.scales.Key
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -100,7 +99,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
   }
 
   it should "equivalent notes are equal" in {
-    def note = new AbsoluteNote(Note.d.sharp, Octave.default.up)
+    def note = AbsoluteNote(Note.d.sharp, Octave.default.up)
 
     val first = note
     val second = note
@@ -126,8 +125,8 @@ class AbsoluteNoteTests extends AnyFlatSpec {
   }
 
   it should "non equivalent notes in same octave are comparable" in {
-    val lower = new AbsoluteNote(Note.d, Octave.default)
-    val higher = new AbsoluteNote(Note.b, Octave.default)
+    val lower = AbsoluteNote(Note.d, Octave.default)
+    val higher = AbsoluteNote(Note.b, Octave.default)
 
     assert(lower < higher)
     assert(!(lower > higher))

@@ -12,7 +12,7 @@ class KeyFactory @Inject()(
   def getKey(rawKey: String): Key = {
     val rawNote = getRawNote(rawKey)
     val note = noteFactory.getNote(rawNote)
-    new Key(note, isMinor(rawKey))
+    Key(note, isMinor(rawKey))
   }
 
   private def getRawNote(rawKey: String): String = {

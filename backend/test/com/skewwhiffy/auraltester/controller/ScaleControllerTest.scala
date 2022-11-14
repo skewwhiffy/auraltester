@@ -51,7 +51,7 @@ class ScaleControllerTest extends PlaySpec with MockInstantiation {
           val abcWithoutKeySignature = TestData.random.string
           val abcWithKeySignature = TestData.random.string
           val scaleLowestNote = TestData.random.absoluteNote
-          val key = new Key(scaleLowestNote.note, scaleTypeString != "major")
+          val key = Key(scaleLowestNote.note, scaleTypeString != "major")
           val clefObject = mock[Clef]
           val scale = mock[Scale]
           val scaleType = mock[ScaleType]
@@ -59,7 +59,7 @@ class ScaleControllerTest extends PlaySpec with MockInstantiation {
           when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
           when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
           when(getScale()).thenReturn(scaleType)
-          when(scale.lowestNote).thenReturn(new AbsoluteNote(key.note, Octave.default))
+          when(scale.lowestNote).thenReturn(AbsoluteNote(key.note, Octave.default))
           when(scaleService.getScale(clefObject, key.note, scaleType, directionObject)).thenReturn(scale)
           when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
           when(abcService.getAbc(meq(clefObject), meq(scale), keyCaptor.capture())).thenReturn(abcWithKeySignature)

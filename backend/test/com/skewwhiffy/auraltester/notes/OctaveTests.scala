@@ -4,7 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class OctaveTests extends AnyFlatSpec {
   it should "return higher octave when up called" in {
-    def start = new Octave(70)
+    def start = Octave(70)
 
     def actual = start.up
 
@@ -12,7 +12,7 @@ class OctaveTests extends AnyFlatSpec {
   }
 
   it should "return lower octave when down called" in {
-    def start = new Octave(81)
+    def start = Octave(81)
 
     def actual = start.down
 
@@ -20,7 +20,7 @@ class OctaveTests extends AnyFlatSpec {
   }
 
   it should "equate same octaves" in {
-    def octave = new Octave(52)
+    def octave = Octave(52)
 
     val first = octave
     val second = octave
@@ -30,8 +30,8 @@ class OctaveTests extends AnyFlatSpec {
   }
 
   it should "be able to compare octaves" in {
-    val first = new Octave(20)
-    val second = new Octave(21)
+    val first = Octave(20)
+    val second = Octave(21)
 
     assert(!(first > second))
     assert(first < second)

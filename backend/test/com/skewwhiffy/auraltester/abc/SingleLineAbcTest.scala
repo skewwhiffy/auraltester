@@ -39,7 +39,7 @@ class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with GivenWhe
     Given("title is supplied")
 
     When("getting single line ABC")
-    val abc = new SingleLineAbc(title, clef, noteLength, notes)
+    val abc = SingleLineAbc(title, clef, noteLength, notes)
 
     Then("abc has index")
     assert(abc.abc.contains("X:1"))
@@ -57,7 +57,7 @@ class SingleLineAbcTest extends AnyFlatSpec with MockInstantiation with GivenWhe
     Given("title is not supplied")
 
     When("getting single line ABC")
-    val abc = new SingleLineAbc(clef, noteLength, notes)
+    val abc = SingleLineAbc(clef, noteLength, notes)
 
     Then("abc has no title")
     assert(!abc.abc.contains("T:"))

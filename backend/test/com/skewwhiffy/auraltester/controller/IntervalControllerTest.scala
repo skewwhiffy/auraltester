@@ -36,7 +36,7 @@ class IntervalControllerTest extends PlaySpec with MockInstantiation {
     val clefObject = TestData.random.clef
     val bottomNoteObject = TestData.random.absoluteNote
     val keySignatureObject = TestData.random.key
-    val keySignatureNote = new AbsoluteNote(keySignatureObject.note, Octave.default)
+    val keySignatureNote = AbsoluteNote(keySignatureObject.note, Octave.default)
     val expectedIntervalNotation = s"+$intervalSize$intervalQualitySuffix"
     val interval = TestData.random.interval
     val intervalNotes = mock[IntervalNotes]
