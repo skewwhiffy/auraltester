@@ -11,6 +11,8 @@ object Key {
 case class Key(note: Note, isMinor: Boolean = false) {
   lazy val abc: String = if (isMinor) s"${note.displayString}m" else note.displayString
 
+  def displayString: String = s"${note.displayString} ${if (isMinor) "minor" else "major"}"
+
   def abc(note: AbsoluteNote): String = {
     s"${accidentalAbc(note.note)}${noteAbc(note)}"
   }
@@ -41,9 +43,11 @@ case class Key(note: Note, isMinor: Boolean = false) {
     }
   }
 
-  def relativeMinor: Key = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharp, true)
+  def relativeMinor: Key = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharp, isMinor = true)
 
-  def relativeMajor: Key = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat, false) else this
+  def relativeMajor: Key = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
+
+  def relative: Key = if (isMinor) relativeMajor else relativeMinor
 
   def notes: List[Note] = {
     (if (isMinor) List(2, 1, 2, 2, 1, 2) else List(2, 2, 1, 2, 2, 2))
