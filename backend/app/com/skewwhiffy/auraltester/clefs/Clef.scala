@@ -10,7 +10,14 @@ case class Clef(
 ) {
   def displayName: String = abc
 
-  def notes: List[NoteSequence] = ???
+  def notes: List[NoteSequence] = List(
+    lineNotes,
+    spaceNotes
+  )
+
+  def lineNotes: NoteSequence = new ClefLineNotes(this)
+
+  def spaceNotes: NoteSequence = new ClefLineNotes(this) // TODO: FIX
 
   def getNoteNearBottom(note: Note): AbsoluteNote = {
     val candidateStartingNote = AbsoluteNote(note, lowLedgerNote.octave)
