@@ -53,7 +53,7 @@ case class Key(note: Note, isMinor: Boolean = false) {
     (if (isMinor) List(2, 1, 2, 2, 1, 2) else List(2, 2, 1, 2, 2, 2))
       .scanLeft(note) {
         case (it, 2) => it.upMajorSecond
-        case (it, 1) => it.upMajorSecond.flat
+        case (it, _) => it.upMajorSecond.flat
       }
   }
 

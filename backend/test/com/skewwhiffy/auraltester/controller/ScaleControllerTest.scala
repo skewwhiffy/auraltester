@@ -76,7 +76,10 @@ class ScaleControllerTest extends PlaySpec with MockInstantiation {
           keyCaptor.getValue mustBe key
           val deserialized = contentAsJson(actual)
             .pipe { it => Json.format[ScaleResponse].reads(it) }
-            .pipe { case it: JsSuccess[ScaleResponse] => it.value }
+            .pipe {
+              case it: JsSuccess[ScaleResponse] => it.value
+              case _ => fail()
+            }
           deserialized.withKeySignature mustBe abcWithKeySignature
           deserialized.withoutKeySignature mustBe abcWithoutKeySignature
         })
