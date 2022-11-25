@@ -63,7 +63,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     val start = AbsoluteNote.middleC
 
     assertThrows[IllegalArgumentException] {
-      start.add(Interval.major(9))
+      start + (Interval.major(9))
     }
   }
 

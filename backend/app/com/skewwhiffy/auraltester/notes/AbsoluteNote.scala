@@ -10,7 +10,8 @@ object AbsoluteNote {
 
 case class AbsoluteNote(
   note: Note,
-  octave: Octave
+  octave: Octave,
+  lyric: Option[String] = None
 ) {
   def apply(interval: DirectedInterval): AbsoluteNote = {
     interval.direction match {
@@ -19,9 +20,11 @@ case class AbsoluteNote(
     }
   }
 
+  def withLyric(lyric: String): AbsoluteNote = copy(lyric = Some(lyric))
+
   def +(interval: Interval): AbsoluteNote = add(interval)
 
-  def add(interval: Interval): AbsoluteNote = {
+  private def add(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => upMajorSecond
@@ -43,7 +46,7 @@ case class AbsoluteNote(
 
   def -(interval: Interval): AbsoluteNote = subtract(interval)
 
-  def subtract(interval: Interval): AbsoluteNote = {
+  private def subtract(interval: Interval): AbsoluteNote = {
     val defaultNote: AbsoluteNote = interval.degree match {
       case 1 => this
       case 2 => downMajorSecond
@@ -64,6 +67,8 @@ case class AbsoluteNote(
   }
 
   def abc(key: Key): String = key.abc(this)
+
+  def wordAbc: String = if (lyric.getOrElse("").isEmpty) "*" else lyric.get
 
   def sharp: AbsoluteNote = AbsoluteNote(note.sharp, octave)
 

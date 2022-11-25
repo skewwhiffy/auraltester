@@ -42,9 +42,15 @@ case class SingleLineAbc(
         .map(it => it.abc(keySignature.getOrElse(Key.cMajor)))
         .mkString
     }
+
     val notesAbc = notes
       .map(it => barAbc(it))
       .mkString("|") + "|"
+    val words = notes
+      .flatten
+      .map(it => it.wordAbc)
+      .mkString(" ")
+
     List(
       "X:1",
       displayName.map(it => s"T:$it").getOrElse(""),
@@ -52,7 +58,7 @@ case class SingleLineAbc(
       keySignature.map(it => s"K:${it.abc}").getOrElse(""),
       s"L:${noteLength.abc}",
       notesAbc,
-      "w:C D"
+      s"w:$words"
     )
       .filter(it => it.nonEmpty)
       .mkString(System.lineSeparator())
