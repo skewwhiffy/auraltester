@@ -22,6 +22,9 @@ class ClefSelector extends React.Component<Props, State> {
         value: it,
         label: `${capitalizeFirstCharacter(it)} Clef`
       }))
+    if (!props.defaultValue) {
+      this.props.onChange(this.values[0].value)
+    }
   }
 
   render() {
@@ -32,7 +35,7 @@ class ClefSelector extends React.Component<Props, State> {
           <RadioButtons
             values={this.values}
             name='clef'
-            defaultValue={this.props.defaultValue || 'treble'}
+            defaultValue={this.props.defaultValue || this.values[0].value}
             onChange={this.props.onChange}
           />
         </Col></Row>
