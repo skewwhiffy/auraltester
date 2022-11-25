@@ -63,7 +63,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
     val start = AbsoluteNote.middleC
 
     assertThrows[IllegalArgumentException] {
-      start + (Interval.major(9))
+      start + Interval.major(9)
     }
   }
 
@@ -142,7 +142,7 @@ class AbsoluteNoteTests extends AnyFlatSpec {
   }
 
   private def testGeneric(start: AbsoluteNote, interval: Interval, expectedAbc: String) = {
-    val actual = start.add(interval).abc(Key.cMajor)
+    val actual = (start + interval).abc(Key.cMajor)
 
     assert(actual == expectedAbc)
   }
