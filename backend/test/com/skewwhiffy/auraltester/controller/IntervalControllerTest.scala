@@ -59,7 +59,10 @@ class IntervalControllerTest extends PlaySpec with MockInstantiation {
     contentType(actual) mustBe Some("application/json")
     val deserialized = contentAsJson(actual)
       .pipe { it => Json.format[IntervalResponse].reads(it) }
-      .pipe { case it: JsSuccess[IntervalResponse] => it.value }
+      .pipe {
+        case it: JsSuccess[IntervalResponse] => it.value
+        case _ => fail()
+      }
     deserialized.abc mustBe abc
     keySignatureObjectCaptor.getValue.asInstanceOf[Key].note mustBe keySignatureNote.note
   }

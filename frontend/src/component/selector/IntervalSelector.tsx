@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
 import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
+import KeySignatureSelector from './KeySignatureSelector'
 import NoteSelector from './NoteSelector'
 
 type OnChangeHandler = (
@@ -96,19 +97,10 @@ class IntervalSelector extends React.Component<Props, State> {
               </Container>
             </Col>
             <Col>
-              <Container>
-                <Row><Col>Key signature</Col></Row>
-                <Row>
-                  <Col>
-                    <RadioButtons
-                      values={this.keySignatureValues}
-                      name='keySignature'
-                      defaultValue={this.state.keySignature}
-                      onChange={keySignature => this.onFormChange({...this.state, keySignature})}
-                    />
-                  </Col>
-                </Row>
-              </Container>
+              <KeySignatureSelector
+                defaultValue={this.state.keySignature}
+                onChange={keySignature => this.onFormChange({...this.state, keySignature})}
+              />
             </Col>
           </Row>
         </Form>

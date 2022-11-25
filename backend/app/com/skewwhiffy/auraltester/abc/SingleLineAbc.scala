@@ -36,7 +36,7 @@ case class SingleLineAbc(
       s"K:clef=${clef.abc}",
       keySignature.map(it => s"K:${it.abc}").getOrElse(""),
       s"L:${noteLength.abc}",
-      notes.map(it => it.abc(keySignature.getOrElse(Key.cMajor))).mkString
+      notes.map(it => it.abc(keySignature.getOrElse(Key.cMajor))).mkString + '|'
     )
       .filter(it => it.nonEmpty)
       .mkString(System.lineSeparator())

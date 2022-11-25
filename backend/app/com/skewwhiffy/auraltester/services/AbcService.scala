@@ -2,7 +2,7 @@ package com.skewwhiffy.auraltester.services
 
 import com.skewwhiffy.auraltester.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.clefs.Clef
-import com.skewwhiffy.auraltester.notes.NoteLength
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, NoteLength}
 import com.skewwhiffy.auraltester.scales.{IntervalNotes, Key, NoteSequence, Scale}
 
 class AbcService {
@@ -23,6 +23,13 @@ class AbcService {
     intervalNotes.interval.displayString,
     clef,
     intervalNotes,
+    key
+  )
+
+  def getAbc(clef: Clef, key: Key): String = getAbc(
+    s"${key.displayString} / ${key.relative.displayString}",
+    clef,
+    NoteSequence.empty,
     key
   )
 

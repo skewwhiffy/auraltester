@@ -1,4 +1,6 @@
-name := """auraltester"""
+//noinspection SpellCheckingInspection
+name := "auraltester"
+//noinspection SpellCheckingInspection
 organization := "com.skewwhiffy"
 
 version := "1.0-SNAPSHOT"
