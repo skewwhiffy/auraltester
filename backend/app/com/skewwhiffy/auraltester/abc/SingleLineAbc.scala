@@ -51,7 +51,8 @@ case class SingleLineAbc(
       s"K:clef=${clef.abc}",
       keySignature.map(it => s"K:${it.abc}").getOrElse(""),
       s"L:${noteLength.abc}",
-      notesAbc
+      notesAbc,
+      "w:C D"
     )
       .filter(it => it.nonEmpty)
       .mkString(System.lineSeparator())
