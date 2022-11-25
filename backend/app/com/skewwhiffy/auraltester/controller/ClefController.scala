@@ -22,8 +22,7 @@ class ClefController @Inject()(
     internalNotationFactory
       .getNote("C")
       .note
-      .pipe { it => Key(it) }
-      .pipe { it => abcService.getAbc(clefObject, it) }
+      .pipe { it => abcService.getAbc(clefObject) }
       .pipe { it => ClefResponse(it) }
       .pipe { it => Ok(Json.toJson(it)) }
   }
