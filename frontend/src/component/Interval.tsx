@@ -4,20 +4,18 @@ import { Notation } from 'react-abc'
 import IntervalSelector from './selector/IntervalSelector'
 import axios from 'axios'
 
-interface Props { }
-
 interface State {
   abc: string
 }
 
-class Interval extends React.Component<Props, State> {
-  constructor(props: Props) {
+class Interval extends React.Component<{}, State> {
+  constructor(props: {}) {
     super(props)
     this.state = {
       abc: ''
     }
   }
-  
+
   intervalSelected = async (
     clef: string,
     bottomNote: string,
@@ -32,7 +30,7 @@ class Interval extends React.Component<Props, State> {
       })
       return
     }
-    
+
     const response = await axios.get('api/interval', {
       params: {
         clef,
@@ -48,7 +46,7 @@ class Interval extends React.Component<Props, State> {
       abc: json.abc
     })
   }
-  
+
   render() {
     return (
       <Container>

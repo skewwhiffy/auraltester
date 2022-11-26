@@ -9,35 +9,58 @@ object SingleLineAbc {
     displayName: String,
     clef: Clef,
     noteLength: NoteLength,
-    notes: List[AbsoluteNote]
+    notes: List[List[AbsoluteNote]]
   ): SingleLineAbc = SingleLineAbc(Some(displayName), clef, noteLength, notes)
 
   def apply(
     clef: Clef,
     noteLength: NoteLength,
-    notes: List[AbsoluteNote]
-  ): SingleLineAbc = SingleLineAbc(None, clef, noteLength, notes)
+    notes: List[List[AbsoluteNote]]
+  ): SingleLineAbc = SingleLineAbc(None, clef, noteLength, None, notes)
+
+  def apply(
+    displayName: Option[String],
+    clef: Clef,
+    noteLength: NoteLength,
+    notes: List[List[AbsoluteNote]]
+  ): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, None, notes)
 }
 
 case class SingleLineAbc(
   private val displayName: Option[String],
   private val clef: Clef,
   private val noteLength: NoteLength,
-  private val notes: List[AbsoluteNote],
-  private val keySignature: Option[Key] = None
+  private val keySignature: Option[Key],
+  private val notes: List[List[AbsoluteNote]]
 ) {
 
-  def includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, notes, Some(key))
+  def includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, Some(key), notes)
 
-  lazy val abc: String =
+  lazy val abc: String = {
+    def barAbc(value: List[AbsoluteNote]): String = {
+      value
+        .map(it => it.abc(keySignature.getOrElse(Key.cMajor)))
+        .mkString
+    }
+
+    val notesAbc = notes
+      .map(it => barAbc(it))
+      .mkString("|") + "|"
+    val words = notes
+      .flatten
+      .map(it => it.wordAbc)
+      .mkString(" ")
+
     List(
       "X:1",
       displayName.map(it => s"T:$it").getOrElse(""),
       s"K:clef=${clef.abc}",
       keySignature.map(it => s"K:${it.abc}").getOrElse(""),
       s"L:${noteLength.abc}",
-      notes.map(it => it.abc(keySignature.getOrElse(Key.cMajor))).mkString + '|'
+      notesAbc,
+      s"w:$words"
     )
       .filter(it => it.nonEmpty)
       .mkString(System.lineSeparator())
+  }
 }
