@@ -7,7 +7,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ClefUpperLedgerNotesTest extends AnyFlatSpec {
   it should "correctly define lower ledger notes from clef" in {
     val clef = TestData.noteFactories.clef.treble
-    val expectedAbc = List("g", "a", "b", "c'", "d'")
+    val expectedAbc = List("g", "a", "b", "c'", "d'", "e'")
     val expectedNames = expectedAbc.map(it => it.substring(0, 1).toUpperCase)
 
     val actual = ClefUpperLedgerNotes(clef)
