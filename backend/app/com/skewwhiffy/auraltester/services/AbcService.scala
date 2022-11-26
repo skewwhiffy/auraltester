@@ -49,10 +49,17 @@ class AbcService {
     getAbcObject(title, clef, List(noteSequence))
 
   private def getAbcObject(title: String, clef: Clef, noteSequence: List[NoteSequence]): SingleLineAbc = SingleLineAbc(
-    title,
+    title.titleCase,
     clef,
     NoteLength.semibreve,
     noteSequence.map { it => it.notes }
   )
+
+  implicit class StringTitleMaker(source: String) {
+    def titleCase: String = source
+      .split(' ')
+      .map(it => it.substring(0, 1).toUpperCase + it.substring(1))
+      .mkString(" ")
+  }
 
 }

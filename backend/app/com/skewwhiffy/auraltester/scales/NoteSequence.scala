@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.scales
 
-import com.skewwhiffy.auraltester.notes.AbsoluteNote
+import com.skewwhiffy.auraltester.notes.{AbsoluteNote, Accidental, Interval, Note}
+
+import scala.util.chaining.scalaUtilChainingOps
 
 object NoteSequence {
   def empty: NoteSequence = new NoteSequence {
@@ -10,4 +12,5 @@ object NoteSequence {
 
 trait NoteSequence {
   def notes: List[AbsoluteNote]
+
 }

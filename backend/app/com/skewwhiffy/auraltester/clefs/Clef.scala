@@ -15,9 +15,9 @@ case class Clef(
     spaceNotes
   )
 
-  def lineNotes: NoteSequence = new ClefLineNotes(this)
+  def lineNotes: NoteSequence = ClefLineNotes(this)
 
-  def spaceNotes: NoteSequence = new ClefLineNotes(this) // TODO: FIX
+  def spaceNotes: NoteSequence = ClefSpaceNotes(this)
 
   def getNoteNearBottom(note: Note): AbsoluteNote = {
     val candidateStartingNote = AbsoluteNote(note, lowLedgerNote.octave)
