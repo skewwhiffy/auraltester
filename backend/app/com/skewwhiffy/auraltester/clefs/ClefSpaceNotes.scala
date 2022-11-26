@@ -7,6 +7,6 @@ case class ClefSpaceNotes(clef: Clef) extends ClefNotes {
     val lowestNote = clef.lowLedgerNote.upOne.skipOne
     Range(1, 4)
       .foldLeft(List(lowestNote))((soFar, _) => soFar :+ soFar.last.skipOne)
-      .map(it => it.withLyric(it.note.displayString))
+      .map(it => it.withNoteName)
   }
 }

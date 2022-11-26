@@ -2,11 +2,11 @@ package com.skewwhiffy.auraltester.clefs
 
 import com.skewwhiffy.auraltester.notes.AbsoluteNote
 
-case class ClefLineNotes(clef: Clef) extends ClefNotes {
+case class ClefUpperLedgerNotes(clef: Clef) extends ClefNotes {
   def notes: List[AbsoluteNote] = {
-    val lowestNote = clef.lowLedgerNote.skipOne
+    val lowestNote = clef.highLedgerNote.downOne
     Range(1, 5)
-      .foldLeft(List(lowestNote))((soFar, _) => soFar :+ soFar.last.skipOne)
+      .foldLeft(List(lowestNote))((soFar, _) => soFar :+ soFar.last.upOne)
       .map(it => it.withNoteName)
   }
 }

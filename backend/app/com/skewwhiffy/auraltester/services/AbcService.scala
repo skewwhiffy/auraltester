@@ -13,7 +13,7 @@ class AbcService {
   ).abc
 
   def getAbc(clef: Clef): String = getAbcObject(
-    s"${clef.displayName}",
+    s"${clef.displayName} Clef Notes",
     clef,
     clef.notes
   ).abc
