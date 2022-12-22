@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+hs_err_pid*.log
