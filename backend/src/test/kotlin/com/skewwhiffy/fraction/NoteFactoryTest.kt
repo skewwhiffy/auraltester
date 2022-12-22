@@ -5,6 +5,7 @@ import com.skewwhiffy.notation.model.AbsoluteNote
 import com.skewwhiffy.notation.model.Key
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.junit.jupiter.MockitoExtension
@@ -32,21 +33,20 @@ class NoteFactoryTest {
     assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
   }
 
-  /*
-  it should "instantiate note below middle C" in {
+  @Test
+  fun `instantiate note below middle C`() {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
 
     val actual = noteFactory.getAbsoluteNote(internalNotation)
 
-    assert(actual.abc(Key.cMajor) == expected)
+    assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
   }
 
-  it should "throw when note name invalid" in {
-    assertThrows[IllegalArgumentException] {
+  @Test
+  fun `throw when note name invalid`() {
+    assertThrows<IllegalArgumentException> {
       noteFactory.getAbsoluteNote("H")
     }
   }
-}
-   */
 }
