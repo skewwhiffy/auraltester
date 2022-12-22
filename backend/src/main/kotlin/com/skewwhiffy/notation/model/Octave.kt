@@ -5,10 +5,10 @@ data class Octave(val offsetFromDefault: Int) {
     val default: Octave = Octave(0)
   }
 
-  /*
-  lazy val up: Octave = Octave(offsetFromDefault + 1)
+  val up: Octave = Octave(offsetFromDefault + 1)
 
-  lazy val down: Octave = Octave(offsetFromDefault - 1)
+  val down: Octave = Octave(offsetFromDefault - 1)
+  /*
 
   def >(other: Octave): Boolean = offsetFromDefault > other.offsetFromDefault
 

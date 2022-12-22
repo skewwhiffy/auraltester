@@ -60,9 +60,8 @@ data class Fraction(val top: Int, val bottom: Int) {
   operator fun times(other: Fraction): Any {
     return Fraction(top * other.top, bottom * other.bottom).simplified
   }
-  /*
-    lazy val topHeavyString: String = if (bottom == 1) s"$top" else s"$top/$bottom"
-  */
+
+  val topHeavyString: String = if (bottom == 1) "$top" else "$top/$bottom"
 
   override fun toString(): String {
     return (if (whole == 0) "" else "$whole ")

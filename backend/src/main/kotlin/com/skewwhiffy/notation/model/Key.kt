@@ -12,9 +12,9 @@ data class Key(val note: Note, val isMinor: Boolean = false) {
     val cMajor: Key = Key(Note.c)
   }
 
-  /*
-  lazy val abc: String = if (isMinor) s"${note.displayString}m" else note.displayString
+  val abc: String = if (isMinor) "${note.displayString}m" else note.displayString
 
+  /*
   def displayString: String = s"${note.displayString} ${if (isMinor) "minor" else "major"}"
 
 */

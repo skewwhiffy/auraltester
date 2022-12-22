@@ -1,5 +1,6 @@
 package com.skewwhiffy.notation.factory
 
+import com.skewwhiffy.notation.model.AbsoluteNote
 import com.skewwhiffy.notation.model.Clef
 import org.springframework.stereotype.Service
 import java.util.*
@@ -10,8 +11,8 @@ class InternalNotationFactory(
   /*
   val intervalFactory: IntervalFactory,
   val keyFactory: KeyFactory,
-  val noteFactory: NoteFactory
    */
+  val noteFactory: NoteFactory
 ) {
   fun clef(clefRaw: String): Clef {
     return when (clefRaw.lowercase(Locale.UK)) {
@@ -22,10 +23,12 @@ class InternalNotationFactory(
       else -> throw IllegalArgumentException("Unrecognized clef type: '$clefRaw'")
     }
   }
+
+  fun getNote(noteRaw: String): AbsoluteNote {
+    return noteFactory.getAbsoluteNote(noteRaw)
+  }
+
   /*
-
-  def getNote(noteRaw: String): AbsoluteNote = noteFactory.getAbsoluteNote(noteRaw)
-
   def getNotes(notesRaw: String): List[AbsoluteNote] = notesRaw
     .split(' ')
     .map(getNote)

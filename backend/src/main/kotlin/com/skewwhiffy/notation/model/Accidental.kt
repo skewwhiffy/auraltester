@@ -15,15 +15,11 @@ data class Accidental(private val offset: Int) {
     else -> "^".repeat(offset)
   }
 
-  /*
-
-  lazy val displayString: String = offset match {
-    case 0 => ""
-    case it if it < 0 => "b".repeat(-it)
-    case it if it % 2 == 0 => "x".repeat(it / 2)
-    case it => "x".repeat((it - 1) / 2) + "#"
+  val displayString: String = when {
+    offset < 0 -> "b".repeat(-offset)
+    offset % 2 == 0 -> "x".repeat(offset/2)
+    else -> "x".repeat((offset - 1) / 2 ) + "#"
   }
-*/
 
   val flat: Accidental
     get() = Accidental(offset - 1)

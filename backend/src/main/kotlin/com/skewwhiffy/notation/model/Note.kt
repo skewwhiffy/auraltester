@@ -13,14 +13,12 @@ data class Note(val noteName: String, val accidental: Accidental) {
     @Suppress("SpellCheckingInspection")
     private val noteNames = "CDEFGAB"
   }
-  /*
 
-  def displayString: String = s"$noteName${accidental.displayString}"
+  val displayString: String = "$noteName${accidental.displayString}"
 
-  def sharp: Note = Note(noteName, accidental.sharp)
-*/
-  val flat: Note
-    get() = Note(noteName, accidental.flat)
+  val sharp: Note = Note(noteName, accidental.sharp)
+
+  val flat: Note = Note(noteName, accidental.flat)
 
   val upMajorSecond: Note
     get() {
@@ -30,14 +28,15 @@ data class Note(val noteName: String, val accidental: Accidental) {
       }
     }
 
+  val downMajorSecond : Note
+    get() {
+      return when(noteName) {
+        in listOf("B", "A", "G", "E","D") -> Note(previousNoteName, accidental)
+        else -> Note(previousNoteName, accidental.flat)
+        }
+    }
+
   /*
-
-  def downMajorSecond : Note = noteName match
-  {
-    case "B" | "A" | "G" | "E" | "D" => Note(previousNoteName, accidental)
-    case _ => Note (previousNoteName, accidental.flat)
-  }
-
   def <= (other: Note): Boolean = this == other || this < other
 
   def >= (other: Note): Boolean = this == other || this > other
@@ -57,19 +56,15 @@ data class Note(val noteName: String, val accidental: Accidental) {
     "G" -> "A"
     else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
   }
-  /*
 
-  private lazy
-  val previousNoteName: String = noteName match {
-    case "A" => "G"
-    case "B" => "A"
-    case "C" => "B"
-    case "D" => "C"
-    case "E" => "D"
-    case "F" => "E"
-    case "G" => "F"
-    case _ => throw new IllegalArgumentException (s"Not a valid note name: '$noteName'")
+  private val previousNoteName: String = when(noteName) {
+    "A" -> "G"
+    "B" -> "A"
+    "C" -> "B"
+    "D" -> "C"
+    "E" -> "D"
+    "F" -> "E"
+    "G" -> "F"
+    else -> throw IllegalArgumentException ("Not a valid note name: '$noteName'")
   }
-}
-*/
 }
