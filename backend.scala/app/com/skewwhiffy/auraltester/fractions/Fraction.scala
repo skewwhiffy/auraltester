@@ -33,10 +33,9 @@ object Fraction {
 }
 
 class Fraction(val top: Int, val bottom: Int) {
-  // Can assume bottom > 0
-  lazy val whole: Int = top / bottom
-  lazy val topWithoutWhole: Int = top - (whole * bottom)
-  lazy val simplified: Fraction = if (top == 0) Fraction(0, 1) else hcf(top, bottom) match {
+  private lazy val whole: Int = top / bottom
+  private lazy val topWithoutWhole: Int = top - (whole * bottom)
+  private lazy val simplified: Fraction = if (top == 0) Fraction(0, 1) else hcf(top, bottom) match {
     case 1 => this
     case it => Fraction(top / it, bottom / it)
   }
@@ -51,7 +50,7 @@ class Fraction(val top: Int, val bottom: Int) {
 
   def *(other: Fraction): Fraction = Fraction(top * other.top, bottom * other.bottom).simplified
 
-  def unary_- : Fraction = Fraction(-top, bottom)
+  private def unary_- : Fraction = Fraction(-top, bottom)
 
   lazy val topHeavyString: String = if (bottom == 1) s"$top" else s"$top/$bottom"
 
