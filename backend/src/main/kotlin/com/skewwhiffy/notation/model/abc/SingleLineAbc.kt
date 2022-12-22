@@ -33,7 +33,7 @@ class:
   val abc: String
     get() {
       fun barAbc(value: List<AbsoluteNote>): String {
-        return value.joinToString { it.abc(keySignature ?: Key.cMajor) }
+        return value.joinToString("") { it.abc(keySignature ?: Key.cMajor) }
       }
 
       val notesAbc = notes.joinToString("|") { barAbc(it) } + "|"
