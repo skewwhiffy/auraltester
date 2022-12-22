@@ -67,7 +67,9 @@ case class AbsoluteNote(
     }
   }
 
-  def abc(key: Key): String = key.abc(this)
+*/
+  fun abc(key: Key): String = key.abc(this)
+  /*
 
   def wordAbc: String = if (lyric.getOrElse("").isEmpty) "*" else lyric.get
 

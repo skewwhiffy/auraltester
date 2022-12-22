@@ -2,6 +2,7 @@ package com.skewwhiffy.fraction
 
 import com.skewwhiffy.notation.factory.NoteFactory
 import com.skewwhiffy.notation.model.AbsoluteNote
+import com.skewwhiffy.notation.model.Key
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -22,15 +23,16 @@ class NoteFactoryTest {
     assertThat(actual).isEqualTo(expected)
   }
 
-  /*
-  it should "instantiate note above middle C" in {
+  @Test
+  fun `instantiate note above middle C`() {
     val expected = "c''"
 
     val actual = noteFactory.getAbsoluteNote(expected)
 
-    assert(actual.abc(Key.cMajor) == expected)
+    assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
   }
 
+  /*
   it should "instantiate note below middle C" in {
     val internalNotation = "Dx#,,,"
     val expected = "^^^D,,,"
