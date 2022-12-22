@@ -4,34 +4,24 @@ import java.lang.IllegalArgumentException
 
 data class Key(val note: Note, val isMinor: Boolean = false) {
   companion object {
-    /*
+    @Suppress("SpellCheckingInspection")
     private val renderableKeys: List<String> = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
       .split(' ')
       .toList()
-     */
+
     val cMajor: Key = Key(Note.c)
   }
 
   val abc: String = if (isMinor) "${note.displayString}m" else note.displayString
 
-  /*
-  def displayString: String = s"${note.displayString} ${if (isMinor) "minor" else "major"}"
+  val displayString: String = "${note.displayString} ${if (isMinor) "minor" else "major"}"
 
-*/
   fun abc(note: AbsoluteNote): String {
     return "${accidentalAbc(note.note)}${noteAbc(note)}"
   }
 
-  /*
-
-  def canRenderSignature: Boolean = {
-    if (isMinor) {
-      return relativeMajor.canRenderSignature
-    }
-    renderableKeys.contains(note.displayString)
-  }
-
-*/
+  val canRenderSignature: Boolean = if (isMinor) relativeMajor.canRenderSignature
+  else renderableKeys.contains(note.displayString)
 
   private fun noteAbc(note: AbsoluteNote): String {
     return note.octave.offsetFromDefault.let {
@@ -54,15 +44,16 @@ data class Key(val note: Note, val isMinor: Boolean = false) {
     }
   }
 
-  /*
+  private val relativeMinor: Key
+    get() = if (isMinor) this else Key(
+      note.downMajorSecond.downMajorSecond.sharp,
+      isMinor = true
+    )
 
-  def relativeMinor: Key = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharp, isMinor = true)
+  private val relativeMajor: Key get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
 
-  def relativeMajor: Key = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
+  val relative: Key get() = if (isMinor) relativeMajor else relativeMinor
 
-  def relative: Key = if (isMinor) relativeMajor else relativeMinor
-
-*/
   private val notes: List<Note>
     get() {
       return (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))
@@ -70,13 +61,12 @@ data class Key(val note: Note, val isMinor: Boolean = false) {
           if (semitones == 2) note.upMajorSecond else note.upMajorSecond.flat
         }
     }
+
   /*
-
-  override def equals(obj: Any): Boolean = obj match {
-    case other: Key => note == other.note && isMinor == other.isMinor
-    case _ => false
+    override def equals(obj: Any): Boolean = obj match {
+      case other: Key => note == other.note && isMinor == other.isMinor
+      case _ => false
+    }
   }
-}
-
    */
 }

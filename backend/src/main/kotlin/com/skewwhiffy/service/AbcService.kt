@@ -1,6 +1,7 @@
 package com.skewwhiffy.service
 
 import com.skewwhiffy.notation.model.Clef
+import com.skewwhiffy.notation.model.Key
 import com.skewwhiffy.notation.model.NoteLength
 import com.skewwhiffy.notation.model.NoteSequence
 import com.skewwhiffy.notation.model.abc.SingleLineAbc
@@ -39,25 +40,34 @@ class AbcService {
     intervalNotes,
     key
   )
+*/
 
-  def getAbc(clef: Clef, key: Key): String = getAbc(
-    s"${key.displayString} / ${key.relative.displayString}",
+  fun getAbc(clef: Clef, key: Key): String = getAbc(
+    "${key.displayString} / ${key.relative.displayString}",
     clef,
     NoteSequence.empty,
     key
   )
 
-  private def getAbc(title: String, clef: Clef, noteSequence: NoteSequence, key: Key): String = if (!key.canRenderSignature) {
-    ""
-  } else {
-    getAbcObject(title, clef, noteSequence).includeKeySignature(key).abc
-  }
+  private fun getAbc(title: String, clef: Clef, noteSequence: NoteSequence, key: Key): String =
+    if (!key.canRenderSignature) {
+      ""
+    } else {
+      getAbcObject(title, clef, noteSequence).includeKeySignature(key).abc
+    }
 
-  private fun getAbcObject(title: String, clef: Clef, noteSequence: NoteSequence): SingleLineAbc =
+  private fun getAbcObject(
+    title: String,
+    clef: Clef,
+    noteSequence: NoteSequence,
+  ): SingleLineAbc =
     getAbcObject(title, clef, listOf(noteSequence))
 
-*/
-  private fun getAbcObject(title: String, clef: Clef, noteSequence: List<NoteSequence>): SingleLineAbc = SingleLineAbc(
+  private fun getAbcObject(
+    title: String,
+    clef: Clef,
+    noteSequence: List<NoteSequence>,
+  ): SingleLineAbc = SingleLineAbc(
     title.titleCase,
     clef,
     NoteLength.semibreve,
@@ -73,7 +83,5 @@ class AbcService {
       .map(it => it.substring(0, 1).toUpperCase + it.substring(1))
       .mkString(" ")
   }
-
-}
    */
 }

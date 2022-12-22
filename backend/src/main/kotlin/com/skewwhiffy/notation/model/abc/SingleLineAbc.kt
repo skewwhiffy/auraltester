@@ -25,7 +25,13 @@ data class SingleLineAbc(
     notes: List<List<AbsoluteNote>>
   ): this(null, clef, noteLength, null, notes)
 
-  // def includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, Some(key), notes)
+  fun includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(
+    displayName,
+    clef,
+    noteLength,
+    key,
+    notes
+  )
 
   val abc: String
     get() {
