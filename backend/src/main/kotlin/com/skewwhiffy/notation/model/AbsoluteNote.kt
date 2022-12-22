@@ -65,9 +65,9 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
 
   val wordAbc: String = (lyric ?: "").ifEmpty { "*" }
 
-  private val sharp: AbsoluteNote = AbsoluteNote(note.sharp, octave)
+  private val sharp: AbsoluteNote get() = AbsoluteNote(note.sharp, octave)
 
-  private val flat: AbsoluteNote = AbsoluteNote(note.flat, octave)
+  private val flat: AbsoluteNote get() = AbsoluteNote(note.flat, octave)
 
   /*
   def <=(other: AbsoluteNote): Boolean = this < other || this == other
@@ -82,16 +82,18 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
 
   override def toString: String = abc(Key.cMajor)
   */
-  private val upMajorSecond = (if ("B" == note.noteName) octave.up else octave)
-    .let { AbsoluteNote(note.upMajorSecond, it) }
+  private val upMajorSecond
+    get() = (if ("B" == note.noteName) octave.up else octave)
+      .let { AbsoluteNote(note.upMajorSecond, it) }
 
-  private val upMinorSecond = upMajorSecond
-    .let { AbsoluteNote(it.note.flat, it.octave) }
+  private val upMinorSecond
+    get() = upMajorSecond.let { AbsoluteNote(it.note.flat, it.octave) }
 
-  private val downMajorSecond = (if ("C" == note.noteName) octave.down else octave)
-    .let { AbsoluteNote(note.downMajorSecond, it) }
+  private val downMajorSecond
+    get() = (if ("C" == note.noteName) octave.down else octave)
+      .let { AbsoluteNote(note.downMajorSecond, it) }
 
-  private val downMinorSecond = downMajorSecond
-    .let { AbsoluteNote(it.note.sharp, it.octave) }
+  private val downMinorSecond
+    get() = downMajorSecond.let { AbsoluteNote(it.note.sharp, it.octave) }
 
 }

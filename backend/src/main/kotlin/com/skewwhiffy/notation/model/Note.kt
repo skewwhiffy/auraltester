@@ -16,9 +16,9 @@ data class Note(val noteName: String, val accidental: Accidental) {
 
   val displayString: String = "$noteName${accidental.displayString}"
 
-  val sharp: Note = Note(noteName, accidental.sharp)
+  val sharp: Note get() = Note(noteName, accidental.sharp)
 
-  val flat: Note = Note(noteName, accidental.flat)
+  val flat: Note get() = Note(noteName, accidental.flat)
 
   val upMajorSecond: Note
     get() {
@@ -28,12 +28,12 @@ data class Note(val noteName: String, val accidental: Accidental) {
       }
     }
 
-  val downMajorSecond : Note
+  val downMajorSecond: Note
     get() {
-      return when(noteName) {
-        in listOf("B", "A", "G", "E","D") -> Note(previousNoteName, accidental)
+      return when (noteName) {
+        in listOf("B", "A", "G", "E", "D") -> Note(previousNoteName, accidental)
         else -> Note(previousNoteName, accidental.flat)
-        }
+      }
     }
 
   /*
@@ -57,7 +57,7 @@ data class Note(val noteName: String, val accidental: Accidental) {
     else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
   }
 
-  private val previousNoteName: String = when(noteName) {
+  private val previousNoteName: String = when (noteName) {
     "A" -> "G"
     "B" -> "A"
     "C" -> "B"
@@ -65,6 +65,6 @@ data class Note(val noteName: String, val accidental: Accidental) {
     "E" -> "D"
     "F" -> "E"
     "G" -> "F"
-    else -> throw IllegalArgumentException ("Not a valid note name: '$noteName'")
+    else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
   }
 }
