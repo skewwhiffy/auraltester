@@ -7,10 +7,9 @@ import com.skewwhiffy.notation.model.Clef
 import com.skewwhiffy.notation.model.Key
 import com.skewwhiffy.notation.model.NoteLength
 import com.skewwhiffy.test.util.TestData
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mockito.mock
-
-import org.mockito.Mockito.`when`
+import org.junit.jupiter.api.Test
 
 class SingleLineAbcTest {
   private lateinit var title: String
@@ -32,44 +31,27 @@ class SingleLineAbcTest {
       NoteLength.crotchet,
       NoteLength.quaver
     )
-    notesAbc = (1..10).map { TestData.random.string }.toList()
-    notes = notesAbc.map {
-      val note: AbsoluteNote = mock()
-      `when`(note.abc(Key.cMajor)).thenReturn(it)
-      note
-    }
+    notes = (1..10).map { TestData.random.absoluteNote }
+    notesAbc = notes.map { it.abc(Key.cMajor) }
   }
 
-  /*
-  it should "populate title" in {
-    Given("title is supplied")
+  @Test
+  fun `populates title`() {
+    val abc = SingleLineAbc(title, clef, noteLength, listOf(notes))
 
-    When("getting single line ABC")
-    val abc = SingleLineAbc(title, clef, noteLength, List(notes))
-
-    Then("abc has index")
-    assert(abc.abc.contains("X:1"))
-    And("populates title")
-    assert(abc.abc.contains(s"T:$title"))
-    And("clef is populated")
-    assert(abc.abc.contains(s"K:clef=${clef.abc}"))
-    And("note length is populated")
-    assert(abc.abc.contains(s"L:${noteLength.abc}"))
-    And("notes abc is correct")
-    assert(abc.abc.contains(notesAbc.mkString))
+    assertThat(abc.abc).contains("X:1")
+    assertThat(abc.abc).contains("T:$title")
+    assertThat(abc.abc).contains("K:clef=${clef.abc}")
+    assertThat(abc.abc).contains("L:${noteLength.abc}")
+    assertThat(abc.abc).contains(notesAbc.joinToString(""))
   }
 
-  it should "not populate title" in {
-    Given("title is not supplied")
+  @Test
+  fun `not populate title`() {
+    val abc = SingleLineAbc(clef, noteLength, listOf(notes))
 
-    When("getting single line ABC")
-    val abc = SingleLineAbc(clef, noteLength, List(notes))
-
-    Then("abc has no title")
-    assert(!abc.abc.contains("T:"))
+    assertThat(abc.abc).doesNotContain("T:")
   }
 
   // TODO: Multiple bars
-}
-   */
 }

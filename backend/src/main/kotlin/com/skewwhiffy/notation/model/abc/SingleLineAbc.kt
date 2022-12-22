@@ -19,17 +19,14 @@ data class SingleLineAbc(
     notes: List<List<AbsoluteNote>>
   ) : this(displayName, clef, noteLength, null, notes)
 
-  /*
-  def apply(
+  constructor(
     clef: Clef,
     noteLength: NoteLength,
-    notes: List[List[AbsoluteNote]]
-  ): SingleLineAbc = SingleLineAbc(None, clef, noteLength, None, notes)
+    notes: List<List<AbsoluteNote>>
+  ): this(null, clef, noteLength, null, notes)
 
-class:
-  def includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, Some(key), notes)
+  // def includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(displayName, clef, noteLength, Some(key), notes)
 
-*/
   val abc: String
     get() {
       fun barAbc(value: List<AbsoluteNote>): String {
