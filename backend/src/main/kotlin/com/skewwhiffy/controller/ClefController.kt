@@ -14,7 +14,6 @@ class ClefController(
 
   @RequestMapping("/api/clef")
   fun get(clef: String): ClefResponse {
-    println(clef)
     val clefObject = internalNotationFactory.clef(clef)
     return internalNotationFactory
       .getNote("C")
