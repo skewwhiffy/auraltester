@@ -4,7 +4,7 @@ import com.skewwhiffy.dto.ClefResponse
 import com.skewwhiffy.notation.factory.InternalNotationFactory
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import service.AbcService
+import com.skewwhiffy.service.AbcService
 
 @RestController
 class ClefController(
@@ -16,11 +16,10 @@ class ClefController(
   fun get(clef: String): ClefResponse {
     println(clef)
     val clefObject = internalNotationFactory.clef(clef)
-    internalNotationFactory
+    return internalNotationFactory
       .getNote("C")
       .note
       .let { abcService.getAbc(clefObject) }
       .let { ClefResponse(it) }
-    TODO()
   }
 }

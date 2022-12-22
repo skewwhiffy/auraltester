@@ -1,10 +1,12 @@
-package service
+package com.skewwhiffy.service
 
 import com.skewwhiffy.notation.model.Clef
 import com.skewwhiffy.notation.model.NoteLength
 import com.skewwhiffy.notation.model.NoteSequence
 import com.skewwhiffy.notation.model.abc.SingleLineAbc
+import org.springframework.stereotype.Service
 
+@Service
 class AbcService {
   /*
   def getAbc(clef: Clef, scale: Scale): String = getAbcObject(

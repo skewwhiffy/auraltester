@@ -42,7 +42,7 @@ data class Interval(val degree: Int, val deviation: Int) {
     }
   }
 
-  val diminished: Interval = Interval(degree, deviation - 1)
+  val diminished: Interval get() = Interval(degree, deviation - 1)
 
   /*
 
