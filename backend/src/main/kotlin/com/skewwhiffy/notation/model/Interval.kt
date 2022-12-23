@@ -44,16 +44,17 @@ data class Interval(val degree: Int, val deviation: Int) {
 
   val diminished: Interval get() = Interval(degree, deviation - 1)
 
+  val augmented: Interval get() = Interval(degree, deviation + 1)
+
   /*
-
-  lazy val augmented: Interval = Interval(degree, deviation + 1)
-
   lazy val displayString: String = s"$quality ${displayStrings(degree - 1)}"
+  */
 
-  lazy val up: DirectedInterval = DirectedInterval(this, IntervalDirection.up)
+  val up: DirectedInterval = DirectedInterval(this, IntervalDirection.UP)
 
-  lazy val down: DirectedInterval = DirectedInterval(this, IntervalDirection.down)
+  val down: DirectedInterval = DirectedInterval(this, IntervalDirection.DOWN)
 
+  /*
   private def quality: String = {
     lazy val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"
     lazy val negativeQuality = {
