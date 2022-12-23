@@ -28,12 +28,12 @@ class InternalNotationFactory(
     return noteFactory.getAbsoluteNote(noteRaw)
   }
 
-  /*
-  def getNotes(notesRaw: String): List[AbsoluteNote] = notesRaw
+  fun getNotes(notesRaw: String): List<AbsoluteNote> = notesRaw
     .split(' ')
-    .map(getNote)
-    .toList
+    .map(::getNote)
+    .toList()
 
+  /*
   def getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory
     .getDirectedInterval(rawInterval)
 

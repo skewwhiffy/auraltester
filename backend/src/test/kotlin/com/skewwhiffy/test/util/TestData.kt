@@ -1,7 +1,6 @@
 package com.skewwhiffy.test.util
 
-import com.skewwhiffy.notation.factory.ClefFactory
-import com.skewwhiffy.notation.factory.NoteFactory
+import com.skewwhiffy.notation.factory.*
 import com.skewwhiffy.notation.model.note.AbsoluteNote
 import com.skewwhiffy.notation.model.note.Accidental
 import com.skewwhiffy.notation.model.note.Note
@@ -57,12 +56,13 @@ object RandomTestData {
 }
 
 object NoteFactories {
-  val note: NoteFactory = NoteFactory()
+  private val note: NoteFactory = NoteFactory()
   val clef: ClefFactory = ClefFactory(note)
+  private val interval: IntervalFactory = IntervalFactory()
 
   /*
-  val interval: IntervalFactory = new IntervalFactory()
   val key: KeyFactory = new KeyFactory(note)
+   */
   val internalNotation: InternalNotationFactory = InternalNotationFactory(
     clef,
     /*
@@ -71,6 +71,5 @@ object NoteFactories {
      */
     note
   )
-  val scaleTypeFactory: ScaleTypeFactory = new ScaleTypeFactory (interval)
-   */
+  val scaleTypeFactory: ScaleTypeFactory = ScaleTypeFactory(interval)
 }
