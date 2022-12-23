@@ -19,42 +19,42 @@ class ScaleTest {
     assertThat(actual.notes).isEqualTo(expected)
   }
 
-  /*
-  it should "instantiate minor harmonic scale" in {
-    val expected = internalNotation.getNotes("D E F G A Bb c# d")
+  @Test
+  fun `instantiate minor harmonic scale`() {
+    val expected = TestData.noteFactories.internalNotation.getNotes("D E F G A Bb c# d")
 
-    val actual = new Scale(
-      internalNotation.getNote("D"),
-      scaleTypeFactory.minorHarmonic,
-      ScaleDirection.ascending
+    val actual = Scale(
+      TestData.noteFactories.internalNotation.getNote("D"),
+      TestData.noteFactories.scaleTypeFactory.minorHarmonic,
+      ScaleDirection.ASCENDING
     )
 
-    assert(actual.notes == expected)
+    assertThat(actual.notes).isEqualTo(expected)
   }
 
-  it should "instantiate minor melodic ascending scale" in {
-    val expected = internalNotation.getNotes("E F# G A B c# d# e")
+  @Test
+  fun `instantiate minor melodic ascending scale`() {
+    val expected = TestData.noteFactories.internalNotation.getNotes("E F# G A B c# d# e")
 
-    val actual = new Scale(
-      internalNotation.getNote("E"),
-      scaleTypeFactory.minorMelodic,
-      ScaleDirection.ascending
+    val actual = Scale(
+      TestData.noteFactories.internalNotation.getNote("E"),
+      TestData.noteFactories.scaleTypeFactory.minorMelodic,
+      ScaleDirection.ASCENDING
     )
 
-    assert(actual.notes == expected)
+    assertThat(actual.notes).isEqualTo(expected)
   }
 
-  it should "instantiate minor melodic descending scale" in {
-    val expected = internalNotation.getNotes("a g f e d c B A")
+  @Test
+  fun `instantiate minor melodic descending scale`() {
+    val expected = TestData.noteFactories.internalNotation.getNotes("a g f e d c B A")
 
-    val actual = new Scale(
-      internalNotation.getNote("A"),
-      scaleTypeFactory.minorMelodic,
-      ScaleDirection.descending
+    val actual = Scale(
+      TestData.noteFactories.internalNotation.getNote("A"),
+      TestData.noteFactories.scaleTypeFactory.minorMelodic,
+      ScaleDirection.DESCENDING
     )
 
-    assert(actual.notes == expected)
+    assertThat(actual.notes).isEqualTo(expected)
   }
-}
-   */
 }
