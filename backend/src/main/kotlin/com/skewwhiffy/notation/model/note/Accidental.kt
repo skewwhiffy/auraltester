@@ -3,10 +3,8 @@ package com.skewwhiffy.notation.model.note
 data class Accidental(private val offset: Int) {
   companion object {
     val natural: Accidental = Accidental(0)
-    /*
     val flat: Accidental = Accidental(-1)
     val sharp: Accidental = Accidental(1)
-     */
   }
 
   val abc: String = when {

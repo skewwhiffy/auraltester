@@ -1,51 +1,56 @@
 package com.skewwhiffy.notation.model.note
 
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
 class NoteTest {
-  /*
-  it should "return display string when natural" in {
+  @Test
+  fun `return display string when natural`() {
     val note = Note.a
 
     val actual = note.displayString
 
-    assert(actual == "A")
+    assertThat(actual).isEqualTo("A")
   }
 
-  it should "return display string when sharp" in {
+  @Test
+  fun `return display string when sharp`() {
     val note = Note.b.sharp
 
     val actual = note.displayString
 
-    assert(actual == "B#")
+    assertThat(actual).isEqualTo("B#")
   }
 
-  it should "return display string when flat" in {
+  @Test
+  fun `return display string when flat`() {
     val note = Note.d.flat
 
     val actual = note.displayString
 
-    assert(actual == "Db")
+    assertThat(actual).isEqualTo("Db")
   }
 
-  it should "equate equivalent notes" in {
-    def note = Note("A", Accidental.sharp)
+  @Test
+  fun `equate equivalent notes`() {
+    fun getNote() = Note("A", Accidental.sharp)
 
-    val first = note
-    val second = note
+    val first = getNote()
+    val second = getNote()
 
-    assert(first==second)
-    assert(first <= second)
-    assert(first >= second)
+    assertThat(first).isEqualTo(second)
+    assertThat(first <= second).isTrue
+    assertThat(first >= second).isTrue
   }
 
-  it should "compare non-equivalent notes" in {
-    def lower = Note.c
+  @Test
+  fun `compare non-equivalent notes`() {
+    val lower = Note.c
 
-    def higher = Note.a
+    val higher = Note.a
 
-    assert(lower < higher)
-    assert(!(lower > higher))
+    assertThat(lower < higher).isTrue
+    assertThat(lower > higher).isFalse
     // TODO: > and < with #s and bs
   }
-}
-   */
 }
