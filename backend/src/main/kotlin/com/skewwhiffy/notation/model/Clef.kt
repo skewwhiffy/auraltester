@@ -29,12 +29,8 @@ data class Clef(
     upperLedgerNotes,
   )
 
-
-  /*
-  def getNoteNearBottom(note: Note): AbsoluteNote = {
+  fun getNoteNearBottom(note: Note): AbsoluteNote {
     val candidateStartingNote = AbsoluteNote(note, lowLedgerNote.octave)
-    if (candidateStartingNote < lowLedgerNote) candidateStartingNote + Interval.perfect(8) else candidateStartingNote
+    return if (candidateStartingNote < lowLedgerNote) candidateStartingNote + Interval.perfect(8) else candidateStartingNote
   }
-}
-   */
 }

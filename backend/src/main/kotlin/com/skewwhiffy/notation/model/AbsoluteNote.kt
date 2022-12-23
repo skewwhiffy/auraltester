@@ -1,5 +1,7 @@
 package com.skewwhiffy.notation.model
 
+import javax.print.attribute.standard.MediaSize.Other
+
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? = null) {
   companion object {
     val middleC: AbsoluteNote = AbsoluteNote(Note.c, Octave.default)
@@ -73,10 +75,17 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
   def <=(other: AbsoluteNote): Boolean = this < other || this == other
 
   def >=(other: AbsoluteNote): Boolean = this > other || this == other
+  */
 
+  operator fun compareTo(other: AbsoluteNote): Int {
+    /*
   def <(other: AbsoluteNote): Boolean = this.octave < other.octave ||
     (this.octave == other.octave && this.note < other.note)
+     */
+    TODO()
+  }
 
+  /*
   def >(other: AbsoluteNote): Boolean = this.octave > other.octave ||
     (this.octave == other.octave && this.note > other.note)
 
