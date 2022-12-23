@@ -1,5 +1,6 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.clef
 
+import com.skewwhiffy.notation.model.clef.Clef
 import com.skewwhiffy.test.util.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

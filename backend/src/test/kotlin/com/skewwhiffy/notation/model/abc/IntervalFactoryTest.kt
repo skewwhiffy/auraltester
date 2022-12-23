@@ -1,7 +1,7 @@
 package com.skewwhiffy.notation.model.abc
 
 import com.skewwhiffy.notation.factory.IntervalFactory
-import com.skewwhiffy.notation.model.Interval
+import com.skewwhiffy.notation.model.interval.Interval
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

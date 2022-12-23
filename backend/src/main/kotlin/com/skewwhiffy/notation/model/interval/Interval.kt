@@ -1,4 +1,4 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.interval
 
 data class Interval(val degree: Int, val deviation: Int) {
   companion object {

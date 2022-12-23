@@ -1,8 +1,8 @@
 package com.skewwhiffy.fraction
 
 import com.skewwhiffy.notation.factory.NoteFactory
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.Key
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.key.Key
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

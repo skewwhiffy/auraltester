@@ -3,7 +3,7 @@ package com.skewwhiffy.controller
 import com.skewwhiffy.dto.ScaleResponse
 import com.skewwhiffy.notation.factory.InternalNotationFactory
 import com.skewwhiffy.notation.factory.ScaleTypeFactory
-import com.skewwhiffy.notation.model.Key
+import com.skewwhiffy.notation.model.key.Key
 import com.skewwhiffy.notation.model.scale.ScaleDirection
 import com.skewwhiffy.service.AbcService
 import com.skewwhiffy.service.ScaleService

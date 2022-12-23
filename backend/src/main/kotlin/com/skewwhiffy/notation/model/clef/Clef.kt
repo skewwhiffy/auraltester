@@ -1,14 +1,18 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.clef
 
 import com.skewwhiffy.notation.model.abc.ClefLineNotes
 import com.skewwhiffy.notation.model.abc.ClefLowerLedgerNotes
 import com.skewwhiffy.notation.model.abc.ClefSpaceNotes
 import com.skewwhiffy.notation.model.abc.ClefUpperLedgerNotes
+import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.Note
+import com.skewwhiffy.notation.model.note.NoteSequence
 
 data class Clef(
-  val abc: String,
-  val lowLedgerNote: AbsoluteNote,
-  val highLedgerNote: AbsoluteNote,
+    val abc: String,
+    val lowLedgerNote: AbsoluteNote,
+    val highLedgerNote: AbsoluteNote,
 ) {
   val displayName: String = abc
 

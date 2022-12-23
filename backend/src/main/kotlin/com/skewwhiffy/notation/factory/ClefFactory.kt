@@ -1,7 +1,7 @@
 package com.skewwhiffy.notation.factory
 
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.Clef
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.clef.Clef
 import org.springframework.stereotype.Service
 
 @Service

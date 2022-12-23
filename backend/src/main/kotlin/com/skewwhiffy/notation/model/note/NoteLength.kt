@@ -1,4 +1,4 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.note
 
 import com.skewwhiffy.fraction.Fraction
 

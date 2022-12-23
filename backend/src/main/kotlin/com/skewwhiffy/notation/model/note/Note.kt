@@ -1,4 +1,4 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.note
 
 data class Note(val noteName: String, val accidental: Accidental) {
   companion object {

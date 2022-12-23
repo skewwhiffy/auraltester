@@ -1,9 +1,9 @@
 package com.skewwhiffy.notation.factory
 
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.Accidental
-import com.skewwhiffy.notation.model.Note
-import com.skewwhiffy.notation.model.Octave
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.Accidental
+import com.skewwhiffy.notation.model.note.Note
+import com.skewwhiffy.notation.model.note.Octave
 import org.springframework.stereotype.Service
 import java.lang.IllegalArgumentException
 

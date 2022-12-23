@@ -1,12 +1,12 @@
 package com.skewwhiffy.notation.model.scale
 
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.NoteSequence
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.NoteSequence
 
 data class Scale(
-  val lowestNote: AbsoluteNote,
-  private val scaleType: ScaleType,
-  val direction: ScaleDirection
+    val lowestNote: AbsoluteNote,
+    private val scaleType: ScaleType,
+    val direction: ScaleDirection
 ) : NoteSequence {
   val displayName: String = "${lowestNote.note.displayString} ${scaleType.displayName}"
 

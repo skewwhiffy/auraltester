@@ -1,4 +1,4 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.note
 
 data class Accidental(private val offset: Int) {
   companion object {

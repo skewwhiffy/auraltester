@@ -1,4 +1,4 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.note
 
 interface NoteSequence {
   val notes: List<AbsoluteNote>

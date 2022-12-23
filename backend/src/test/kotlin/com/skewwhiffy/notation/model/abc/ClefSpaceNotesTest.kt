@@ -1,6 +1,6 @@
 package com.skewwhiffy.notation.model.abc
 
-import com.skewwhiffy.notation.model.Key
+import com.skewwhiffy.notation.model.key.Key
 import com.skewwhiffy.test.util.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

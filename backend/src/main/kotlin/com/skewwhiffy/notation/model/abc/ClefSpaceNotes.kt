@@ -1,7 +1,7 @@
 package com.skewwhiffy.notation.model.abc
 
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.Clef
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.clef.Clef
 
 data class ClefSpaceNotes(private val clef: Clef) : ClefNotes {
   override val notes: List<AbsoluteNote> = (1..3)

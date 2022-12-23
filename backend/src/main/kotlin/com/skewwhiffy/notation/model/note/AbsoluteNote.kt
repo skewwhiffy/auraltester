@@ -1,6 +1,7 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.note
 
-import javax.print.attribute.standard.MediaSize.Other
+import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.key.Key
 
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? = null) {
   companion object {

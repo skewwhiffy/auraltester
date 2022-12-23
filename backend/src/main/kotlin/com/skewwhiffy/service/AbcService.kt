@@ -1,9 +1,9 @@
 package com.skewwhiffy.service
 
-import com.skewwhiffy.notation.model.Clef
-import com.skewwhiffy.notation.model.Key
-import com.skewwhiffy.notation.model.NoteLength
-import com.skewwhiffy.notation.model.NoteSequence
+import com.skewwhiffy.notation.model.clef.Clef
+import com.skewwhiffy.notation.model.key.Key
+import com.skewwhiffy.notation.model.note.NoteLength
+import com.skewwhiffy.notation.model.note.NoteSequence
 import com.skewwhiffy.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.notation.model.scale.Scale
 import org.springframework.stereotype.Service

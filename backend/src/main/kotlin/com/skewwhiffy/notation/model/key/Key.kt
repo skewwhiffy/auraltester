@@ -1,5 +1,8 @@
-package com.skewwhiffy.notation.model
+package com.skewwhiffy.notation.model.key
 
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.Accidental
+import com.skewwhiffy.notation.model.note.Note
 import java.lang.IllegalArgumentException
 
 data class Key(val note: Note, val isMinor: Boolean = false) {

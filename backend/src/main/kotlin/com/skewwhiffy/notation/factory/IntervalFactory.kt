@@ -1,7 +1,7 @@
 package com.skewwhiffy.notation.factory
 
-import com.skewwhiffy.notation.model.DirectedInterval
-import com.skewwhiffy.notation.model.Interval
+import com.skewwhiffy.notation.model.interval.DirectedInterval
+import com.skewwhiffy.notation.model.interval.Interval
 import org.springframework.stereotype.Service
 
 @Service

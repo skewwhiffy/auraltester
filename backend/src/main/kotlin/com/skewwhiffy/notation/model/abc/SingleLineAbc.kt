@@ -1,9 +1,9 @@
 package com.skewwhiffy.notation.model.abc
 
-import com.skewwhiffy.notation.model.AbsoluteNote
-import com.skewwhiffy.notation.model.Clef
-import com.skewwhiffy.notation.model.Key
-import com.skewwhiffy.notation.model.NoteLength
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.clef.Clef
+import com.skewwhiffy.notation.model.key.Key
+import com.skewwhiffy.notation.model.note.NoteLength
 
 data class SingleLineAbc(
   private val displayName: String?,

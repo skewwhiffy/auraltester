@@ -1,6 +1,10 @@
 package com.skewwhiffy.notation.model.abc
 
-import com.skewwhiffy.notation.model.*
+import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.Accidental
+import com.skewwhiffy.notation.model.note.Note
+import com.skewwhiffy.notation.model.note.NoteSequence
 
 interface ClefNotes : NoteSequence {
   val AbsoluteNote.downOne: AbsoluteNote

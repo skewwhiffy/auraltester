@@ -2,7 +2,7 @@ package com.skewwhiffy.controller
 
 import com.skewwhiffy.dto.KeySignatureResponse
 import com.skewwhiffy.notation.factory.InternalNotationFactory
-import com.skewwhiffy.notation.model.Key
+import com.skewwhiffy.notation.model.key.Key
 import com.skewwhiffy.service.AbcService
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
