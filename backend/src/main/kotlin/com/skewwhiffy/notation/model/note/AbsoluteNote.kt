@@ -34,7 +34,7 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
 
     return interval.deviation.let {
       when {
-        it < 0 -> (0..-it).fold(defaultNote) { note, _ -> note.flat }
+        it < 0 -> (1..-it).fold(defaultNote) { note, _ -> note.flat }
         it > 0 -> (1..it).fold(defaultNote) { note, _ -> note.sharp }
         else -> defaultNote
       }
