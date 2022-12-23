@@ -7,6 +7,7 @@ import com.skewwhiffy.notation.model.Key
 import com.skewwhiffy.notation.model.scale.ScaleDirection
 import com.skewwhiffy.service.AbcService
 import com.skewwhiffy.service.ScaleService
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -16,7 +17,8 @@ class ScaleController(
   private val scaleService: ScaleService,
   private val scaleTypeFactory: ScaleTypeFactory,
 ) {
-  fun index(
+  @RequestMapping("/api/scale")
+  fun get(
     clef: String,
     note: String,
     scaleType: String,
