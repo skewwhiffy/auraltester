@@ -2,8 +2,7 @@ package com.skewwhiffy.notation.model.interval
 
 data class Interval(val degree: Int, val deviation: Int) {
   companion object {
-    /*
-    lazy val displayStrings: List[String] = List(
+    private val displayStrings: List<String> = listOf(
       "unison",
       "second",
       "third",
@@ -14,7 +13,6 @@ data class Interval(val degree: Int, val deviation: Int) {
       "octave"
     )
 
-  */
     private val perfectDegrees: Set<Int> = setOf(1, 4, 5, 8)
 
     fun augmented(degree: Int): Interval {
@@ -44,46 +42,37 @@ data class Interval(val degree: Int, val deviation: Int) {
 
   val augmented: Interval get() = Interval(degree, deviation + 1)
 
-  /*
-  lazy val displayString: String = s"$quality ${displayStrings(degree - 1)}"
-  */
+  val displayString: String = "$quality ${displayStrings[degree - 1]}"
 
   val up: DirectedInterval = DirectedInterval(this, IntervalDirection.UP)
 
   val down: DirectedInterval = DirectedInterval(this, IntervalDirection.DOWN)
 
-  /*
-  private def quality: String = {
-    lazy val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"
-    lazy val negativeQuality = {
-      if (!perfectDegrees.contains(degree) && deviation == -1) "minor"
-      else {
-        (if (perfectDegrees.contains(degree)) -deviation else -deviation - 1) match {
-          case 1 => "diminished"
-          case 2 => "doubly diminished"
-          case it => s"${it}x diminished"
+  private val quality: String
+    get() {
+      val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"
+      val negativeQuality =
+        if (!perfectDegrees.contains(degree) && deviation == -1) "minor"
+        else (if (perfectDegrees.contains(degree)) -deviation else -deviation - 1).let {
+          when (it) {
+            1 -> "diminished"
+            2 -> "doubly diminished"
+            else -> "${it}x diminished"
+          }
         }
+
+      val positiveQuality = when (deviation) {
+        1 -> ""
+        2 -> "doubly "
+        else -> "${deviation}x "
+      } + "augmented"
+
+      return when {
+        deviation < 0 -> negativeQuality
+        deviation > 0 -> positiveQuality
+        else -> defaultQuality
       }
     }
-    lazy val positiveQuality = (deviation match {
-      case 1 => ""
-      case 2 => "doubly "
-      case it => s"${it}x "
-    }) + "augmented"
 
-    deviation match {
-      case 0 => defaultQuality
-      case it if it < 0 => negativeQuality
-      case it if it > 0 => positiveQuality
-    }
-  }
-
-  override def equals(obj: Any): Boolean = obj match {
-    case other: Interval => other.deviation == deviation && other.degree == degree
-    case _ => false
-  }
-
-  override def toString: String = displayString
-}
-   */
+  override fun toString(): String = displayString
 }
