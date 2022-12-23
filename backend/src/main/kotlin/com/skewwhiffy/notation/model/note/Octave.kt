@@ -8,8 +8,11 @@ data class Octave(val offsetFromDefault: Int) {
   val up: Octave get() = Octave(offsetFromDefault + 1)
 
   val down: Octave get() = Octave(offsetFromDefault - 1)
-  /*
 
+  operator fun compareTo(other: Octave): Int =
+    offsetFromDefault.compareTo(other.offsetFromDefault)
+
+  /*
   def >(other: Octave): Boolean = offsetFromDefault > other.offsetFromDefault
 
   def <(other: Octave): Boolean = offsetFromDefault < other.offsetFromDefault

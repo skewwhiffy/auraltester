@@ -42,9 +42,9 @@ object RandomTestData {
   */
 
   //noinspection SpellCheckingInspection
-  val note: Note get() = Note(oneOf("ABCDEFG"), accidental)
+  private val note: Note get() = Note(oneOf("ABCDEFG"), accidental)
 
-  val octave: Octave get() = Octave(random.nextInt(8) - 4)
+  private val octave: Octave get() = Octave(random.nextInt(8) - 4)
 
   /*
   def scaleType: ScaleType = new ScaleType(

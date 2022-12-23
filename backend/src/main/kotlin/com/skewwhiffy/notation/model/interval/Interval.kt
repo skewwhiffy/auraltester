@@ -17,18 +17,16 @@ data class Interval(val degree: Int, val deviation: Int) {
   */
     private val perfectDegrees: Set<Int> = setOf(1, 4, 5, 8)
 
-    /*
-  lazy val augmented: Int => Interval = degree => {
-    val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)
-    baseInterval.augmented
-  }
+    fun augmented(degree: Int): Interval {
+      val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)
+      return baseInterval.augmented
+    }
 
-  lazy val diminished: Int => Interval = degree => {
-    val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)
-    baseInterval.diminished
-  }
+    fun diminished(degree: Int): Interval {
+      val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)
+      return baseInterval.diminished
+    }
 
-*/
     fun minor(degree: Int): Interval = major(degree).diminished
 
     fun major(degree: Int): Interval {

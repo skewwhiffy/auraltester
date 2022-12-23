@@ -1,6 +1,8 @@
 package com.skewwhiffy.notation.model.note
 
+import com.skewwhiffy.notation.model.interval.DirectedInterval
 import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.interval.IntervalDirection
 import com.skewwhiffy.notation.model.key.Key
 
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? = null) {
@@ -8,16 +10,13 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
     val middleC: AbsoluteNote = AbsoluteNote(Note.c, Octave.default)
   }
 
-  /*
-
-  def apply(interval: DirectedInterval): AbsoluteNote = {
-    interval.direction match {
-      case IntervalDirection.`up` => add(interval.interval)
-      case IntervalDirection.`down` => subtract(interval.interval)
+  fun apply(interval: DirectedInterval): AbsoluteNote {
+    return when (interval.direction) {
+      IntervalDirection.UP -> this + interval.interval
+      IntervalDirection.DOWN -> this - interval.interval
     }
   }
 
-*/
   fun withLyric(lyric: String): AbsoluteNote = copy(lyric = lyric)
 
   operator fun plus(interval: Interval): AbsoluteNote {
@@ -72,26 +71,14 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
 
   private val flat: AbsoluteNote get() = AbsoluteNote(note.flat, octave)
 
-  /*
-  def <=(other: AbsoluteNote): Boolean = this < other || this == other
-
-  def >=(other: AbsoluteNote): Boolean = this > other || this == other
-  */
-
   operator fun compareTo(other: AbsoluteNote): Int {
-    /*
-  def <(other: AbsoluteNote): Boolean = this.octave < other.octave ||
-    (this.octave == other.octave && this.note < other.note)
-     */
-    TODO()
+    return if (this == other) 0
+    else if (octave == other.octave) this.note.compareTo(other.note)
+    else octave.compareTo(other.octave)
   }
 
-  /*
-  def >(other: AbsoluteNote): Boolean = this.octave > other.octave ||
-    (this.octave == other.octave && this.note > other.note)
+  override fun toString(): String = abc(Key.cMajor)
 
-  override def toString: String = abc(Key.cMajor)
-  */
   private val upMajorSecond
     get() = (if ("B" == note.noteName) octave.up else octave)
       .let { AbsoluteNote(note.upMajorSecond, it) }

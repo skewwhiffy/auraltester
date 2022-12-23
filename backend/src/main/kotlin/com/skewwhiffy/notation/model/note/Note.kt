@@ -36,16 +36,15 @@ data class Note(val noteName: String, val accidental: Accidental) {
       }
     }
 
-  /*
-  def <= (other: Note): Boolean = this == other || this < other
+  operator fun compareTo(other: Note): Int {
+    if (this == other) {
+      return 0
+    }
+    return noteNames
+      .indexOf(this.noteName)
+      .compareTo(noteNames.indexOf(other.noteName))
+  }
 
-  def >= (other: Note): Boolean = this == other || this > other
-
-  def < (other: Note): Boolean = noteNames.indexOf(this.noteName) < noteNames.indexOf(other.noteName)
-
-  def > (other: Note): Boolean = noteNames.indexOf(this.noteName) > noteNames.indexOf(other.noteName)
-
-*/
   private val nextNoteName: String = when (noteName) {
     "A" -> "B"
     "B" -> "C"

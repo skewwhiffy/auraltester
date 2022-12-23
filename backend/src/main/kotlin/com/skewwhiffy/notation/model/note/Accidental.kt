@@ -11,7 +11,7 @@ data class Accidental(private val offset: Int) {
 
   val abc: String = when {
     offset == 0 -> ""
-    offset < 0 -> "_".repeat(-offset)
+    offset < 0 -> "_".repeat(-offset - 1)
     else -> "^".repeat(offset)
   }
 
