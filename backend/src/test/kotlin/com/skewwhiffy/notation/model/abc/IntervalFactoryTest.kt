@@ -1,44 +1,53 @@
 package com.skewwhiffy.notation.model.abc
 
+import com.skewwhiffy.notation.factory.IntervalFactory
+import com.skewwhiffy.notation.model.Interval
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
+import org.mockito.InjectMocks
+import org.mockito.junit.jupiter.MockitoExtension
+import java.lang.IllegalArgumentException
+
+@ExtendWith(MockitoExtension::class)
 class IntervalFactoryTest {
-  /*
-class IntervalFactoryTest extends AnyFlatSpec with MockInstantiation {
   @InjectMocks
-  private var intervalFactory: IntervalFactory = _
+  private lateinit var intervalFactory: IntervalFactory
 
-  List(2, 3, 6, 7).foreach(intervalDegree => {
-    it should s"instantiate major $intervalDegree" in {
-      val expected = Interval.major(intervalDegree).up
+  @ParameterizedTest
+  @ValueSource(ints = [2, 3, 6, 7])
+  fun `instantiates major interval`(intervalDegree: Int) {
+    val expected = Interval.major(intervalDegree).up
 
-      val actual = intervalFactory.getDirectedInterval(intervalDegree.toString)
+    val actual = intervalFactory.getDirectedInterval(intervalDegree.toString())
 
-      assert(actual == expected)
-    }
-  })
-
-  it should "throw when invalid deviation" in {
-    assertThrows[IllegalArgumentException] {
-      intervalFactory.getDirectedInterval("5*")
-    }
+    assertThat(actual).isEqualTo(expected)
   }
 
-  List(1, 4, 5, 8).foreach(degree => {
-    it should s"instantiate perfect $degree" in {
-      val expected = Interval.perfect(degree).up
+  @Test
+  fun `throws when invalid deviation`() {
+    assertThrows<IllegalArgumentException> { intervalFactory.getDirectedIntervals("5*") }
+  }
 
-      val actual = intervalFactory.getDirectedInterval(degree.toString)
+  @ParameterizedTest
+  @ValueSource(ints = [1, 4, 5, 8])
+  fun `instantiates perfect interval`(degree: Int) {
+    val expected = Interval.perfect(degree).up
 
-      assert(actual == expected)
-    }
-  })
+    val actual = intervalFactory.getDirectedInterval(degree.toString())
 
-  it should "instantiate minor third" in {
+    assertThat(actual).isEqualTo(expected)
+  }
+
+  @Test
+  fun `instantiates minor thirg`() {
     val expected = Interval.minor(3).up
 
     val actual = intervalFactory.getDirectedInterval("3-")
 
-    assert(actual == expected)
+    assertThat(actual).isEqualTo(expected)
   }
-}
-   */
 }
