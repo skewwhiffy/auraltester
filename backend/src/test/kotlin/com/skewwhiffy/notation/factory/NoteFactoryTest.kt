@@ -1,6 +1,5 @@
-package com.skewwhiffy.fraction
+package com.skewwhiffy.notation.factory
 
-import com.skewwhiffy.notation.factory.NoteFactory
 import com.skewwhiffy.notation.model.note.AbsoluteNote
 import com.skewwhiffy.notation.model.key.Key
 import org.assertj.core.api.Assertions.assertThat

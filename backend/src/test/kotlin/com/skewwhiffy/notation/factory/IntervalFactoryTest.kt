@@ -1,6 +1,5 @@
-package com.skewwhiffy.notation.model.abc
+package com.skewwhiffy.notation.factory
 
-import com.skewwhiffy.notation.factory.IntervalFactory
 import com.skewwhiffy.notation.model.interval.Interval
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -10,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.InjectMocks
 import org.mockito.junit.jupiter.MockitoExtension
-import java.lang.IllegalArgumentException
 
 @ExtendWith(MockitoExtension::class)
 class IntervalFactoryTest {

@@ -5,6 +5,7 @@ import com.skewwhiffy.notation.model.key.Key
 import com.skewwhiffy.notation.model.note.NoteLength
 import com.skewwhiffy.notation.model.note.NoteSequence
 import com.skewwhiffy.notation.model.abc.SingleLineAbc
+import com.skewwhiffy.notation.model.note.IntervalNotes
 import com.skewwhiffy.notation.model.scale.Scale
 import org.springframework.stereotype.Service
 
@@ -31,14 +32,12 @@ class AbcService {
     key
   )
 
-  /*
-  def getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): String = getAbc(
+  fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): String = getAbc(
     intervalNotes.interval.displayString,
     clef,
     intervalNotes,
     key
   )
-*/
 
   fun getAbc(clef: Clef, key: Key): String = getAbc(
     "${key.displayString} / ${key.relative.displayString}",

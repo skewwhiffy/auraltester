@@ -13,7 +13,7 @@ data class Interval(val degree: Int, val deviation: Int) {
       "octave"
     )
 
-    private val perfectDegrees: Set<Int> = setOf(1, 4, 5, 8)
+    val perfectDegrees: Set<Int> = setOf(1, 4, 5, 8)
 
     fun augmented(degree: Int): Interval {
       val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)

@@ -60,15 +60,12 @@ object NoteFactories {
   val clef: ClefFactory = ClefFactory(note)
   private val interval: IntervalFactory = IntervalFactory()
 
-  /*
-  val key: KeyFactory = new KeyFactory(note)
-   */
+  val key: KeyFactory = KeyFactory(note)
+
   val internalNotation: InternalNotationFactory = InternalNotationFactory(
     clef,
-    /*
     interval,
     key,
-     */
     note
   )
   val scaleTypeFactory: ScaleTypeFactory = ScaleTypeFactory(interval)
