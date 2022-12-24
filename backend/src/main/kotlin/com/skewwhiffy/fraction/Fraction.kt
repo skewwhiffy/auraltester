@@ -57,7 +57,7 @@ data class Fraction(val top: Int, val bottom: Int) {
     return Fraction(-top, bottom)
   }
 
-  operator fun times(other: Fraction): Any {
+  operator fun times(other: Fraction): Fraction {
     return Fraction(top * other.top, bottom * other.bottom).simplified
   }
 

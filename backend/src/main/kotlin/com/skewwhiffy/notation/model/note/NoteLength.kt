@@ -17,12 +17,10 @@ data class NoteLength(private val length: Fraction) {
 
   constructor(length: Int) : this(Fraction(length, 1))
 
-  /*
-class:
-lazy val dotted: NoteLength = Fraction(3, 2)
-  .pipe(it => it * length)
-  .pipe(it => NoteLength(it))
-*/
+  val dotted
+    get() = Fraction(3, 2)
+      .let { it * length }
+      .let { NoteLength(it) }
 
   val abc: String = length.topHeavyString
   /*
