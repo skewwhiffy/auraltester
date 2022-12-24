@@ -39,7 +39,7 @@ object RandomTestData {
 
   val clef: Clef get() = Clef(string, absoluteNote, absoluteNote)
 
-  private val directedInterval: DirectedInterval
+  val directedInterval: DirectedInterval
     get() = if (random.nextBoolean()) interval.up
     else interval.down
 
@@ -76,7 +76,7 @@ object RandomTestData {
 object NoteFactories {
   val note: NoteFactory = NoteFactory()
   val clef: ClefFactory = ClefFactory(note)
-  private val interval: IntervalFactory = IntervalFactory()
+  val interval: IntervalFactory = IntervalFactory()
 
   val key: KeyFactory = KeyFactory(note)
 
