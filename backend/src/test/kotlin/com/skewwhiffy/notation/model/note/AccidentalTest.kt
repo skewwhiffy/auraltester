@@ -2,6 +2,8 @@ package com.skewwhiffy.notation.model.note
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class AccidentalTest {
   @Test
@@ -54,107 +56,113 @@ class AccidentalTest {
   }
 
   @Test
-  fun`be sharp when sharpening natural` () {
+  fun `is sharp when sharpening natural`() {
     val natural = Accidental.natural
 
     val actual = natural.sharp
 
-    assert(actual == Accidental.sharp)
+    assertThat(actual).isEqualTo(Accidental.sharp)
   }
 
-  fun`display flat when flat" () {
+  @Test
+  fun `displays flat when flat`() {
     val expected = "b"
     val flat = Accidental.flat
 
     val actual = flat.displayString
 
-    assert(actual == expected)
+    assertThat(actual).isEqualTo(expected)
   }
 
-  fun`display double flat when flattening flat" () {
+  @Test
+  fun `displays double flat when flattening flat`() {
     val expected = "bb"
     val flat = Accidental.flat
 
     val actual = flat.flat
 
-    assert(actual.displayString == expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
-  fun`be natural when sharpening flat" () {
+  @Test
+  fun `is natural when sharpening flat`() {
     val flat = Accidental.flat
 
     val actual = flat.sharp
 
-    assert(actual == Accidental.natural)
+    assertThat(actual).isEqualTo(Accidental.natural)
   }
 
-  List(3, 7).foreach(flats => {
-    it should s"display correctly when $flats flats" () {
-      val expected = "b".repeat(flats)
-      val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
+  @ParameterizedTest
+  @ValueSource(ints = [3, 7])
+  fun `displays correctly with flats`(flats: Int) {
+    val expected = "b".repeat(flats)
+    val accidental = (1..flats).fold(Accidental.natural) { acc, _ -> acc.flat }
 
-      val actual = accidental.displayString
+    val actual = accidental.displayString
 
-      assert(actual == expected)
-    }
-  })
+    assertThat(actual).isEqualTo(expected)
+  }
 
-  fun`display sharp when sharp" () {
+  @Test
+  fun `displays sharp when sharp`() {
     val expected = "#"
     val sharp = Accidental.sharp
 
     val actual = sharp.displayString
 
-    assert(actual == expected)
+    assertThat(actual).isEqualTo(expected)
   }
 
-  fun`display double sharp when sharpening sharp` () {
+  @Test
+  fun `displays double sharp when sharpening sharp`() {
     val expected = "x"
     val sharp = Accidental.sharp
 
     val actual = sharp.sharp
 
-    assert(actual.displayString == expected)
+    assertThat(actual.displayString).isEqualTo(expected)
   }
 
-  fun`be natural when flattening sharp` () {
+  @Test
+  fun `is natural when flattening sharp`() {
     val sharp = Accidental.sharp
 
     val actual = sharp.flat
 
-    assert(actual == Accidental.natural)
+    assertThat(actual).isEqualTo(Accidental.natural)
   }
 
-  List(6, 10).foreach(numberOfSharps => {
-    it should s"display correctly when $numberOfSharps" in {
-      val expected = "x".repeat(numberOfSharps / 2)
-      val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
+  @ParameterizedTest
+  @ValueSource(ints = [6, 10])
+  fun `displays even number of sharps correctly`(numberOfSharps: Int) {
+    val expected = "x".repeat(numberOfSharps / 2)
+    val accidental = (1..numberOfSharps).fold(Accidental.natural) { it, _ -> it.sharp }
 
-      val actual = accidental.displayString
+    val actual = accidental.displayString
 
-      assert(actual == expected)
-    }
-  })
-
-  List(7, 13).foreach(numberOfSharps => {
-    it should s"display correctly when $numberOfSharps" in {
-      val expected = "x".repeat(numberOfSharps / 2) + "#"
-      val accidental = List.range(0, numberOfSharps).foldRight(Accidental.natural)((_, it) => it.sharp)
-
-      val actual = accidental.displayString
-
-      assert(actual == expected)
-    }
-  })
-
-  fun`equate equivalent accidentals` in {
-    def accidental = Accidental(5)
-
-    val first = accidental
-    val second = accidental
-
-    assert(first == second)
+    assertThat(actual).isEqualTo(expected)
   }
-}
-   */
+
+  @ParameterizedTest
+  @ValueSource(ints = [7, 13])
+  fun `displays odd number of sharps correctly`(numberOfSharps: Int) {
+    val expected = "x".repeat(numberOfSharps / 2) + "#"
+    val accidental = (1..numberOfSharps)
+      .fold(Accidental.natural) { it, _ -> it.sharp }
+
+    val actual = accidental.displayString
+
+    assertThat(actual).isEqualTo(expected)
+  }
+
+  @Test
+  fun `equates equivalent accidentals`() {
+    fun getAccidental() = Accidental (5)
+
+    val first = getAccidental()
+    val second = getAccidental()
+
+    assertThat(first).isEqualTo(second)
+  }
 }
