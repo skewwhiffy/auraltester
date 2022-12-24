@@ -10,20 +10,20 @@ data class SingleLineAbc(
   private val clef: Clef,
   private val noteLength: NoteLength,
   private val keySignature: Key?,
-  private val notes: List<List<AbsoluteNote>>
-) {
+  private val notes: List<List<AbsoluteNote>>,
+) : AbcProvider {
   constructor(
     displayName: String?,
     clef: Clef,
     noteLength: NoteLength,
-    notes: List<List<AbsoluteNote>>
+    notes: List<List<AbsoluteNote>>,
   ) : this(displayName, clef, noteLength, null, notes)
 
   constructor(
     clef: Clef,
     noteLength: NoteLength,
-    notes: List<List<AbsoluteNote>>
-  ): this(null, clef, noteLength, null, notes)
+    notes: List<List<AbsoluteNote>>,
+  ) : this(null, clef, noteLength, null, notes)
 
   fun includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(
     displayName,
@@ -33,7 +33,7 @@ data class SingleLineAbc(
     notes
   )
 
-  val abc: String
+  override val abc: String
     get() {
       fun barAbc(value: List<AbsoluteNote>): String {
         return value.joinToString("") { it.abc(keySignature ?: Key.cMajor) }

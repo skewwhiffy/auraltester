@@ -24,6 +24,7 @@ class KeySignatureController(
       .note
       .let { Key(it) }
       .let { abcService.getAbc(clefObject, it) }
+      .abc
       .let { KeySignatureResponse(it) }
   }
 }

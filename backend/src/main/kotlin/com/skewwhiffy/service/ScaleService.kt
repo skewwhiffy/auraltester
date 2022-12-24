@@ -15,6 +15,6 @@ class ScaleService {
       scaleType: ScaleType,
       direction: ScaleDirection,
   ): Scale {
-    return clef.getNoteNearBottom(note).let { Scale(it, scaleType, direction) }
+    return Scale(clef.getNoteNearBottom(note), scaleType, direction)
   }
 }

@@ -19,6 +19,7 @@ class ClefController(
       .getNote("C")
       .note
       .let { abcService.getAbc(clefObject) }
+      .abc
       .let { ClefResponse(it) }
   }
 }

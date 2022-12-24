@@ -40,7 +40,9 @@ class IntervalController(
       .getNote(keySignature ?: "C").note
     val keySignatureObject = Key(keyNote)
     val intervalNotes = intervalService.getInterval(clefObject, bottomNoteObject, interval)
-    return abcService.getAbc(clefObject, intervalNotes, keySignatureObject)
+    return abcService
+      .getAbc(clefObject, intervalNotes, keySignatureObject)
+      .abc
       .let(::IntervalResponse)
   }
 }

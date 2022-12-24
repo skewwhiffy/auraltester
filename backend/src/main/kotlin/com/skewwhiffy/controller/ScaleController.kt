@@ -40,8 +40,8 @@ class ScaleController(
     val scale = scaleService.getScale(clefObject, noteObject, scaleTypeObject, directionObject)
     val key = scale.lowestNote.note.let { Key(it, isMinor) }
     return ScaleResponse(
-      abcService.getAbc(clefObject, scale),
-      abcService.getAbc(clefObject, scale, key)
+      abcService.getAbc(clefObject, scale).abc,
+      abcService.getAbc(clefObject, scale, key).abc
     )
   }
 }

@@ -1,10 +1,14 @@
 package com.skewwhiffy.test.util
 
 import com.skewwhiffy.notation.factory.*
-import com.skewwhiffy.notation.model.note.AbsoluteNote
-import com.skewwhiffy.notation.model.note.Accidental
-import com.skewwhiffy.notation.model.note.Note
-import com.skewwhiffy.notation.model.note.Octave
+import com.skewwhiffy.notation.model.clef.Clef
+import com.skewwhiffy.notation.model.interval.DirectedInterval
+import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.key.Key
+import com.skewwhiffy.notation.model.note.*
+import com.skewwhiffy.notation.model.scale.Scale
+import com.skewwhiffy.notation.model.scale.ScaleDirection
+import com.skewwhiffy.notation.model.scale.ScaleType
 import java.util.Random
 import java.util.UUID
 
@@ -18,41 +22,55 @@ object RandomTestData {
 
   val string: String get() = "${UUID.randomUUID()}"
 
-  private fun oneOf(source: String) = source
-    .toCharArray()[random.nextInt(source.length)]
-    .toString()
+  @Suppress("SameParameterValue")
+  private fun oneOf(source: String): String = source
+    .toCharArray()
+    .map { it.toString() }
+    .toTypedArray()
+    .let { oneOf(*it) }
 
-  fun <T> oneOf(vararg source: T): T = source[random.nextInt(source.size)]
+  fun <T> oneOf(vararg source: T): T = oneOf(source.toList())
 
-  // fun <T> oneOf(source: List<T>): T = source[random.nextInt(source.size)]
+  fun <T> oneOf(source: List<T>): T = source[random.nextInt(source.size)]
 
   val absoluteNote: AbsoluteNote get() = AbsoluteNote(note, octave)
 
   private val accidental: Accidental get() = Accidental(random.nextInt(3) - 1)
 
-  /*
-  def clef: Clef = Clef(string, absoluteNote, absoluteNote)
+  val clef: Clef get() = Clef(string, absoluteNote, absoluteNote)
 
-  def directedInterval: DirectedInterval = if (random.nextBoolean()) interval.up else interval.down
+  private val directedInterval: DirectedInterval
+    get() = if (random.nextBoolean()) interval.up
+    else interval.down
 
-  def interval: Interval = Interval(random.nextInt(9), random.nextInt(3) - 1)
+  val interval: Interval get() = Interval(
+    oneOf((1..8).toList()),
+    random.nextInt(3) - 1
+  )
 
-  def key: Key = Key(note, isMinor = random.nextBoolean())
-  */
+  val intervalNotes: IntervalNotes get() = IntervalNotes(
+    absoluteNote,
+    interval
+  )
 
-  //noinspection SpellCheckingInspection
-  private val note: Note get() = Note(oneOf("ABCDEFG"), accidental)
+  val key: Key get() = Key(note, isMinor = random.nextBoolean())
+
+  @Suppress("SpellCheckingInspection")
+  val note: Note get() = Note(oneOf("ABCDEFG"), accidental)
 
   private val octave: Octave get() = Octave(random.nextInt(8) - 4)
 
-  /*
-  def scaleType: ScaleType = new ScaleType(
-    string,
-    string,
-    Range(0, 7).map(_ => directedInterval).toList,
-    Range(1, 8).map(_ => directedInterval).toList
-  )
-   */
+  val scale get(): Scale = Scale(absoluteNote, scaleType, scaleDirection)
+
+  val scaleDirection get(): ScaleDirection = oneOf(*ScaleDirection.values())
+
+  val scaleType: ScaleType
+    get() = ScaleType(
+      string,
+      string,
+      (1..7).map { directedInterval }.toList(),
+      (1..7).map { directedInterval }.toList()
+    )
 }
 
 object NoteFactories {

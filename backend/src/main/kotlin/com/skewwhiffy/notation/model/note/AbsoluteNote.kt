@@ -29,7 +29,7 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
       6 -> (this + Interval.perfect(5)).upMajorSecond
       7 -> (this + Interval.major(6)).upMajorSecond
       8 -> AbsoluteNote(note, octave.up)
-      else -> throw IllegalArgumentException()
+      else -> throw IllegalArgumentException("Interval degree of ${interval.degree} not supported")
     }
 
     return interval.deviation.let {
@@ -80,15 +80,19 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
   override fun toString(): String = abc(Key.cMajor)
 
   private val upMajorSecond
-    get() = (if ("B" == note.noteName) octave.up else octave)
-      .let { AbsoluteNote(note.upMajorSecond, it) }
+    get() = AbsoluteNote(
+      note.upMajorSecond,
+      (if ("B" == note.noteName) octave.up else octave)
+    )
 
   private val upMinorSecond
     get() = upMajorSecond.let { AbsoluteNote(it.note.flat, it.octave) }
 
   private val downMajorSecond
-    get() = (if ("C" == note.noteName) octave.down else octave)
-      .let { AbsoluteNote(note.downMajorSecond, it) }
+    get() = AbsoluteNote(
+      note.downMajorSecond,
+      (if ("C" == note.noteName) octave.down else octave)
+    )
 
   private val downMinorSecond
     get() = downMajorSecond.let { AbsoluteNote(it.note.sharp, it.octave) }
