@@ -1,51 +1,54 @@
 package com.skewwhiffy.notation.factory
 
+import com.skewwhiffy.test.util.TestData
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
 
+@ExtendWith(MockitoExtension::class)
 class KeyFactoryTest {
-  @Test
-  fun dummy(): Unit = TODO()
-}
-/*
-
-class KeyFactoryTest extends AnyFlatSpec with MockInstantiation {
   @Mock
-  private val noteFactory: NoteFactory = null
+  private lateinit var noteFactory: NoteFactory
   @InjectMocks
-  private val keyFactory: KeyFactory = null
+  private lateinit var keyFactory: KeyFactory
 
-  it should "instantiate major key" in {
+  @Test
+  fun `instantiates major key`() {
     val rawKey = "a#"
     val expectedNote = TestData.random.note
-    when(noteFactory.getNote("A#")).thenReturn(expectedNote)
+    `when`(noteFactory.getNote("A#")).thenReturn(expectedNote)
 
     val actual = keyFactory.getKey(rawKey)
 
-    assert(actual.note == expectedNote)
-    assert(!actual.isMinor)
+    assertThat(actual.note).isEqualTo( expectedNote)
+    assertThat(actual.isMinor).isFalse
   }
 
-  it should "recognise m prefix for minor" in {
+  @Test
+  fun `recognises m prefix for minor`() {
     val rawKey = "abm"
     val expectedNote = TestData.random.note
-    when(noteFactory.getNote("Ab")).thenReturn(expectedNote)
+    `when`(noteFactory.getNote("Ab")).thenReturn(expectedNote)
 
     val actual = keyFactory.getKey(rawKey)
 
-    assert(actual.note == expectedNote)
-    assert(actual.isMinor)
+    assertThat(actual.note).isEqualTo(expectedNote)
+    assertThat(actual.isMinor).isTrue
   }
 
-  it should "recognise minor suffix for minor" in {
+  @Test
+  fun `recognise minor suffix for minor`() {
     val rawKey = "bx minor"
     val expectedNote = TestData.random.note
-    when(noteFactory.getNote("Bx")).thenReturn(expectedNote)
+    `when`(noteFactory.getNote("Bx")).thenReturn(expectedNote)
 
     val actual = keyFactory.getKey(rawKey)
 
-    assert(actual.note == expectedNote)
-    assert(actual.isMinor)
+    assertThat(actual.note).isEqualTo(expectedNote)
+    assertThat(actual.isMinor).isTrue
   }
-
 }
- */
