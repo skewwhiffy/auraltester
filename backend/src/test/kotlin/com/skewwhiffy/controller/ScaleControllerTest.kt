@@ -1,97 +1,140 @@
 package com.skewwhiffy.controller
 
-import org.junit.jupiter.api.Test
+import com.skewwhiffy.notation.factory.InternalNotationFactory
+import com.skewwhiffy.notation.factory.ScaleTypeFactory
+import com.skewwhiffy.notation.model.abc.AbcProvider
+import com.skewwhiffy.notation.model.clef.Clef
+import com.skewwhiffy.notation.model.key.Key
+import com.skewwhiffy.notation.model.scale.Scale
+import com.skewwhiffy.notation.model.scale.ScaleDirection
+import com.skewwhiffy.notation.model.scale.ScaleType
+import com.skewwhiffy.service.AbcService
+import com.skewwhiffy.service.ScaleService
+import com.skewwhiffy.test.util.TestData
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.ArgumentCaptor
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
+import org.mockito.kotlin.eq
+import java.util.stream.Stream
 
+@ExtendWith(MockitoExtension::class)
 class ScaleControllerTest {
-  @Test
-  fun dummy(): Unit = TODO()
-}
-/*
-  private val getRequest = FakeRequest(GET, "/api/scale")
   @Mock
-  private val abcService: AbcService = null
+  private lateinit var abcService: AbcService
+
   @Mock
-  private val internalNotationFactory: InternalNotationFactory = null
+  private lateinit var internalNotationFactory: InternalNotationFactory
+
   @Mock
-  private val scaleService: ScaleService = null
+  private lateinit var scaleService: ScaleService
+
   @Mock
-  private val scaleTypeFactory: ScaleTypeFactory = null
+  private lateinit var scaleTypeFactory: ScaleTypeFactory
+
   @InjectMocks
-  private val scaleController: ScaleController = null
+  private lateinit var scaleController: ScaleController
 
-  "/api/scale GET" should {
-    "parse major, minor harmonic and minor melodic scales both ascending and descending" in {
-      Map(
-        ("major", () => scaleTypeFactory.major),
-        ("minor-harmonic", () => scaleTypeFactory.minorHarmonic),
-        ("minor-melodic", () => scaleTypeFactory.minorMelodic)
-      ).foreach(scaleTypeTestCase =>
-        Map(
-          ("ascending", ScaleDirection.ascending),
-          ("descending", ScaleDirection.descending)
-        ).foreach(directionTestCase => {
-          val scaleTypeString = scaleTypeTestCase._1
-          val direction = directionTestCase._1
-          val directionObject = directionTestCase._2
-          val getScale = scaleTypeTestCase._2
-
-          val clefString = TestData.random.string
-          val noteString = TestData.random.string
-          val abcWithoutKeySignature = TestData.random.string
-          val abcWithKeySignature = TestData.random.string
-          val scaleLowestNote = TestData.random.absoluteNote
-          val key = Key(scaleLowestNote.note, scaleTypeString != "major")
-          val clefObject = mock[Clef]
-          val scale = mock[Scale]
-          val scaleType = mock[ScaleType]
-          val keyCaptor: ArgumentCaptor[Key] = ArgumentCaptor.forClass(classOf[Key])
-          when(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
-          when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-          when(getScale()).thenReturn(scaleType)
-          when(scale.lowestNote).thenReturn(AbsoluteNote(key.note, Octave.default))
-          when(scaleService.getScale(clefObject, key.note, scaleType, directionObject)).thenReturn(scale)
-          when(abcService.getAbc(clefObject, scale)).thenReturn(abcWithoutKeySignature)
-          when(abcService.getAbc(meq(clefObject), meq(scale), keyCaptor.capture())).thenReturn(abcWithKeySignature)
-
-          val actual = scaleController.index(
-            clefString,
-            noteString,
-            scaleTypeString,
-            direction
-          ).apply(getRequest)
-
-          status(actual) mustBe OK
-          contentType(actual) mustBe Some("application/json")
-          keyCaptor.getValue mustBe key
-          val deserialized = contentAsJson(actual)
-            .pipe { it => Json.format[ScaleResponse].reads(it) }
-            .pipe {
-              case it: JsSuccess[ScaleResponse] => it.value
-              case _ => fail()
-            }
-          deserialized.withKeySignature mustBe abcWithKeySignature
-          deserialized.withoutKeySignature mustBe abcWithoutKeySignature
-        })
+  companion object {
+    @JvmStatic
+    fun scaleTestCases(): Stream<Arguments> = mapOf<String, (f: ScaleTypeFactory) -> ScaleType>(
+      "major" to { it.major },
+      "minor-harmonic" to { it.minorHarmonic },
+      "minor-melodic" to { it.minorMelodic }
+    ).flatMap { scaleType ->
+      mapOf(
+        "ascending" to ScaleDirection.ASCENDING,
+        "descending" to ScaleDirection.DESCENDING
       )
-    }
+        .map { direction ->
+          Arguments.of(scaleType.key, scaleType.value, direction.key, direction.value)
+        }
+    }.stream()
+  }
 
-    "throw when an invalid scale type is requested" in {
-      val note = TestData.random.string
-      when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
+  @ParameterizedTest
+  @MethodSource("scaleTestCases")
+  fun `responds correctly`(
+    scaleTypeString: String,
+    getScale: (f: ScaleTypeFactory) -> ScaleType,
+    direction: String,
+    directionObject: ScaleDirection,
+  ) {
+    val clefString = TestData.random.string
+    val noteString = TestData.random.string
+    val abcWithoutKeySignature = TestData.random.string
+    val abcWithKeySignature = TestData.random.string
+    val scaleLowestNote = TestData.random.absoluteNote
+    val scale = TestData.random.scale
+    val key = Key(scale.lowestNote.note, scaleTypeString != "major")
+    val clefObject = TestData.random.clef
+    val scaleType = TestData.random.scaleType
+    val keyCaptor: ArgumentCaptor<Key> = ArgumentCaptor.forClass(Key::class.java)
+    `when`(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
+    `when`(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
+    `when`(getScale(scaleTypeFactory)).thenReturn(scaleType)
+    `when`(
+      scaleService.getScale(
+        clefObject,
+        scaleLowestNote.note,
+        scaleType,
+        directionObject
+      )
+    ).thenReturn(scale)
+    `when`(abcService.getAbc(clefObject, scale))
+      .thenReturn(object : AbcProvider {
+        override val abc = abcWithoutKeySignature
+      })
+    `when`(abcService.getAbc(eq(clefObject), eq(scale), keyCaptor.capture()))
+      .then {
+        val suppliedClef = it.getArgument<Clef>(0)
+        val suppliedScale = it.getArgument<Scale>(1)
+        val suppliedKey = it.getArgument<Key>(2)
 
-      assertThrows[IllegalArgumentException] {
-        scaleController.index("alto", note, "not-a-scale", "ascending").apply(getRequest)
+        assertThat(suppliedClef).isEqualTo(clefObject)
+        assertThat(suppliedScale).isEqualTo(scale)
+        object : AbcProvider {
+          override val abc = suppliedKey?.let { abcWithKeySignature } ?: abcWithoutKeySignature
+        }
       }
-    }
 
-    "throw when an invalid direction is requested" in {
-      val note = TestData.random.string
-      when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
-      when(scaleTypeFactory.major).thenReturn(TestData.random.scaleType)
+    val actual = scaleController.get(
+      clefString,
+      noteString,
+      scaleTypeString,
+      direction
+    )
 
-      assertThrows[IllegalArgumentException] {
-        scaleController.index("bass", note, "major", "stationary").apply(getRequest)
-      }
+    assertThat(keyCaptor.allValues).isEqualTo(listOf(null, key))
+    assertThat(actual.withKeySignature).isEqualTo(abcWithKeySignature)
+    assertThat(actual.withoutKeySignature).isEqualTo(abcWithoutKeySignature)
+  }
+}
+
+/*
+  "throw when an invalid scale type is requested" in {
+    val note = TestData.random.string
+    when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
+
+    assertThrows[IllegalArgumentException] {
+      scaleController.index("alto", note, "not-a-scale", "ascending").apply(getRequest)
     }
   }
- */
+
+  "throw when an invalid direction is requested" in {
+    val note = TestData.random.string
+    when(internalNotationFactory.getNote(note)).thenReturn(TestData.random.absoluteNote)
+    when(scaleTypeFactory.major).thenReturn(TestData.random.scaleType)
+
+    assertThrows[IllegalArgumentException] {
+      scaleController.index("bass", note, "major", "stationary").apply(getRequest)
+    }
+  }
+}
+*/
