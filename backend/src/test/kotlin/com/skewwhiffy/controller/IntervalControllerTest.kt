@@ -1,78 +1,117 @@
 package com.skewwhiffy.controller
 
+import com.skewwhiffy.notation.factory.InternalNotationFactory
+import com.skewwhiffy.notation.model.abc.AbcProvider
+import com.skewwhiffy.notation.model.clef.Clef
+import com.skewwhiffy.notation.model.interval.Interval
+import com.skewwhiffy.notation.model.key.Key
+import com.skewwhiffy.notation.model.note.AbsoluteNote
+import com.skewwhiffy.notation.model.note.IntervalNotes
+import com.skewwhiffy.notation.model.note.Note
+import com.skewwhiffy.notation.model.note.Octave
+import com.skewwhiffy.service.AbcService
+import com.skewwhiffy.service.IntervalService
+import com.skewwhiffy.test.util.TestData
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
+import java.lang.IllegalArgumentException
+import java.util.stream.Stream
 
+@ExtendWith(MockitoExtension::class)
 class IntervalControllerTest {
-  @Test
-  fun dummy(): Unit = TODO()
-}
-/*
+  @Mock
+  private lateinit var abcService: AbcService
 
-class IntervalControllerTest extends PlaySpec with MockInstantiation {
   @Mock
-  private val abcService: AbcService = null
+  private lateinit var internalNotationFactory: InternalNotationFactory
+
   @Mock
-  private val internalNotationFactory: InternalNotationFactory = null
-  @Mock
-  private val intervalService: IntervalService = null
+  private lateinit var intervalService: IntervalService
+
   @InjectMocks
-  private val intervalController: IntervalController = null
+  private lateinit var intervalController: IntervalController
 
-  def test(degree: Int, testCase: (String, String)): Unit = {
-    val intervalQuality = testCase._1
-    val intervalQualitySuffix = testCase._2
-    val clef = TestData.random.string
-    val bottomNote = TestData.random.string
-    val intervalSize = degree
-    val keySignature = TestData.random.string
-    val clefObject = TestData.random.clef
-    val bottomNoteObject = TestData.random.absoluteNote
-    val keySignatureObject = TestData.random.key
-    val keySignatureNote = AbsoluteNote(keySignatureObject.note, Octave.default)
-    val expectedIntervalNotation = s"+$intervalSize$intervalQualitySuffix"
-    val interval = TestData.random.interval
-    val intervalNotes = mock[IntervalNotes]
-    val keySignatureObjectCaptor = ArgumentCaptor.forClass(classOf[Key])
-    val abc = TestData.random.string
-    when(internalNotationFactory.clef(clef)).thenReturn(clefObject)
-    when(internalNotationFactory.getNote(bottomNote)).thenReturn(bottomNoteObject)
-    when(internalNotationFactory.getDirectedInterval(expectedIntervalNotation)).thenReturn(interval.up)
-    when(internalNotationFactory.getNote(keySignature)).thenReturn(keySignatureNote)
-    when(intervalService.getInterval(clefObject, bottomNoteObject.note, interval))
-      .thenReturn(intervalNotes)
-    when(abcService.getAbc(meq(clefObject), meq(intervalNotes), keySignatureObjectCaptor.capture()))
-      .thenReturn(abc)
+  @Mock
+  private lateinit var result: AbcProvider
+
+  private lateinit var clefString: String
+  private lateinit var clef: Clef
+  private lateinit var bottomNoteString: String
+  private lateinit var bottomNote: Note
+  private lateinit var keySignature: String
+  private lateinit var keyNote: Note
+  private lateinit var intervalNotes: IntervalNotes
+  private lateinit var interval: Interval
+  private lateinit var abc: String
+
+  @BeforeEach
+  fun `set up`() {
+    clefString = TestData.random.string
+    clef = TestData.random.clef
+    bottomNoteString = TestData.random.string
+    bottomNote = TestData.random.note
+    keySignature = TestData.random.string
+    keyNote = TestData.random.note
+    intervalNotes = TestData.random.intervalNotes
+    interval = TestData.random.interval
+    abc = TestData.random.string
+
+  }
+
+  @ParameterizedTest
+  @MethodSource("intervalQualityTestCases")
+  fun `responds correctly`(
+    intervalQuality: String,
+    intervalSize: Int,
+    expectedDirectedIntervalString: String,
+  ) {
+    `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
+    `when`(internalNotationFactory.getNote(bottomNoteString)) .thenReturn(AbsoluteNote(bottomNote, Octave.default))
+    `when`(internalNotationFactory.getNote(keySignature)) .thenReturn(AbsoluteNote(keyNote, Octave.default))
+    `when`(intervalService.getInterval(clef, bottomNote, interval)).thenReturn(intervalNotes)
+    `when`(result.abc).thenReturn(abc)
+    `when`(internalNotationFactory.getDirectedInterval(expectedDirectedIntervalString)) .thenReturn(interval.up)
+    `when`(abcService.getAbc(clef, intervalNotes, Key(keyNote)))
+      .thenReturn(result)
 
     val actual = intervalController
-      .index(clef, bottomNote, intervalQuality, intervalSize, Some(keySignature))
-      .apply(FakeRequest(GET, "/api/interval"))
+      .get(clefString, bottomNoteString, intervalQuality, intervalSize, keySignature)
 
-    status(actual) mustBe OK
-    contentType(actual) mustBe Some("application/json")
-    val deserialized = contentAsJson(actual)
-      .pipe { it => Json.format[IntervalResponse].reads(it) }
-      .pipe {
-        case it: JsSuccess[IntervalResponse] => it.value
-        case _ => fail()
-      }
-    deserialized.abc mustBe abc
-    keySignatureObjectCaptor.getValue.asInstanceOf[Key].note mustBe keySignatureNote.note
+    assertThat(actual.abc).isEqualTo(abc)
   }
 
-  "/api/interval GET" should {
-    "instantiate 1, 4, 5, 8 as perfect, diminished and augmented" in {
-      List(1, 4, 5, 8).flatMap(degree =>
-        Map(("perfect", ""), ("diminished", "-"), ("augmented", "+"))
-          .map(testCase => test(degree, testCase)))
-    }
+  @Test
+  fun `when interval quality not valid then throws exception`() {
+    `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
+    `when`(internalNotationFactory.getNote(bottomNoteString)) .thenReturn(AbsoluteNote(bottomNote, Octave.default))
 
-    "instantiate 2, 3, 6, 7 as major, minor, diminished and augmented" in {
-      List(2, 3, 6, 7).foreach(degree =>
-        Map(("major", ""), ("minor", "-"), ("diminished", "--"), ("augmented", "+"))
-          .foreach(testCase => test(degree, testCase))
-      )
+    assertThrows<IllegalArgumentException> {
+      intervalController.get(clefString, bottomNoteString, "demented", 5, keySignature)
+    }
+  }
+
+  companion object {
+    @JvmStatic
+    fun intervalQualityTestCases(): Stream<Arguments> {
+      return listOf(
+        Arguments.of("perfect", 5, "+5"),
+        Arguments.of("major", 7, "+7"),
+        Arguments.of("minor", 3, "+3-"),
+        Arguments.of("diminished", 4, "+4-"),
+        Arguments.of("diminished", 2, "+2--"),
+        Arguments.of("augmented", 6, "+6+")
+      ).stream()
     }
   }
 
 }
- */
