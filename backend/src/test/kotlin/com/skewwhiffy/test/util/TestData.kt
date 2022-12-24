@@ -56,7 +56,7 @@ object RandomTestData {
 }
 
 object NoteFactories {
-  private val note: NoteFactory = NoteFactory()
+  val note: NoteFactory = NoteFactory()
   val clef: ClefFactory = ClefFactory(note)
   private val interval: IntervalFactory = IntervalFactory()
 

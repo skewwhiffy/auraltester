@@ -1,7 +1,5 @@
-package com.skewwhiffy.notation.model.scale
+package com.skewwhiffy.notation.model.interval
 
-import com.skewwhiffy.notation.model.interval.Interval
-import com.skewwhiffy.notation.model.interval.IntervalDirection
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

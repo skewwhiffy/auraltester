@@ -47,17 +47,17 @@ data class Key(val note: Note, val isMinor: Boolean = false) {
     }
   }
 
-  private val relativeMinor: Key
+  val relativeMinor: Key
     get() = if (isMinor) this else Key(
       note.downMajorSecond.downMajorSecond.sharp,
       isMinor = true
     )
 
-  private val relativeMajor: Key get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
+  val relativeMajor: Key get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
 
   val relative: Key get() = if (isMinor) relativeMajor else relativeMinor
 
-  private val notes: List<Note>
+  val notes: List<Note>
     get() {
       return (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))
         .scan(note) { note: Note, semitones: Int ->

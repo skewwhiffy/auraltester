@@ -42,7 +42,7 @@ data class Interval(val degree: Int, val deviation: Int) {
 
   val augmented: Interval get() = Interval(degree, deviation + 1)
 
-  val displayString: String = "$quality ${displayStrings[degree - 1]}"
+  val displayString: String get() = "$quality ${displayStrings[degree - 1]}"
 
   val up: DirectedInterval = DirectedInterval(this, IntervalDirection.UP)
 
