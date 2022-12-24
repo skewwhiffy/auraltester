@@ -1,5 +1,10 @@
 package com.skewwhiffy.notation.model.scale
 
+import org.junit.jupiter.api.Test
+
 class ScaleTypeTest {
-  // TODO
+  @Test
+  fun dummy() {
+    TODO()
+  }
 }

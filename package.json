@@ -7,7 +7,7 @@
     "test": "cd backend && ./gradlew build && cd ../frontend && npm run test:once",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && nodemon -e kt -x './gradlew bootrun'\"",
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && nodemon -e kt -x 'rm -f hs_err_pid*.log && ./gradlew bootrun'\"",
     "install": "cd backend && ./gradlew build -x test && cd ../frontend && npm install"
   },
   "repository": {

@@ -53,8 +53,8 @@ class AccidentalTest {
     assertThat(actual).isEqualTo(Accidental.flat)
   }
 
-  /*
-  it should "be sharp when sharpening natural" in {
+  @Test
+  fun`be sharp when sharpening natural` () {
     val natural = Accidental.natural
 
     val actual = natural.sharp
@@ -62,7 +62,7 @@ class AccidentalTest {
     assert(actual == Accidental.sharp)
   }
 
-  it should "display flat when flat" in {
+  fun`display flat when flat" () {
     val expected = "b"
     val flat = Accidental.flat
 
@@ -71,7 +71,7 @@ class AccidentalTest {
     assert(actual == expected)
   }
 
-  it should "display double flat when flattening flat" in {
+  fun`display double flat when flattening flat" () {
     val expected = "bb"
     val flat = Accidental.flat
 
@@ -80,7 +80,7 @@ class AccidentalTest {
     assert(actual.displayString == expected)
   }
 
-  it should "be natural when sharpening flat" in {
+  fun`be natural when sharpening flat" () {
     val flat = Accidental.flat
 
     val actual = flat.sharp
@@ -89,7 +89,7 @@ class AccidentalTest {
   }
 
   List(3, 7).foreach(flats => {
-    it should s"display correctly when $flats flats" in {
+    it should s"display correctly when $flats flats" () {
       val expected = "b".repeat(flats)
       val accidental = List.range(0, flats).foldRight(Accidental.natural)((_, acc) => acc.flat)
 
@@ -99,7 +99,7 @@ class AccidentalTest {
     }
   })
 
-  it should "display sharp when sharp" in {
+  fun`display sharp when sharp" () {
     val expected = "#"
     val sharp = Accidental.sharp
 
@@ -108,7 +108,7 @@ class AccidentalTest {
     assert(actual == expected)
   }
 
-  it should "display double sharp when sharpening sharp" in {
+  fun`display double sharp when sharpening sharp` () {
     val expected = "x"
     val sharp = Accidental.sharp
 
@@ -117,7 +117,7 @@ class AccidentalTest {
     assert(actual.displayString == expected)
   }
 
-  it should "be natural when flattening sharp" in {
+  fun`be natural when flattening sharp` () {
     val sharp = Accidental.sharp
 
     val actual = sharp.flat
@@ -147,7 +147,7 @@ class AccidentalTest {
     }
   })
 
-  it should "equate equivalent accidentals" in {
+  fun`equate equivalent accidentals` in {
     def accidental = Accidental(5)
 
     val first = accidental

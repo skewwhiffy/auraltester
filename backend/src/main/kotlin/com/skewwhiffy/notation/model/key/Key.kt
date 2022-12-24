@@ -64,12 +64,4 @@ data class Key(val note: Note, val isMinor: Boolean = false) {
           if (semitones == 2) note.upMajorSecond else note.upMajorSecond.flat
         }
     }
-
-  /*
-    override def equals(obj: Any): Boolean = obj match {
-      case other: Key => note == other.note && isMinor == other.isMinor
-      case _ => false
-    }
-  }
-   */
 }

@@ -18,16 +18,7 @@ data class NoteLength(private val length: Fraction) {
   constructor(length: Int) : this(Fraction(length, 1))
 
   val dotted
-    get() = Fraction(3, 2)
-      .let { it * length }
-      .let { NoteLength(it) }
+    get() = NoteLength((Fraction(3, 2) * length))
 
   val abc: String = length.topHeavyString
-  /*
-  override def equals(obj: Any): Boolean = obj match {
-    case it: NoteLength => it.length == length
-    case _ => false
-  }
-}
-   */
 }

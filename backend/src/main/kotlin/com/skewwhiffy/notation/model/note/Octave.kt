@@ -11,15 +11,4 @@ data class Octave(val offsetFromDefault: Int) {
 
   operator fun compareTo(other: Octave): Int =
     offsetFromDefault.compareTo(other.offsetFromDefault)
-
-  /*
-  def >(other: Octave): Boolean = offsetFromDefault > other.offsetFromDefault
-
-  def <(other: Octave): Boolean = offsetFromDefault < other.offsetFromDefault
-
-  def >=(other: Octave): Boolean = offsetFromDefault > other.offsetFromDefault || this == other
-
-  def <=(other: Octave): Boolean = offsetFromDefault < other.offsetFromDefault || this == other
-}
-   */
 }
