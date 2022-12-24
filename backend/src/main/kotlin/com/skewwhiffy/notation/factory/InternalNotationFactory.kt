@@ -3,6 +3,7 @@ package com.skewwhiffy.notation.factory
 import com.skewwhiffy.notation.model.note.AbsoluteNote
 import com.skewwhiffy.notation.model.clef.Clef
 import com.skewwhiffy.notation.model.interval.DirectedInterval
+import com.skewwhiffy.notation.model.key.Key
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -35,12 +36,8 @@ class InternalNotationFactory(
   fun getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory
     .getDirectedInterval(rawInterval)
 
-  /*
-  def getDirectedIntervals(rawIntervals: String): List[DirectedInterval] = intervalFactory
+  fun getDirectedIntervals(rawIntervals: String): List<DirectedInterval> = intervalFactory
     .getDirectedIntervals(rawIntervals)
 
-  def getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
-}
-
-   */
+  fun getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
 }
