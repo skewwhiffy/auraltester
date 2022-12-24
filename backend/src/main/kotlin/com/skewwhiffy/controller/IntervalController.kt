@@ -7,8 +7,10 @@ import com.skewwhiffy.notation.model.key.Key
 import com.skewwhiffy.service.AbcService
 import com.skewwhiffy.service.IntervalService
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.lang.IllegalArgumentException
 
+@RestController
 class IntervalController(
   private val abcService: AbcService,
   private val internalNotationFactory: InternalNotationFactory,
