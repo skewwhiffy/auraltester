@@ -4,11 +4,11 @@
   "description": "Aural testing software for music students",
   "main": "index.js",
   "scripts": {
-    "test": "cd backend && sbt clean test && cd ../frontend && npm run test:once",
+    "test": "cd backend && ./gradlew build && cd ../frontend && npm run test:once",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && sbt run\"",
-    "install": "cd backend && sbt clean compile && cd ../frontend && npm install"
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && nodemon -e kt -x 'rm -f hs_err_pid*.log && ./gradlew bootrun'\"",
+    "install": "cd backend && ./gradlew build -x test && cd ../frontend && npm install"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/skewwhiffy/auraltester#readme",
   "devDependencies": {
-    "concurrently": "^7.4.0"
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20"
   }
 }
