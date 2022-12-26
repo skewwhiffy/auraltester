@@ -11,15 +11,10 @@ class ClefController(
   private val internalNotationFactory: InternalNotationFactory,
   private val abcService: AbcService
 ) {
-
   @RequestMapping("/api/clef")
-  fun get(clef: String): ClefResponse {
-    val clefObject = internalNotationFactory.clef(clef)
-    return internalNotationFactory
-      .getNote("C")
-      .note
-      .let { abcService.getAbc(clefObject) }
-      .abc
-      .let { ClefResponse(it) }
-  }
+  fun get(clef: String): ClefResponse = internalNotationFactory
+    .clef(clef)
+    .let(abcService::getAbc)
+    .abc
+    .let { ClefResponse(it) }
 }
