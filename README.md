@@ -18,9 +18,7 @@ The following topics are available (or are to be implemented).
 The following versions have been tested.
 
 * `node` version 18.21.1
-* `sbt` version 1.7.3
-* `scala` version 2.13.10
-* `java` version 11.0.17 supplied by Zulu
+* `java` version 17.0.5 supplied by Zulu
 
 The following `npm` scripts have been defined.
 
@@ -30,10 +28,10 @@ The following `npm` scripts have been defined.
 
 The following technologies have been used to build this solution.
 * Backend technologies
-  * Scala
-  * Play framework
+  * Kotlin
+  * Spring Boot framework
   * Mockito
-  * Scala Test
+  * JUnit 5
 * Frontend technologies
   * TypeScript
   * React
