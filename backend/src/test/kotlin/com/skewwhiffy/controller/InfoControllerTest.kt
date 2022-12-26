@@ -1,25 +1,23 @@
 package com.skewwhiffy.controller
 
+import com.skewwhiffy.dto.InfoResponse
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.junit.jupiter.MockitoExtension
 
+@ExtendWith(MockitoExtension::class)
 class InfoControllerTest {
-  @Test
-  fun dummy(): Unit = TODO()
-}
-/*
-class InfoControllerTest extends PlaySpec with MockInstantiation {
   @InjectMocks
-  private val infoController: InfoController = null
+  private lateinit var infoController: InfoController
 
-  "/api/info GET" should {
-    "be valid" in {
-      val actual = infoController.index().apply(FakeRequest(GET, "/api/info"))
+  @Test
+  fun `gets information`() {
+    val expected = InfoResponse("0.0.1-kotlin")
 
-      status(actual) mustBe OK
-      contentType(actual) mustBe Some("application/json")
-      assert(contentAsJson(actual).pipe { it => Json.format[InfoResponse].reads(it) }.isSuccess)
-    }
+    val actual = infoController.get()
+
+    assertThat(actual).isEqualTo(expected)
   }
 }
-
- */
