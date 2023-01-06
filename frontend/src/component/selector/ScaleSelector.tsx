@@ -17,13 +17,13 @@ interface Props {
 }
 
 interface State {
-  clef: string,
-  note: string,
-  type: string,
+  clef: string
+  note: string
+  type: string
   direction: string
 }
 
-const ScaleSelector = (props: Props) => {
+const ScaleSelector = (props: Props): JSX.Element => {
   const [state, setState] = useState<State>({
     clef: 'treble',
     note: 'C',
@@ -31,18 +31,19 @@ const ScaleSelector = (props: Props) => {
     direction: 'ascending'
   })
 
-  const onFormChange = (newState: State) => {
+  const onFormChange = (newState: State): void => {
     setState(newState)
     onStateChange(newState)
   }
 
-  const onStateChange = (state: State) =>
+  const onStateChange = (state: State): void => {
     props.onChange(
       state.clef,
       state.note,
       state.type,
       state.direction
     )
+  }
 
   return (
     <Container>
@@ -51,13 +52,13 @@ const ScaleSelector = (props: Props) => {
           <Col>
             <NoteSelector
               defaultValue={state.note}
-              onChange={note => onFormChange({ ...state, note })}
+              onChange={note => { onFormChange({ ...state, note }) }}
             />
           </Col>
           <Col>
             <ClefSelector
               defaultValue={state.clef}
-              onChange={clef => onFormChange({ ...state, clef })}
+              onChange={clef => { onFormChange({ ...state, clef }) }}
             />
           </Col>
           <Col>
@@ -69,7 +70,7 @@ const ScaleSelector = (props: Props) => {
                 }))}
               name='type'
               defaultValue={state.type}
-              onChange={type => onFormChange({ ...state, type })}
+              onChange={type => { onFormChange({ ...state, type }) }}
             />
           </Col>
           <Col>
@@ -81,7 +82,7 @@ const ScaleSelector = (props: Props) => {
                 }))}
               name='direction'
               defaultValue={state.direction}
-              onChange={direction => onFormChange({ ...state, direction })}
+              onChange={direction => { onFormChange({ ...state, direction }) }}
             />
           </Col>
         </Row>

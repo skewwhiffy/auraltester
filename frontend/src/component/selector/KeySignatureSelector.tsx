@@ -8,7 +8,7 @@ interface Props {
   onChange: OnChangeHandler
 }
 
-const keySignatureValues: Array<RadioButtonDefinition> = [
+const keySignatureValues: RadioButtonDefinition[] = [
   { value: 'C#', label: 'C# / A# minor' },
   { value: 'F#', label: 'F# / D# minor' },
   { value: 'B', label: 'B / G# minor' },
@@ -23,12 +23,12 @@ const keySignatureValues: Array<RadioButtonDefinition> = [
   { value: 'Ab', label: 'Ab / F minor' },
   { value: 'Db', label: 'Db / Bb minor' },
   { value: 'Gb', label: 'Gb / Eb minor' },
-  { value: 'Cb', label: 'Cb / Ab minor' },
+  { value: 'Cb', label: 'Cb / Ab minor' }
 ]
 
-const KeySignatureSelector = (props: Props) => {
-  const currentKeySignature = props.defaultValue || 'C'
-  if (!props.defaultValue) {
+const KeySignatureSelector = (props: Props): JSX.Element => {
+  const currentKeySignature = props.defaultValue ?? 'C'
+  if (props.defaultValue !== undefined) {
     props.onChange(currentKeySignature)
   }
   return (
@@ -40,7 +40,7 @@ const KeySignatureSelector = (props: Props) => {
             values={keySignatureValues}
             name='keySignature'
             defaultValue={currentKeySignature}
-            onChange={keySignature => props.onChange(keySignature)}
+            onChange={keySignature => { props.onChange(keySignature) }}
           />
         </Col>
       </Row>
