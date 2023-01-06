@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import ClefSelector from './selector/ClefSelector'
@@ -34,10 +34,6 @@ const Clef = () => {
       </Row>
     </Container>
   )
-}
-
-class ClefOld extends React.Component<{}, State> {
-
 }
 
 export default Clef
