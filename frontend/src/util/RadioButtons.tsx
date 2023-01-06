@@ -20,30 +20,27 @@ interface State {
   value: string
 }
 
-class RadioButtons extends React.Component<Props, State> {
-  constructor(props: Props) {
-    if (props.values.length === 0) {
-      throw Error('Need at least one radio button')
-    }
-    super(props);
+const RadioButtons = (props: Props) => {
+  if (props.values.length === 0) {
+    throw Error('Need at least one radio button')
   }
 
-  private onChange = (ev: any) => {
-    (this.props.onChange || (_ => { }))(ev.target.value)
+  const onChange = (ev: any) => {
+    (props.onChange || (_ => { }))(ev.target.value)
   }
 
-  private renderRadioButton = (radioButton: RadioButtonDefinition) => {
+  const renderRadioButton = (radioButton: RadioButtonDefinition) => {
     const value = radioButton.value
     const key = radioButton.key || value
     const label = radioButton.label || value
-    const defaultValue = this.props.defaultValue === undefined
-      ? this.props.values[0].value
-      : this.props.defaultValue
+    const defaultValue = props.defaultValue === undefined
+      ? props.values[0].value
+      : props.defaultValue
     return (
       <Form.Check
-        id={`${this.props.name}-${key}`}
+        id={`${props.name}-${key}`}
         key={key}
-        name={this.props.name}
+        name={props.name}
         value={value}
         label={label}
         type='radio'
@@ -51,14 +48,11 @@ class RadioButtons extends React.Component<Props, State> {
       />
     )
   }
-
-  render() {
-    return (
-      <Form.Group onChange={this.onChange}>
-        {this.props.values.map(this.renderRadioButton)}
-      </Form.Group>
-    )
-  }
+  return (
+    <Form.Group onChange={onChange}>
+      {props.values.map(renderRadioButton)}
+    </Form.Group>
+  )
 }
 
 export default RadioButtons

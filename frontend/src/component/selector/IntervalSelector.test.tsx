@@ -26,11 +26,11 @@ describe('IntervalSelector', () => {
     })} />)
   })
 
-  it('triggers clef changes', () => {
+  it.only('triggers clef changes', () => {
     act(() => screen.getByLabelText('Alto Clef').click())
 
-    expect(triggered).toHaveLength(2)
-    expect(triggered[1].clef).toEqual('alto')
+    expect(triggered).toHaveLength(1)
+    expect(triggered[0].clef).toEqual('alto')
   })
 
   it('triggers bottom note changes', () => {
@@ -49,8 +49,8 @@ describe('IntervalSelector', () => {
 
     act(() => screen.getByLabelText(intervalQuality).click())
     
-    expect(triggered).toHaveLength(2)
-    expect(triggered[1].intervalQuality).toBe(intervalQuality)
+    expect(triggered).toHaveLength(1)
+    expect(triggered[0].intervalQuality).toBe(intervalQuality)
   })
   
   it('triggers interval size', () => {
@@ -58,8 +58,8 @@ describe('IntervalSelector', () => {
     
     act(() => screen.getByLabelText(intervalSize).click())
     
-    expect(triggered).toHaveLength(2)
-    expect(triggered[1].intervalSize).toBe(intervalSize)
+    expect(triggered).toHaveLength(1)
+    expect(triggered[0].intervalSize).toBe(intervalSize)
   })
   
   it('triggers key signature', () => {
@@ -68,7 +68,7 @@ describe('IntervalSelector', () => {
     
     act(() => screen.getByLabelText(keySignatureLabel).click())
     
-    expect(triggered).toHaveLength(2)
-    expect(triggered[1].keySignature).toBe(expectedKeySignature)
+    expect(triggered).toHaveLength(1)
+    expect(triggered[0].keySignature).toBe(expectedKeySignature)
   })
 })

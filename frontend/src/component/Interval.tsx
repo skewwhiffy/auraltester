@@ -1,4 +1,5 @@
-import React from 'react'
+
+import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import IntervalSelector from './selector/IntervalSelector'
@@ -8,15 +9,10 @@ interface State {
   abc: string
 }
 
-class Interval extends React.Component<{}, State> {
-  constructor(props: {}) {
-    super(props)
-    this.state = {
-      abc: ''
-    }
-  }
+const Interval = () => {
+  const [state, setState] = useState<State>({ abc: '' })
 
-  intervalSelected = async (
+  const intervalSelected = async (
     clef: string,
     bottomNote: string,
     intervalQuality: string,
@@ -24,8 +20,8 @@ class Interval extends React.Component<{}, State> {
     keySignature: string
   ) => {
     if ([clef, bottomNote, intervalQuality, intervalSize, keySignature].includes('')) {
-      this.setState({
-        ...this.state,
+      setState({
+        ...state,
         abc: ''
       })
       return
@@ -41,23 +37,21 @@ class Interval extends React.Component<{}, State> {
       }
     })
     const json = response.data
-    this.setState({
-      ...this.state,
+    setState({
+      ...state,
       abc: json.abc
     })
   }
-
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Notation notation={this.state.abc} />
-        </Row>
-        <Row>
-          <IntervalSelector onChange={this.intervalSelected} />
-        </Row>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <Row>
+        <Notation notation={state.abc} />
+      </Row>
+      <Row>
+        <IntervalSelector onChange={intervalSelected} />
+      </Row>
+    </Container>
+  )
 }
+
 export default Interval
