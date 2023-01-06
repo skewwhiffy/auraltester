@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
+import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
 import KeySignatureSelector from './KeySignatureSelector'
 import NoteSelector from './NoteSelector'
