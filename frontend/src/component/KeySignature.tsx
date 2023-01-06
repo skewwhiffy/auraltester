@@ -1,11 +1,9 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
 import ClefSelector from './selector/ClefSelector'
 import KeySignatureSelector from './selector/KeySignatureSelector'
-
-interface Props { }
 
 interface State {
   clef: string,
@@ -13,7 +11,7 @@ interface State {
   abc: string
 }
 
-const KeySignature = (props: Props) => {
+const KeySignature = () => {
   const [state, setState] = useState<State>({
     clef: 'treble',
     keySignature: 'C',

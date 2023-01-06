@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -10,67 +10,72 @@ interface State {
   }
 }
 
-class NavBar extends React.Component<Props, State> {
-  
-  async componentDidMount() {
-    const newInformationResponse = await axios.get('/api/info')
-    const newInformation = newInformationResponse.data
-    // TODO: This gets called twice. Why?
-    console.log('Component did mount in NavBar')
-    this.setState({
-      ...this.state,
-      information: newInformation
-    })
-  }
+const NavBar = () => {
+  const [state, setState] = useState<State | undefined>()
 
-  render() {
-    return (
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand href="#home">The Aural Tester</Navbar.Brand>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link
-                as={Link}
-                to="/"
-                eventKey="/home"
-                title="Home"
-              >Home</Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/clefs"
-                eventKey="/clefs"
-                title="Clefs"
-              >Clefs</Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/key-signatures"
-                eventKey="/key-signatures"
-                title="Key Signature"
-              >Key Signatures</Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/scales"
-                eventKey="/scales"
-                title="Scales"
-              >Scales</Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/intervals"
-                eventKey="/intervals"
-                title="Intervals"
-              >Intervals</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>
-              { this.state?.information?.version == null ? 'No version information yet' : `Version: ${this.state.information.version}`}
-            </Navbar.Text>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    )
-  }
+  useEffect(() => {
+    (async () => {
+      const newInformationResponse = await axios.get('/api/info')
+      const newInformation = newInformationResponse.data
+      // TODO: This gets called twice. Why?
+      console.log('Component did mount in NavBar')
+      setState({
+        ...state,
+        information: newInformation
+      })
+    })()
+  }, [])
+
+  return (
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">The Aural Tester</Navbar.Brand>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link
+              as={Link}
+              to="/"
+              eventKey="/home"
+              title="Home"
+            >Home</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/clefs"
+              eventKey="/clefs"
+              title="Clefs"
+            >Clefs</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/key-signatures"
+              eventKey="/key-signatures"
+              title="Key Signature"
+            >Key Signatures</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/scales"
+              eventKey="/scales"
+              title="Scales"
+            >Scales</Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/intervals"
+              eventKey="/intervals"
+              title="Intervals"
+            >Intervals</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            {state?.information?.version == null ? 'No version information yet' : `Version: ${state.information.version}`}
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  )
+}
+
+class NavBarOld extends React.Component<Props, State> {
+
 }
 
 export default NavBar
