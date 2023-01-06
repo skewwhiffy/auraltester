@@ -3,10 +3,11 @@ import KeySignature from './component/KeySignature'
 import Interval from './component/Interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Clef from './component/Clef'
+import { FunctionComponent } from 'react'
 
-const App = () => (
+const App: FunctionComponent = () => (
   <div className="App">
     <BrowserRouter>
       <NavBar />
