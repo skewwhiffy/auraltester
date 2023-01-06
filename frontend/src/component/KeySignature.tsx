@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
 import ClefSelector from './selector/ClefSelector'
@@ -13,43 +13,14 @@ interface State {
   abc: string
 }
 
-class KeySignature extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      clef: 'treble',
-      keySignature: 'C',
-      abc: ''
-    }
-  }
-
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Notation notation={this.state.abc} />
-        </Row>
-        <Row>
-          <Col>
-            <ClefSelector onChange={this.clefSelected} />
-          </Col>
-          <Col>
-            <KeySignatureSelector onChange={this.keySignatureSelected} />
-          </Col>
-        </Row>
-      </Container>
-    )
-  }
-
-  private clefSelected = async (clef: string) => {
-    this.stateChanged({ ...this.state, clef })
-  }
-
-  private keySignatureSelected = async (keySignature: string) => {
-    this.stateChanged({ ...this.state, keySignature })
-  }
-
-  private stateChanged = async (newState: State) => {
+const KeySignature = (props: Props) => {
+  const [state, setState] = useState<State>({
+    clef: 'treble',
+    keySignature: 'C',
+    abc: ''
+  })
+  
+  const stateChanged = async (newState: State) => {
     let abc = ''
     if (newState.clef && newState.keySignature) {
       const response = await axios.get('api/keySignature', {
@@ -61,8 +32,32 @@ class KeySignature extends React.Component<Props, State> {
       const json = response.data
       abc = json.abc
     }
-    this.setState({ ...newState, abc })
+    setState({ ...newState, abc })
   }
+
+  const clefSelected = async (clef: string) => {
+    stateChanged({ ...state, clef })
+  }
+
+  const keySignatureSelected = async (keySignature: string) => {
+    stateChanged({ ...state, keySignature })
+  }
+
+  return (
+    <Container>
+      <Row>
+        <Notation notation={state.abc} />
+      </Row>
+      <Row>
+        <Col>
+          <ClefSelector onChange={clefSelected} />
+        </Col>
+        <Col>
+          <KeySignatureSelector onChange={keySignatureSelected} />
+        </Col>
+      </Row>
+    </Container>
+  )
 }
 
 export default KeySignature
