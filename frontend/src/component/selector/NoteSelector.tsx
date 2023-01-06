@@ -15,7 +15,6 @@ interface State {
   accidental: string
 }
 
-
 const NoteSelector = (props: Props) => {
   const accidentals = [
     { value: '#' },
