@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
@@ -30,6 +30,10 @@ const ScaleSelector = (props: Props): JSX.Element => {
     type: 'major',
     direction: 'ascending'
   })
+
+  useEffect(() => {
+    onStateChange(state)
+  }, [])
 
   const onFormChange = (newState: State): void => {
     setState(newState)

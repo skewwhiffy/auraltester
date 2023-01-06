@@ -27,10 +27,7 @@ const keySignatureValues: RadioButtonDefinition[] = [
 ]
 
 const KeySignatureSelector = (props: Props): JSX.Element => {
-  const currentKeySignature = props.defaultValue ?? 'C'
-  if (props.defaultValue !== undefined) {
-    props.onChange(currentKeySignature)
-  }
+  const currentKeySignature = props.defaultValue
   return (
     <Container>
       <Row><Col>Key signature</Col></Row>
