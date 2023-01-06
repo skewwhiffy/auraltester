@@ -5,19 +5,17 @@ import { Col, Container, Row } from 'react-bootstrap'
 type OnChangeHandler = (value: string) => void
 
 export interface Props {
-  defaultValue?: string,
+  defaultValue?: string
   onChange: OnChangeHandler
 }
 
-interface State { }
-
-const ClefSelector = (props: Props) => {
+const ClefSelector = (props: Props): JSX.Element => {
   const values: RadioButtonDefinition[] = ['treble', 'alto', 'tenor', 'bass']
     .map(it => ({
       value: it,
       label: `${capitalizeFirstCharacter(it)} Clef`
     }))
-  if (!props.defaultValue) {
+  if (props.defaultValue === undefined) {
     props.onChange(values[0].value)
   }
   return (
@@ -27,7 +25,7 @@ const ClefSelector = (props: Props) => {
         <RadioButtons
           values={values}
           name='clef'
-          defaultValue={props.defaultValue || values[0].value}
+          defaultValue={props.defaultValue ?? values[0].value}
           onChange={props.onChange}
         />
       </Col></Row>

@@ -8,20 +8,22 @@ interface State {
   abc: string
 }
 
-const Clef = () => {
+const Clef = (): JSX.Element => {
   const [state, setState] = useState<State>({ abc: '' })
 
-  const clefSelected = async (clef: string) => {
-    const response = await axios.get('api/clef', {
-      params: {
-        clef
-      }
-    })
-    const json = response.data
-    setState({
-      ...state,
-      abc: json.abc
-    })
+  const clefSelected = (clef: string): void => {
+    (async () => {
+      const response = await axios.get('api/clef', {
+        params: {
+          clef
+        }
+      })
+      const json = response.data
+      setState({
+        ...state,
+        abc: json.abc
+      })
+    })()
   }
 
   return (

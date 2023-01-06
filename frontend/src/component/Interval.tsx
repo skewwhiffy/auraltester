@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
@@ -9,16 +8,16 @@ interface State {
   abc: string
 }
 
-const Interval = () => {
+const Interval = (): JSX.Element => {
   const [state, setState] = useState<State>({ abc: '' })
 
-  const intervalSelected = async (
+  const intervalSelected = (
     clef: string,
     bottomNote: string,
     intervalQuality: string,
     intervalSize: string,
     keySignature: string
-  ) => {
+  ): void => {
     if ([clef, bottomNote, intervalQuality, intervalSize, keySignature].includes('')) {
       setState({
         ...state,
@@ -27,20 +26,22 @@ const Interval = () => {
       return
     }
 
-    const response = await axios.get('api/interval', {
-      params: {
-        clef,
-        bottomNote,
-        intervalQuality,
-        intervalSize,
-        keySignature
-      }
-    })
-    const json = response.data
-    setState({
-      ...state,
-      abc: json.abc
-    })
+    (async () => {
+      const response = await axios.get('api/interval', {
+        params: {
+          clef,
+          bottomNote,
+          intervalQuality,
+          intervalSize,
+          keySignature
+        }
+      })
+      const json = response.data
+      setState({
+        ...state,
+        abc: json.abc
+      })
+    })()
   }
   return (
     <Container>
