@@ -1,34 +1,28 @@
 import axios from 'axios'
-import React from 'react'
+import { useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
 import ScaleSelector from './selector/ScaleSelector'
-
-interface Props { }
 
 interface State {
   withKeySignature: string,
   withoutKeySignature: string
 }
 
-class Scale extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      withKeySignature: '',
-      withoutKeySignature: ''
-    }
-  }
-
-  scaleSelected = async (
+const Scale = () => {
+  const [state, setState] = useState<State>({
+    withKeySignature: '',
+    withoutKeySignature: ''
+  })
+  const scaleSelected = async (
     clef: string,
     note: string,
     type: string,
     direction: string
   ) => {
     if ([clef, note, type, direction].includes('')) {
-      this.setState({
-        ...this.state,
+      setState({
+        ...state,
         withKeySignature: '',
         withoutKeySignature: ''
       })
@@ -44,28 +38,25 @@ class Scale extends React.Component<Props, State> {
       }
     })
     const json = response.data
-    this.setState({
-      ...this.state,
+    setState({
+      ...state,
       withKeySignature: json.withKeySignature,
       withoutKeySignature: json.withoutKeySignature
     })
   }
-
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Notation notation={this.state.withoutKeySignature} />
-        </Row>
-        <Row>
-          <Notation notation={this.state.withKeySignature} />
-        </Row>
-        <Row>
-          <ScaleSelector onChange={this.scaleSelected} />
-        </Row>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <Row>
+        <Notation notation={state.withoutKeySignature} />
+      </Row>
+      <Row>
+        <Notation notation={state.withKeySignature} />
+      </Row>
+      <Row>
+        <ScaleSelector onChange={scaleSelected} />
+      </Row>
+    </Container>
+  )
 }
 
 export default Scale
