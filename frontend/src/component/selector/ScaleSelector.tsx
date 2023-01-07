@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
@@ -13,27 +13,27 @@ type OnChangeHandler = (
 ) => void
 
 interface Props {
+  clef?: string
+  note?: string
+  type?: string
+  direction?: string
   onChange: OnChangeHandler
 }
 
 interface State {
-  clef: string
-  note: string
-  type: string
-  direction: string
+  clef?: string
+  note?: string
+  type?: string
+  direction?: string
 }
 
 const ScaleSelector = (props: Props): JSX.Element => {
   const [state, setState] = useState<State>({
-    clef: 'treble',
-    note: 'C',
-    type: 'major',
-    direction: 'ascending'
+    clef: props.clef,
+    note: props.note,
+    type: props.type,
+    direction: props.direction
   })
-
-  useEffect(() => {
-    onStateChange(state)
-  }, [])
 
   const onFormChange = (newState: State): void => {
     setState(newState)
@@ -41,6 +41,12 @@ const ScaleSelector = (props: Props): JSX.Element => {
   }
 
   const onStateChange = (state: State): void => {
+    if (state.clef === undefined ||
+      state.note === undefined ||
+      state.type === undefined ||
+      state.direction === undefined) {
+      return
+    }
     props.onChange(
       state.clef,
       state.note,
@@ -55,13 +61,13 @@ const ScaleSelector = (props: Props): JSX.Element => {
         <Row>
           <Col>
             <NoteSelector
-              defaultValue={state.note}
+              value={state.note}
               onChange={note => { onFormChange({ ...state, note }) }}
             />
           </Col>
           <Col>
             <ClefSelector
-              defaultValue={state.clef}
+              value={state.clef}
               onChange={clef => { onFormChange({ ...state, clef }) }}
             />
           </Col>
@@ -73,7 +79,7 @@ const ScaleSelector = (props: Props): JSX.Element => {
                   label: it.split('-').map(capitalizeFirstCharacter).join(' ')
                 }))}
               name='type'
-              defaultValue={state.type}
+              value={state.type}
               onChange={type => { onFormChange({ ...state, type }) }}
             />
           </Col>
@@ -85,7 +91,7 @@ const ScaleSelector = (props: Props): JSX.Element => {
                   label: capitalizeFirstCharacter(it)
                 }))}
               name='direction'
-              defaultValue={state.direction}
+              value={state.direction}
               onChange={direction => { onFormChange({ ...state, direction }) }}
             />
           </Col>

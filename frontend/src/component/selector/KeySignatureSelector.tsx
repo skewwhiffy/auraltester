@@ -36,7 +36,7 @@ const KeySignatureSelector = (props: Props): JSX.Element => {
           <RadioButtons
             values={keySignatureValues}
             name='keySignature'
-            defaultValue={currentKeySignature}
+            value={currentKeySignature}
             onChange={keySignature => { props.onChange(keySignature) }}
           />
         </Col>

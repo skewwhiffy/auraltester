@@ -11,7 +11,7 @@ export interface RadioButtonDefinition {
 export interface Props {
   values: RadioButtonDefinition[]
   name: string
-  defaultValue?: string
+  value?: string
   onChange: OnChangeHandler
 }
 
@@ -28,9 +28,6 @@ const RadioButtons = (props: Props): JSX.Element => {
     const value = radioButton.value
     const key = radioButton.key ?? value
     const label = radioButton.label ?? value
-    const defaultValue = props.defaultValue === undefined
-      ? props.values[0].value
-      : props.defaultValue
     return (
       <Form.Check
         id={`${props.name}-${key}`}
@@ -39,7 +36,7 @@ const RadioButtons = (props: Props): JSX.Element => {
         value={value}
         label={label}
         type='radio'
-        defaultChecked={value === defaultValue}
+        defaultChecked={value === props.value}
       />
     )
   }

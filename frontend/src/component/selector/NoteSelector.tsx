@@ -5,14 +5,14 @@ import RadioButtons from '../../util/RadioButtons'
 type OnChangeHandler = (note: string) => void
 
 export interface Props {
-  defaultValue: string
+  value?: string
   includeDoubleAccidentals?: boolean
   onChange: OnChangeHandler
 }
 
 interface State {
-  noteName: string
-  accidental: string
+  noteName?: string
+  accidental?: string
 }
 
 const NoteSelector = (props: Props): JSX.Element => {
@@ -22,9 +22,15 @@ const NoteSelector = (props: Props): JSX.Element => {
     { value: 'b' }
   ]
 
-  const extractNoteName = (note: string): string => note.substring(0, 1)
+  const extractNoteName = (note?: string): string | undefined =>
+    (note === undefined || note === '')
+      ? undefined
+      : note.substring(0, 1)
 
-  const extractAccidental = (note: string): string => note.substring(1)
+  const extractAccidental = (note?: string): string | undefined =>
+    (note === undefined || note === '')
+      ? undefined
+      : note.substring(1)
 
   const onFormChange = (newState: State): void => {
     setState(newState)
@@ -32,12 +38,16 @@ const NoteSelector = (props: Props): JSX.Element => {
   }
 
   const onStateChange = (state: State): void => {
+    if (state.noteName === undefined ||
+      state.accidental === undefined) {
+      return
+    }
     props.onChange(`${state.noteName}${state.accidental}`)
   }
 
   const [state, setState] = useState<State>({
-    noteName: extractNoteName(props.defaultValue),
-    accidental: extractAccidental(props.defaultValue)
+    noteName: extractNoteName(props.value),
+    accidental: extractAccidental(props.value)
   })
 
   if (props.includeDoubleAccidentals ?? false) {
@@ -53,7 +63,7 @@ const NoteSelector = (props: Props): JSX.Element => {
           <RadioButtons
             values={'ABCDEFG'.split('').map(it => ({ value: it }))}
             name='note'
-            defaultValue={state.noteName}
+            value={state.noteName}
             onChange={note => { onFormChange({ ...state, noteName: note }) }}
           />
         </Col>
@@ -61,7 +71,7 @@ const NoteSelector = (props: Props): JSX.Element => {
           <RadioButtons
             values={accidentals}
             name='accidental'
-            defaultValue={state.accidental}
+            value={state.accidental}
             onChange={accidental => { onFormChange({ ...state, accidental }) }}
           />
         </Col>

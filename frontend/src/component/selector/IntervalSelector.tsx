@@ -55,13 +55,13 @@ const IntervalSelector = (props: Props): JSX.Element => {
         <Row>
           <Col>
             <ClefSelector
-              defaultValue={state.clef}
+              value={state.clef}
               onChange={clef => { onFormChange({ ...state, clef }) }}
             />
           </Col>
           <Col>
             <NoteSelector
-              defaultValue={state.bottomNote}
+              value={state.bottomNote}
               includeDoubleAccidentals={true}
               onChange={bottomNote => { onFormChange({ ...state, bottomNote }) }}
             />
@@ -74,7 +74,7 @@ const IntervalSelector = (props: Props): JSX.Element => {
                   <RadioButtons
                     values={['diminished', 'minor', 'major', 'perfect', 'augmented'].map(value => ({ value }))}
                     name='intervalQuality'
-                    defaultValue={state.intervalQuality}
+                    value={state.intervalQuality}
                     onChange={intervalQuality => { onFormChange({ ...state, intervalQuality }) }}
                   />
                 </Col>
@@ -82,7 +82,7 @@ const IntervalSelector = (props: Props): JSX.Element => {
                   <RadioButtons
                     values={Array.from(Array(8).keys()).map(it => it + 1).map(it => ({ value: `${it}` }))}
                     name='intervalSize'
-                    defaultValue={state.intervalQuality}
+                    value={state.intervalQuality}
                     onChange={intervalSize => { onFormChange({ ...state, intervalSize }) }}
                   />
                 </Col>

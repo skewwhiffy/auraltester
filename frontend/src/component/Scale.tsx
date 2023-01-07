@@ -14,21 +14,13 @@ const Scale = (): JSX.Element => {
     withKeySignature: '',
     withoutKeySignature: ''
   })
+
   const scaleSelected = (
     clef: string,
     note: string,
     type: string,
     direction: string
   ): void => {
-    if ([clef, note, type, direction].includes('')) {
-      setState({
-        ...state,
-        withKeySignature: '',
-        withoutKeySignature: ''
-      })
-      return
-    }
-
     (async () => {
       const response = await axios.get('api/scale', {
         params: {
@@ -46,6 +38,7 @@ const Scale = (): JSX.Element => {
       })
     })()
   }
+
   return (
     <Container>
       <Row>
