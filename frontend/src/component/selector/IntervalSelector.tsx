@@ -18,21 +18,15 @@ export interface Props {
 }
 
 interface State {
-  clef: string
-  bottomNote: string
-  intervalQuality: string
-  intervalSize: string
-  keySignature: string
+  clef?: string
+  bottomNote?: string
+  intervalQuality?: string
+  intervalSize?: string
+  keySignature?: string
 }
 
 const IntervalSelector = (props: Props): JSX.Element => {
-  const [state, setState] = useState<State>({
-    clef: 'treble',
-    bottomNote: 'C',
-    intervalQuality: '',
-    intervalSize: '',
-    keySignature: 'C'
-  })
+  const [state, setState] = useState<State>({})
 
   const onFormChange = (newState: State): void => {
     setState(newState)
@@ -40,6 +34,13 @@ const IntervalSelector = (props: Props): JSX.Element => {
   }
 
   const onStateChange = (state: State): void => {
+    if (state.clef === undefined ||
+      state.bottomNote === undefined ||
+      state.intervalQuality === undefined ||
+      state.intervalSize === undefined ||
+      state.keySignature === undefined) {
+      return
+    }
     props.onChange(
       state.clef,
       state.bottomNote,
