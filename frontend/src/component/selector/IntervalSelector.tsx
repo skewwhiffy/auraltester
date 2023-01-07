@@ -89,7 +89,7 @@ const IntervalSelector = (props: Props) => {
           </Col>
           <Col>
             <KeySignatureSelector
-              defaultValue={state.keySignature}
+              value={state.keySignature}
               onChange={keySignature => onFormChange({ ...state, keySignature })}
             />
           </Col>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
 import ClefSelector from './selector/ClefSelector'
@@ -11,12 +11,22 @@ interface State {
   abc: string
 }
 
+let initialized = false
+
 const KeySignature = () => {
   const [state, setState] = useState<State>({
     clef: 'treble',
     keySignature: 'C',
     abc: ''
   })
+  
+  useEffect(() => {
+    if (initialized) {
+      return
+    }
+    initialized = true
+    stateChanged(state)
+  }, [])
   
   const stateChanged = async (newState: State) => {
     let abc = ''
@@ -51,7 +61,7 @@ const KeySignature = () => {
           <ClefSelector onChange={clefSelected} />
         </Col>
         <Col>
-          <KeySignatureSelector onChange={keySignatureSelected} />
+          <KeySignatureSelector value={state.keySignature} onChange={keySignatureSelected} />
         </Col>
       </Row>
     </Container>
