@@ -16,17 +16,13 @@ export interface Props {
   onChange: OnChangeHandler
 }
 
-interface State {
-  value: string
-}
-
 const RadioButtons = (props: Props) => {
   if (props.values.length === 0) {
     throw Error('Need at least one radio button')
   }
 
   const onChange = (ev: any) => {
-    (props.onChange || (_ => { }))(ev.target.value)
+    (props.onChange ?? (_ => { }))(ev.target.value)
   }
 
   const renderRadioButton = (radioButton: RadioButtonDefinition) => {

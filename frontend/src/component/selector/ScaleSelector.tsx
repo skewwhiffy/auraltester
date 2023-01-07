@@ -56,7 +56,7 @@ const ScaleSelector = (props: Props) => {
           </Col>
           <Col>
             <ClefSelector
-              defaultValue={state.clef}
+              value={state.clef}
               onChange={clef => onFormChange({ ...state, clef })}
             />
           </Col>
