@@ -5,23 +5,29 @@ import ClefSelector from './selector/ClefSelector'
 import axios from 'axios'
 
 interface State {
+  clef: string
   abc: string
 }
 
-const Clef = () => {
-  const [state, setState] = useState<State>({ abc: '' })
+const Clef = (): JSX.Element => {
+  const [state, setState] = useState<State>({
+    clef: '',
+    abc: ''
+  })
 
-  const clefSelected = async (clef: string) => {
-    const response = await axios.get('api/clef', {
-      params: {
-        clef
-      }
-    })
-    const json = response.data
-    setState({
-      ...state,
-      abc: json.abc
-    })
+  const clefSelected = (clef: string): void => {
+    (async () => {
+      const response = await axios.get('api/clef', {
+        params: {
+          clef
+        }
+      })
+      const json = response.data
+      setState({
+        ...state,
+        abc: json.abc
+      })
+    })()
   }
 
   return (
@@ -30,7 +36,7 @@ const Clef = () => {
         <Notation notation={state.abc} />
       </Row>
       <Row>
-        <ClefSelector onChange={clefSelected} />
+        <ClefSelector value={state.clef} onChange={clefSelected} />
       </Row>
     </Container>
   )

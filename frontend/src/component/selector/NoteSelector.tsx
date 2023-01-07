@@ -1,50 +1,56 @@
-import { useState } from "react"
-import { Col, Container, Row } from "react-bootstrap"
-import RadioButtons  from "../../util/RadioButtons"
+import { useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
+import RadioButtons from '../../util/RadioButtons'
 
 type OnChangeHandler = (note: string) => void
 
 export interface Props {
-  defaultValue: string,
-  includeDoubleAccidentals?: boolean,
+  value?: string
+  includeDoubleAccidentals?: boolean
   onChange: OnChangeHandler
 }
 
 interface State {
-  noteName: string,
-  accidental: string
+  noteName?: string
+  accidental?: string
 }
 
-const NoteSelector = (props: Props) => {
+const NoteSelector = (props: Props): JSX.Element => {
   const accidentals = [
     { value: '#' },
     { value: '', label: 'natural' },
     { value: 'b' }
   ]
 
-  const extractNoteName = (note: string) => {
-    return note.substring(0, 1)
-  }
+  const extractNoteName = (note?: string): string | undefined =>
+    (note === undefined || note === '')
+      ? undefined
+      : note.substring(0, 1)
 
-  const extractAccidental = (note: string) => {
-    return note.substring(1)
-  }
+  const extractAccidental = (note?: string): string | undefined =>
+    (note === undefined || note === '')
+      ? undefined
+      : note.substring(1)
 
-  const onFormChange = (newState: State) => {
+  const onFormChange = (newState: State): void => {
     setState(newState)
     onStateChange(newState)
   }
 
-  const onStateChange = (state: State) => {
+  const onStateChange = (state: State): void => {
+    if (state.noteName === undefined ||
+      state.accidental === undefined) {
+      return
+    }
     props.onChange(`${state.noteName}${state.accidental}`)
   }
 
   const [state, setState] = useState<State>({
-    noteName: extractNoteName(props.defaultValue),
-    accidental: extractAccidental(props.defaultValue)
+    noteName: extractNoteName(props.value),
+    accidental: extractAccidental(props.value)
   })
 
-  if (props.includeDoubleAccidentals) {
+  if (props.includeDoubleAccidentals ?? false) {
     accidentals.unshift({ value: 'x', label: 'double sharp' })
     accidentals.push({ value: 'bb', label: 'double flat' })
   }
@@ -57,16 +63,16 @@ const NoteSelector = (props: Props) => {
           <RadioButtons
             values={'ABCDEFG'.split('').map(it => ({ value: it }))}
             name='note'
-            defaultValue={state.noteName}
-            onChange={note => onFormChange({ ...state, noteName: note })}
+            value={state.noteName}
+            onChange={note => { onFormChange({ ...state, noteName: note }) }}
           />
         </Col>
         <Col>
           <RadioButtons
             values={accidentals}
             name='accidental'
-            defaultValue={state.accidental}
-            onChange={accidental => onFormChange({ ...state, accidental })}
+            value={state.accidental}
+            onChange={accidental => { onFormChange({ ...state, accidental }) }}
           />
         </Col>
       </Row>

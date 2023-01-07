@@ -1,24 +1,21 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-interface Props { }
 interface State {
   information: {
     version: string
   }
 }
 
-const NavBar = () => {
+const NavBar = (): JSX.Element => {
   const [state, setState] = useState<State | undefined>()
 
   useEffect(() => {
     (async () => {
       const newInformationResponse = await axios.get('/api/info')
       const newInformation = newInformationResponse.data
-      // TODO: This gets called twice. Why?
-      console.log('Component did mount in NavBar')
       setState({
         ...state,
         information: newInformation
@@ -72,10 +69,6 @@ const NavBar = () => {
       </Container>
     </Navbar>
   )
-}
-
-class NavBarOld extends React.Component<Props, State> {
-
 }
 
 export default NavBar

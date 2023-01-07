@@ -9,7 +9,7 @@ jest.mock('../../util/RadioButtons', () => (props: RadioButtonProps) => (
 describe('NoteSelector snapshot', () => {
   it('matches snapshot', () => {
     const actual = renderer.create(
-      <NoteSelector defaultValue='C' includeDoubleAccidentals onChange={() => { }} />
+      <NoteSelector value='C' includeDoubleAccidentals onChange={() => { }} />
     )
 
     expect(actual).toMatchSnapshot()
@@ -17,7 +17,7 @@ describe('NoteSelector snapshot', () => {
 
   it('matches snapshot with no includeDoubleAccidentals', () => {
     const actual = renderer.create(
-      <NoteSelector defaultValue='D' onChange={() => { }} />
+      <NoteSelector value='D' onChange={() => { }} />
     )
 
     expect(actual).toMatchSnapshot()

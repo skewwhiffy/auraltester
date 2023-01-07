@@ -1,5 +1,5 @@
 import { Col, Container, Row } from 'react-bootstrap'
-import RadioButtons, { RadioButtonDefinition } from "../../util/RadioButtons"
+import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 
 type OnChangeHandler = (note: string) => void
 
@@ -8,7 +8,7 @@ interface Props {
   onChange: OnChangeHandler
 }
 
-const keySignatureValues: Array<RadioButtonDefinition> = [
+const keySignatureValues: RadioButtonDefinition[] = [
   { value: 'C#', label: 'C# / A# minor' },
   { value: 'F#', label: 'F# / D# minor' },
   { value: 'B', label: 'B / G# minor' },
@@ -23,14 +23,11 @@ const keySignatureValues: Array<RadioButtonDefinition> = [
   { value: 'Ab', label: 'Ab / F minor' },
   { value: 'Db', label: 'Db / Bb minor' },
   { value: 'Gb', label: 'Gb / Eb minor' },
-  { value: 'Cb', label: 'Cb / Ab minor' },
+  { value: 'Cb', label: 'Cb / Ab minor' }
 ]
 
-const KeySignatureSelector = (props: Props) => {
-  const currentKeySignature = props.defaultValue || 'C'
-  if (!props.defaultValue) {
-    props.onChange(currentKeySignature)
-  }
+const KeySignatureSelector = (props: Props): JSX.Element => {
+  const currentKeySignature = props.defaultValue
   return (
     <Container>
       <Row><Col>Key signature</Col></Row>
@@ -39,8 +36,8 @@ const KeySignatureSelector = (props: Props) => {
           <RadioButtons
             values={keySignatureValues}
             name='keySignature'
-            defaultValue={currentKeySignature}
-            onChange={keySignature => props.onChange(keySignature)}
+            value={currentKeySignature}
+            onChange={keySignature => { props.onChange(keySignature) }}
           />
         </Col>
       </Row>

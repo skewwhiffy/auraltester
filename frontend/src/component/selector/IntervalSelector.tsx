@@ -18,34 +18,37 @@ export interface Props {
 }
 
 interface State {
-  clef: string,
-  bottomNote: string,
-  intervalQuality: string,
-  intervalSize: string,
-  keySignature: string
+  clef?: string
+  bottomNote?: string
+  intervalQuality?: string
+  intervalSize?: string
+  keySignature?: string
 }
 
-const IntervalSelector = (props: Props) => {
-  const [state, setState] = useState<State>({
-    clef: 'treble',
-    bottomNote: 'C',
-    intervalQuality: '',
-    intervalSize: '',
-    keySignature: 'C'
-  })
+const IntervalSelector = (props: Props): JSX.Element => {
+  const [state, setState] = useState<State>({})
 
-  const onFormChange = (newState: State) => {
+  const onFormChange = (newState: State): void => {
     setState(newState)
     onStateChange(newState)
   }
 
-  const onStateChange = (state: State) => props.onChange(
-    state.clef,
-    state.bottomNote,
-    state.intervalQuality,
-    state.intervalSize,
-    state.keySignature
-  )
+  const onStateChange = (state: State): void => {
+    if (state.clef === undefined ||
+      state.bottomNote === undefined ||
+      state.intervalQuality === undefined ||
+      state.intervalSize === undefined ||
+      state.keySignature === undefined) {
+      return
+    }
+    props.onChange(
+      state.clef,
+      state.bottomNote,
+      state.intervalQuality,
+      state.intervalSize,
+      state.keySignature
+    )
+  }
 
   return (
     <Container>
@@ -53,15 +56,15 @@ const IntervalSelector = (props: Props) => {
         <Row>
           <Col>
             <ClefSelector
-              defaultValue={state.clef}
-              onChange={clef => onFormChange({ ...state, clef })}
+              value={state.clef}
+              onChange={clef => { onFormChange({ ...state, clef }) }}
             />
           </Col>
           <Col>
             <NoteSelector
-              defaultValue={state.bottomNote}
+              value={state.bottomNote}
               includeDoubleAccidentals={true}
-              onChange={bottomNote => onFormChange({ ...state, bottomNote })}
+              onChange={bottomNote => { onFormChange({ ...state, bottomNote }) }}
             />
           </Col>
           <Col>
@@ -72,16 +75,16 @@ const IntervalSelector = (props: Props) => {
                   <RadioButtons
                     values={['diminished', 'minor', 'major', 'perfect', 'augmented'].map(value => ({ value }))}
                     name='intervalQuality'
-                    defaultValue={state.intervalQuality}
-                    onChange={intervalQuality => onFormChange({ ...state, intervalQuality })}
+                    value={state.intervalQuality}
+                    onChange={intervalQuality => { onFormChange({ ...state, intervalQuality }) }}
                   />
                 </Col>
                 <Col>
                   <RadioButtons
                     values={Array.from(Array(8).keys()).map(it => it + 1).map(it => ({ value: `${it}` }))}
                     name='intervalSize'
-                    defaultValue={state.intervalQuality}
-                    onChange={intervalSize => onFormChange({ ...state, intervalSize })}
+                    value={state.intervalQuality}
+                    onChange={intervalSize => { onFormChange({ ...state, intervalSize }) }}
                   />
                 </Col>
               </Row>
@@ -90,7 +93,7 @@ const IntervalSelector = (props: Props) => {
           <Col>
             <KeySignatureSelector
               defaultValue={state.keySignature}
-              onChange={keySignature => onFormChange({ ...state, keySignature })}
+              onChange={keySignature => { onFormChange({ ...state, keySignature }) }}
             />
           </Col>
         </Row>

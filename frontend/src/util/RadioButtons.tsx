@@ -1,41 +1,33 @@
-import React from 'react'
-import { Form } from "react-bootstrap";
+import { Form } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void
 
 export interface RadioButtonDefinition {
-  key?: string,
-  value: string,
+  key?: string
+  value: string
   label?: string
 }
 
 export interface Props {
-  values: Array<RadioButtonDefinition>,
-  name: string,
-  defaultValue?: string,
+  values: RadioButtonDefinition[]
+  name: string
+  value?: string
   onChange: OnChangeHandler
 }
 
-interface State {
-  value: string
-}
-
-const RadioButtons = (props: Props) => {
+const RadioButtons = (props: Props): JSX.Element => {
   if (props.values.length === 0) {
     throw Error('Need at least one radio button')
   }
 
-  const onChange = (ev: any) => {
-    (props.onChange || (_ => { }))(ev.target.value)
+  const onChange = (ev: any): void => {
+    (props.onChange ?? (_ => { }))(ev.target.value)
   }
 
-  const renderRadioButton = (radioButton: RadioButtonDefinition) => {
+  const renderRadioButton = (radioButton: RadioButtonDefinition): JSX.Element => {
     const value = radioButton.value
-    const key = radioButton.key || value
-    const label = radioButton.label || value
-    const defaultValue = props.defaultValue === undefined
-      ? props.values[0].value
-      : props.defaultValue
+    const key = radioButton.key ?? value
+    const label = radioButton.label ?? value
     return (
       <Form.Check
         id={`${props.name}-${key}`}
@@ -44,7 +36,7 @@ const RadioButtons = (props: Props) => {
         value={value}
         label={label}
         type='radio'
-        defaultChecked={value === defaultValue}
+        defaultChecked={value === props.value}
       />
     )
   }

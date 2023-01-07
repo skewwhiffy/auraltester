@@ -5,45 +5,40 @@ import { Container, Row } from 'react-bootstrap'
 import ScaleSelector from './selector/ScaleSelector'
 
 interface State {
-  withKeySignature: string,
+  withKeySignature: string
   withoutKeySignature: string
 }
 
-const Scale = () => {
+const Scale = (): JSX.Element => {
   const [state, setState] = useState<State>({
     withKeySignature: '',
     withoutKeySignature: ''
   })
-  const scaleSelected = async (
+
+  const scaleSelected = (
     clef: string,
     note: string,
     type: string,
     direction: string
-  ) => {
-    if ([clef, note, type, direction].includes('')) {
+  ): void => {
+    (async () => {
+      const response = await axios.get('api/scale', {
+        params: {
+          clef,
+          note,
+          scaleType: type,
+          direction
+        }
+      })
+      const json = response.data
       setState({
         ...state,
-        withKeySignature: '',
-        withoutKeySignature: ''
+        withKeySignature: json.withKeySignature,
+        withoutKeySignature: json.withoutKeySignature
       })
-      return
-    }
-
-    const response = await axios.get('api/scale', {
-      params: {
-        clef,
-        note,
-        scaleType: type,
-        direction
-      }
-    })
-    const json = response.data
-    setState({
-      ...state,
-      withKeySignature: json.withKeySignature,
-      withoutKeySignature: json.withoutKeySignature
-    })
+    })()
   }
+
   return (
     <Container>
       <Row>

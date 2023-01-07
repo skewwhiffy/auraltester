@@ -14,14 +14,14 @@ exports[`IntervalSelector snapshot matches snapshot 1`] = `
         className="col"
       >
         <div>
-          {"defaultValue":"treble"}
+          {}
         </div>
       </div>
       <div
         className="col"
       >
         <div>
-          {"defaultValue":"C","includeDoubleAccidentals":true}
+          {"includeDoubleAccidentals":true}
         </div>
       </div>
       <div
@@ -46,14 +46,14 @@ exports[`IntervalSelector snapshot matches snapshot 1`] = `
               className="col"
             >
               <div>
-                {"values":[{"value":"diminished"},{"value":"minor"},{"value":"major"},{"value":"perfect"},{"value":"augmented"}],"name":"intervalQuality","defaultValue":""}
+                {"values":[{"value":"diminished"},{"value":"minor"},{"value":"major"},{"value":"perfect"},{"value":"augmented"}],"name":"intervalQuality"}
               </div>
             </div>
             <div
               className="col"
             >
               <div>
-                {"values":[{"value":"1"},{"value":"2"},{"value":"3"},{"value":"4"},{"value":"5"},{"value":"6"},{"value":"7"},{"value":"8"}],"name":"intervalSize","defaultValue":""}
+                {"values":[{"value":"1"},{"value":"2"},{"value":"3"},{"value":"4"},{"value":"5"},{"value":"6"},{"value":"7"},{"value":"8"}],"name":"intervalSize"}
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ exports[`IntervalSelector snapshot matches snapshot 1`] = `
               className="col"
             >
               <div>
-                {"values":[{"value":"C#","label":"C# / A# minor"},{"value":"F#","label":"F# / D# minor"},{"value":"B","label":"B / G# minor"},{"value":"E","label":"E / C# minor"},{"value":"A","label":"A / F# minor"},{"value":"D","label":"D / B minor"},{"value":"G","label":"G / E minor"},{"value":"C","label":"None / C / A minor"},{"value":"F","label":"F / D minor"},{"value":"Bb","label":"Bb / G minor"},{"value":"Eb","label":"Eb / C minor"},{"value":"Ab","label":"Ab / F minor"},{"value":"Db","label":"Db / Bb minor"},{"value":"Gb","label":"Gb / Eb minor"},{"value":"Cb","label":"Cb / Ab minor"}],"name":"keySignature","defaultValue":"C"}
+                {"values":[{"value":"C#","label":"C# / A# minor"},{"value":"F#","label":"F# / D# minor"},{"value":"B","label":"B / G# minor"},{"value":"E","label":"E / C# minor"},{"value":"A","label":"A / F# minor"},{"value":"D","label":"D / B minor"},{"value":"G","label":"G / E minor"},{"value":"C","label":"None / C / A minor"},{"value":"F","label":"F / D minor"},{"value":"Bb","label":"Bb / G minor"},{"value":"Eb","label":"Eb / C minor"},{"value":"Ab","label":"Ab / F minor"},{"value":"Db","label":"Db / Bb minor"},{"value":"Gb","label":"Gb / Eb minor"},{"value":"Cb","label":"Cb / Ab minor"}],"name":"keySignature"}
               </div>
             </div>
           </div>
