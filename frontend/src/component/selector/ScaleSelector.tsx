@@ -13,22 +13,26 @@ type OnChangeHandler = (
 ) => void
 
 interface Props {
+  clef?: string
+  note?: string
+  type?: string
+  direction?: string
   onChange: OnChangeHandler
 }
 
 interface State {
-  clef: string,
-  note: string,
-  type: string,
-  direction: string
+  clef?: string,
+  note?: string,
+  type?: string,
+  direction?: string
 }
 
 const ScaleSelector = (props: Props) => {
   const [state, setState] = useState<State>({
-    clef: 'treble',
-    note: 'C',
-    type: 'major',
-    direction: 'ascending'
+    clef: props.clef,
+    note: props.note,
+    type: props.type,
+    direction: props.direction
   })
 
   const onFormChange = (newState: State) => {
@@ -38,10 +42,10 @@ const ScaleSelector = (props: Props) => {
 
   const onStateChange = (state: State) =>
     props.onChange(
-      state.clef,
-      state.note,
-      state.type,
-      state.direction
+      state.clef ?? '',
+      state.note ?? '',
+      state.type ?? '',
+      state.direction ?? ''
     )
 
   return (
@@ -50,7 +54,7 @@ const ScaleSelector = (props: Props) => {
         <Row>
           <Col>
             <NoteSelector
-              defaultValue={state.note}
+              value={state.note}
               onChange={note => onFormChange({ ...state, note })}
             />
           </Col>

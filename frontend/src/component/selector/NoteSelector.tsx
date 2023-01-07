@@ -5,7 +5,7 @@ import RadioButtons  from "../../util/RadioButtons"
 type OnChangeHandler = (note: string) => void
 
 export interface Props {
-  defaultValue: string,
+  value?: string,
   includeDoubleAccidentals?: boolean,
   onChange: OnChangeHandler
 }
@@ -40,8 +40,8 @@ const NoteSelector = (props: Props) => {
   }
 
   const [state, setState] = useState<State>({
-    noteName: extractNoteName(props.defaultValue),
-    accidental: extractAccidental(props.defaultValue)
+    noteName: props.value === undefined ? '' : extractNoteName(props.value),
+    accidental: props.value == undefined ? '' : extractAccidental(props.value)
   })
 
   if (props.includeDoubleAccidentals) {

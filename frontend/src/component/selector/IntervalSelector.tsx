@@ -59,7 +59,7 @@ const IntervalSelector = (props: Props) => {
           </Col>
           <Col>
             <NoteSelector
-              defaultValue={state.bottomNote}
+              value={state.bottomNote}
               includeDoubleAccidentals={true}
               onChange={bottomNote => onFormChange({ ...state, bottomNote })}
             />

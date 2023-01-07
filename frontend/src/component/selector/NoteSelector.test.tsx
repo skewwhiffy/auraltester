@@ -11,7 +11,7 @@ describe('NoteSelector', () => {
   })
   
   it('triggers accidentals', () => {
-    render(<NoteSelector defaultValue='C' onChange={onChange} includeDoubleAccidentals />)
+    render(<NoteSelector value='C' onChange={onChange} includeDoubleAccidentals />)
     
     act(() => screen.getByLabelText('double sharp').click())
     
@@ -21,7 +21,7 @@ describe('NoteSelector', () => {
   
   it('triggers note names', () => {
     const noteName = 'E'
-    render(<NoteSelector defaultValue='D' onChange={onChange} />)
+    render(<NoteSelector value='D' onChange={onChange} />)
     
     act(() => screen.getByLabelText(noteName).click())
     

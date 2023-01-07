@@ -26,7 +26,6 @@ const Clef = () => {
   }, [])
 
   const clefSelected = async (clef: string) => {
-    console.log('CLEF selected')
     const response = await axios.get('api/clef', {
       params: {
         clef
