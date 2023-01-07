@@ -9,7 +9,7 @@ exports[`RadioButtons snapshot should match snapshot 1`] = `
   >
     <input
       className="form-check-input"
-      defaultChecked={true}
+      defaultChecked={false}
       disabled={false}
       id="radioButtonsTest-0-key"
       name="radioButtonsTest"

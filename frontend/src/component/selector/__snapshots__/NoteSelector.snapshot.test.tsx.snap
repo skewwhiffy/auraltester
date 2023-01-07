@@ -20,14 +20,14 @@ exports[`NoteSelector snapshot matches snapshot 1`] = `
       className="col"
     >
       <div>
-        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","defaultValue":"C"}
+        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","value":"C"}
       </div>
     </div>
     <div
       className="col"
     >
       <div>
-        {"values":[{"value":"x","label":"double sharp"},{"value":"#"},{"value":"","label":"natural"},{"value":"b"},{"value":"bb","label":"double flat"}],"name":"accidental","defaultValue":""}
+        {"values":[{"value":"x","label":"double sharp"},{"value":"#"},{"value":"","label":"natural"},{"value":"b"},{"value":"bb","label":"double flat"}],"name":"accidental","value":""}
       </div>
     </div>
   </div>
@@ -54,14 +54,14 @@ exports[`NoteSelector snapshot matches snapshot with no includeDoubleAccidentals
       className="col"
     >
       <div>
-        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","defaultValue":"D"}
+        {"values":[{"value":"A"},{"value":"B"},{"value":"C"},{"value":"D"},{"value":"E"},{"value":"F"},{"value":"G"}],"name":"note","value":"D"}
       </div>
     </div>
     <div
       className="col"
     >
       <div>
-        {"values":[{"value":"#"},{"value":"","label":"natural"},{"value":"b"}],"name":"accidental","defaultValue":""}
+        {"values":[{"value":"#"},{"value":"","label":"natural"},{"value":"b"}],"name":"accidental","value":""}
       </div>
     </div>
   </div>

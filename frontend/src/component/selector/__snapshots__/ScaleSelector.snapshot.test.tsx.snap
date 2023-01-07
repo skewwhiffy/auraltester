@@ -15,7 +15,7 @@ exports[`ScaleSelector snapshot matches snapshot 1`] = `
       >
         <div>
           NOTE SELECTOR 
-          {"defaultValue":"C"}
+          {}
         </div>
       </div>
       <div
@@ -26,7 +26,7 @@ exports[`ScaleSelector snapshot matches snapshot 1`] = `
       >
         <div>
           RADIO BUTTONS 
-          {"values":[{"value":"major","label":"Major"},{"value":"minor-harmonic","label":"Minor Harmonic"},{"value":"minor-melodic","label":"Minor Melodic"}],"name":"type","defaultValue":"major"}
+          {"values":[{"value":"major","label":"Major"},{"value":"minor-harmonic","label":"Minor Harmonic"},{"value":"minor-melodic","label":"Minor Melodic"}],"name":"type"}
         </div>
       </div>
       <div
@@ -34,7 +34,7 @@ exports[`ScaleSelector snapshot matches snapshot 1`] = `
       >
         <div>
           RADIO BUTTONS 
-          {"values":[{"value":"ascending","label":"Ascending"},{"value":"descending","label":"Descending"}],"name":"direction","defaultValue":"ascending"}
+          {"values":[{"value":"ascending","label":"Ascending"},{"value":"descending","label":"Descending"}],"name":"direction"}
         </div>
       </div>
     </div>
