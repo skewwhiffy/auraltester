@@ -42,7 +42,6 @@ const Clef = (): JSX.Element => {
       </Row>
       <Row>
         <ClefSelector value={state.clef} onChange={clefSelected} />
-        <ClefSelector value={state.clef} onChange={clefSelected} />
       </Row>
     </Container>
   )

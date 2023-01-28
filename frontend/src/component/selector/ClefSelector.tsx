@@ -1,4 +1,5 @@
 import { capitalizeFirstCharacter } from '../../util'
+import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 import { Col, Container, Row } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void
@@ -21,8 +22,7 @@ const ClefSelector = (props: Props): JSX.Element => {
         <RadioButtons
           values={values}
           name='clef'
-          defaultValue={props.value ?? values[0].value}
-          value={props.value}
+          value={props.value ?? values[0].value}
           onChange={props.onChange}
         />
       </Col></Row>
