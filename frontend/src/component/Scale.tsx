@@ -1,19 +1,36 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
 import ScaleSelector from './selector/ScaleSelector'
 
 interface State {
+  clef: string
+  note: string
+  type: string
+  direction: string
   withKeySignature: string
   withoutKeySignature: string
 }
 
 const Scale = (): JSX.Element => {
+  let initialized = false
   const [state, setState] = useState<State>({
+    clef: 'treble',
+    note: 'C',
+    type: 'major',
+    direction: 'ascending',
     withKeySignature: '',
     withoutKeySignature: ''
   })
+
+  useEffect(() => {
+    if (initialized) {
+      return
+    }
+    initialized = true
+    scaleSelected(state.clef, state.note, state.type, state.direction)
+  }, [])
 
   const scaleSelected = (
     clef: string,
@@ -48,7 +65,13 @@ const Scale = (): JSX.Element => {
         <Notation notation={state.withKeySignature} />
       </Row>
       <Row>
-        <ScaleSelector onChange={scaleSelected} />
+        <ScaleSelector
+          clef={state.clef}
+          note={state.note}
+          type={state.type}
+          direction={state.direction}
+          onChange={scaleSelected}
+        />
       </Row>
     </Container>
   )

@@ -48,10 +48,10 @@ const ScaleSelector = (props: Props): JSX.Element => {
       return
     }
     props.onChange(
-      state.clef,
-      state.note,
-      state.type,
-      state.direction
+      state.clef ?? '',
+      state.note ?? '',
+      state.type ?? '',
+      state.direction ?? ''
     )
   }
 
@@ -62,13 +62,13 @@ const ScaleSelector = (props: Props): JSX.Element => {
           <Col>
             <NoteSelector
               value={state.note}
-              onChange={note => { onFormChange({ ...state, note }) }}
+              onChange={note => onFormChange({ ...state, note })}
             />
           </Col>
           <Col>
             <ClefSelector
               value={state.clef}
-              onChange={clef => { onFormChange({ ...state, clef }) }}
+              onChange={clef => onFormChange({ ...state, clef })}
             />
           </Col>
           <Col>

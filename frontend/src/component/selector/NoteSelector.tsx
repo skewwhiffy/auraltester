@@ -46,8 +46,8 @@ const NoteSelector = (props: Props): JSX.Element => {
   }
 
   const [state, setState] = useState<State>({
-    noteName: extractNoteName(props.value),
-    accidental: extractAccidental(props.value)
+    noteName: props.value === undefined ? '' : extractNoteName(props.value),
+    accidental: props.value == undefined ? '' : extractAccidental(props.value)
   })
 
   if (props.includeDoubleAccidentals ?? false) {

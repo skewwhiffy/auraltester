@@ -57,7 +57,7 @@ const IntervalSelector = (props: Props): JSX.Element => {
           <Col>
             <ClefSelector
               value={state.clef}
-              onChange={clef => { onFormChange({ ...state, clef }) }}
+              onChange={clef => onFormChange({ ...state, clef })}
             />
           </Col>
           <Col>
@@ -92,8 +92,8 @@ const IntervalSelector = (props: Props): JSX.Element => {
           </Col>
           <Col>
             <KeySignatureSelector
-              defaultValue={state.keySignature}
-              onChange={keySignature => { onFormChange({ ...state, keySignature }) }}
+              value={state.keySignature}
+              onChange={keySignature => onFormChange({ ...state, keySignature })}
             />
           </Col>
         </Row>

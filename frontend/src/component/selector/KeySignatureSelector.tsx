@@ -4,7 +4,7 @@ import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 type OnChangeHandler = (note: string) => void
 
 interface Props {
-  defaultValue?: string
+  value?: string
   onChange: OnChangeHandler
 }
 
@@ -27,7 +27,7 @@ const keySignatureValues: RadioButtonDefinition[] = [
 ]
 
 const KeySignatureSelector = (props: Props): JSX.Element => {
-  const currentKeySignature = props.defaultValue
+  const currentKeySignature = props.value
   return (
     <Container>
       <Row><Col>Key signature</Col></Row>

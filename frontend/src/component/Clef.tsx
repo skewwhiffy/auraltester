@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import ClefSelector from './selector/ClefSelector'
@@ -10,24 +10,29 @@ interface State {
 }
 
 const Clef = (): JSX.Element => {
+  let initialized = false
   const [state, setState] = useState<State>({
     clef: '',
-    abc: ''
+    abc: '',
   })
+  
+  useEffect(() => {
+    if (initialized) return
+    initialized = true
+    clefSelected(state.clef)
+  }, [])
 
-  const clefSelected = (clef: string): void => {
-    (async () => {
-      const response = await axios.get('api/clef', {
-        params: {
-          clef
-        }
-      })
-      const json = response.data
-      setState({
-        ...state,
-        abc: json.abc
-      })
-    })()
+  const clefSelected = async (clef: string) => {
+    const response = await axios.get('api/clef', {
+      params: {
+        clef
+      }
+    })
+    const json = response.data
+    setState({
+      ...state,
+      abc: json.abc
+    })
   }
 
   return (
