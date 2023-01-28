@@ -9,18 +9,16 @@ interface State {
   abc: string
 }
 
-let initialized = false
 
 const Clef = () => {
+  let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
-    abc: ''
+    abc: '',
   })
   
   useEffect(() => {
-    if (initialized) {
-      return
-    }
+    if (initialized) return
     initialized = true
     clefSelected(state.clef)
   }, [])
