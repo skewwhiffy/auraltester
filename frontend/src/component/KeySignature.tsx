@@ -11,15 +11,14 @@ interface State {
   abc: string
 }
 
-let initialized = false
-
 const KeySignature = () => {
+  let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
     keySignature: 'C',
     abc: ''
   })
-  
+
   useEffect(() => {
     if (initialized) {
       return
@@ -27,7 +26,7 @@ const KeySignature = () => {
     initialized = true
     stateChanged(state)
   }, [])
-  
+
   const stateChanged = async (newState: State) => {
     let abc = ''
     if (newState.clef && newState.keySignature) {

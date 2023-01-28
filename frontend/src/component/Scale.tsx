@@ -7,15 +7,15 @@ import ScaleSelector from './selector/ScaleSelector'
 interface State {
   clef: string
   note: string
-  type: string 
+  type: string
   direction: string
   withKeySignature: string
   withoutKeySignature: string
 }
 
-let initialized = false
-
 const Scale = () => {
+  let initialized = false
+
   const [state, setState] = useState<State>({
     clef: 'treble',
     note: 'C',
