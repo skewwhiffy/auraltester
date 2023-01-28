@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import ClefSelector from './selector/ClefSelector'
@@ -9,11 +9,10 @@ interface State {
   abc: string
 }
 
-
-const Clef = () => {
+const Clef = (): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State>({
-    clef: 'treble',
+    clef: '',
     abc: '',
   })
   
@@ -42,6 +41,7 @@ const Clef = () => {
         <Notation notation={state.abc} />
       </Row>
       <Row>
+        <ClefSelector value={state.clef} onChange={clefSelected} />
         <ClefSelector value={state.clef} onChange={clefSelected} />
       </Row>
     </Container>

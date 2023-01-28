@@ -6,12 +6,12 @@ import ClefSelector from './selector/ClefSelector'
 import KeySignatureSelector from './selector/KeySignatureSelector'
 
 interface State {
-  clef: string,
-  keySignature: string,
+  clef: string
+  keySignature: string
   abc: string
 }
 
-const KeySignature = () => {
+const KeySignature = (): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
@@ -27,26 +27,27 @@ const KeySignature = () => {
     stateChanged(state)
   }, [])
 
-  const stateChanged = async (newState: State) => {
-    let abc = ''
+  const stateChanged = (newState: State): void => {
     if (newState.clef && newState.keySignature) {
-      const response = await axios.get('api/keySignature', {
-        params: {
-          clef: newState.clef,
-          keySignature: newState.keySignature
-        }
-      })
-      const json = response.data
-      abc = json.abc
+      (async () => {
+        const response = await axios.get('api/keySignature', {
+          params: {
+            clef: newState.clef,
+            keySignature: newState.keySignature
+          }
+        })
+        setState({ ...newState, abc: response.data.abc })
+      })()
+      return
     }
-    setState({ ...newState, abc })
+    setState({ ...newState, abc: '' })
   }
 
-  const clefSelected = async (clef: string) => {
+  const clefSelected = (clef: string): void => {
     stateChanged({ ...state, clef })
   }
 
-  const keySignatureSelected = async (keySignature: string) => {
+  const keySignatureSelected = (keySignature: string): void => {
     stateChanged({ ...state, keySignature })
   }
 

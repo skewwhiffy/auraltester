@@ -1,16 +1,15 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-interface Props { }
 interface State {
   information: {
     version: string
   }
 }
 
-const NavBar = () => {
+const NavBar = (): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State | undefined>()
 
@@ -73,10 +72,6 @@ const NavBar = () => {
       </Container>
     </Navbar>
   )
-}
-
-class NavBarOld extends React.Component<Props, State> {
-
 }
 
 export default NavBar

@@ -7,19 +7,22 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Clef from './component/Clef'
 import { FunctionComponent } from 'react'
 
-const App: FunctionComponent = () => (
-  <div className="App">
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route index element={<p>Hello</p>} />
-        <Route path="clefs" element={<Clef />} />
-        <Route path="key-signatures" element={<KeySignature />} />
-        <Route path="scales" element={<Scale />} />
-        <Route path="intervals" element={<Interval />} />
-      </Routes>
-    </BrowserRouter>
-  </div>
-)
+// TODO: App gets rendered twice. Why?
+const App: FunctionComponent = () => {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route index element={<p>Hello</p>} />
+          <Route path="clefs" element={<Clef />} />
+          <Route path="key-signatures" element={<KeySignature />} />
+          <Route path="scales" element={<Scale />} />
+          <Route path="intervals" element={<Interval />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  )
+}
 
 export default App
