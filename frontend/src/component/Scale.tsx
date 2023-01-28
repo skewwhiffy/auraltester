@@ -14,7 +14,6 @@ interface State {
 }
 
 const Scale = (): JSX.Element => {
-  let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
     note: 'C',
@@ -23,6 +22,7 @@ const Scale = (): JSX.Element => {
     withKeySignature: '',
     withoutKeySignature: ''
   })
+  let initialized = false
 
   useEffect(() => {
     if (initialized) {

@@ -1,5 +1,6 @@
 package com.skewwhiffy.notation.factory
 
+import com.skewwhiffy.exception.UnrecognizedClefException
 import com.skewwhiffy.notation.model.note.AbsoluteNote
 import com.skewwhiffy.notation.model.clef.Clef
 import com.skewwhiffy.notation.model.interval.DirectedInterval
@@ -20,7 +21,7 @@ class InternalNotationFactory(
       "alto" -> clefFactory.alto
       "tenor" -> clefFactory.tenor
       "bass" -> clefFactory.bass
-      else -> throw IllegalArgumentException("Unrecognized clef type: '$clefRaw'")
+      else -> throw UnrecognizedClefException(clefRaw)
     }
   }
 
