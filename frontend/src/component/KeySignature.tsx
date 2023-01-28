@@ -58,7 +58,7 @@ const KeySignature = (): JSX.Element => {
       </Row>
       <Row>
         <Col>
-          <ClefSelector onChange={clefSelected} />
+          <ClefSelector value={state.clef} onChange={clefSelected} />
         </Col>
         <Col>
           <KeySignatureSelector value={state.keySignature} onChange={keySignatureSelected} />

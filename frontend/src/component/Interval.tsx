@@ -18,6 +18,8 @@ const Interval = (): JSX.Element => {
     intervalSize: string,
     keySignature: string
   ): void => {
+    console.log('HELLO')
+    console.log(clef, bottomNote, intervalQuality, intervalSize, keySignature)
     if ([clef, bottomNote, intervalQuality, intervalSize, keySignature].includes('')) {
       setState({
         ...state,
