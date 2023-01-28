@@ -23,6 +23,7 @@ const Clef = (): JSX.Element => {
   }, [])
 
   const clefSelected = async (clef: string) => {
+    if (!clef) return
     const response = await axios.get('api/clef', {
       params: {
         clef

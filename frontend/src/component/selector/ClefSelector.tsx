@@ -22,7 +22,7 @@ const ClefSelector = (props: Props): JSX.Element => {
         <RadioButtons
           values={values}
           name='clef'
-          value={props.value ?? values[0].value}
+          value={props.value}
           onChange={props.onChange}
         />
       </Col></Row>

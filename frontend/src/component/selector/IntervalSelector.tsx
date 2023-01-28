@@ -28,12 +28,8 @@ interface State {
 const IntervalSelector = (props: Props): JSX.Element => {
   const [state, setState] = useState<State>({})
 
-  const onFormChange = (newState: State): void => {
-    setState(newState)
-    onStateChange(newState)
-  }
-
   const onStateChange = (state: State): void => {
+    console.log(state)
     if (state.clef === undefined ||
       state.bottomNote === undefined ||
       state.intervalQuality === undefined ||
@@ -48,6 +44,11 @@ const IntervalSelector = (props: Props): JSX.Element => {
       state.intervalSize,
       state.keySignature
     )
+  }
+
+  const onFormChange = (newState: State): void => {
+    setState(newState)
+    onStateChange(newState)
   }
 
   return (
