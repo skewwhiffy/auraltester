@@ -1,17 +1,33 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Navbar, Container, Nav } from 'react-bootstrap'
+import { Navbar, NavDropdown, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 interface State {
-  information: {
+  information?: {
     version: string
   }
+  section: string
 }
 
-const NavBar = (): JSX.Element => {
+interface Props {
+  section?: string
+}
+
+const NavBar = (props: Props): JSX.Element => {
   let initialized = false
-  const [state, setState] = useState<State | undefined>()
+  const [state, setState] = useState<State>({
+    section: props.section ?? 'home'
+  })
+
+  const getTitle = () => {
+    switch (state.section) {
+      case 'home':
+        return 'Home'
+      default:
+        return 'POO'
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -25,6 +41,9 @@ const NavBar = (): JSX.Element => {
       })
     })()
   }, [])
+  const sectionSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event)
+  }
 
   return (
     <Navbar bg="light" expand="lg">
@@ -39,19 +58,23 @@ const NavBar = (): JSX.Element => {
             >The Aural Tester
             </Nav.Link>
           </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link
+          <NavDropdown onSelect={sectionSelected} title={getTitle()}>
+            <NavDropdown.Item
               as={Link}
               to="/clefs"
               eventKey="/clefs"
               title="Clefs"
-            >Clefs</Nav.Link>
-            <Nav.Link
+            >Clefs
+            </NavDropdown.Item>
+            <NavDropdown.Item
               as={Link}
               to="/key-signatures"
               eventKey="/key-signatures"
               title="Key Signature"
-            >Key Signatures</Nav.Link>
+            >Key Signatures
+            </NavDropdown.Item>
+          </NavDropdown>
+          <Nav className="me-auto">
             <Nav.Link
               as={Link}
               to="/scales"
