@@ -4,7 +4,7 @@ import Interval from './component/Interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Clef from './component/Clef'
+import Clef from './component/clef/Clef'
 import { FunctionComponent } from 'react'
 
 const App: FunctionComponent = () => {
