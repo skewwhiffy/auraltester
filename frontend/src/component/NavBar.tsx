@@ -14,6 +14,34 @@ interface Props {
   section?: string
 }
 
+interface Item {
+  displayName: string
+  url: string
+  eventKey: string
+}
+
+const items: Array<Item> = [{
+  displayName: 'Home',
+  url: '/home',
+  eventKey: 'home'
+}, {
+  displayName: 'Clefs',
+  url: '/clefs',
+  eventKey: 'clefs'
+}, {
+  displayName: 'Key Signatures',
+  url: '/key-signatures',
+  eventKey: 'key-signatures'
+}, {
+  displayName: 'Scales',
+  url: '/scales',
+  eventKey: 'scales'
+}, {
+  displayName: 'Intervals',
+  url: '/intervals',
+  eventKey: 'intervals'
+}]
+
 const NavBar = (props: Props): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State>({
@@ -21,12 +49,9 @@ const NavBar = (props: Props): JSX.Element => {
   })
 
   const getTitle = () => {
-    switch (state.section) {
-      case 'home':
-        return 'Home'
-      default:
-        return 'POO'
-    }
+    return items
+      .find(it => it.eventKey === state.section)
+      ?.displayName
   }
 
   useEffect(() => {
@@ -41,53 +66,35 @@ const NavBar = (props: Props): JSX.Element => {
       })
     })()
   }, [])
-  const sectionSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
+
+  const sectionSelected = (event: string | null) => {
+    if (!event) {
+      return
+    }
+    setState({
+      ...state,
+      section: event
+    })
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" onSelect={sectionSelected}>
       <Container>
         <Navbar.Collapse id="basic-navbar-nav">
           <Navbar.Brand>
             <Nav.Link
               as={Link}
               to="/"
-              eventKey="/home"
+              eventKey="home"
               title="Home"
             >The Aural Tester
             </Nav.Link>
           </Navbar.Brand>
-          <NavDropdown onSelect={sectionSelected} title={getTitle()}>
-            <NavDropdown.Item
-              as={Link}
-              to="/clefs"
-              eventKey="/clefs"
-              title="Clefs"
-            >Clefs
-            </NavDropdown.Item>
-            <NavDropdown.Item
-              as={Link}
-              to="/key-signatures"
-              eventKey="/key-signatures"
-              title="Key Signature"
-            >Key Signatures
-            </NavDropdown.Item>
+          <NavDropdown title={getTitle()}>
+            {items.map(it => (
+              <NavDropdown.Item key={it.eventKey} as={Link} to={it.url} eventKey={it.eventKey} title={it.displayName}>{it.displayName}</NavDropdown.Item>
+            ))}
           </NavDropdown>
-          <Nav className="me-auto">
-            <Nav.Link
-              as={Link}
-              to="/scales"
-              eventKey="/scales"
-              title="Scales"
-            >Scales</Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/intervals"
-              eventKey="/intervals"
-              title="Intervals"
-            >Intervals</Nav.Link>
-          </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
