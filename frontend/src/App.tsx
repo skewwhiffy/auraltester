@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Clef from './component/Clef'
 import { FunctionComponent } from 'react'
 
-// TODO: App gets rendered twice. Why?
 const App: FunctionComponent = () => {
   return (
     <div className="App">
@@ -15,10 +14,10 @@ const App: FunctionComponent = () => {
         <NavBar />
         <Routes>
           <Route index element={<p>Hello</p>} />
-          <Route path="clefs" element={<Clef />} />
-          <Route path="key-signatures" element={<KeySignature />} />
-          <Route path="scales" element={<Scale />} />
-          <Route path="intervals" element={<Interval />} />
+          <Route path="clefs/*" element={<Clef />} />
+          <Route path="key-signatures/*" element={<KeySignature />} />
+          <Route path="scales/*" element={<Scale />} />
+          <Route path="intervals/*" element={<Interval />} />
         </Routes>
       </BrowserRouter>
     </div>

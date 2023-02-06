@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
+import { Route, Routes } from 'react-router-dom'
 import ClefSelector from './selector/ClefSelector'
 import axios from 'axios'
 
@@ -15,7 +16,7 @@ const Clef = (): JSX.Element => {
     clef: '',
     abc: '',
   })
-  
+
   useEffect(() => {
     if (initialized) return
     initialized = true
@@ -37,14 +38,19 @@ const Clef = (): JSX.Element => {
   }
 
   return (
-    <Container>
-      <Row>
-        <Notation notation={state.abc} />
-      </Row>
-      <Row>
-        <ClefSelector value={state.clef} onChange={clefSelected} />
-      </Row>
-    </Container>
+    <Routes>
+      <Route index element={
+        <Container>
+          <Row>
+            <Notation notation={state.abc} />
+          </Row>
+          <Row>
+            <ClefSelector value={state.clef} onChange={clefSelected} />
+          </Row>
+        </Container>
+      } />
+      <Route path="ben/*" element={<p>POO BUM</p>} />
+    </Routes>
   )
 }
 
