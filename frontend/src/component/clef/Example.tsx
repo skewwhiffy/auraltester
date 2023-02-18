@@ -3,7 +3,6 @@ import { Notation } from 'react-abc'
 import ClefSelector from "../selector/ClefSelector"
 import { useEffect, useState } from "react"
 import { api } from "../../util"
-import axios from "axios"
 
 interface State {
   clef: string

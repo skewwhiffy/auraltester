@@ -13,10 +13,10 @@ const Clef = (): JSX.Element => {
     <Container>
       <Nav variant="tabs" defaultActiveKey="notes">
         <Nav.Item>
-          <Nav.Link href=".">Notes</Nav.Link>
+          <Nav.Link as={Link} to=".">Notes</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="example">Example</Nav.Link>
+          <Nav.Link as={Link} to="example">Example</Nav.Link>
         </Nav.Item>
       </Nav>
       <Routes>
