@@ -26,19 +26,19 @@ const items: Array<Item> = [{
   eventKey: 'home'
 }, {
   displayName: 'Clefs',
-  url: '/clefs',
+  url: '/clefs/',
   eventKey: 'clefs'
 }, {
   displayName: 'Key Signatures',
-  url: '/key-signatures',
+  url: '/key-signatures/',
   eventKey: 'key-signatures'
 }, {
   displayName: 'Scales',
-  url: '/scales',
+  url: '/scales/',
   eventKey: 'scales'
 }, {
   displayName: 'Intervals',
-  url: '/intervals',
+  url: '/intervals/',
   eventKey: 'intervals'
 }]
 

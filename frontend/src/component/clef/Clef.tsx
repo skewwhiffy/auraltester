@@ -9,12 +9,19 @@ interface State {
 }
 
 const Clef = (): JSX.Element => {
-
   return (
     <Container>
+      <Nav variant="tabs" defaultActiveKey="notes">
+        <Nav.Item>
+          <Nav.Link href=".">Notes</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link href="example">Example</Nav.Link>
+        </Nav.Item>
+      </Nav>
       <Routes>
         <Route index element={<p>NOTES</p>} />
-        <Route path="example" element={<Example/>} />
+        <Route path="example" element={<Example />} />
       </Routes>
     </Container>
   )
