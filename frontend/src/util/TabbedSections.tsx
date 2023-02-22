@@ -1,32 +1,41 @@
 import { Container, Nav } from "react-bootstrap"
 import { Route, Routes } from "react-router"
 import { Link } from "react-router-dom"
+import { capitalizeFirstCharacter } from "."
 import { Example, Notes, Quiz } from "../component/clef"
 
-export interface TabbedSection {
-  path?: string
-  text: string
+export type TabbedSection = {
   getElement: () => JSX.Element
-}
+} & ({ path: string } | { text: string })
 
 export interface Props {
   sections: TabbedSection[]
+}
+
+const getNavLink = (it: TabbedSection): JSX.Element => {
+  const to = "path" in it ? it.path : "."
+  const text = "text" in it ? it.text : capitalizeFirstCharacter(it.path)
+  return (
+    <Nav.Item key={to}>
+      <Nav.Link as={Link} to={to}>{text}</Nav.Link>
+    </Nav.Item>
+  )
+}
+
+const getRoute = (it: TabbedSection): JSX.Element => {
+  return "path" in it
+    ? <Route key={it.path} path={it.path} element={it.getElement()} />
+    : <Route key="." index element={it.getElement()} />
 }
 
 const TabbedSections = (props: Props): JSX.Element => {
   return (
     <Container>
       <Nav variant="tabs">
-        {props.sections.map(it => (
-          <Nav.Item>
-            <Nav.Link as={Link} to={it.path || "."}>{it.text}</Nav.Link>
-          </Nav.Item>
-        ))}
+        {props.sections.map(getNavLink)}
       </Nav>
       <Routes>
-        {props.sections.map(it => (
-          it.path ? <Route path={it.path} element={it.getElement()} /> : <Route index element={it.getElement()} />
-        ))}
+        {props.sections.map(getRoute)}
       </Routes>
     </Container >
   )
