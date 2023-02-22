@@ -1,12 +1,7 @@
-import { useState, useEffect } from 'react'
-import { Container, Nav, Navbar, Tab, Tabs } from 'react-bootstrap'
-import { Route, Router, Routes } from 'react-router'
+import { Container, Nav } from 'react-bootstrap'
+import { Route, Routes } from 'react-router'
 import { Link } from 'react-router-dom'
-import Example from './Example'
-
-interface State {
-  tab: string
-}
+import { Example, Notes, Quiz } from '.'
 
 const Clef = (): JSX.Element => {
   return (
@@ -18,10 +13,14 @@ const Clef = (): JSX.Element => {
         <Nav.Item>
           <Nav.Link as={Link} to="example">Example</Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={Link} to="quiz">Quiz</Nav.Link>
+        </Nav.Item>
       </Nav>
       <Routes>
-        <Route index element={<p>NOTES</p>} />
+        <Route index element={<Notes />} />
         <Route path="example" element={<Example />} />
+        <Route path="quiz" element={<Quiz />} />
       </Routes>
     </Container>
   )
