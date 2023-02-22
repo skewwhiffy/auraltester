@@ -1,7 +1,7 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
+import { api } from '../util'
 import ClefSelector from './selector/ClefSelector'
 import KeySignatureSelector from './selector/KeySignatureSelector'
 
@@ -27,17 +27,10 @@ const KeySignature = (): JSX.Element => {
     stateChanged(state)
   }, [])
 
-  const stateChanged = (newState: State): void => {
+  const stateChanged = async (newState: State): Promise<void> => {
     if (newState.clef && newState.keySignature) {
-      (async () => {
-        const response = await axios.get('api/keySignature', {
-          params: {
-            clef: newState.clef,
-            keySignature: newState.keySignature
-          }
-        })
-        setState({ ...newState, abc: response.data.abc })
-      })()
+      const response = await api.getKeySignature(newState)
+      setState({ ...newState, abc: response.abc })
       return
     }
     setState({ ...newState, abc: '' })
