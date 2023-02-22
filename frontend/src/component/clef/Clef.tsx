@@ -1,12 +1,22 @@
-import { Container, Nav } from "react-bootstrap"
-import { Route, Routes } from "react-router"
-import { Link } from "react-router-dom"
 import { Example, Notes, Quiz } from "."
-import TabbedSections from '../../util/TabbedSections'
+import TabbedSections, { TabbedSection } from '../../util/TabbedSections'
+
+const sections: TabbedSection[] = [{
+  text: "Notes",
+  getElement: Notes
+}, {
+  path: "example",
+  text: "Example",
+  getElement: Example
+}, {
+  path: "quiz",
+  text: "Quiz",
+  getElement: Quiz
+}]
 
 const Clef = (): JSX.Element => {
   return (
-    <TabbedSections />
+    <TabbedSections sections={sections} />
   )
 }
 

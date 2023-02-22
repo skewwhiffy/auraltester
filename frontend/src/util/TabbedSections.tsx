@@ -3,27 +3,32 @@ import { Route, Routes } from "react-router"
 import { Link } from "react-router-dom"
 import { Example, Notes, Quiz } from "../component/clef"
 
-const TabbedSections = (): JSX.Element => {
+export interface TabbedSection {
+  path?: string
+  text: string
+  getElement: () => JSX.Element
+}
+
+export interface Props {
+  sections: TabbedSection[]
+}
+
+const TabbedSections = (props: Props): JSX.Element => {
   return (
     <Container>
-      <Nav variant="tabs" defaultActiveKey="notes">
-        <Nav.Item>
-          <Nav.Link as={Link} to=".">Notes</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link as={Link} to="example">Example</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link as={Link} to="quiz">Quiz</Nav.Link>
-        </Nav.Item>
+      <Nav variant="tabs">
+        {props.sections.map(it => (
+          <Nav.Item>
+            <Nav.Link as={Link} to={it.path || "."}>{it.text}</Nav.Link>
+          </Nav.Item>
+        ))}
       </Nav>
       <Routes>
-        <Route index element={<Notes />} />
-        <Route path="example" element={<Example />} />
-        <Route path="quiz" element={<Quiz />} />
+        {props.sections.map(it => (
+          it.path ? <Route path={it.path} element={it.getElement()} /> : <Route index element={it.getElement()} />
+        ))}
       </Routes>
-    </Container>
-
+    </Container >
   )
 }
 
