@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
 import IntervalSelector from './selector/IntervalSelector'
-import axios from 'axios'
 import { api } from '../util'
 
 interface State {

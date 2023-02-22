@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
