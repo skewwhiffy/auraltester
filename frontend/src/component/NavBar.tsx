@@ -44,8 +44,14 @@ const items: Array<Item> = [{
 
 const NavBar = (props: Props): JSX.Element => {
   let initialized = false
+  const getSection = () => {
+    return items
+      .find(it => window.location.href.includes(it.url))
+      ?.eventKey || 'home'
+  }
+
   const [state, setState] = useState<State>({
-    section: props.section ?? 'home'
+    section: props.section ?? getSection()
   })
 
   const getTitle = () => {
