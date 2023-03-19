@@ -1,9 +1,9 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
-import ClefSelector from './selector/ClefSelector'
-import KeySignatureSelector from './selector/KeySignatureSelector'
+import { api } from '../../util'
+import ClefSelector from '../selector/ClefSelector'
+import KeySignatureSelector from '../selector/KeySignatureSelector'
 
 interface State {
   clef: string
@@ -11,7 +11,7 @@ interface State {
   abc: string
 }
 
-const KeySignature = (): JSX.Element => {
+const Example = (): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
@@ -27,17 +27,10 @@ const KeySignature = (): JSX.Element => {
     stateChanged(state)
   }, [])
 
-  const stateChanged = (newState: State): void => {
+  const stateChanged = async (newState: State): Promise<void> => {
     if (newState.clef && newState.keySignature) {
-      (async () => {
-        const response = await axios.get('api/keySignature', {
-          params: {
-            clef: newState.clef,
-            keySignature: newState.keySignature
-          }
-        })
-        setState({ ...newState, abc: response.data.abc })
-      })()
+      const response = await api.getKeySignature(newState)
+      setState({ ...newState, abc: response.abc })
       return
     }
     setState({ ...newState, abc: '' })
@@ -68,4 +61,4 @@ const KeySignature = (): JSX.Element => {
   )
 }
 
-export default KeySignature
+export default Example

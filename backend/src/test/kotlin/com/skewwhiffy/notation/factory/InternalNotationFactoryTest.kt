@@ -1,5 +1,6 @@
 package com.skewwhiffy.notation.factory
 
+import com.skewwhiffy.exception.UnrecognizedClefException
 import com.skewwhiffy.test.util.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.fail
@@ -45,7 +46,7 @@ class InternalNotationFactoryTest {
 
   @Test
   fun `throw when clef name invalid`() {
-    assertThrows<IllegalArgumentException> { internalNotationFactory.clef("not a clef name") }
+    assertThrows<UnrecognizedClefException> { internalNotationFactory.clef("not a clef name") }
   }
 
   @Test

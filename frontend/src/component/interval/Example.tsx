@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
-import IntervalSelector from './selector/IntervalSelector'
-import axios from 'axios'
+import IntervalSelector from '../selector/IntervalSelector'
+import { api } from '../../util'
 
 interface State {
   abc: string
@@ -18,8 +18,6 @@ const Interval = (): JSX.Element => {
     intervalSize: string,
     keySignature: string
   ): void => {
-    console.log('HELLO')
-    console.log(clef, bottomNote, intervalQuality, intervalSize, keySignature)
     if ([clef, bottomNote, intervalQuality, intervalSize, keySignature].includes('')) {
       setState({
         ...state,
@@ -29,19 +27,16 @@ const Interval = (): JSX.Element => {
     }
 
     (async () => {
-      const response = await axios.get('api/interval', {
-        params: {
-          clef,
-          bottomNote,
-          intervalQuality,
-          intervalSize,
-          keySignature
-        }
+      const response = await api.getInterval({
+        clef,
+        bottomNote,
+        intervalQuality,
+        intervalSize,
+        keySignature
       })
-      const json = response.data
       setState({
         ...state,
-        abc: json.abc
+        abc: response.abc
       })
     })()
   }

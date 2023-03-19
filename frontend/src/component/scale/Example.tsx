@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
-import ScaleSelector from './selector/ScaleSelector'
+import { api } from '../../util'
+import ScaleSelector from '../selector/ScaleSelector'
 
 interface State {
   clef: string
@@ -39,19 +39,16 @@ const Scale = (): JSX.Element => {
     direction: string
   ): void => {
     (async () => {
-      const response = await axios.get('api/scale', {
-        params: {
-          clef,
-          note,
-          scaleType: type,
-          direction
-        }
+      const response = await api.getScale({
+        clef,
+        note,
+        scaleType: type,
+        direction
       })
-      const json = response.data
       setState({
         ...state,
-        withKeySignature: json.withKeySignature,
-        withoutKeySignature: json.withoutKeySignature
+        withKeySignature: response.withKeySignature,
+        withoutKeySignature: response.withoutKeySignature
       })
     })()
   }

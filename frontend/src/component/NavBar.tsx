@@ -1,17 +1,64 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Navbar, Container, Nav } from 'react-bootstrap'
+import { Navbar, NavDropdown, Container, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 interface State {
-  information: {
+  information?: {
     version: string
   }
+  section: string
 }
 
-const NavBar = (): JSX.Element => {
+interface Props {
+  section?: string
+}
+
+interface Item {
+  displayName: string
+  url: string
+  eventKey: string
+}
+
+const items: Array<Item> = [{
+  displayName: 'Home',
+  url: '/home',
+  eventKey: 'home'
+}, {
+  displayName: 'Clefs',
+  url: '/clefs/',
+  eventKey: 'clefs'
+}, {
+  displayName: 'Key Signatures',
+  url: '/key-signatures/',
+  eventKey: 'key-signatures'
+}, {
+  displayName: 'Scales',
+  url: '/scales/',
+  eventKey: 'scales'
+}, {
+  displayName: 'Intervals',
+  url: '/intervals/',
+  eventKey: 'intervals'
+}]
+
+const NavBar = (props: Props): JSX.Element => {
   let initialized = false
-  const [state, setState] = useState<State | undefined>()
+  const getSection = () => {
+    return items
+      .find(it => window.location.href.includes(it.url))
+      ?.eventKey || 'home'
+  }
+
+  const [state, setState] = useState<State>({
+    section: props.section ?? getSection()
+  })
+
+  const getTitle = () => {
+    return items
+      .find(it => it.eventKey === state.section)
+      ?.displayName
+  }
 
   useEffect(() => {
     (async () => {
@@ -26,45 +73,34 @@ const NavBar = (): JSX.Element => {
     })()
   }, [])
 
+  const sectionSelected = (event: string | null) => {
+    if (!event) {
+      return
+    }
+    setState({
+      ...state,
+      section: event
+    })
+  }
+
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" onSelect={sectionSelected}>
       <Container>
         <Navbar.Collapse id="basic-navbar-nav">
           <Navbar.Brand>
             <Nav.Link
               as={Link}
               to="/"
-              eventKey="/home"
+              eventKey="home"
               title="Home"
             >The Aural Tester
             </Nav.Link>
           </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link
-              as={Link}
-              to="/clefs"
-              eventKey="/clefs"
-              title="Clefs"
-            >Clefs</Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/key-signatures"
-              eventKey="/key-signatures"
-              title="Key Signature"
-            >Key Signatures</Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/scales"
-              eventKey="/scales"
-              title="Scales"
-            >Scales</Nav.Link>
-            <Nav.Link
-              as={Link}
-              to="/intervals"
-              eventKey="/intervals"
-              title="Intervals"
-            >Intervals</Nav.Link>
-          </Nav>
+          <NavDropdown title={getTitle()}>
+            {items.map(it => (
+              <NavDropdown.Item key={it.eventKey} as={Link} to={it.url} eventKey={it.eventKey} title={it.displayName}>{it.displayName}</NavDropdown.Item>
+            ))}
+          </NavDropdown>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>

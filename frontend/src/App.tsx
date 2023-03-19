@@ -1,13 +1,12 @@
-import Scale from './component/Scale'
-import KeySignature from './component/KeySignature'
-import Interval from './component/Interval'
+import Scale from './component/scale'
+import Interval from './component/interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Clef from './component/Clef'
+import Clef from './component/clef'
 import { FunctionComponent } from 'react'
+import KeySignature from './component/keySignature'
 
-// TODO: App gets rendered twice. Why?
 const App: FunctionComponent = () => {
   return (
     <div className="App">
@@ -15,10 +14,10 @@ const App: FunctionComponent = () => {
         <NavBar />
         <Routes>
           <Route index element={<p>Hello</p>} />
-          <Route path="clefs" element={<Clef />} />
-          <Route path="key-signatures" element={<KeySignature />} />
-          <Route path="scales" element={<Scale />} />
-          <Route path="intervals" element={<Interval />} />
+          <Route path="clefs/*" element={<Clef />} />
+          <Route path="key-signatures/*" element={<KeySignature />} />
+          <Route path="scales/*" element={<Scale />} />
+          <Route path="intervals/*" element={<Interval />} />
         </Routes>
       </BrowserRouter>
     </div>
