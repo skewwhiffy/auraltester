@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
-import { api } from '../util'
-import ScaleSelector from './selector/ScaleSelector'
+import { api } from '../../util'
+import ScaleSelector from '../selector/ScaleSelector'
 
 interface State {
   clef: string

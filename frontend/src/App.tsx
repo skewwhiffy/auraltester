@@ -1,4 +1,4 @@
-import Scale from './component/Scale'
+import Scale from './component/scale'
 import Interval from './component/Interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
