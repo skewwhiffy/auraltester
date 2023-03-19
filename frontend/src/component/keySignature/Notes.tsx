@@ -1,7 +1,7 @@
 const Notes = (): JSX.Element => {
   return (
     <div>
-      <h1>Clefs</h1>
+      <h1>Key signatures</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo veniam culpa enim commodi aliquam qui fuga doloribus hic aliquid nam exercitationem, laboriosam expedita sapiente odit nemo nisi eligendi excepturi rem?
       </p>

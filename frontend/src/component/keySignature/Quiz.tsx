@@ -1,7 +1,7 @@
 const Quiz = (): JSX.Element => {
   return (
     <div>
-      <h1>Clef Quiz</h1>
+      <h1>Key Signature Quiz</h1>
     </div>
   )
 }

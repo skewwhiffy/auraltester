@@ -1,11 +1,11 @@
 import Scale from './component/Scale'
-import KeySignature from './component/KeySignature'
 import Interval from './component/Interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Clef from './component/clef/Clef'
+import Clef from './component/clef'
 import { FunctionComponent } from 'react'
+import KeySignature from './component/keySignature'
 
 const App: FunctionComponent = () => {
   return (

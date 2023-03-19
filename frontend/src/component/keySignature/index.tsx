@@ -1,5 +1,7 @@
-import { Example, Notes, Quiz } from "."
-import TabbedSections, { TabbedSection } from '../../util/TabbedSections'
+import Notes from "./Notes"
+import Example from "./Example"
+import Quiz from "./Quiz"
+import TabbedSections, { TabbedSection } from "../../util/TabbedSections"
 
 const sections: TabbedSection[] = [{
   text: "Notes",
@@ -10,14 +12,13 @@ const sections: TabbedSection[] = [{
   getElement: Example
 }, {
   path: "quiz",
-  text: "Quiz",
   getElement: Quiz
 }]
 
-const Clef = (): JSX.Element => {
+const KeySignature = (): JSX.Element => {
   return (
     <TabbedSections sections={sections} />
   )
 }
 
-export default Clef
+export default KeySignature

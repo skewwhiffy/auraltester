@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
-import { api } from '../util'
-import ClefSelector from './selector/ClefSelector'
-import KeySignatureSelector from './selector/KeySignatureSelector'
+import { api } from '../../util'
+import ClefSelector from '../selector/ClefSelector'
+import KeySignatureSelector from '../selector/KeySignatureSelector'
 
 interface State {
   clef: string
@@ -11,7 +11,7 @@ interface State {
   abc: string
 }
 
-const KeySignature = (): JSX.Element => {
+const Example = (): JSX.Element => {
   let initialized = false
   const [state, setState] = useState<State>({
     clef: 'treble',
@@ -61,4 +61,4 @@ const KeySignature = (): JSX.Element => {
   )
 }
 
-export default KeySignature
+export default Example
