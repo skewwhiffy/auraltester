@@ -1,5 +1,5 @@
 import Scale from './component/scale'
-import Interval from './component/Interval'
+import Interval from './component/interval'
 import NavBar from './component/NavBar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { Notation } from 'react-abc'
-import IntervalSelector from './selector/IntervalSelector'
-import { api } from '../util'
+import IntervalSelector from '../selector/IntervalSelector'
+import { api } from '../../util'
 
 interface State {
   abc: string
