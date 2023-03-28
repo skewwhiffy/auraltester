@@ -10,11 +10,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class AuraltesterApplication {
-	private static final Logger log = LoggerFactory.getLogger(AuraltesterApplication.class);
+public class AuralTesterApplication {
+	private static final Logger log = LoggerFactory.getLogger(AuralTesterApplication.class);
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuraltesterApplication.class);
+		SpringApplication.run(AuralTesterApplication.class);
 	}
 
 	@Bean
