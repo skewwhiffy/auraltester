@@ -19,7 +19,7 @@ public class AuraltesterApplication {
 		SpringApplication.run(AuraltesterApplication.class);
 	}
 
-	@Bean
+	//@Bean
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
 			repository.save(new Customer("Jack", "Bauer"));
