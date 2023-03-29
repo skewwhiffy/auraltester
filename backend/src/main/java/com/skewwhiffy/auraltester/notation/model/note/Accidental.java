@@ -1,29 +1,33 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import org.apache.logging.log4j.util.Strings;
+
 public record Accidental(int offset) {
+    public String getAbc() {
+        if (offset == 0) {
+            return "";
+        }
+        if (offset < 0) {
+            return Strings.repeat("_", -offset);
+        }
+        return Strings.repeat("^", offset);
+    }
+
     /*
-
-data class Accidental(private val offset: Int) {
-
-  val abc = when {
-    offset == 0 -> ""
-    offset < 0 -> "_".repeat(-offset)
-    else -> "^".repeat(offset)
-  }
-
   val displayString: String = when {
     offset < 0 -> "b".repeat(-offset)
     offset % 2 == 0 -> "x".repeat(offset / 2)
     else -> "x".repeat((offset - 1) / 2) + "#"
   }
+  */
 
-  val flat: Accidental
-    get() = Accidental(offset - 1)
+    public Accidental flatten() {
+        return new Accidental(offset - 1);
+    }
 
-  val sharp: Accidental
-    get() = Accidental(offset + 1)
-}
-     */
+    public Accidental sharpen() {
+        return new Accidental(offset + 1);
+    }
 
     public static Accidental getNatural() {
         return new Accidental(0);

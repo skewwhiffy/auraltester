@@ -9,10 +9,11 @@ public record NoteLength(Fraction length) {
     /*
   val dotted
     get() = NoteLength((Fraction(3, 2) * length))
-
-  val abc: String = length.topHeavyString
-}
      */
+
+    public String getAbc() {
+        return length.getTopHeavyString();
+    }
 
     public static NoteLength getBreve() {
         return new NoteLength(2);

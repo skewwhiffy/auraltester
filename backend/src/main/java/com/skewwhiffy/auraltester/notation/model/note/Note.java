@@ -1,21 +1,26 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import java.text.MessageFormat;
+
 public record Note(String noteName, Accidental accidental) {
     /*
   val displayString: String = "$noteName${accidental.displayString}"
 
   val sharp: Note get() = Note(noteName, accidental.sharp)
+  */
 
-  val flat: Note get() = Note(noteName, accidental.flat)
-
-  val upMajorSecond: Note
-    get() {
-      return when (noteName) {
-        in listOf("A", "C", "D", "F", "G") -> Note(nextNoteName, accidental)
-        else -> Note(nextNoteName, accidental.sharp)
-      }
+    public Note flatten() {
+        return new Note(noteName, accidental.flatten());
     }
 
+    public Note getUpMajorSecond() {
+        if ("ACDFG".contains(noteName)) {
+            return new Note(getNextNoteName(), accidental);
+        }
+        return new Note(getNextNoteName(), accidental.sharpen());
+    }
+
+    /*
   val downMajorSecond: Note
     get() {
       return when (noteName) {
@@ -32,7 +37,24 @@ public record Note(String noteName, Accidental accidental) {
       .indexOf(this.noteName)
       .compareTo(noteNames.indexOf(other.noteName))
   }
+  */
 
+    private String getNextNoteName() {
+        return switch (noteName) {
+            case "A" ->"B";
+            case "B" ->"C";
+            case "C" ->"D";
+            case "D" ->"E";
+            case "E" ->"F";
+            case "F" ->"G";
+            case "G" ->"A";
+            default -> throw new IllegalArgumentException(
+                    MessageFormat.format("Not a valid note name: '{0}'", noteName)
+            );
+        };
+    }
+
+    /*
   private val nextNoteName: String = when (noteName) {
     "A" -> "B"
     "B" -> "C"

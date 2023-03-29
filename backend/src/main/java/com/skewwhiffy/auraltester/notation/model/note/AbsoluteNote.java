@@ -1,18 +1,11 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
-/*
-import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
-import com.skewwhiffy.auraltester.notation.model.interval.Interval;
-import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
- */
 
 import java.util.Optional;
 
 public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
     /*
-data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? = null) {
-
   fun apply(interval: DirectedInterval): AbsoluteNote {
     return when (interval.direction) {
       IntervalDirection.UP -> this + interval.interval
@@ -68,11 +61,17 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String? =
       }
     }
   }
+  */
 
-  fun abc(key: Key): String = key.abc(this)
+    public String getAbc(Key key) {
+        return key.getAbc(this);
+    }
 
-  val wordAbc: String = (lyric ?: "").ifEmpty { "*" }
+    public String getWordAbc() {
+        return lyric.orElse("*");
+    }
 
+    /*
   private val sharp: AbsoluteNote get() = AbsoluteNote(note.sharp, octave)
 
   private val flat: AbsoluteNote get() = AbsoluteNote(note.flat, octave)

@@ -21,8 +21,6 @@ public class AuralTesterApplication {
 	public CommandLineRunner demo(InfoRepository repository) {
 		return (args) -> {
 			repository.save(new Info("0.0.1-java"));
-			log.info("Customers found with findAll():");
-			log.info("-------------------------------");
 			repository.findAll().forEach(it -> log.info(it.toString()));
 		};
 	}

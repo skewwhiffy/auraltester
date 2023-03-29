@@ -1,67 +1,118 @@
 package com.skewwhiffy.auraltester.notation.model.key;
 
-public class Key {
+import com.skewwhiffy.auraltester.helper.StreamHelper;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.notation.model.note.Accidental;
+import com.skewwhiffy.auraltester.notation.model.note.Note;
+import lombok.val;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.data.util.Pair;
+
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.stream.Stream;
+
+public record Key(Note note, boolean isMinor) {
+    public Key(Note note) {
+        this(note, false);
+    }
+
+
     /*
-
-data class Key(val note: Note, val isMinor: Boolean = false) {
-  companion object {
-    @Suppress("SpellCheckingInspection")
-    private val renderableKeys: List<String> = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
-      .split(' ')
-      .toList()
-
-    val cMajor: Key = Key(Note.c)
-  }
-
   val abc: String = if (isMinor) "${note.displayString}m" else note.displayString
 
   val displayString: String = "${note.displayString} ${if (isMinor) "minor" else "major"}"
 
-  fun abc(note: AbsoluteNote): String {
-    return "${accidentalAbc(note.note)}${noteAbc(note)}"
-  }
+*/
 
-  val canRenderSignature: Boolean = if (isMinor) relativeMajor.canRenderSignature
-  else renderableKeys.contains(note.displayString)
-
-  private fun noteAbc(note: AbsoluteNote): String {
-    return note.octave.offsetFromDefault.let {
-      when {
-        it > 0 -> "${note.note.noteName.lowercase()}${"'".repeat(it - 1)}"
-        it < 0 -> "${note.note.noteName}${",".repeat(-it)}"
-        else -> note.note.noteName
-      }
+    public String getAbc(AbsoluteNote note) {
+        return getAccidentalAbc(note.note()) + getNoteAbc(note);
     }
-  }
 
-  private fun accidentalAbc(note: Note): String {
-    return notes.find { it.noteName == note.noteName }.let {
-      it ?: throw IllegalArgumentException("No note ${note.noteName} in scale")
-      when (note.accidental) {
-        it.accidental -> ""
-        Accidental.natural -> "="
-        else -> note.accidental.abc
-      }
+    /*
+
+    val canRenderSignature: Boolean = if (isMinor) relativeMajor.canRenderSignature
+    else renderableKeys.contains(note.displayString)
+    */
+
+    private String getNoteAbc(AbsoluteNote note) {
+        val offset = note.octave().offsetFromDefault();
+        if (offset > 0) {
+            return note.note().noteName().toLowerCase(Locale.UK) + Strings.repeat(" '", offset - 1);
+        }
+        if (offset < 0) {
+            return note.note().noteName() + Strings.repeat(", ", -offset);
+        }
+        return note.note().noteName();
     }
-  }
 
-  val relativeMinor: Key
-    get() = if (isMinor) this else Key(
-      note.downMajorSecond.downMajorSecond.sharp,
-      isMinor = true
+    private String getAccidentalAbc(Note note) {
+        val noteWithNoteName = getNotes()
+                .filter(it -> it.noteName().equals(note.noteName()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        MessageFormat.format("No note {0} in scale", note.noteName())
+                ));
+        if (note.accidental() == noteWithNoteName.accidental()) {
+            return "";
+        }
+        if (note.accidental().equals(Accidental.getNatural())) {
+            return "=";
+        }
+        return note.accidental().getAbc();
+    }
+    /*
+
+    val relativeMinor:
+
+    Key
+    get() =if(isMinor)this else
+
+    Key(
+            note.downMajorSecond.downMajorSecond.sharp,
+            isMinor =true
     )
 
-  val relativeMajor: Key get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flat) else this
+    val relativeMajor:
 
-  val relative: Key get() = if (isMinor) relativeMajor else relativeMinor
+    Key get() =if(isMinor)
 
-  val notes: List<Note>
-    get() {
-      return (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))
-        .scan(note) { note: Note, semitones: Int ->
-          if (semitones == 2) note.upMajorSecond else note.upMajorSecond.flat
-        }
+    Key(note.upMajorSecond.upMajorSecond.flat) else this
+
+    val relative:
+
+    Key get() =if(isMinor)relativeMajor else relativeMinor
+    */
+
+    public Stream<Note> getNotes() {
+        val semitones = isMinor ? Stream.of(2, 1, 2, 2, 1, 2) : Stream.of(2, 2, 1, 2, 2, 2);
+        return semitones
+                .reduce(
+                        Pair.of(Stream.of(note), note),
+                        (soFar, nextInterval) -> {
+                            val nextNote = nextInterval == 2
+                                    ? note.getUpMajorSecond()
+                                    : note.getUpMajorSecond().flatten();
+                            val nextStream = Stream.concat(soFar.getFirst(), Stream.of(nextNote));
+                            return Pair.of(nextStream, nextNote);
+                        },
+                        StreamHelper.getNoParallel()
+                )
+                .getFirst();
     }
+
+    /*
 }
-     */
+    companion object {
+@Suppress("SpellCheckingInspection")
+private val renderableKeys:List<String> ="C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
+        .split(' ')
+        .toList()
+
+        val cMajor:Key=Key(Note.c)
+        }
+        */
+    public static Key getCMajor() {
+        return new Key(Note.getC());
+    }
 }

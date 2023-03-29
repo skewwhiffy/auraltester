@@ -1,10 +1,10 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface NoteSequence {
-    Stream<AbsoluteNote> getNotes();
+    List<AbsoluteNote> getNotes();
     /*
 interface NoteSequence {
   val notes: List<AbsoluteNote>
@@ -18,6 +18,6 @@ interface NoteSequence {
 }
      */
     static NoteSequence of(AbsoluteNote... notes) {
-        return () -> Arrays.stream(notes);
+        return () -> Arrays.asList(notes);
     }
 }

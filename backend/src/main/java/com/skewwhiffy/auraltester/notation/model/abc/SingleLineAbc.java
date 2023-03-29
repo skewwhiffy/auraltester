@@ -4,32 +4,35 @@ import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
+import lombok.val;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public record SingleLineAbc (
+public record SingleLineAbc(
         Optional<String> displayName,
         Clef clef,
         NoteLength noteLength,
         Optional<Key> keySignature,
-        Stream<Stream<AbsoluteNote>> notes
-        ) implements AbcProvider {
+        List<List<AbsoluteNote>> notes
+) implements AbcProvider {
 
-        public SingleLineAbc(
-                Optional<String> displayName,
-                Clef clef,
-                NoteLength noteLength,
-                Stream<Stream<AbsoluteNote>> notes
-        ) {
-                this(
-                        displayName,
-                        clef,
-                        noteLength,
-                        Optional.empty(),
-                        notes
-                );
-        }
+    public SingleLineAbc(
+            Optional<String> displayName,
+            Clef clef,
+            NoteLength noteLength,
+            List<List<AbsoluteNote>> notes
+    ) {
+        this(
+                displayName,
+                clef,
+                noteLength,
+                Optional.empty(),
+                notes
+        );
+    }
 
     /*
   constructor(
@@ -47,29 +50,34 @@ public record SingleLineAbc (
   )
   */
 
-        @Override
-        public String getAbc() {
-                return "POOBUM SingleLineAbc";
-                /*
-                      fun barAbc(value: List<AbsoluteNote>): String {
-        return value.joinToString("") { it.abc(keySignature ?: Key.cMajor) }
-      }
+    @Override
+    public String getAbc() {
+        Function<List<AbsoluteNote>, String> barAbc = value -> value
+                .stream()
+                .map(it -> it.getAbc(keySignature.orElse(Key.getCMajor())))
+                .collect(Collectors.joining());
 
-      val notesAbc = notes.joinToString("|") { barAbc(it) } + "|"
-      val words = notes.flatten().joinToString(" ") { it.wordAbc }
+        val notesAbc = notes
+                .stream()
+                .map(barAbc)
+                .collect(Collectors.joining("|"))
+                + "|";
+        val words = notes
+                .stream()
+                .flatMap(Collection::stream)
+                .map(AbsoluteNote::getWordAbc)
+                .collect(Collectors.joining(" "));
 
-      return listOf(
-        "X:1",
-        displayName?.let { "T:$it" } ?: "",
-        "K:clef=${clef.abc}",
-        keySignature?.let { "K:${it.abc}" } ?: "",
-        "L:${noteLength.abc}",
-        notesAbc,
-        "w:$words"
-      )
-        .filter { it.isNotEmpty() }
-        .joinToString(System.lineSeparator())
-                 */
-
-        }
+        return Stream.of(
+                "X:1",
+                displayName.map(it -> "T:" + it).orElse(""),
+                "K:clef=" + clef.abc(),
+                keySignature.map(it -> "K:" + it).orElse(""),
+                "L:" + noteLength.getAbc(),
+                notesAbc,
+                "w:" + words
+        )
+                .filter(it -> !it.isEmpty())
+                .collect(Collectors.joining(System.lineSeparator()));
+    }
 }

@@ -1,5 +1,7 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import lombok.Getter;
+
 public record Octave(int offsetFromDefault) {
     /*
 data class Octave(val offsetFromDefault: Int) {
