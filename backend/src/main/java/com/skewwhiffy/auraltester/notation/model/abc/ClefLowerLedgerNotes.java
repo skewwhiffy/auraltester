@@ -1,14 +1,32 @@
 package com.skewwhiffy.auraltester.notation.model.abc;
 
+import com.skewwhiffy.auraltester.helper.StreamHelper;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import lombok.val;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public record ClefLowerLedgerNotes(Clef clef) implements ClefNotes {
     @Override
     public List<AbsoluteNote> getNotes() {
-        throw new RuntimeException();
+        return IntStream
+                .range(0, 5)
+                .boxed()
+                .reduce(
+                        Collections.singletonList(clef.lowLedgerNote().upOne()),
+                        (soFar, i) -> {
+                            val next = soFar.get(soFar.size() - 1).downOne();
+                            return Stream.concat(soFar.stream(), Stream.of(next)).toList();
+                        },
+                        StreamHelper.getNoParallel()
+                )
+                .stream()
+                .map(it -> it.withNoteName())
+                .toList();
     }
     /*
 

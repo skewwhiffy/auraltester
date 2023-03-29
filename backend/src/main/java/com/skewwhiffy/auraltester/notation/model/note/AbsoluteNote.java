@@ -1,8 +1,13 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import com.skewwhiffy.auraltester.helper.StreamHelper;
+import com.skewwhiffy.auraltester.notation.model.interval.Interval;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
+import lombok.val;
 
+import java.text.MessageFormat;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
     /*
@@ -17,51 +22,76 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
     public AbsoluteNote withLyric(String lyric) {
         return new AbsoluteNote(note, octave, Optional.of(lyric));
     }
-        /*
-  operator fun plus(interval: Interval): AbsoluteNote {
-    val defaultNote: AbsoluteNote = when (interval.degree) {
-      1 -> this
-      2 -> upMajorSecond
-      3 -> upMajorSecond.upMajorSecond
-      4 -> (this + Interval.major(3)).upMinorSecond
-      5 -> (this + Interval.perfect(4)).upMajorSecond
-      6 -> (this + Interval.perfect(5)).upMajorSecond
-      7 -> (this + Interval.major(6)).upMajorSecond
-      8 -> AbsoluteNote(note, octave.up)
-      else -> throw IllegalArgumentException("Interval degree of ${interval.degree} not supported")
+
+    public AbsoluteNote plus(Interval interval) {
+        val defaultNote = switch (interval.degree()) {
+            case 1 -> this;
+            case 2 -> upMajorSecond();
+            case 3 -> upMajorSecond().upMajorSecond();
+            case 4 -> plus(Interval.major(3)).upMinorSecond();
+            case 5 -> plus(Interval.perfect(4)).upMajorSecond();
+            case 6 -> plus(Interval.perfect(5)).upMajorSecond();
+            case 7 -> plus(Interval.major(6)).upMajorSecond();
+            case 8 -> new AbsoluteNote(note, octave.up(), lyric);
+            default -> throw new IllegalArgumentException(
+                    MessageFormat.format(
+                            "Interval degree of ${interval.degree} not supported",
+                            interval.degree()
+                    )
+            );
+        };
+
+        val deviation = interval.deviation();
+        if (deviation < 0) {
+            return IntStream
+                    .range(0, -deviation)
+                    .boxed()
+                    .reduce(defaultNote, (note, it) -> note.flatten(), StreamHelper.getNoParallel());
+        }
+        if (deviation > 0) {
+            return IntStream
+                    .range(0, deviation)
+                    .boxed()
+                    .reduce(defaultNote, (note, it) -> note.sharpen(), StreamHelper.getNoParallel());
+        }
+        return defaultNote;
     }
 
-    return interval.deviation.let {
-      when {
-        it < 0 -> (1..-it).fold(defaultNote) { note, _ -> note.flat }
-        it > 0 -> (1..it).fold(defaultNote) { note, _ -> note.sharp }
-        else -> defaultNote
-      }
+    public AbsoluteNote minus(Interval interval) {
+        val defaultNote = switch (interval.degree()) {
+            case 1 -> this;
+            case 2 -> downMajorSecond();
+            case 3 -> downMajorSecond().downMajorSecond();
+            case 4 -> minus(Interval.major(3)).downMinorSecond();
+            case 5 -> minus(Interval.perfect(4)).downMajorSecond();
+            case 6 -> minus(Interval.perfect(5)).downMajorSecond();
+            case 7 -> minus(Interval.major(6)).downMajorSecond();
+            case 8 -> new AbsoluteNote(note, octave.down(), lyric);
+            default -> throw new IllegalArgumentException();
+        };
+        val deviation = interval.deviation();
+        if (deviation < 0) {
+            return IntStream
+                    .range(0, -deviation)
+                    .boxed()
+                    .reduce(
+                            defaultNote,
+                            (it, i) -> it.sharpen(),
+                            StreamHelper.getNoParallel()
+                    );
+        }
+        if (deviation > 0) {
+            return IntStream
+                    .range(0, deviation)
+                    .boxed()
+                    .reduce(
+                            defaultNote,
+                            (it, i) -> it.flatten(),
+                            StreamHelper.getNoParallel()
+                    );
+        }
+        return defaultNote;
     }
-  }
-
-  operator fun minus(interval: Interval): AbsoluteNote {
-    val defaultNote: AbsoluteNote = when (interval.degree) {
-      1 -> this
-      2 -> downMajorSecond
-      3 -> downMajorSecond.downMajorSecond
-      4 -> (this - Interval.major(3)).downMinorSecond
-      5 -> (this - Interval.perfect(4)).downMajorSecond
-      6 -> (this - Interval.perfect(5)).downMajorSecond
-      7 -> (this - Interval.major(6)).downMajorSecond
-      8 -> AbsoluteNote(note, octave.down)
-      else -> throw IllegalArgumentException()
-    }
-
-    return interval.deviation.let {
-      when {
-        it < 0 -> (1..-it).fold(defaultNote) { note, _ -> note.sharp }
-        it > 0 -> (1..it).fold(defaultNote) { note, _ -> note.flat }
-        else -> defaultNote
-      }
-    }
-  }
-  */
 
     public String getAbc(Key key) {
         return key.getAbc(this);
@@ -71,11 +101,37 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
         return lyric.orElse("*");
     }
 
-    /*
-  private val sharp: AbsoluteNote get() = AbsoluteNote(note.sharp, octave)
+    public AbsoluteNote downOne() {
+        return minus(Interval.minor(2)).ignoreAccidental();
+    }
 
-  private val flat: AbsoluteNote get() = AbsoluteNote(note.flat, octave)
+    public AbsoluteNote upOne() {
+        return plus(Interval.minor(2)).ignoreAccidental();
+    }
 
+    public AbsoluteNote skipOne() {
+        return this.plus(Interval.minor(3)).ignoreAccidental();
+    }
+
+    public AbsoluteNote ignoreAccidental() {
+        val newNote = new Note(note.noteName(), Accidental.getNatural());
+        return new AbsoluteNote(newNote, octave, lyric);
+    }
+
+    public AbsoluteNote withNoteName() {
+        return withLyric(note.getDisplayString());
+        //get() = withLyric(note.displayString)
+    }
+
+    private AbsoluteNote sharpen() {
+        return new AbsoluteNote(note.sharpen(), octave, lyric);
+    }
+
+    private AbsoluteNote flatten() {
+        return new AbsoluteNote(note.flatten(), octave, lyric);
+    }
+
+/*
   operator fun compareTo(other: AbsoluteNote): Int {
     return if (this == other) 0
     else if (octave == other.octave) this.note.compareTo(other.note)
@@ -83,27 +139,38 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
   }
 
   override fun toString(): String = abc(Key.cMajor)
+  */
 
-  private val upMajorSecond
-    get() = AbsoluteNote(
-      note.upMajorSecond,
-      (if ("B" == note.noteName) octave.up else octave)
-    )
+    private AbsoluteNote upMajorSecond() {
+        return new AbsoluteNote(
+                note.upMajorSecond(),
+                "B".equals(note.noteName()) ? octave.up() : octave,
+                lyric
+        );
+    }
 
-  private val upMinorSecond
-    get() = upMajorSecond.let { AbsoluteNote(it.note.flat, it.octave) }
+    private AbsoluteNote upMinorSecond() {
+        val upMajorSecond = upMajorSecond();
+        return new AbsoluteNote(
+                upMajorSecond.note.flatten(),
+                upMajorSecond.octave,
+                lyric
+        );
+    }
 
-  private val downMajorSecond
-    get() = AbsoluteNote(
-      note.downMajorSecond,
-      (if ("C" == note.noteName) octave.down else octave)
-    )
+    private AbsoluteNote downMajorSecond() {
+        return new AbsoluteNote(
+                note.downMajorSecond(),
+                "C".equals(note.noteName()) ? octave.down() : octave,
+                lyric
+        );
+    }
 
-  private val downMinorSecond
-    get() = downMajorSecond.let { AbsoluteNote(it.note.sharp, it.octave) }
+    private AbsoluteNote downMinorSecond() {
+        val downMajorSecond = downMajorSecond();
+        return new AbsoluteNote(downMajorSecond.note.sharpen(), downMajorSecond.octave, lyric);
+    }
 
-}
-     */
     public static AbsoluteNote getMiddleC() {
         return new AbsoluteNote(Note.getC(), Octave.getDefault(), Optional.empty());
     }

@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
 import org.apache.logging.log4j.util.Strings;
+import org.hibernate.internal.util.StringHelper;
 
 public record Accidental(int offset) {
     public String getAbc() {
@@ -13,13 +14,15 @@ public record Accidental(int offset) {
         return Strings.repeat("^", offset);
     }
 
-    /*
-  val displayString: String = when {
-    offset < 0 -> "b".repeat(-offset)
-    offset % 2 == 0 -> "x".repeat(offset / 2)
-    else -> "x".repeat((offset - 1) / 2) + "#"
-  }
-  */
+    public String getDisplayString() {
+        if (offset < 0) {
+            return StringHelper.repeat("b", -offset);
+        }
+        if (offset % 2 == 0) {
+            return StringHelper.repeat("x", offset / 2);
+        }
+        return StringHelper.repeat("x", (offset - 1) / 2) + "#";
+    }
 
     public Accidental flatten() {
         return new Accidental(offset - 1);

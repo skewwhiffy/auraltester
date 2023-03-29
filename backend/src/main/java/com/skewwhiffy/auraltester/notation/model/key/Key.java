@@ -6,9 +6,10 @@ import com.skewwhiffy.auraltester.notation.model.note.Accidental;
 import com.skewwhiffy.auraltester.notation.model.note.Note;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.data.util.Pair;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
@@ -48,6 +49,7 @@ public record Key(Note note, boolean isMinor) {
 
     private String getAccidentalAbc(Note note) {
         val noteWithNoteName = getNotes()
+                .stream()
                 .filter(it -> it.noteName().equals(note.noteName()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -84,21 +86,19 @@ public record Key(Note note, boolean isMinor) {
     Key get() =if(isMinor)relativeMajor else relativeMinor
     */
 
-    public Stream<Note> getNotes() {
+    public List<Note> getNotes() {
         val semitones = isMinor ? Stream.of(2, 1, 2, 2, 1, 2) : Stream.of(2, 2, 1, 2, 2, 2);
         return semitones
                 .reduce(
-                        Pair.of(Stream.of(note), note),
+                        Collections.singletonList(note),
                         (soFar, nextInterval) -> {
                             val nextNote = nextInterval == 2
-                                    ? note.getUpMajorSecond()
-                                    : note.getUpMajorSecond().flatten();
-                            val nextStream = Stream.concat(soFar.getFirst(), Stream.of(nextNote));
-                            return Pair.of(nextStream, nextNote);
+                                    ? note.upMajorSecond()
+                                    : note.upMajorSecond().flatten();
+                            return Stream.concat(soFar.stream(), Stream.of(nextNote)).toList();
                         },
                         StreamHelper.getNoParallel()
-                )
-                .getFirst();
+                );
     }
 
     /*

@@ -10,7 +10,6 @@ import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider;
 
 import java.text.MessageFormat;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AbcService {
@@ -33,7 +32,7 @@ public class AbcService {
                 displayName,
                 clef,
                 NoteLength.getSemibreve(),
-                clef.getNotes().stream().map(NoteSequence::getNotes).collect(Collectors.toList())
+                clef.getNotes().stream().map(NoteSequence::getNotes).toList()
         );
                 /*
         fun getAbc(clef: Clef): AbcProvider = SingleLineAbc(

@@ -3,32 +3,34 @@ package com.skewwhiffy.auraltester.notation.model.note;
 import java.text.MessageFormat;
 
 public record Note(String noteName, Accidental accidental) {
-    /*
-  val displayString: String = "$noteName${accidental.displayString}"
+    private static String noteNames = "CDEFGAB";
 
-  val sharp: Note get() = Note(noteName, accidental.sharp)
-  */
+    public String getDisplayString() {
+        return noteName + accidental.getDisplayString();
+    }
+
+    public Note sharpen() {
+        return new Note(noteName, accidental.sharpen());
+    }
 
     public Note flatten() {
         return new Note(noteName, accidental.flatten());
     }
 
-    public Note getUpMajorSecond() {
+    public Note upMajorSecond() {
         if ("ACDFG".contains(noteName)) {
             return new Note(getNextNoteName(), accidental);
         }
         return new Note(getNextNoteName(), accidental.sharpen());
     }
 
-    /*
-  val downMajorSecond: Note
-    get() {
-      return when (noteName) {
-        in listOf("B", "A", "G", "E", "D") -> Note(previousNoteName, accidental)
-        else -> Note(previousNoteName, accidental.flat)
-      }
+    public Note downMajorSecond() {
+        return "BAGED".contains(noteName)
+                ? new Note(getPreviousNoteName(), accidental)
+                : new Note(getPreviousNoteName(), accidental.flatten());
     }
 
+    /*
   operator fun compareTo(other: Note): Int {
     if (this == other) {
       return 0
@@ -41,13 +43,13 @@ public record Note(String noteName, Accidental accidental) {
 
     private String getNextNoteName() {
         return switch (noteName) {
-            case "A" ->"B";
-            case "B" ->"C";
-            case "C" ->"D";
-            case "D" ->"E";
-            case "E" ->"F";
-            case "F" ->"G";
-            case "G" ->"A";
+            case "A" -> "B";
+            case "B" -> "C";
+            case "C" -> "D";
+            case "D" -> "E";
+            case "E" -> "F";
+            case "F" -> "G";
+            case "G" -> "A";
             default -> throw new IllegalArgumentException(
                     MessageFormat.format("Not a valid note name: '{0}'", noteName)
             );
@@ -65,20 +67,22 @@ public record Note(String noteName, Accidental accidental) {
     "G" -> "A"
     else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
   }
+  */
 
-  private val previousNoteName: String = when (noteName) {
-    "A" -> "G"
-    "B" -> "A"
-    "C" -> "B"
-    "D" -> "C"
-    "E" -> "D"
-    "F" -> "E"
-    "G" -> "F"
-    else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
-  }
-}
-     */
-
+    private String getPreviousNoteName() {
+        return switch (noteName) {
+            case "A" -> "G";
+            case "B" -> "A";
+            case "C" -> "B";
+            case "D" -> "C";
+            case "E" -> "D";
+            case "F" -> "E";
+            case "G" -> "F";
+            default -> throw new IllegalArgumentException(
+                    MessageFormat.format("Not a valid note name: '{0}'", noteName)
+            );
+        };
+    }
 
     public static Note getA() {
         return new Note("A", Accidental.getNatural());
@@ -107,6 +111,4 @@ public record Note(String noteName, Accidental accidental) {
     public static Note getG() {
         return new Note("G", Accidental.getNatural());
     }
-
-    private static String noteNames = "CDEFGAB";
 }
