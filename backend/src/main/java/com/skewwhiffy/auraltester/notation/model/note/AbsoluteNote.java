@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
-import com.skewwhiffy.auraltester.helper.StreamHelper;
+import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
 import lombok.val;
@@ -46,13 +46,13 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
             return IntStream
                     .range(0, -deviation)
                     .boxed()
-                    .reduce(defaultNote, (note, it) -> note.flatten(), StreamHelper.getNoParallel());
+                    .reduce(defaultNote, (note, it) -> note.flatten(), NoParallelStream.get());
         }
         if (deviation > 0) {
             return IntStream
                     .range(0, deviation)
                     .boxed()
-                    .reduce(defaultNote, (note, it) -> note.sharpen(), StreamHelper.getNoParallel());
+                    .reduce(defaultNote, (note, it) -> note.sharpen(), NoParallelStream.get());
         }
         return defaultNote;
     }
@@ -77,7 +77,7 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
                     .reduce(
                             defaultNote,
                             (it, i) -> it.sharpen(),
-                            StreamHelper.getNoParallel()
+                            NoParallelStream.get()
                     );
         }
         if (deviation > 0) {
@@ -87,7 +87,7 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
                     .reduce(
                             defaultNote,
                             (it, i) -> it.flatten(),
-                            StreamHelper.getNoParallel()
+                            NoParallelStream.get()
                     );
         }
         return defaultNote;

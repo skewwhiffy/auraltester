@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.abc;
 
-import com.skewwhiffy.auraltester.helper.StreamHelper;
+import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import lombok.val;
@@ -22,10 +22,10 @@ public record ClefLowerLedgerNotes(Clef clef) implements ClefNotes {
                             val next = soFar.get(soFar.size() - 1).downOne();
                             return Stream.concat(soFar.stream(), Stream.of(next)).toList();
                         },
-                        StreamHelper.getNoParallel()
+                        NoParallelStream.get()
                 )
                 .stream()
-                .map(it -> it.withNoteName())
+                .map(AbsoluteNote::withNoteName)
                 .toList();
     }
     /*

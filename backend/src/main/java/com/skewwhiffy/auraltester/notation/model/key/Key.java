@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.key;
 
-import com.skewwhiffy.auraltester.helper.StreamHelper;
+import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.Accidental;
 import com.skewwhiffy.auraltester.notation.model.note.Note;
@@ -92,12 +92,13 @@ public record Key(Note note, boolean isMinor) {
                 .reduce(
                         Collections.singletonList(note),
                         (soFar, nextInterval) -> {
+                            val lastNote = soFar.get(soFar.size() - 1);
                             val nextNote = nextInterval == 2
-                                    ? note.upMajorSecond()
-                                    : note.upMajorSecond().flatten();
+                                    ? lastNote.upMajorSecond()
+                                    : lastNote.upMajorSecond().flatten();
                             return Stream.concat(soFar.stream(), Stream.of(nextNote)).toList();
                         },
-                        StreamHelper.getNoParallel()
+                        NoParallelStream.get()
                 );
     }
 
