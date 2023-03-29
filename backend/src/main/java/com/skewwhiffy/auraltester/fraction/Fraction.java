@@ -1,91 +1,82 @@
 package com.skewwhiffy.auraltester.fraction;
 
+import lombok.val;
+
+import java.text.MessageFormat;
+
 public record Fraction(int top, int bottom) {
-    /*
-
-data class Fraction(val top: Int, val bottom: Int) {
-  companion object {
-    fun lcm(first: Int, second: Int): Int {
-      return when {
-        first < 0 -> lcm(-first, second)
-        second < 0 -> lcm(first, -second)
-        first < second -> lcm(second, first)
-        second == 0 -> throw ArithmeticException("Cannot calculate lcm for 0")
-        else -> (1..second).find { (first * it) % second == 0 }.let {
-          if (it == null) throw ArithmeticException("Rules of mathematics have changed")
-          first * it
+    public Fraction {
+        if (bottom == 0) {
+            throw new ArithmeticException("/ by zero");
         }
-      }
     }
 
-    fun hcf(first: Int, second: Int): Int {
-      return first * second / lcm(first, second)
+    public Fraction(int whole, int top, int bottom) {
+        this(whole * bottom + top, bottom);
     }
-  }
 
-  init {
-    if (bottom == 0) throw ArithmeticException("/ by zero")
-  }
 
-  constructor(whole: Int, top: Int, bottom: Int) : this(whole * bottom + top, bottom) {
-    if (bottom < 0) throw ArithmeticException("Cannot instantiate mixed fraction with negative denominator")
-  }
-
-  private val simplified: Fraction
-    get() = when {
-      bottom < 0 -> Fraction(-top, -bottom).simplified
-      top == 0 -> Fraction(0, 1)
-      else -> hcf(top, bottom).let {
-        when (it) {
-          1 -> this
-          else -> Fraction(top / it, bottom / it)
+    private Fraction getSimplified() {
+        if (bottom < 0) {
+            return new Fraction(-top, -bottom).getSimplified();
         }
-      }
+        if (top == 0) {
+            return new Fraction(0, 1);
+        }
+        val hcf = Factors.hcf(top, bottom);
+        if (hcf == 1) {
+            return this;
+        }
+        return new Fraction(top / hcf, bottom / hcf);
     }
 
-  private val whole = top / bottom
-  private val topWithoutWhole = top - (whole * bottom)
+    private int getWhole() {
+        return top / bottom;
+    }
 
-  operator fun plus(other: Fraction): Fraction {
-    val lcd = lcm(bottom, other.bottom)
-    val newTop = top * (lcd / bottom) + other.top * (lcd / other.bottom)
-    return Fraction(newTop, lcd).simplified
-  }
+    private int getTopWithoutWhole() {
+        return top - (getWhole() * bottom);
+    }
 
-  operator fun minus(other: Fraction): Fraction {
-    return this + -other
-  }
+    public Fraction plus(Fraction other) {
+        val lcd = Factors.lcm(bottom, other.bottom);
+        val newTop = top * (lcd / bottom) + other.top * (lcd / other.bottom);
+        return new Fraction(newTop, lcd).getSimplified();
+    }
 
-  operator fun unaryMinus(): Fraction {
-    return Fraction(-top, bottom)
-  }
+    public Fraction minus(Fraction other) {
+        return plus(other.getNegative());
+    }
 
-  operator fun times(other: Fraction): Fraction {
-    return Fraction(top * other.top, bottom * other.bottom).simplified
-  }
+    public Fraction getNegative() {
+        return new Fraction(-top, bottom).getSimplified();
+    }
 
-  val topHeavyString: String = if (bottom == 1) "$top" else "$top/$bottom"
+    public Fraction times(Fraction other) {
+        return new Fraction(top * other.top, bottom * other.bottom).getSimplified();
+    }
 
-  override fun toString(): String {
-    return (if (whole == 0) "" else "$whole ")
-      .let { "$it$topWithoutWhole/$bottom" }
-  }
+    public String getTopHeavyString() {
+        return bottom == 1 ? String.valueOf(top) : MessageFormat.format("{0}/{1}", top, bottom);
+    }
 
-  override fun equals(other: Any?): Boolean {
-    return other?.let {
-      when (it) {
-        is Int -> this == Fraction(it, 1)
-        is Fraction -> simplified.top == it.simplified.top && simplified.bottom == it.simplified.bottom
-        else -> false
-      }
-    } ?: false
-  }
+    @Override
+    public String toString() {
+        val whole = getWhole();
+        val wholePart = whole == 0 ? "" : whole + " ";
+        return MessageFormat.format("{0}{1}/{2}", wholePart, getTopWithoutWhole(), bottom);
+    }
 
-  override fun hashCode(): Int {
-    var result = top
-    result = 31 * result + bottom
-    return result
-  }
-}
-     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other instanceof Fraction) {
+            Fraction simplified = getSimplified();
+            Fraction otherSimplified = ((Fraction) other).getSimplified();
+            return simplified.top == otherSimplified.top && simplified.bottom == otherSimplified.bottom;
+        }
+        return other.equals(2);
+    }
 }

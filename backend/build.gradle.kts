@@ -22,8 +22,10 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.26")
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.assertj:assertj-core:3.24.2")
     testCompileOnly("org.projectlombok:lombok:1.18.26")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.26")
+
 }
 
 tasks.withType<Test> {
