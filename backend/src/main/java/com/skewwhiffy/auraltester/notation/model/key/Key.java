@@ -39,7 +39,7 @@ public record Key(Note note, boolean isMinor) {
     private String getNoteAbc(AbsoluteNote note) {
         val offset = note.octave().offsetFromDefault();
         if (offset > 0) {
-            return note.note().noteName().toLowerCase(Locale.UK) + Strings.repeat(" '", offset - 1);
+            return note.note().noteName().toLowerCase(Locale.UK) + Strings.repeat("' ", offset - 1);
         }
         if (offset < 0) {
             return note.note().noteName() + Strings.repeat(", ", -offset);
@@ -55,7 +55,7 @@ public record Key(Note note, boolean isMinor) {
                 .orElseThrow(() -> new IllegalArgumentException(
                         MessageFormat.format("No note {0} in scale", note.noteName())
                 ));
-        if (note.accidental() == noteWithNoteName.accidental()) {
+        if (note.accidental().equals(noteWithNoteName.accidental())) {
             return "";
         }
         if (note.accidental().equals(Accidental.getNatural())) {

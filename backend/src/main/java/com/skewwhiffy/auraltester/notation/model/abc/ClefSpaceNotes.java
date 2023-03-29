@@ -14,7 +14,7 @@ public record ClefSpaceNotes(Clef clef) implements ClefNotes {
     @Override
     public List<AbsoluteNote> getNotes() {
         return IntStream
-                .range(0, 4)
+                .range(1, 4)
                 .boxed()
                 .reduce(
                         Collections.singletonList(clef.lowLedgerNote().upOne().skipOne()),
@@ -23,6 +23,9 @@ public record ClefSpaceNotes(Clef clef) implements ClefNotes {
                             return Stream.concat(soFar.stream(), Stream.of(next)).toList();
                         },
                         NoParallelStream.get()
-                );
+                )
+                .stream()
+                .map(AbsoluteNote::withNoteName)
+                .toList();
     }
 }
