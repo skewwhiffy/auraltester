@@ -75,11 +75,13 @@ public class NoteFactory {
     }
 
     private String getRawAccidental(String rawNote) {
-        Function<String, String> getRawAccidental = it -> it.endsWith("'") || it.endsWith(",")
-                ? getRawAccidental(it.substring(0, it.length() - 1))
-                : it;
+        return getRawAccidentalFromAccidentalMarks(rawNote.substring(1));
+    }
 
-        return getRawAccidental.apply(rawNote.substring(1));
+    private String getRawAccidentalFromAccidentalMarks(String accidentalMarks) {
+        return accidentalMarks.endsWith("'") || accidentalMarks.endsWith(",")
+                ? getRawAccidentalFromAccidentalMarks(accidentalMarks.substring(0, accidentalMarks.length() - 1))
+                : accidentalMarks;
     }
 
     private String getRawOctave(String rawNote) {

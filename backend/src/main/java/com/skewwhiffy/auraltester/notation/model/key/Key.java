@@ -39,10 +39,10 @@ public record Key(Note note, boolean isMinor) {
     private String getNoteAbc(AbsoluteNote note) {
         val offset = note.octave().offsetFromDefault();
         if (offset > 0) {
-            return note.note().noteName().toLowerCase(Locale.UK) + Strings.repeat("' ", offset - 1);
+            return note.note().noteName().toLowerCase(Locale.UK) + Strings.repeat("'", offset - 1);
         }
         if (offset < 0) {
-            return note.note().noteName() + Strings.repeat(", ", -offset);
+            return note.note().noteName() + Strings.repeat(",", -offset);
         }
         return note.note().noteName();
     }
