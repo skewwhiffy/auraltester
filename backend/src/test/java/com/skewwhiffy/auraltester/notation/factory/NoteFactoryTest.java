@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
 public class NoteFactoryTest {
@@ -32,24 +33,20 @@ public class NoteFactoryTest {
 
         assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected);
     }
-    /*
 
-  @Test
-  fun `instantiate note below middle C`() {
-    val internalNotation = "Dx#,,,"
-    val expected = "^^^D,,,"
+    @Test
+    void instantiatesNoteBelowMiddleC() {
+        val internalNotation = "Dx#,,,";
+        val expected = "^^^D,,,";
 
-    val actual = noteFactory.getAbsoluteNote(internalNotation)
+        val actual = noteFactory.getAbsoluteNote(internalNotation);
 
-    assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
-  }
-
-  @Test
-  fun `throw when note name invalid`() {
-    assertThrows<IllegalArgumentException> {
-      noteFactory.getAbsoluteNote("H")
+        assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected);
     }
-  }
-}
-     */
+
+    @Test
+    void when_noteNameInvalid_then_throws() {
+        assertThatThrownBy(() -> noteFactory.getAbsoluteNote("H"))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
