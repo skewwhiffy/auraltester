@@ -18,20 +18,23 @@ public record SingleLineAbc(
         Optional<Key> keySignature,
         List<List<AbsoluteNote>> notes
 ) implements AbcProvider {
-
     public SingleLineAbc(
             String displayName,
             Clef clef,
             NoteLength noteLength,
             List<List<AbsoluteNote>> notes
     ) {
-        this(
-                Optional.of(displayName),
-                clef,
-                noteLength,
-                Optional.empty(),
-                notes
-        );
+        this(Optional.of(displayName), clef, noteLength, Optional.empty(), notes);
+    }
+
+    public SingleLineAbc(
+            String displayName,
+            Clef clef,
+            NoteLength noteLength,
+            Key key,
+            List<List<AbsoluteNote>> notes
+    ) {
+        this(Optional.of(displayName), clef, noteLength, Optional.of(key), notes);
     }
 
     /*
@@ -69,14 +72,14 @@ public record SingleLineAbc(
                 .collect(Collectors.joining(" "));
 
         return Stream.of(
-                "X:1",
-                displayName.map(it -> "T:" + it).orElse(""),
-                "K:clef=" + clef.abc(),
-                keySignature.map(it -> "K:" + it.getAbc()).orElse(""),
-                "L:" + noteLength.getAbc(),
-                notesAbc,
-                "w:" + words
-        )
+                        "X:1",
+                        displayName.map(it -> "T:" + it).orElse(""),
+                        "K:clef=" + clef.abc(),
+                        keySignature.map(it -> "K:" + it.getAbc()).orElse(""),
+                        "L:" + noteLength.getAbc(),
+                        notesAbc,
+                        "w:" + words
+                )
                 .filter(it -> !it.isEmpty())
                 .collect(Collectors.joining(System.lineSeparator()));
     }

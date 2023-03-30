@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notation.factory;
 
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException;
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ import java.util.Locale;
 @AllArgsConstructor
 public class InternalNotationFactory {
     private final ClefFactory clefFactory;
-    // private final KeyFactory keyFactory;
     private final NoteFactory noteFactory;
+    private final IntervalFactory intervalFactory;
+    //private final KeyFactory keyFactory;
 
     public Clef clef(String clefRaw) {
         return switch (clefRaw.toLowerCase(Locale.UK)) {
@@ -34,10 +36,13 @@ public class InternalNotationFactory {
     .split(' ')
     .map(::getNote)
     .toList()
+    */
 
-  fun getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory
-    .getDirectedInterval(rawInterval)
+    public DirectedInterval getDirectedInterval(String rawInterval) {
+        return intervalFactory.getDirectedInterval(rawInterval);
+    }
 
+    /*
   fun getDirectedIntervals(rawIntervals: String): List<DirectedInterval> = intervalFactory
     .getDirectedIntervals(rawIntervals)
 

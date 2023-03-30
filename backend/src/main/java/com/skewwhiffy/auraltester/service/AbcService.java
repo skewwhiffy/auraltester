@@ -2,6 +2,7 @@ package com.skewwhiffy.auraltester.service;
 
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
+import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
 import com.skewwhiffy.auraltester.notation.model.scale.Scale;
@@ -68,16 +69,17 @@ public class AbcService {
                 clef.getNotes().stream().map(NoteSequence::getNotes).toList()
         );
     }
-    /*
 
-  fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): AbcProvider = SingleLineAbc(
-    intervalNotes.interval.displayString.titleCase,
-    clef,
-    NoteLength.semibreve,
-    key,
-    listOf(intervalNotes.notes)
-  )
-     */
+    public AbcProvider getAbc(Clef clef, IntervalNotes intervalNotes, Key key) {
+        return new SingleLineAbc(
+                getTitleCase(intervalNotes.interval().getDisplayString()),
+                clef,
+                NoteLength.getSemibreve(),
+                key,
+                List.of(intervalNotes.getNotes())
+        );
+    }
+
 
     public AbcProvider getAbc(Clef clef, Key key) {
         String title = getTitleCase(

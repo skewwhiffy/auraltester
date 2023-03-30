@@ -42,7 +42,7 @@ public class IntervalFactory {
 
     private Interval getBaseInterval(String rawInterval) {
         int rawInt = Integer.parseInt(getRawInt(rawInterval));
-        return List.of(1, 4, 5, 8).contains(rawInt)
+        return Interval.perfectDegrees.contains(rawInt)
                 ? Interval.perfect(rawInt)
                 : Interval.major(rawInt);
     }

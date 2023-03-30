@@ -1,10 +1,23 @@
 package com.skewwhiffy.auraltester.notation.model.interval;
 
+import lombok.val;
+
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Set;
 
 public record Interval(int degree, int deviation) {
-    private static final Set<Integer> perfectDegrees = Set.of(1, 4, 5, 8);
+    public static final Set<Integer> perfectDegrees = Set.of(1, 4, 5, 8);
+    private static final List<String> displayStrings = List.of(
+            "unison",
+            "second",
+            "third",
+            "fourth",
+            "fifth",
+            "sixth",
+            "seventh",
+            "octave"
+    );
 
     public Interval getDiminished() {
         return new Interval(degree, deviation - 1);
@@ -13,10 +26,11 @@ public record Interval(int degree, int deviation) {
     public Interval getAugmented() {
         return new Interval(degree, deviation + 1);
     }
-        /*
 
-  val displayString: String get() = "$quality ${displayStrings[degree - 1]}"
-  */
+    public String getDisplayString() {
+        return MessageFormat.format("{0} {1}", getQuality(), displayStrings.get(degree - 1));
+    }
+
     public DirectedInterval up() {
         return new DirectedInterval(this, IntervalDirection.UP);
     }
@@ -25,47 +39,29 @@ public record Interval(int degree, int deviation) {
         return new DirectedInterval(this, IntervalDirection.DOWN);
     }
 
-        /*
-  private val quality: String
-    get() {
-      val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"
-      val negativeQuality =
-        if (!perfectDegrees.contains(degree) && deviation == -1) "minor"
-        else (if (perfectDegrees.contains(degree)) -deviation else -deviation - 1).let {
-          when (it) {
-            1 -> "diminished"
-            2 -> "doubly diminished"
-            else -> "${it}x diminished"
-          }
-        }
+    private String getQuality() {
+        val defaultQuality = perfectDegrees.contains(degree) ? "perfect" : "major";
+        val negativeQuality = (!perfectDegrees.contains(degree) && deviation == -1)
+                ? "minor"
+                : switch (perfectDegrees.contains(degree) ? -deviation : -deviation - 1) {
+            case 1 -> "diminished";
+            case 2 -> "doubly diminished";
+            default -> "${it}x diminished";
+        };
 
-      val positiveQuality = when (deviation) {
-        1 -> ""
-        2 -> "doubly "
-        else -> "${deviation}x "
-      } + "augmented"
+        val positiveQuality = (switch (deviation) {
+            case 1 -> "";
+            case 2 -> "doubly ";
+            default -> "${deviation}x ";
+        }) + "augmented";
 
-      return when {
-        deviation < 0 -> negativeQuality
-        deviation > 0 -> positiveQuality
-        else -> defaultQuality
-      }
+        return deviation < 0 ? negativeQuality : deviation > 0 ? positiveQuality : defaultQuality;
     }
+    /*
 
   override fun toString(): String = displayString
 }
 
-  companion object {
-    private val displayStrings: List<String> = listOf(
-      "unison",
-      "second",
-      "third",
-      "fourth",
-      "fifth",
-      "sixth",
-      "seventh",
-      "octave"
-    )
      */
 
 
@@ -102,4 +98,6 @@ public record Interval(int degree, int deviation) {
         }
         return new Interval(degree, 0);
     }
+
+
 }
