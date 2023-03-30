@@ -4,20 +4,47 @@ import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
+import com.skewwhiffy.auraltester.notation.model.scale.Scale;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class AbcService {
+    public AbcProvider getAbc(Clef clef, Scale scale) {
+        String title = Stream
+                .of(scale.getDisplayName(), scale.direction().getDisplayString())
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(" "));
+        return new SingleLineAbc(
+                Optional.of(getTitleCase(title)),
+                clef,
+                NoteLength.getSemibreve(),
+                Optional.empty(),
+                List.of(scale.getNotes())
+        );
+    }
+
+    public AbcProvider getAbc(Clef clef, Scale scale, Key key) {
+        String title = Stream
+                .of(scale.getDisplayName(), scale.direction().getDisplayString(), "(with key signature)")
+                .filter(Objects::nonNull)
+                .collect(Collectors.joining(" "));
+        return new SingleLineAbc(
+                Optional.of(getTitleCase(title)),
+                clef,
+                NoteLength.getSemibreve(),
+                Optional.of(key),
+                List.of(scale.getNotes())
+        );
+    }
+
     /*
   fun getAbc(clef: Clef, scale: Scale, key: Key? = null): AbcProvider = listOfNotNull(
     scale.displayName,
@@ -30,9 +57,10 @@ public class AbcService {
 
 */
     public AbcProvider getAbc(Clef clef) {
-        val displayName = Optional.of(clef)
-                .map(Clef::getDisplayName)
-                .map(it -> MessageFormat.format("{0} Clef Notes", it));
+        val displayName = MessageFormat.format(
+                "{0} Clef Notes",
+                clef.getDisplayName()
+        );
         return new SingleLineAbc(
                 displayName,
                 clef,
@@ -70,7 +98,7 @@ public class AbcService {
 
     private String getTitleCase(String source) {
         return Arrays.stream(source
-                .split(" "))
+                        .split(" "))
                 .map(it -> it.substring(0, 1).toUpperCase(Locale.UK) + it.substring(1))
                 .collect(Collectors.joining(" "));
     }

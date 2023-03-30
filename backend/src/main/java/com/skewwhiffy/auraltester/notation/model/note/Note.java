@@ -1,8 +1,10 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.MessageFormat;
 
-public record Note(String noteName, Accidental accidental) {
+public record Note(String noteName, Accidental accidental) implements Comparable<Note> {
     private static String noteNames = "CDEFGAB";
 
     public String getDisplayString() {
@@ -30,16 +32,13 @@ public record Note(String noteName, Accidental accidental) {
                 : new Note(getPreviousNoteName(), accidental.flatten());
     }
 
-    /*
-  operator fun compareTo(other: Note): Int {
-    if (this == other) {
-      return 0
+    @Override
+    public int compareTo(@NotNull Note other) {
+        if (this == other) {
+            return 0;
+        }
+        return noteNames.indexOf(noteName) - (noteNames.indexOf(other.noteName));
     }
-    return noteNames
-      .indexOf(this.noteName)
-      .compareTo(noteNames.indexOf(other.noteName))
-  }
-  */
 
     private String getNextNoteName() {
         return switch (noteName) {

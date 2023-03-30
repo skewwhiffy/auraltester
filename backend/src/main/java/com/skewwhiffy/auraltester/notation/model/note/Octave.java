@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
-public record Octave(int offsetFromDefault) {
+import org.jetbrains.annotations.NotNull;
+
+public record Octave(int offsetFromDefault) implements Comparable<Octave> {
     public Octave up() {
         return new Octave(offsetFromDefault + 1);
     }
@@ -8,11 +10,12 @@ public record Octave(int offsetFromDefault) {
     public Octave down() {
         return new Octave(offsetFromDefault - 1);
     }
-        /*
-  operator fun compareTo(other: Octave): Int =
-    offsetFromDefault.compareTo(other.offsetFromDefault)
-}
-     */
+
+    @Override
+    public int compareTo(@NotNull Octave o) {
+        return offsetFromDefault - o.offsetFromDefault;
+    }
+
     public static Octave getDefault() {
         return new Octave(0);
     }

@@ -20,13 +20,13 @@ public record SingleLineAbc(
 ) implements AbcProvider {
 
     public SingleLineAbc(
-            Optional<String> displayName,
+            String displayName,
             Clef clef,
             NoteLength noteLength,
             List<List<AbsoluteNote>> notes
     ) {
         this(
-                displayName,
+                Optional.of(displayName),
                 clef,
                 noteLength,
                 Optional.empty(),

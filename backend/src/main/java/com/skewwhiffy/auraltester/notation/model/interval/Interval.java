@@ -9,16 +9,23 @@ public record Interval(int degree, int deviation) {
     public Interval getDiminished() {
         return new Interval(degree, deviation - 1);
     }
+
+    public Interval getAugmented() {
+        return new Interval(degree, deviation + 1);
+    }
         /*
 
-  val augmented: Interval get() = Interval(degree, deviation + 1)
-
   val displayString: String get() = "$quality ${displayStrings[degree - 1]}"
+  */
+    public DirectedInterval up() {
+        return new DirectedInterval(this, IntervalDirection.UP);
+    }
 
-  val up: DirectedInterval = DirectedInterval(this, IntervalDirection.UP)
+    public DirectedInterval down() {
+        return new DirectedInterval(this, IntervalDirection.DOWN);
+    }
 
-  val down: DirectedInterval = DirectedInterval(this, IntervalDirection.DOWN)
-
+        /*
   private val quality: String
     get() {
       val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"

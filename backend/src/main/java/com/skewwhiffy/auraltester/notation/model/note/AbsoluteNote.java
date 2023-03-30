@@ -1,23 +1,23 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
 import com.skewwhiffy.auraltester.helper.NoParallelStream;
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
 import lombok.val;
+import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
-    /*
-  fun apply(interval: DirectedInterval): AbsoluteNote {
-    return when (interval.direction) {
-      IntervalDirection.UP -> this + interval.interval
-      IntervalDirection.DOWN -> this - interval.interval
+public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) implements Comparable<AbsoluteNote> {
+    public AbsoluteNote apply(DirectedInterval interval) {
+        return switch(interval.direction()) {
+            case UP -> plus(interval.interval());
+            case DOWN -> minus(interval.interval());
+        };
     }
-  }
-  */
 
     public AbsoluteNote withLyric(String lyric) {
         return new AbsoluteNote(note, octave, Optional.of(lyric));
@@ -131,16 +131,6 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
         return new AbsoluteNote(note.flatten(), octave, lyric);
     }
 
-/*
-  operator fun compareTo(other: AbsoluteNote): Int {
-    return if (this == other) 0
-    else if (octave == other.octave) this.note.compareTo(other.note)
-    else octave.compareTo(other.octave)
-  }
-
-  override fun toString(): String = abc(Key.cMajor)
-  */
-
     private AbsoluteNote upMajorSecond() {
         return new AbsoluteNote(
                 note.upMajorSecond(),
@@ -174,4 +164,26 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) {
     public static AbsoluteNote getMiddleC() {
         return new AbsoluteNote(Note.getC(), Octave.getDefault(), Optional.empty());
     }
+
+    @Override
+    public int compareTo(@NotNull AbsoluteNote o) {
+        if (this == o) {
+            return 0;
+        }
+        if (octave == o.octave) {
+            return note.compareTo(o.note);
+        }
+        return octave.compareTo(o.octave);
+    }
+
+/*
+  operator fun compareTo(other: AbsoluteNote): Int {
+    return if (this == other) 0
+    else if (octave == other.octave) this.note.compareTo(other.note)
+    else octave.compareTo(other.octave)
+  }
+
+  override fun toString(): String = abc(Key.cMajor)
+  */
+
 }

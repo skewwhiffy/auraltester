@@ -4,11 +4,15 @@ import com.skewwhiffy.auraltester.notation.model.abc.ClefLineNotes;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefLowerLedgerNotes;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefSpaceNotes;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefUpperLedgerNotes;
+import com.skewwhiffy.auraltester.notation.model.interval.Interval;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.notation.model.note.Note;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
+import lombok.val;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public record Clef(String abc, AbsoluteNote lowLedgerNote, AbsoluteNote highLedgerNote) {
     public String getDisplayName() {
@@ -41,12 +45,10 @@ public record Clef(String abc, AbsoluteNote lowLedgerNote, AbsoluteNote highLedg
         return new ClefUpperLedgerNotes(this);
     }
 
-    /*
-  fun getNoteNearBottom(note: Note): AbsoluteNote {
-    val candidateStartingNote = AbsoluteNote(note, lowLedgerNote.octave)
-    return if (candidateStartingNote < lowLedgerNote) candidateStartingNote + Interval.perfect(8) else candidateStartingNote
-  }
-}
-
-     */
+    public AbsoluteNote getNoteNearBottom(Note note) {
+        val candidateStartingNote = new AbsoluteNote(note, lowLedgerNote.octave(), Optional.empty());
+        return candidateStartingNote.compareTo(lowLedgerNote) < 0
+                ? candidateStartingNote.plus(Interval.perfect(8))
+                : candidateStartingNote;
+    }
 }
