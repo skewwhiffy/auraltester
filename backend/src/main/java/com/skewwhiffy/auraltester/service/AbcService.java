@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.service;
 
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
 import lombok.val;
@@ -9,7 +10,11 @@ import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AbcService {
@@ -34,14 +39,6 @@ public class AbcService {
                 NoteLength.getSemibreve(),
                 clef.getNotes().stream().map(NoteSequence::getNotes).toList()
         );
-                /*
-        fun getAbc(clef: Clef): AbcProvider = SingleLineAbc(
-                "${clef.displayName} Clef Notes".titleCase,
-                clef,
-                NoteLength.semibreve,
-                clef.notes.map { it.notes }
-  )
-    */
     }
     /*
 
@@ -52,14 +49,30 @@ public class AbcService {
     key,
     listOf(intervalNotes.notes)
   )
-
-  fun getAbc(clef: Clef, key: Key): AbcProvider = SingleLineAbc(
-    "${key.displayString} / ${key.relative.displayString}".titleCase,
-    clef,
-    NoteLength.semibreve,
-    key,
-    listOf(listOf())
-  )
-}
      */
+
+    public AbcProvider getAbc(Clef clef, Key key) {
+        String title = getTitleCase(
+                MessageFormat.format(
+                        "{0} / {1}",
+                        key.getDisplayString(),
+                        key.getRelative().getDisplayString()
+                )
+        );
+        return new SingleLineAbc(
+                Optional.of(title),
+                clef,
+                NoteLength.getSemibreve(),
+                Optional.of(key),
+                Collections.singletonList(Collections.emptyList())
+        );
+    }
+
+    private String getTitleCase(String source) {
+        return Arrays.stream(source
+                .split(" "))
+                .map(it -> it.substring(0, 1).toUpperCase(Locale.UK) + it.substring(1))
+                .collect(Collectors.joining(" "));
+    }
+
 }

@@ -72,7 +72,7 @@ public record SingleLineAbc(
                 "X:1",
                 displayName.map(it -> "T:" + it).orElse(""),
                 "K:clef=" + clef.abc(),
-                keySignature.map(it -> "K:" + it).orElse(""),
+                keySignature.map(it -> "K:" + it.getAbc()).orElse(""),
                 "L:" + noteLength.getAbc(),
                 notesAbc,
                 "w:" + words

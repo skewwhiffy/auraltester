@@ -4,6 +4,8 @@ import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.Accidental;
 import com.skewwhiffy.auraltester.notation.model.note.Note;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
 
@@ -13,18 +15,23 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-public record Key(Note note, boolean isMinor) {
-    public Key(Note note) {
-        this(note, false);
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Key {
+    private final Note note;
+    private final boolean isMinor;
+
+    public String getAbc() {
+        return note.getDisplayString() + (isMinor ? "m" : "");
     }
 
+    public String getDisplayString() {
+        return MessageFormat.format(
+                "{0} {1}",
+                note.getDisplayString(),
+                isMinor ? "minor" : "major"
+        );
+    }
 
-    /*
-  val abc: String = if (isMinor) "${note.displayString}m" else note.displayString
-
-  val displayString: String = "${note.displayString} ${if (isMinor) "minor" else "major"}"
-
-*/
 
     public String getAbc(AbsoluteNote note) {
         return getAccidentalAbc(note.note()) + getNoteAbc(note);
@@ -63,28 +70,18 @@ public record Key(Note note, boolean isMinor) {
         }
         return note.accidental().getAbc();
     }
-    /*
 
-    val relativeMinor:
+    public Key getRelativeMinor() {
+        return isMinor ? this : new Key(note.downMajorSecond().downMajorSecond().sharpen(), true);
+    }
 
-    Key
-    get() =if(isMinor)this else
+    public Key getRelativeMajor() {
+        return isMinor ? new Key(note.upMajorSecond().upMajorSecond().flatten(), false) : this;
+    }
 
-    Key(
-            note.downMajorSecond.downMajorSecond.sharp,
-            isMinor =true
-    )
-
-    val relativeMajor:
-
-    Key get() =if(isMinor)
-
-    Key(note.upMajorSecond.upMajorSecond.flat) else this
-
-    val relative:
-
-    Key get() =if(isMinor)relativeMajor else relativeMinor
-    */
+    public Key getRelative() {
+        return isMinor ? getRelativeMajor() : getRelativeMinor();
+    }
 
     public List<Note> getNotes() {
         val semitones = isMinor ? Stream.of(2, 1, 2, 2, 1, 2) : Stream.of(2, 2, 1, 2, 2, 2);
@@ -113,7 +110,16 @@ private val renderableKeys:List<String> ="C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
         val cMajor:Key=Key(Note.c)
         }
         */
+
     public static Key getCMajor() {
-        return new Key(Note.getC());
+        return major(Note.getC());
+    }
+
+    public static Key major(Note note) {
+        return new Key(note, false);
+    }
+
+    public static Key minor(Note note) {
+        return new Key(note, true);
     }
 }

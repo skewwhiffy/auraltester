@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notation.factory;
 
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
@@ -10,17 +11,10 @@ import java.util.Locale;
 @Service
 @AllArgsConstructor
 public class InternalNotationFactory {
-    /*
-class InternalNotationFactory(
-*/
-  private final ClefFactory clefFactory;
+    private final ClefFactory clefFactory;
+    // private final KeyFactory keyFactory;
+    private final NoteFactory noteFactory;
 
-    /*
-  val intervalFactory: IntervalFactory,
-  val keyFactory: KeyFactory,
-  val noteFactory: NoteFactory
-) {
-*/
     public Clef clef(String clefRaw) {
         return switch (clefRaw.toLowerCase(Locale.UK)) {
             case "treble" -> clefFactory.getTreble();
@@ -31,11 +25,11 @@ class InternalNotationFactory(
         };
     }
 
-  /*
-  fun getNote(noteRaw: String): AbsoluteNote {
-    return noteFactory.getAbsoluteNote(noteRaw)
-  }
+    public AbsoluteNote getNote(String noteRaw) {
+        return noteFactory.getAbsoluteNote(noteRaw);
+    }
 
+  /*
   fun getNotes(notesRaw: String): List<AbsoluteNote> = notesRaw
     .split(' ')
     .map(::getNote)
