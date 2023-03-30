@@ -15,11 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Key {
-    private final Note note;
-    private final boolean isMinor;
-
+public record Key(Note note, boolean isMinor) {
     public String getAbc() {
         return note.getDisplayString() + (isMinor ? "m" : "");
     }
