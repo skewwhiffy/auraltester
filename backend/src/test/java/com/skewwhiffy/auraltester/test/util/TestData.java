@@ -3,6 +3,7 @@ package com.skewwhiffy.auraltester.test.util;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.*;
 import com.skewwhiffy.auraltester.notation.model.scale.Scale;
 import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection;
@@ -76,11 +77,10 @@ object TestData {
         public IntervalNotes intervalNotes() {
             return new IntervalNotes(absoluteNote(), interval());
         }
-            /*
 
-  val key: Key get() = Key(note, isMinor = random.nextBoolean())
-
-  */
+        public Key key() {
+            return random.nextBoolean() ? Key.major(note()) : Key.minor(note());
+        }
 
         public Note note() {
             return new Note(oneOf("ABCDEFG"), accidental());

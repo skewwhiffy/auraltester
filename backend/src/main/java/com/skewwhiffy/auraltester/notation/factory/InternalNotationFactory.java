@@ -2,11 +2,14 @@ package com.skewwhiffy.auraltester.notation.factory;
 
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -15,7 +18,7 @@ public class InternalNotationFactory {
     private final ClefFactory clefFactory;
     private final NoteFactory noteFactory;
     private final IntervalFactory intervalFactory;
-    //private final KeyFactory keyFactory;
+    private final KeyFactory keyFactory;
 
     public Clef clef(String clefRaw) {
         return switch (clefRaw.toLowerCase(Locale.UK)) {
@@ -31,22 +34,21 @@ public class InternalNotationFactory {
         return noteFactory.getAbsoluteNote(noteRaw);
     }
 
-  /*
-  fun getNotes(notesRaw: String): List<AbsoluteNote> = notesRaw
-    .split(' ')
-    .map(::getNote)
-    .toList()
-    */
+    public List<AbsoluteNote> getNotes(String notesRaw) {
+        return Arrays.stream(notesRaw.split(" "))
+                .map(this::getNote)
+                .toList();
+    }
 
     public DirectedInterval getDirectedInterval(String rawInterval) {
         return intervalFactory.getDirectedInterval(rawInterval);
     }
 
-    /*
-  fun getDirectedIntervals(rawIntervals: String): List<DirectedInterval> = intervalFactory
-    .getDirectedIntervals(rawIntervals)
+    public List<DirectedInterval> getDirectedIntervals(String rawIntervals) {
+        return intervalFactory.getDirectedIntervals(rawIntervals);
+    }
 
-  fun getKey(rawKey: String): Key = keyFactory.getKey(rawKey)
-}
-     */
+    public Key getKey(String rawKey) {
+        return keyFactory.getKey(rawKey);
+    }
 }
