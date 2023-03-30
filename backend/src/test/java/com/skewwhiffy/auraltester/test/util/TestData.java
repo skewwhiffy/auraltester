@@ -1,14 +1,15 @@
 package com.skewwhiffy.auraltester.test.util;
 
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
 import com.skewwhiffy.auraltester.notation.model.note.*;
+import com.skewwhiffy.auraltester.notation.model.scale.Scale;
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection;
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleType;
 
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 
 
@@ -45,7 +46,6 @@ object TestData {
       fun <T> oneOf(vararg source: T): T = oneOf(source.toList())
     */
 
-
         public <T> T oneOf(List<T> source) {
             return source.get(random.nextInt(source.size()));
         }
@@ -61,11 +61,10 @@ object TestData {
         public Clef clef() {
             return new Clef(string(), absoluteNote(), absoluteNote());
         }
-            /*
-  val directedInterval: DirectedInterval
-    get() = if (random.nextBoolean()) interval.up
-    else interval.down
-  */
+
+        public DirectedInterval directedInterval() {
+            return random.nextBoolean() ? interval().up() : interval().down();
+        }
 
         public Interval interval() {
             return new Interval(
@@ -91,19 +90,22 @@ object TestData {
             return new Octave(random.nextInt(8) - 4);
         }
 
-        /*
-  val scale get(): Scale = Scale(absoluteNote, scaleType, scaleDirection)
+        public Scale scale() {
+            return new Scale(absoluteNote(), scaleType(), scaleDirection());
+        }
 
-  val scaleDirection get(): ScaleDirection = oneOf(*ScaleDirection.values())
+        public ScaleDirection scaleDirection() {
+            return oneOf(Arrays.stream(ScaleDirection.values()).toList());
+        }
 
-  val scaleType: ScaleType
-    get() = ScaleType(
-      string,
-      string,
-      (1..7).map { directedInterval }.toList(),
-      (1..7).map { directedInterval }.toList()
-    )
-     */
+        public ScaleType scaleType() {
+            return new ScaleType(
+                    string(),
+                    string(),
+                    IntStream.range(1, 6).mapToObj(it -> directedInterval()).toList(),
+                    IntStream.range(1, 6).mapToObj(it -> directedInterval()).toList()
+            );
+        }
     }
 /*
 

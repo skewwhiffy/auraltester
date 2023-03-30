@@ -1,97 +1,135 @@
 package com.skewwhiffy.auraltester.controller;
 
-/*
-@ExtendWith(MockitoExtension::class)
+import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory;
+import com.skewwhiffy.auraltester.notation.factory.ScaleTypeFactory;
+import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection;
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleType;
+import com.skewwhiffy.auraltester.service.AbcService;
+import com.skewwhiffy.auraltester.service.ScaleService;
+import com.skewwhiffy.auraltester.test.util.TestData;
+import lombok.val;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class ScaleControllerTest {
-  @Mock
-  private AbcService abcService;
+    @Mock
+    private AbcService abcService;
 
-  @Mock
-  private InternalNotationFactory internalNotationFactory;
+    @Mock
+    private InternalNotationFactory internalNotationFactory;
 
-  @Mock
-  private ScaleService scaleService;
+    @Mock
+    private ScaleService scaleService;
 
-  @Mock
-  private ScaleTypeFactory scaleTypeFactory;
+    @Mock
+    private ScaleTypeFactory scaleTypeFactory;
 
-  @InjectMocks
-  private ScaleController scaleController;
+    @InjectMocks
+    private ScaleController scaleController;
 
-  companion object {
-    @JvmStatic
-    fun scaleTestCases(): Stream<Arguments> = mapOf<String, (f: ScaleTypeFactory) -> ScaleType>(
-      "major" to { it.major },
-      "minor-harmonic" to { it.minorHarmonic },
-      "minor-melodic" to { it.minorMelodic }
-    ).flatMap { scaleType ->
-      mapOf(
-        "ascending" to ScaleDirection.ASCENDING,
-        "descending" to ScaleDirection.DESCENDING
-      )
-        .map { direction ->
-          Arguments.of(scaleType.key, scaleType.value, direction.key, direction.value)
-        }
-    }.stream()
-  }
 
-  @ParameterizedTest
-  @MethodSource("scaleTestCases")
-  fun `responds correctly`(
-    scaleTypeString: String,
-    getScale: (f: ScaleTypeFactory) -> ScaleType,
-    direction: String,
-    directionObject: ScaleDirection,
-  ) {
-    val clefString = TestData.random.string
-    val noteString = TestData.random.string
-    val abcWithoutKeySignature = TestData.random.string
-    val abcWithKeySignature = TestData.random.string
-    val scaleLowestNote = TestData.random.absoluteNote
-    val scale = TestData.random.scale
-    val key = Key(scale.lowestNote.note, scaleTypeString != "major")
-    val clefObject = TestData.random.clef
-    val scaleType = TestData.random.scaleType
-    val keyCaptor: ArgumentCaptor<Key> = ArgumentCaptor.forClass(Key::class.java)
-    `when`(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
-    `when`(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-    `when`(getScale(scaleTypeFactory)).thenReturn(scaleType)
-    `when`(
-      scaleService.getScale(
-        clefObject,
-        scaleLowestNote.note,
-        scaleType,
-        directionObject
-      )
-    ).thenReturn(scale)
-    `when`(abcService.getAbc(clefObject, scale))
-      .thenReturn(object : AbcProvider {
-        override val abc = abcWithoutKeySignature
-      })
-    `when`(abcService.getAbc(eq(clefObject), eq(scale), keyCaptor.capture()))
-      .then {
-        val suppliedClef = it.getArgument<Clef>(0)
-        val suppliedScale = it.getArgument<Scale>(1)
-        val suppliedKey = it.getArgument<Key>(2)
+    @ParameterizedTest
+    @MethodSource("scaleTestCases")
+    void respondsCorrectly(
+            String scaleTypeString,
+            Function<ScaleTypeFactory, ScaleType> getScale,
+            String direction,
+            ScaleDirection directionObject
+    ) {
+        val clefString = TestData.random().string();
+        val noteString = TestData.random().string();
+        val abcWithoutKeySignature = TestData.random().string();
+        val abcWithKeySignature = TestData.random().string();
+        val scaleLowestNote = TestData.random().absoluteNote();
+        val scale = TestData.random().scale();
+        val key = scaleTypeString.equals("major") ? Key.major(scale.lowestNote().note()) : Key.minor(scale.lowestNote().note());
+        val clefObject = TestData.random().clef();
+        val scaleType = TestData.random().scaleType();
+        val keyCaptor = ArgumentCaptor.forClass(Key.class);
+        when(internalNotationFactory.clef(clefString)).thenReturn(clefObject);
+        when(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote);
+        when(getScale.apply(scaleTypeFactory)).thenReturn(scaleType);
+        when(
+                scaleService.getScale(
+                        clefObject,
+                        scaleLowestNote.note(),
+                        scaleType,
+                        directionObject
+                )
+        ).thenReturn(scale);
+        when(abcService.getAbc(clefObject, scale))
+                .thenReturn(() -> abcWithoutKeySignature);
+        when(abcService.getAbc(eq(clefObject), eq(scale), keyCaptor.capture()))
+                .then(it -> {
+                            val suppliedClef = it.getArgument(0);
+                            val suppliedScale = it.getArgument(1);
+                            val suppliedKey = it.getArgument(2);
 
-        assertThat(suppliedClef).isEqualTo(clefObject)
-        assertThat(suppliedScale).isEqualTo(scale)
-        object : AbcProvider {
-          override val abc = suppliedKey?.let { abcWithKeySignature } ?: abcWithoutKeySignature
-        }
-      }
+                            assertThat(suppliedClef).isEqualTo(clefObject);
+                            assertThat(suppliedScale).isEqualTo(scale);
+                            return (AbcProvider) () -> suppliedKey == null ? abcWithoutKeySignature : abcWithKeySignature;
+                        }
+                );
 
-    val actual = scaleController.get(
-      clefString,
-      noteString,
-      scaleTypeString,
-      direction
-    )
+        val actual = scaleController.get(
+                clefString,
+                noteString,
+                scaleTypeString,
+                direction
+        );
 
-    assertThat(keyCaptor.allValues).isEqualTo(listOf(null, key))
-    assertThat(actual.withKeySignature).isEqualTo(abcWithKeySignature)
-    assertThat(actual.withoutKeySignature).isEqualTo(abcWithoutKeySignature)
-  }
+        val allValues = keyCaptor.getAllValues();
+        assertThat(allValues).hasSameElementsAs(List.of(key));
+        verify(abcService).getAbc(clefObject, scale);
+        assertThat(actual.withKeySignature()).isEqualTo(abcWithKeySignature);
+        assertThat(actual.withoutKeySignature()).isEqualTo(abcWithoutKeySignature);
+    }
+
+    static Stream<Arguments> scaleTestCases() {
+        return Map.of(
+                        "major",
+                        (Function<ScaleTypeFactory, ScaleType>) ScaleTypeFactory::getMajor,
+                        "minor-harmonic",
+                        ScaleTypeFactory::getMinorHarmonic,
+                        "minor-melodic",
+                        ScaleTypeFactory::getMinorMelodic
+                )
+                .entrySet()
+                .stream()
+                .flatMap(scaleType -> Map.of(
+                                "ascending",
+                                ScaleDirection.ASCENDING,
+                                "descending",
+                                ScaleDirection.DESCENDING
+                        )
+                        .entrySet()
+                        .stream()
+                        .map(it -> Arguments.of(
+                                scaleType.getKey(),
+                                scaleType.getValue(),
+                                it.getKey(),
+                                it.getValue()
+                        )));
+    }
 }
 
 /*
