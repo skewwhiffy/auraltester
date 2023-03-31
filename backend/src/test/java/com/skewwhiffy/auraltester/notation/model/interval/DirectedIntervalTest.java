@@ -1,37 +1,40 @@
-/*
-package com.skewwhiffy.notation.model.interval
+package com.skewwhiffy.auraltester.notation.model.interval;
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import lombok.val;
+import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DirectedIntervalTest {
-  @Test
-  fun `instantiates up interval` () {
-    val interval = Interval.major(6)
+    @Test
+    void instantiatesUpInterval() {
+        val interval = Interval.major(6);
 
-    val actual = interval.up
+        val actual = interval.up();
 
-    assertThat(actual.interval).isEqualTo(interval)
-    assertThat(actual.direction).isEqualTo(IntervalDirection.UP)
-  }
+        assertThat(actual.interval()).isEqualTo(interval);
+        assertThat(actual.direction()).isEqualTo(IntervalDirection.UP);
+    }
 
-  @Test
-  fun `instantiates down interval` () {
-    val interval = Interval.major(7)
+    @Test
+    void instantiatesDownInterval() {
+        val interval = Interval.major(7);
 
-    val actual = interval.down
+        val actual = interval.down();
 
-    assertThat(actual.interval).isEqualTo(interval)
-    assertThat(actual.direction).isEqualTo(IntervalDirection.DOWN)
-  }
+        assertThat(actual.interval()).isEqualTo(interval);
+        assertThat(actual.direction()).isEqualTo(IntervalDirection.DOWN);
+    }
 
-  @Test
-  fun `equates equivalent directed intervals` () {
-    fun getInterval() = Interval.perfect(5).up
+    @Test
+    void equatesEquivalentDirectedIntervals() {
+        Supplier<Interval> getInterval = () -> Interval.perfect(5);
 
-    val first = getInterval()
-    val second = getInterval()
+        val first = getInterval.get();
+        val second = getInterval.get();
 
-    assertThat(first).isEqualTo(second)
-  }
-}*/
+        assertThat(first).isEqualTo(second);
+    }
+}

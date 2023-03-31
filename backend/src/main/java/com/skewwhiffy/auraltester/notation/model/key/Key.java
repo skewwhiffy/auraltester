@@ -4,15 +4,11 @@ import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.Accidental;
 import com.skewwhiffy.auraltester.notation.model.note.Note;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.val;
 import org.apache.logging.log4j.util.Strings;
 
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Stream;
 
 public record Key(Note note, boolean isMinor) {
@@ -33,11 +29,11 @@ public record Key(Note note, boolean isMinor) {
         return getAccidentalAbc(note.note()) + getNoteAbc(note);
     }
 
-    /*
-
-    val canRenderSignature: Boolean = if (isMinor) relativeMajor.canRenderSignature
-    else renderableKeys.contains(note.displayString)
-    */
+    public boolean canRenderSignature() {
+        return isMinor
+                ? getRelativeMajor().canRenderSignature()
+                : "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".contains(note.getDisplayString());
+    }
 
     private String getNoteAbc(AbsoluteNote note) {
         val offset = note.octave().offsetFromDefault();
@@ -95,18 +91,6 @@ public record Key(Note note, boolean isMinor) {
                 );
     }
 
-    /*
-}
-    companion object {
-@Suppress("SpellCheckingInspection")
-private val renderableKeys:List<String> ="C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
-        .split(' ')
-        .toList()
-
-        val cMajor:Key=Key(Note.c)
-        }
-        */
-
     public static Key getCMajor() {
         return major(Note.getC());
     }
@@ -118,4 +102,5 @@ private val renderableKeys:List<String> ="C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
     public static Key minor(Note note) {
         return new Key(note, true);
     }
+
 }

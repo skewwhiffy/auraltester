@@ -1,170 +1,187 @@
-/*
-package com.skewwhiffy.notation.model.key
+package com.skewwhiffy.auraltester.notation.model.key;
 
-import com.skewwhiffy.notation.model.note.AbsoluteNote
-import com.skewwhiffy.notation.model.note.Note
-import com.skewwhiffy.notation.model.note.Octave
-import com.skewwhiffy.test.util.TestData
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.notation.model.note.Note;
+import com.skewwhiffy.auraltester.notation.model.note.Octave;
+import com.skewwhiffy.auraltester.test.util.TestData;
+import lombok.val;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class KeyTest {
-  @Test
-  fun `when note has accidental in key then no accidental is given in abc`() {
-    val note = AbsoluteNote(Note.f.sharp, Octave.default)
-    val key = Key(Note.d)
+    @Test
+    void when_noteHasAccidentalInKey_then_noAccidentalIsGivenInAbc() {
+        val note = new AbsoluteNote(Note.getF().sharpen(), Octave.getDefault(), Optional.empty());
+        val key = Key.major(Note.getD());
 
-    val actual = key.abc(note)
+        val actual = key.getAbc(note);
 
-    assertThat(actual).isEqualTo("F")
-  }
+        assertThat(actual).isEqualTo("F");
+    }
 
-  @Test
-  fun `when note has accidental different to key then note accidental is given () abc`() {
-    val note = AbsoluteNote(Note.e.flat, Octave.default)
-    val key = Key(Note.g)
+    @Test
+    void when_noteHasAccidentalDifferentToKey_then_noteAccidentalIsGiven() {
+        val note = new AbsoluteNote(Note.getE().flatten(), Octave.getDefault(), Optional.empty());
+        val key = Key.major(Note.getG());
 
-    val actual = key.abc(note)
+        val actual = key.getAbc(note);
 
-    assertThat(actual).isEqualTo("_E")
-  }
+        assertThat(actual).isEqualTo("_E");
+    }
 
-  @Test
-  fun `when note is natural but key has accidental then note accidental is natural () abc`() {
-    val note = AbsoluteNote(Note.g, Octave.default)
-    val key = Key(Note.e)
+    @Test
+    void when_noteIsNatural_and_keyHasAccidental_then_noteAccidentalIsNatural() {
+        val note = new AbsoluteNote(Note.getG(), Octave.getDefault(), Optional.empty());
+        val key = Key.major(Note.getE());
 
-    val actual = key.abc(note)
+        val actual = key.getAbc(note);
 
-    assertThat(actual).isEqualTo("=G")
-  }
+        assertThat(actual).isEqualTo("=G");
+    }
 
-  @Suppress("SpellCheckingInspection")
-  @ParameterizedTest
-  @MethodSource("renderableMajorsTestCases")
-  fun `can render major key`(note: Note) {
-    val key = Key(note)
+    @ParameterizedTest
+    @MethodSource("renderMajorTestCases")
+    void canRenderMajorKey(Note note) {
+        val key = Key.major(note);
 
-    assertThat(key.canRenderSignature).isTrue
-  }
+        assertThat(key.canRenderSignature()).isTrue();
+    }
 
-  @Suppress("SpellCheckingInspection")
-  @ParameterizedTest
-  @MethodSource("notRenderableMajorsTestCases")
-  fun `cannot render major key`(note: Note) {
-    val key = Key(note)
 
-    assertThat(key.canRenderSignature).isFalse
-  }
+    @ParameterizedTest
+    @MethodSource("cannotRenderMajorTestCases")
+    void cannotRenderMajorKey(Note note) {
+        val key = Key.major(note);
 
-  @Suppress("SpellCheckingInspection")
-  @ParameterizedTest
-  @MethodSource("notRenderableMinorsTestCases")
-  fun `cannot render minor key`(note: Note) {
-    val key = Key(note, isMinor = true)
+        assertThat(key.canRenderSignature()).isFalse();
+    }
 
-    assertThat(key.canRenderSignature).isFalse
-  }
+    @ParameterizedTest
+    @MethodSource("cannotRenderMinorTestCases")
+    void cannotRenderMinorKey(Note note) {
+        val key = Key.minor(note);
 
-  @Suppress("SpellCheckingInspection")
-  @ParameterizedTest
-  @MethodSource("renderableMinorsTestCases")
-  fun `can render minor key`(note: Note) {
+        assertThat(key.canRenderSignature()).isFalse();
+    }
 
-    val key = Key(note, isMinor = true)
+    @ParameterizedTest
+    @MethodSource("canRenderMinorTestCases")
+    void canRenderMinorKeys(Note note) {
+        val key = Key.minor(note);
 
-    assertThat(key.canRenderSignature).isTrue
-  }
+        assertThat(key.canRenderSignature()).isTrue();
+    }
 
-  @Test
-  fun `when relativeMinor then correct`() {
-    val key = Key(Note.e.flat)
+    @Test
+    void when_relativeMinor_then_correct() {
+        val key = Key.major(Note.getE().flatten());
 
-    val actual = key.relativeMinor
+        val actual = key.getRelativeMinor();
 
-    assertThat(actual.note).isEqualTo(Note.c)
-    assertThat(key.relativeMajor).isEqualTo(key)
-  }
+        assertThat(actual.note()).isEqualTo(Note.getC());
+        assertThat(key.getRelativeMajor()).isEqualTo(key);
+    }
 
-  @Test
-  fun `when relativeMajor then correct`() {
-    val key = Key(Note.e.flat, isMinor = true)
+    @Test
+    void when_relativeMajor_then_correct() {
+        val key = Key.minor(Note.getE().flatten());
 
-    val actual = key.relativeMajor
+        val actual = key.getRelativeMajor();
 
-    assertThat(actual.note).isEqualTo(Note.g.flat)
-    assertThat(key.relativeMinor).isEqualTo(key)
-  }
+        assertThat(actual.note()).isEqualTo(Note.getG().flatten());
+        assertThat(key.getRelativeMinor()).isEqualTo(key);
+    }
 
-  @Test
-  fun `when major then notes correct`() {
-    val key = Key(Note.f.sharp)
-    val expected = "F# G# A# B C# D# E#"
+    @Test
+    void when_major_then_notesCorrect() {
+        val key = Key.major(Note.getF().sharpen());
+        val expected = "F# G# A# B C# D# E#";
 
-    val actual = key.notes.joinToString(" ") { it.displayString }
+        val actual = key.getNotes().stream().map(Note::getDisplayString).collect(Collectors.joining(" "));
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `when minor then notes correct`() {
-    val key = Key(Note.a, isMinor = true)
-    val expected = "A B C D E F G"
+    @Test
+    void when_minor_then_notesCorrect() {
+        val key = Key.minor(Note.getA());
+        val expected = "A B C D E F G";
 
-    val actual = key.notes.joinToString(" ") { it.displayString }
+        val actual = key.getNotes().stream().map(Note::getDisplayString).collect(Collectors.joining(" "));
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `when equivalent then equal`() {
-    fun getKey() = Key(Note.g.flat)
+    @Test
+    void when_equivalent_then_equal() {
+        Supplier<Key> getKey = () -> Key.major(Note.getG().flatten());
 
-    val first = getKey()
-    val second = getKey()
+        val first = getKey.get();
+        val second = getKey.get();
 
-    assertThat(first).isEqualTo(second)
-  }
+        assertThat(first).isEqualTo(second);
+    }
 
-  @Test
-  fun `when not key then not equal`() {
-    @Suppress("AssertBetweenInconvertibleTypes")
-    assertThat(Key.cMajor).isNotEqualTo("hello")
-  }
+    @Test
+    void when_notKey_then_notEqual() {
+        //noinspection AssertBetweenInconvertibleTypes
+        assertThat(Key.getCMajor()).isNotEqualTo("hello");
+    }
 
-  @Suppress("SpellCheckingInspection")
-  companion object {
-    @JvmStatic
-    fun renderableMinorsTestCases() = renderableMinors.map { Arguments.of(it) }.stream()
+    static Stream<Arguments> canRenderMinorTestCases() {
+        return canRenderMinors
+                .stream()
+                .map(Arguments::of);
+    }
 
-    @JvmStatic
-    fun notRenderableMinorsTestCases() = (allNotes - renderableMinors.toSet())
-      .map { Arguments.of(it) }
-      .stream()
+    static Stream<Arguments> cannotRenderMinorTestCases() {
+        return allNotes
+                .stream()
+                .filter(it -> !canRenderMinors.contains(it))
+                .map(Arguments::of);
+    }
 
-    @JvmStatic
-    fun renderableMajorsTestCases() = renderableMajors.map { Arguments.of(it) }.stream()
 
-    @JvmStatic
-    fun notRenderableMajorsTestCases() = (allNotes - renderableMajors.toSet())
-      .map { Arguments.of(it) }
-      .stream()
+    static Stream<Arguments> renderMajorTestCases() {
+        return canRenderMajors
+                .stream()
+                .map(Arguments::of);
+    }
 
-    private val renderableMajors = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb"
-      .split(' ')
-      .map { TestData.noteFactories.note.getNote(it) }
+    static Stream<Arguments> cannotRenderMajorTestCases() {
+        return allNotes
+                .stream()
+                .filter(it -> !canRenderMajors.contains(it))
+                .map(Arguments::of);
+    }
 
-    private val renderableMinors = "A E B F# C# G# D# A# D G C F Bb Eb Ab"
-      .split(' ')
-      .map { TestData.noteFactories.note.getNote(it) }
+    private static final List<Note> canRenderMajors = Arrays.stream(
+                    "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".split(" ")
+            )
+            .map(it -> TestData.noteFactories().note().getNote(it))
+            .toList();
 
-    private val allNotes = "A B C D E F G"
-      .split(' ')
-      .map { TestData.noteFactories.note.getNote(it) }
-      .flatMap { listOf(it, it.sharp, it.flat) }
-  }
+    private static final List<Note> canRenderMinors = Arrays.stream(
+                    "A E B F# C# G# D# A# D G C F Bb Eb Ab".split(" ")
+            )
+            .map(it -> TestData.noteFactories().note().getNote(it))
+            .toList();
+
+    private static final List<Note> allNotes = Arrays.stream(
+                    "A B C D E F G".split(" ")
+            )
+            .map(it -> TestData.noteFactories().note().getNote(it))
+            .flatMap(it -> Stream.of(it, it.sharpen(), it.flatten()))
+            .toList();
 }
-*/

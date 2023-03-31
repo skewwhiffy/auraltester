@@ -41,18 +41,19 @@ public record Interval(int degree, int deviation) {
 
     private String getQuality() {
         val defaultQuality = perfectDegrees.contains(degree) ? "perfect" : "major";
+        val diminishedQuantity = perfectDegrees.contains(degree) ? -deviation : -deviation - 1;
         val negativeQuality = (!perfectDegrees.contains(degree) && deviation == -1)
                 ? "minor"
-                : switch (perfectDegrees.contains(degree) ? -deviation : -deviation - 1) {
+                : switch (diminishedQuantity) {
             case 1 -> "diminished";
             case 2 -> "doubly diminished";
-            default -> "${it}x diminished";
+            default -> diminishedQuantity + "x diminished";
         };
 
         val positiveQuality = (switch (deviation) {
             case 1 -> "";
             case 2 -> "doubly ";
-            default -> "${deviation}x ";
+            default -> deviation + "x ";
         }) + "augmented";
 
         return deviation < 0 ? negativeQuality : deviation > 0 ? positiveQuality : defaultQuality;
