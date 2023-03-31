@@ -15,16 +15,12 @@ import java.util.stream.IntStream;
 
 
 public class TestData {
-    /*
-object TestData {
-*/
     public static RandomTestData random() {
         return new RandomTestData();
     }
     /*
   val noteFactories = NoteFactories
 }
-
 */
 
     public static class RandomTestData {
