@@ -1,7 +1,6 @@
 package com.skewwhiffy.auraltester.test.util;
 
-import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
-import com.skewwhiffy.auraltester.notation.factory.NoteFactory;
+import com.skewwhiffy.auraltester.notation.factory.*;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
@@ -113,19 +112,27 @@ public class TestData {
         public ClefFactory clef() {
             return new ClefFactory(note());
         }
-            /*
-  val interval: IntervalFactory = IntervalFactory()
 
-  val key: KeyFactory = KeyFactory(note)
+        public IntervalFactory interval() {
+            return new IntervalFactory();
+        }
 
-  val internalNotation: InternalNotationFactory = InternalNotationFactory(
-    clef,
-    interval,
-    key,
-    note
-  )
-  val scaleTypeFactory: ScaleTypeFactory = ScaleTypeFactory(interval)
-  */
+        public KeyFactory key() {
+            return new KeyFactory(note());
+        }
+
+        public InternalNotationFactory internalNotation() {
+            return new InternalNotationFactory(
+                    clef(),
+                    note(),
+                    interval(),
+                    key()
+            );
+        }
+
+        public ScaleTypeFactory scaleType() {
+            return new ScaleTypeFactory(interval());
+        }
     }
 
 }

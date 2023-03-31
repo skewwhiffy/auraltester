@@ -1,26 +1,31 @@
-/*
-package com.skewwhiffy.notation.model.note
+package com.skewwhiffy.auraltester.notation.model.note;
 
-import com.skewwhiffy.notation.model.interval.Interval
-import com.skewwhiffy.notation.model.key.Key
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.fail
+import com.codepoetics.protonpack.StreamUtils;
+import com.skewwhiffy.auraltester.notation.model.interval.Interval;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
+import lombok.val;
+import org.junit.jupiter.api.Test;
+import org.springframework.data.util.Pair;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.*;
 
 class AbsoluteNoteTest {
   @Test
-  fun `instantiates middle C`() {
-    val expected = "C"
+    void instantiatesMiddleC(){
+    val expected = "C";
 
-    val actual = AbsoluteNote.middleC
+    val actual = AbsoluteNote.getMiddleC();
 
-    assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
+    assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected);
   }
 
   @Test
-  fun `adds major and perfect intervals`() {
-    val intervals = listOf(
+    void addsMajorAndPerfectIntervals() {
+    val intervals = List.of(
       Interval.perfect(1),
       Interval.major(2),
       Interval.major(3),
@@ -29,17 +34,17 @@ class AbsoluteNoteTest {
       Interval.major(6),
       Interval.major(7),
       Interval.perfect(8)
-    )
-    val start = AbsoluteNote.middleC
-    val expected = listOf("C", "D", "E", "F", "G", "A", "B", "c")
+    );
+    val start = AbsoluteNote.getMiddleC();
+    val expected = List.of("C", "D", "E", "F", "G", "A", "B", "c");
 
-    testGeneric(start, intervals, expected)
+    testGeneric(start, intervals, expected);
   }
 
   @Test
-  fun `adds minor intervals`() {
-    val start = AbsoluteNote.middleC + Interval.major(6)
-    val intervals = listOf(
+  void addsMinorIntervals() {
+    val start = AbsoluteNote.getMiddleC().plus(  Interval.major(6));
+    val intervals = List.of(
       Interval.perfect(1),
       Interval.minor(2),
       Interval.minor(3),
@@ -48,117 +53,121 @@ class AbsoluteNoteTest {
       Interval.minor(6),
       Interval.minor(7),
       Interval.perfect(8)
-    )
-    val expected = listOf("A", "_B", "c", "d", "e", "f", "g", "a")
+    );
+    val expected = List.of("A", "_B", "c", "d", "e", "f", "g", "a");
 
-    testGeneric(start, intervals, expected)
+    testGeneric(start, intervals, expected);
   }
 
   @Test
-  fun `adds diminished and augmented intervals`() {
-    val intervals = listOf(
+  void addsDiminishedAndAugmentedIntervals() {
+    val intervals = List.of(
       Interval.diminished(3), Interval.diminished(4), Interval.augmented(5), Interval.augmented(6)
-    )
-    val start = AbsoluteNote.middleC
-    val expected = listOf("__E", "_F", "^G", "^A")
+    );
+    val start = AbsoluteNote.getMiddleC();
+    val expected = List.of("__E", "_F", "^G", "^A");
 
-    testGeneric(start, intervals, expected)
+    testGeneric(start, intervals, expected);
   }
 
   @Test
-  fun `does not add compound intervals (yet)`() {
-    val start = AbsoluteNote.middleC
+  void doesNotAddComponentIntervals__yet() {
+    val start = AbsoluteNote.getMiddleC();
 
-    assertThrows<IllegalArgumentException> { start + Interval.major(9) }
+    assertThatThrownBy(() -> start.plus(Interval.major(9)))
+            .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  fun `applies up interval`() {
-    val interval = Interval.minor(3).up
-    val start = AbsoluteNote.middleC
-    val expected = "_E"
+  void appliesUpInterval() {
+    val interval = Interval.minor(3).up();
+    val start = AbsoluteNote.getMiddleC();
+    val expected = "_E";
 
-    val actual = start.apply(interval)
+    val actual = start.apply(interval);
 
-    assertThat(actual.abc(Key.cMajor)).isEqualTo(expected)
+    assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected);
   }
 
   @Test
-  fun `applies down interval`() {
-    val interval = Interval.minor(3)
-    val directedInterval = interval.down
-    val start = AbsoluteNote.middleC
-    val expected = "A,"
+  void appliesDownInterval() {
+    val interval = Interval.minor(3);
+    val directedInterval = interval.down();
+    val start = AbsoluteNote.getMiddleC();
+    val expected = "A,";
 
-    val actualWithApply = start.apply(directedInterval)
-    val actualWithSubtract = start - interval
+    val actualWithApply = start.apply(directedInterval);
+    val actualWithSubtract = start.minus(interval);
 
-    assertThat(actualWithApply.abc(Key.cMajor)).isEqualTo(expected)
-    assertThat(actualWithSubtract.abc(Key.cMajor)).isEqualTo(expected)
+    assertThat(actualWithApply.getAbc(Key.getCMajor())).isEqualTo(expected);
+    assertThat(actualWithSubtract.getAbc(Key.getCMajor())).isEqualTo(expected);
   }
 
   @Test
-  fun `not subtract compound intervals yet`() {
-    val interval = Interval.major(9)
+  void notSubtractCompoundIntervals__yet() {
+    val interval = Interval.major(9);
 
-    assertThrows<IllegalArgumentException> { AbsoluteNote.middleC - interval }
+    assertThatThrownBy(() -> AbsoluteNote.getMiddleC().minus(interval))
+            .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  fun `equivalent notes are equal`() {
-    fun getNote(): AbsoluteNote = AbsoluteNote(Note.d.sharp, Octave.default.up)
+  void equivalentNotesAreEqual() {
+    Supplier<AbsoluteNote> getNote = () -> new AbsoluteNote (
+            Note.getD().sharpen(),
+            Octave.getDefault().up(),
+            Optional.empty()
+    );
 
-    val first = getNote()
-    val second = getNote()
+    val first = getNote.get();
+    val second = getNote.get();
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first <= second).isTrue
-    assertThat(first >= second).isTrue
+    assertThat(first).isEqualTo(second);
+    assertThat(first).isGreaterThanOrEqualTo(second);
+    assertThat(first).isLessThanOrEqualTo(second);
   }
 
   @Test
-  fun `absolute note is not equal to non absolute note`() {
-    fun getNote(): AbsoluteNote = AbsoluteNote.middleC
-
-    val someOtherObject = Note.c
-
-    @Suppress("AssertBetweenInconvertibleTypes") assertThat(getNote()).isNotEqualTo(someOtherObject)
+  void absoluteNoteIsNotEqualToNonAbsoluteNote() {
+    //noinspection AssertBetweenInconvertibleTypes
+    assertThat(AbsoluteNote.getMiddleC()).isNotEqualTo(Note.getC());
   }
 
   @Test
-  fun `toString returns abc`() {
-    val note = AbsoluteNote.middleC
+  void toStringReturnsAbc() {
+    val note = AbsoluteNote.getMiddleC();
 
-    assertThat(note.toString()).isEqualTo(note.abc(Key.cMajor))
+    assertThat(note.toString()).isEqualTo(note.getAbc(Key.getCMajor()));
   }
 
   @Test
-  fun `non equivalent notes in same octave are comparable`() {
-    val lower = AbsoluteNote(Note.d, Octave.default)
-    val higher = AbsoluteNote(Note.b, Octave.default)
+  void nonEquivalentNotesInSameOctaveAreComparable() {
+    val lower = new AbsoluteNote(Note.getD(), Octave.getDefault(), Optional.empty());
+    val higher = new AbsoluteNote(Note.getB(), Octave.getDefault(), Optional.empty());
 
-    assertThat(lower < higher).isTrue
-    assertThat(lower > higher).isFalse
-    assertThat(lower <= higher).isTrue
-    assertThat(lower >= higher).isFalse
+    assertThat(lower).isLessThan(higher);
+    assertThat(lower).isLessThanOrEqualTo(higher);
   }
 
-  private fun testGeneric(
-    start: AbsoluteNote, intervals: List<Interval>, expectedAbcs: List<String>
-  ) {
-    if (intervals.size != expectedAbcs.size) {
-      fail("Need expectation size = interval list size")
+  private void testGeneric(
+          AbsoluteNote start,
+          List<Interval> intervals,
+          List<String> expectedAbcs
+  )  {
+    if (intervals.size() != expectedAbcs.size()) {
+      fail("Need expectation size = interval list size");
     }
-    intervals.zip(expectedAbcs).forEach {
-      testGeneric(start, it.first, it.second)
-    }
+    StreamUtils.zip(intervals.stream(), expectedAbcs.stream(), Pair::of)
+                    .forEach(it -> testGeneric(start, it.getFirst(), it.getSecond()));
   }
 
-  private fun testGeneric(
-    start: AbsoluteNote, interval: Interval, expectedAbc: String
-  ) {
-    val actual = (start + interval).abc(Key.cMajor)
+  private void testGeneric(
+          AbsoluteNote start,
+          Interval interval,
+          String expectedAbc
+  )  {
+    val actual = start.plus(interval).getAbc(Key.getCMajor());
 
-    assertThat(actual).isEqualTo(expectedAbc)
+    assertThat(actual).isEqualTo(expectedAbc);
   }
-}*/
+}

@@ -1,169 +1,194 @@
-/*
-package com.skewwhiffy.notation.model.note
+package com.skewwhiffy.auraltester.notation.model.note;
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
+import com.skewwhiffy.auraltester.helper.NoParallelStream;
+import lombok.val;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class AccidentalTest {
-  @Test
-  fun `has correct abc when natural`() {
-    val expected = ""
-    val natural = Accidental.natural
+    @Test
+    void hasCorrectAbcWhenNatural() {
+        val expected = "";
+        val natural = Accidental.getNatural();
 
-    val actual = natural.abc
+        val actual = natural.getAbc();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `has correct abc when flat`() {
-    val expected = "_"
-    val flat = Accidental.flat
+    @Test
+    void hasCorrectAbcWhenFlat() {
+        val expected = "_";
+        val flat = Accidental.getFlat();
 
-    val actual = flat.abc
+        val actual = flat.getAbc();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `has correct abc when sharp`() {
-    val expected = "^"
-    val sharp = Accidental.sharp
+    @Test
+    void hasCorrectAbcWhenSharp() {
+        val expected = "^";
+        val sharp = Accidental.getSharp();
 
-    val actual = sharp.abc
+        val actual = sharp.getAbc();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `displays correctly when natural`() {
-    val expected = ""
-    val natural = Accidental.natural
+    @Test
+    void displaysCorrectlyWhenNatural() {
+        val expected = "";
+        val natural = Accidental.getNatural();
 
-    val actual = natural.displayString
+        val actual = natural.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `is flat when flattening natural`() {
-    val natural = Accidental.natural
+    @Test
+    void when_flatteningNatural_then_isFlat() {
+        val natural = Accidental.getNatural();
 
-    val actual = natural.flat
+        val actual = natural.flatten();
 
-    assertThat(actual).isEqualTo(Accidental.flat)
-  }
+        assertThat(actual).isEqualTo(Accidental.getFlat());
+    }
 
-  @Test
-  fun `is sharp when sharpening natural`() {
-    val natural = Accidental.natural
+    @Test
+    void when_sharpeningNatural_then_isSharp() {
+        val natural = Accidental.getNatural();
 
-    val actual = natural.sharp
+        val actual = natural.sharpen();
 
-    assertThat(actual).isEqualTo(Accidental.sharp)
-  }
+        assertThat(actual).isEqualTo(Accidental.getSharp());
+    }
 
-  @Test
-  fun `displays flat when flat`() {
-    val expected = "b"
-    val flat = Accidental.flat
+    @Test
+    void when_flat_then_displaysFlat() {
+        val expected = "b";
+        val flat = Accidental.getFlat();
 
-    val actual = flat.displayString
+        val actual = flat.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `displays double flat when flattening flat`() {
-    val expected = "bb"
-    val flat = Accidental.flat
+    @Test
+    void when_flatteningFlat_then_displaysDoubleFlat() {
+        val expected = "bb";
+        val flat = Accidental.getFlat();
 
-    val actual = flat.flat
+        val actual = flat.flatten();
 
-    assertThat(actual.displayString).isEqualTo(expected)
-  }
+        assertThat(actual.getDisplayString()).isEqualTo(expected);
+    }
 
-  @Test
-  fun `is natural when sharpening flat`() {
-    val flat = Accidental.flat
+    @Test
+    void when_sharpeningFlat_then_isNatural() {
+        val flat = Accidental.getFlat();
 
-    val actual = flat.sharp
+        val actual = flat.sharpen();
 
-    assertThat(actual).isEqualTo(Accidental.natural)
-  }
+        assertThat(actual).isEqualTo(Accidental.getNatural());
+    }
 
-  @ParameterizedTest
-  @ValueSource(ints = [3, 7])
-  fun `displays correctly with flats`(flats: Int) {
-    val expected = "b".repeat(flats)
-    val accidental = (1..flats).fold(Accidental.natural) { acc, _ -> acc.flat }
+    @ParameterizedTest
+    @ValueSource(ints = {3, 7})
+    void displaysCorrectlyWithFlats(int flats) {
+        val expected = "b".repeat(flats);
+        val accidental = IntStream
+                .range(0, flats)
+                .boxed()
+                .reduce(
+                        Accidental.getNatural(),
+                        (it, i) -> it.flatten(),
+                        new NoParallelStream<>()
+                );
 
-    val actual = accidental.displayString
+        val actual = accidental.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `displays sharp when sharp`() {
-    val expected = "#"
-    val sharp = Accidental.sharp
+    @Test
+    void when_sharp_then_displaysSharp() {
+        val expected = "#";
+        val sharp = Accidental.getSharp();
 
-    val actual = sharp.displayString
+        val actual = sharp.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `displays double sharp when sharpening sharp`() {
-    val expected = "x"
-    val sharp = Accidental.sharp
+    @Test
+    void when_sharpeningSharp_then_displaysDoubleSharp() {
+        val expected = "x";
+        val sharp = Accidental.getSharp();
 
-    val actual = sharp.sharp
+        val actual = sharp.sharpen();
 
-    assertThat(actual.displayString).isEqualTo(expected)
-  }
+        assertThat(actual.getDisplayString()).isEqualTo(expected);
+    }
 
-  @Test
-  fun `is natural when flattening sharp`() {
-    val sharp = Accidental.sharp
+    @Test
+    void when_flatteningSharp_then_isNatural() {
+        val sharp = Accidental.getSharp();
 
-    val actual = sharp.flat
+        val actual = sharp.flatten();
 
-    assertThat(actual).isEqualTo(Accidental.natural)
-  }
+        assertThat(actual).isEqualTo(Accidental.getNatural());
+    }
 
-  @ParameterizedTest
-  @ValueSource(ints = [6, 10])
-  fun `displays even number of sharps correctly`(numberOfSharps: Int) {
-    val expected = "x".repeat(numberOfSharps / 2)
-    val accidental = (1..numberOfSharps).fold(Accidental.natural) { it, _ -> it.sharp }
+    @ParameterizedTest
+    @ValueSource(ints = {6, 10})
+    void displaysEvenNumberOfSharpsCorrectly(int numberOfSharps) {
+        val expected = "x".repeat(numberOfSharps / 2);
+        val accidental = IntStream
+                .range(0, numberOfSharps)
+                .boxed()
+                .reduce(
+                        Accidental.getNatural(),
+                        (it, i) -> it.sharpen(),
+                        new NoParallelStream<>()
+                );
 
-    val actual = accidental.displayString
+        val actual = accidental.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @ParameterizedTest
-  @ValueSource(ints = [7, 13])
-  fun `displays odd number of sharps correctly`(numberOfSharps: Int) {
-    val expected = "x".repeat(numberOfSharps / 2) + "#"
-    val accidental = (1..numberOfSharps)
-      .fold(Accidental.natural) { it, _ -> it.sharp }
+    @ParameterizedTest
+    @ValueSource(ints = {7, 13})
+    void displaysOddNumberOfSharpsCorrectly(int numberOfSharps) {
+        val expected = "x".repeat(numberOfSharps / 2) + "#";
+        val accidental = IntStream
+                .range(0, numberOfSharps)
+                .boxed()
+                .reduce(
+                        Accidental.getNatural(),
+                        (it, i) -> it.sharpen(),
+                        new NoParallelStream<>()
+                );
 
-    val actual = accidental.displayString
+        val actual = accidental.getDisplayString();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `equates equivalent accidentals`() {
-    fun getAccidental() = Accidental (5)
+    @Test
+    void equatesEquivalentAccidentals() {
+        Supplier<Accidental> getAccidental = () -> new Accidental(5);
 
-    val first = getAccidental()
-    val second = getAccidental()
+        val first = getAccidental.get();
+        val second = getAccidental.get();
 
-    assertThat(first).isEqualTo(second)
-  }
-}*/
+        assertThat(first).isEqualTo(second);
+    }
+}

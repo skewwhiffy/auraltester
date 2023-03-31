@@ -1,57 +1,59 @@
-/*
-package com.skewwhiffy.notation.model.note
+package com.skewwhiffy.auraltester.notation.model.note;
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import lombok.val;
+import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class NoteTest {
-  @Test
-  fun `return display string when natural`() {
-    val note = Note.a
+    @Test
+    void returnsDisplayStringWhenNatural() {
+        val note = Note.getA();
 
-    val actual = note.displayString
+        val actual = note.getDisplayString();
 
-    assertThat(actual).isEqualTo("A")
-  }
+        assertThat(actual).isEqualTo("A");
+    }
 
-  @Test
-  fun `return display string when sharp`() {
-    val note = Note.b.sharp
+    @Test
+    void returnsDisplayStringWhenSharp() {
+        val note = Note.getB().sharpen();
 
-    val actual = note.displayString
+        val actual = note.getDisplayString();
 
-    assertThat(actual).isEqualTo("B#")
-  }
+        assertThat(actual).isEqualTo("B#");
+    }
 
-  @Test
-  fun `return display string when flat`() {
-    val note = Note.d.flat
+    @Test
+    void returnsDisplayStringWhenFlat() {
+        val note = Note.getD().flatten();
 
-    val actual = note.displayString
+        val actual = note.getDisplayString();
 
-    assertThat(actual).isEqualTo("Db")
-  }
+        assertThat(actual).isEqualTo("Db");
+    }
 
-  @Test
-  fun `equate equivalent notes`() {
-    fun getNote() = Note("A", Accidental.sharp)
+    @Test
+    void equatesEquivalentNotes() {
+        Supplier<Note> getNote = () -> new Note("A", Accidental.getSharp());
 
-    val first = getNote()
-    val second = getNote()
+        val first = getNote.get();
+        val second = getNote.get();
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first <= second).isTrue
-    assertThat(first >= second).isTrue
-  }
+        assertThat(first).isEqualTo(second);
+        assertThat(first).isGreaterThanOrEqualTo(second);
+        assertThat(first).isLessThanOrEqualTo(second);
+    }
 
-  @Test
-  fun `compare non-equivalent notes`() {
-    val lower = Note.c
+    @Test
+    void compareNonEquivalentNotes() {
+        val lower = Note.getC();
 
-    val higher = Note.a
+        val higher = Note.getA();
 
-    assertThat(lower < higher).isTrue
-    assertThat(lower > higher).isFalse
+        assertThat(lower).isLessThan(higher);
+    }
     // TODO: > and < with #s and bs
-  }
-}*/
+}

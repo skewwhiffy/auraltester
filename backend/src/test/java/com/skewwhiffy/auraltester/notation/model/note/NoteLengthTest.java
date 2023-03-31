@@ -1,41 +1,40 @@
-/*
-package com.skewwhiffy.notation.model.note
+package com.skewwhiffy.auraltester.notation.model.note;
 
-import com.skewwhiffy.fraction.Fraction
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import com.skewwhiffy.auraltester.fraction.Fraction;
+import lombok.val;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class NoteLengthTest {
-  @Test
-  fun `correctly add dot`() {
-    val original = NoteLength.crotchet
-    val expected = NoteLength(Fraction(3, 8))
+    @Test
+    void correctlyAddsDot() {
+        val original = NoteLength.getCrotchet();
+        val expected = new NoteLength(new Fraction(3, 8));
 
-    val actual = original.dotted
+        val actual = original.dotted();
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Suppress("SpellCheckingInspection")
-  @Test
-  fun `instantiate specialized note lengths`() {
-    val breve = NoteLength.breve
-    val semibreve = NoteLength.semibreve
-    val minim = NoteLength.minim
-    val crotchet = NoteLength.crotchet
-    val quaver = NoteLength.quaver
-    val semiquaver = NoteLength.semiquaver
-    val demisemiquaver = NoteLength.demisemiquaver
-    val hemidemisemiquaver = NoteLength.hemidemisemiquaver
+    @Test
+    void instantiatesSpecializedNoteLengths() {
+        val breve = NoteLength.getBreve();
+        val semibreve = NoteLength.getSemibreve();
+        val minim = NoteLength.getMinim();
+        val crotchet = NoteLength.getCrotchet();
+        val quaver = NoteLength.getQuaver();
+        val semiquaver = NoteLength.getSemiquaver();
+        val demisemiquaver = NoteLength.getDemisemiquaver();
+        val hemidemisemiquaver = NoteLength.getHemidemisemiquaver();
 
-    assertThat(breve.abc).isEqualTo("2")
-    assertThat(semibreve.abc).isEqualTo("1")
-    assertThat(minim.abc).isEqualTo("1/2")
-    assertThat(crotchet.abc).isEqualTo("1/4")
-    assertThat(quaver.abc).isEqualTo("1/8")
-    assertThat(semiquaver.abc).isEqualTo("1/16")
-    assertThat(demisemiquaver.abc).isEqualTo("1/32")
-    assertThat(hemidemisemiquaver.abc).isEqualTo("1/64")
-  }
+        assertThat(breve.getAbc()).isEqualTo("2");
+        assertThat(semibreve.getAbc()).isEqualTo("1");
+        assertThat(minim.getAbc()).isEqualTo("1/2");
+        assertThat(crotchet.getAbc()).isEqualTo("1/4");
+        assertThat(quaver.getAbc()).isEqualTo("1/8");
+        assertThat(semiquaver.getAbc()).isEqualTo("1/16");
+        assertThat(demisemiquaver.getAbc()).isEqualTo("1/32");
+        assertThat(hemidemisemiquaver.getAbc()).isEqualTo("1/64");
+    }
 }
-*/

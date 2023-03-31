@@ -6,10 +6,10 @@ public record NoteLength(Fraction length) {
     public NoteLength(int length) {
         this(new Fraction(length, 1));
     }
-    /*
-  val dotted
-    get() = NoteLength((Fraction(3, 2) * length))
-     */
+
+    public NoteLength dotted() {
+        return new NoteLength(new Fraction(3, 2).times(length));
+    }
 
     public String getAbc() {
         return length.getTopHeavyString();

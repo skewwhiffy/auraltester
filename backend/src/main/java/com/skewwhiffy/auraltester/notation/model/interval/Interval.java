@@ -58,26 +58,17 @@ public record Interval(int degree, int deviation) {
 
         return deviation < 0 ? negativeQuality : deviation > 0 ? positiveQuality : defaultQuality;
     }
-    /*
 
-  override fun toString(): String = displayString
-}
+    public static Interval augmented(int degree) {
+        val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : major(degree);
+        return baseInterval.getAugmented();
+    }
 
-     */
+    public static Interval diminished(int degree) {
+        val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : minor(degree);
+        return baseInterval.getDiminished();
+    }
 
-
-    /*
-        fun augmented(degree: Int): Interval {
-          val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)
-          return baseInterval.augmented
-        }
-
-        fun diminished(degree: Int): Interval {
-          val baseInterval = if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)
-          return baseInterval.diminished
-        }
-
-    */
     public static Interval minor(int degree) {
         return major(degree).getDiminished();
     }

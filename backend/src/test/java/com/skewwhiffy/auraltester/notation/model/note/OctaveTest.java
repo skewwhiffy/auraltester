@@ -1,48 +1,48 @@
-/*
-package com.skewwhiffy.notation.model.note
+package com.skewwhiffy.auraltester.notation.model.note;
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import lombok.val;
+import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class OctaveTests {
-  @Test
-  fun `return higher octave when up called`() {
-    val start = Octave(70)
+    @Test
+    void returnHigherOctaveWhenUpCalled() {
+        val start = new Octave(70);
 
-    val actual = start.up
+        val actual = start.up();
 
-    assertThat(actual.offsetFromDefault).isEqualTo(start.offsetFromDefault + 1)
-  }
+        assertThat(actual.offsetFromDefault()).isEqualTo(start.offsetFromDefault() + 1);
+    }
 
-  @Test
-  fun `return lower octave when down called`() {
-    val start = Octave(81)
+    @Test
+    void returnsLowerOctaveWhenDownCalled() {
+        val start = new Octave(81);
 
-    val actual = start.down
+        val actual = start.down();
 
-    assertThat(actual.offsetFromDefault).isEqualTo(start.offsetFromDefault - 1)
-  }
+        assertThat(actual.offsetFromDefault()).isEqualTo(start.offsetFromDefault() - 1);
+    }
 
-  @Test
-  fun `equate same octaves`() {
-    fun getOctave() = Octave (52)
+    @Test
+    void equatesSameOctaves() {
+        Supplier<Octave> getOctave = () -> new Octave(52);
 
-    val first = getOctave()
-    val second = getOctave()
+        val first = getOctave.get();
+        val second = getOctave.get();
 
-    assertThat(first).isEqualTo(second)
-    assertThat(first >= second).isTrue
-  }
+        assertThat(first).isEqualTo(second);
+        assertThat(first).isGreaterThanOrEqualTo(second);
+    }
 
-  @Test
-  fun `be able to compare octaves`() {
-    val first = Octave(20)
-    val second = Octave(21)
+    @Test
+    void isAbleToCompareOctaves() {
+        val first = new Octave(20);
+        val second = new Octave(21);
 
-    assertThat(first > second).isFalse
-    assertThat(first < second).isTrue
-    assertThat(first >= second).isFalse
-    assertThat(first <= second).isTrue
-  }
+        assertThat(first).isLessThan(second);
+        assertThat(first).isLessThanOrEqualTo(second);
+    }
 }
-*/

@@ -1,43 +1,45 @@
-/*
-package com.skewwhiffy.notation.model.scale
+package com.skewwhiffy.auraltester.notation.model.scale;
 
-import com.skewwhiffy.notation.model.interval.DirectedInterval
-import com.skewwhiffy.test.util.TestData
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
+import com.skewwhiffy.auraltester.test.util.TestData;
+import lombok.val;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ScaleTypeTest {
-  private lateinit var displayName: String
-  private lateinit var abc: String
-  private lateinit var ascendingIntervals: List<DirectedInterval>
-  private lateinit var descendingIntervals: List<DirectedInterval>
-  private lateinit var scaleType: ScaleType
+    private List<DirectedInterval> ascendingIntervals;
+    private List<DirectedInterval> descendingIntervals;
+    private ScaleType scaleType;
 
-  @BeforeEach
-  fun `set up`() {
-    displayName = TestData.random.string
-    abc = TestData.random.string
-    ascendingIntervals = (0..5).map { TestData.random.directedInterval }
-    descendingIntervals = (1..7).map { TestData.random.directedInterval }
-    scaleType = ScaleType(displayName, abc, ascendingIntervals, descendingIntervals)
-  }
+    @BeforeEach
+    void setUp() {
+        val displayName = TestData.random().string();
+        val abc = TestData.random().string();
+        ascendingIntervals = IntStream.range(0, 6).mapToObj(it -> TestData.random().directedInterval()).toList();
+        descendingIntervals = IntStream.range(0, 8).mapToObj(it -> TestData.random().directedInterval()).toList();
+        scaleType = new ScaleType(displayName, abc, ascendingIntervals, descendingIntervals);
+    }
 
-  @Test
-  fun `when scale is ascending then returns ascending intervals`() {
-    val expected = ascendingIntervals
+    @Test
+    void when_scaleIsAscending_then_returnsAscendingIntervals() {
+        val expected = ascendingIntervals;
 
-    val actual = scaleType.intervals(ScaleDirection.ASCENDING)
+        val actual = scaleType.getIntervals(ScaleDirection.ASCENDING);
 
-    assertThat(actual).isEqualTo(expected)
-  }
+        assertThat(actual).isEqualTo(expected);
+    }
 
-  @Test
-  fun `when scale is descending then returns descending intervals`() {
-    val expected = descendingIntervals
+    @Test
+    void when_scaleIsDescending_then_returnsDescendingIntervals() {
+        val expected = descendingIntervals;
 
-    val actual = scaleType.intervals(ScaleDirection.DESCENDING)
+        val actual = scaleType.getIntervals(ScaleDirection.DESCENDING);
 
-    assertThat(actual).isEqualTo(expected)
-  }
-}*/
+        assertThat(actual).isEqualTo(expected);
+    }
+}

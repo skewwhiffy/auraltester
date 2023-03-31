@@ -5,8 +5,9 @@ import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
 import lombok.val;
 
 import java.text.MessageFormat;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record Scale(AbsoluteNote lowestNote, ScaleType scaleType, ScaleDirection direction)
         implements NoteSequence {
@@ -25,9 +26,17 @@ public record Scale(AbsoluteNote lowestNote, ScaleType scaleType, ScaleDirection
                 .stream()
                 .map(lowestNote::apply);
         return (switch (direction) {
-            case ASCENDING -> notes;
-            case DESCENDING -> notes.sorted(Comparator.reverseOrder());
-        }).toList();
+            case ASCENDING -> notes.toList();
+            case DESCENDING -> notes.collect(
+                    Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            it -> {
+                                Collections.reverse(it);
+                                return it;
+                            }
+                    )
+            );
+        });
     }
       /*
   fun abc(key: Key): String = notes.joinToString("") { it.abc(key) }

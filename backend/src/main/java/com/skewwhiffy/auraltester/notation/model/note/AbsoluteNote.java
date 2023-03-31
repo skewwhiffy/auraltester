@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 
 public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) implements Comparable<AbsoluteNote> {
     public AbsoluteNote apply(DirectedInterval interval) {
-        return switch(interval.direction()) {
+        return switch (interval.direction()) {
             case UP -> plus(interval.interval());
             case DOWN -> minus(interval.interval());
         };
@@ -170,20 +170,15 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) imp
         if (this == o) {
             return 0;
         }
-        if (octave == o.octave) {
+        if (octave.equals(o.octave)) {
             return note.compareTo(o.note);
         }
         return octave.compareTo(o.octave);
     }
 
-/*
-  operator fun compareTo(other: AbsoluteNote): Int {
-    return if (this == other) 0
-    else if (octave == other.octave) this.note.compareTo(other.note)
-    else octave.compareTo(other.octave)
-  }
-
-  override fun toString(): String = abc(Key.cMajor)
-  */
+    @Override
+    public String toString() {
+        return getAbc(Key.getCMajor());
+    }
 
 }
