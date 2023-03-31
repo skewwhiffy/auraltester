@@ -1,58 +1,65 @@
-/*
-package com.skewwhiffy.notation.model.abc
+package com.skewwhiffy.auraltester.notation.model.abc;
 
-import com.skewwhiffy.notation.factory.ClefFactory
-import com.skewwhiffy.notation.factory.NoteFactory
-import com.skewwhiffy.notation.model.note.AbsoluteNote
-import com.skewwhiffy.notation.model.clef.Clef
-import com.skewwhiffy.notation.model.key.Key
-import com.skewwhiffy.notation.model.note.NoteLength
-import com.skewwhiffy.test.util.TestData
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
+import com.skewwhiffy.auraltester.notation.factory.NoteFactory;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.notation.model.clef.Clef;
+import com.skewwhiffy.auraltester.notation.model.key.Key;
+import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
+import com.skewwhiffy.auraltester.test.util.TestData;
+import lombok.val;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
 
 class SingleLineAbcTest {
-  private lateinit var title: String
-  private lateinit var clef: Clef
-  private lateinit var noteLength: NoteLength
-  private lateinit var notes: List<AbsoluteNote>
-  private lateinit var notesAbc: List<String>
+  private String title;
+  private Clef clef;
+  private NoteLength noteLength;
+  private List<AbsoluteNote> notes;
+  private List<String> notesAbc;
 
   @BeforeEach
-  fun `before each`() {
-    val noteFactory = NoteFactory()
-    val clefFactory = ClefFactory(noteFactory)
-    title = TestData.random.string
-    clef = TestData.random.oneOf(clefFactory.treble, clefFactory.alto, clefFactory.tenor, clefFactory.bass)
-    noteLength = TestData.random.oneOf(
-      NoteLength.breve,
-      NoteLength.semibreve,
-      NoteLength.minim,
-      NoteLength.crotchet,
-      NoteLength.quaver
-    )
-    notes = (1..10).map { TestData.random.absoluteNote }
-    notesAbc = notes.map { it.abc(Key.cMajor) }
+    void setUp() {
+    val noteFactory = new NoteFactory();
+    val clefFactory = new ClefFactory(noteFactory);
+    title = TestData.random().string();
+    clef = TestData.random().oneOf(
+            clefFactory.getTreble(),
+            clefFactory.getAlto(),
+            clefFactory.getTenor(),
+            clefFactory.getBass()
+    );
+    noteLength = TestData.random().oneOf(
+      NoteLength.getBreve(),
+      NoteLength.getSemibreve(),
+      NoteLength.getMinim(),
+      NoteLength.getCrotchet(),
+      NoteLength.getQuaver()
+    );
+    notes = IntStream.range(1, 10).mapToObj(it -> TestData.random().absoluteNote()).toList();
+    notesAbc = notes.stream().map(it -> it.getAbc(Key.getCMajor())).toList();
   }
 
   @Test
-  fun `populates title`() {
-    val abc = SingleLineAbc(title, clef, noteLength, listOf(notes))
+    void populatesTitle() {
+    val abc = new SingleLineAbc(title, clef, noteLength, Collections.singletonList(notes));
 
-    assertThat(abc.abc).contains("X:1")
-    assertThat(abc.abc).contains("T:$title")
-    assertThat(abc.abc).contains("K:clef=${clef.abc}")
-    assertThat(abc.abc).contains("L:${noteLength.abc}")
-    assertThat(abc.abc).contains(notesAbc.joinToString(""))
+    assertThat(abc.getAbc()).contains("X:1");
+    assertThat(abc.getAbc()).contains("T:" + title);
+    assertThat(abc.getAbc()).contains("K:clef=" + clef.abc());
+    assertThat(abc.getAbc()).contains("L:" + noteLength.getAbc());
+    assertThat(abc.getAbc()).contains(String.join("", notesAbc));
   }
 
   @Test
-  fun `not populate title`() {
-    val abc = SingleLineAbc(clef, noteLength, listOf(notes))
+    void notPopulateTitle() {
+    val abc = new SingleLineAbc(clef, noteLength, Collections.singletonList(notes));
 
-    assertThat(abc.abc).doesNotContain("T:")
+    assertThat(abc.getAbc()).doesNotContain("T:");
   }
-
-  // TODO: Multiple bars
-}*/
+}

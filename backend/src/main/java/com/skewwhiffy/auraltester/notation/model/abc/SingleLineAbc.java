@@ -37,13 +37,14 @@ public record SingleLineAbc(
         this(Optional.of(displayName), clef, noteLength, Optional.of(key), notes);
     }
 
+    public SingleLineAbc(
+            Clef clef,
+            NoteLength noteLength,
+            List<List<AbsoluteNote>> notes
+    ) {
+        this(Optional.empty(), clef, noteLength, Optional.empty(), notes);
+    }
     /*
-  constructor(
-    clef: Clef,
-    noteLength: NoteLength,
-    notes: List<List<AbsoluteNote>>,
-  ) : this(null, clef, noteLength, null, notes)
-
   fun includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(
     displayName,
     clef,

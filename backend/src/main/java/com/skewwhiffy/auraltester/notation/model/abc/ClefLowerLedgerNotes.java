@@ -14,7 +14,7 @@ public record ClefLowerLedgerNotes(Clef clef) implements ClefNotes {
     @Override
     public List<AbsoluteNote> getNotes() {
         return IntStream
-                .range(1, 5)
+                .range(1, 6)
                 .boxed()
                 .reduce(
                         Collections.singletonList(clef.lowLedgerNote().upOne()),

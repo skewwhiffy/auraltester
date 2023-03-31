@@ -1,3 +1,4 @@
+/*
 package com.skewwhiffy.notation.model.interval
 
 import org.assertj.core.api.Assertions.assertThat
@@ -33,4 +34,4 @@ class DirectedIntervalTest {
 
     assertThat(first).isEqualTo(second)
   }
-}
+}*/

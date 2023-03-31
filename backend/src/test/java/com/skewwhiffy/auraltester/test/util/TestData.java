@@ -1,5 +1,7 @@
 package com.skewwhiffy.auraltester.test.util;
 
+import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
+import com.skewwhiffy.auraltester.notation.factory.NoteFactory;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
@@ -13,15 +15,14 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
-
 public class TestData {
     public static RandomTestData random() {
         return new RandomTestData();
     }
-    /*
-  val noteFactories = NoteFactories
-}
-*/
+
+    public static NoteFactories noteFactories() {
+        return new NoteFactories();
+    }
 
     public static class RandomTestData {
         private final Random random = new Random();
@@ -39,9 +40,9 @@ public class TestData {
             return oneOf(charList);
         }
 
-        /*
-      fun <T> oneOf(vararg source: T): T = oneOf(source.toList())
-    */
+        public <T> T oneOf(T... source) {
+            return oneOf(Arrays.stream(source).toList());
+        }
 
         public <T> T oneOf(List<T> source) {
             return source.get(random.nextInt(source.size()));
@@ -103,11 +104,16 @@ public class TestData {
             );
         }
     }
-/*
 
-object NoteFactories {
-  val note: NoteFactory = NoteFactory()
-  val clef: ClefFactory = ClefFactory(note)
+    public static class NoteFactories {
+        public NoteFactory note() {
+            return new NoteFactory();
+        }
+
+        public ClefFactory clef() {
+            return new ClefFactory(note());
+        }
+            /*
   val interval: IntervalFactory = IntervalFactory()
 
   val key: KeyFactory = KeyFactory(note)
@@ -119,7 +125,7 @@ object NoteFactories {
     note
   )
   val scaleTypeFactory: ScaleTypeFactory = ScaleTypeFactory(interval)
-}
+  */
+    }
 
-     */
 }
