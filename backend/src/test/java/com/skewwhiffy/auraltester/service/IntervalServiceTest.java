@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.service;
 
 import com.skewwhiffy.auraltester.test.util.TestData;
+import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,18 +14,15 @@ class IntervalServiceTest {
   @InjectMocks
   private IntervalService intervalService;
 
-          /*
   @Test
-  fun `gets interval notes`() {
-    val clef = TestData.random.clef
-    val note = TestData.random.note
-    val interval = TestData.random.interval
-    val expectedBottomNote = clef.getNoteNearBottom(note)
+  void getsIntervalNotes() {
+    val clef = TestData.random().clef();
+    val note = TestData.random().note();
+    val interval = TestData.random().interval();
+    val expectedBottomNote = clef.getNoteNearBottom(note);
 
-    val actual = intervalService.getInterval(clef, note, interval)
+    val actual = intervalService.getInterval(clef, note, interval);
 
-    assertThat(actual.bottomNote).isEqualTo(expectedBottomNote)
+    assertThat(actual.bottomNote()).isEqualTo(expectedBottomNote);
   }
-
-           */
 }
