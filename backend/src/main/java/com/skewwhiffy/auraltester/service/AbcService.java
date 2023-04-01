@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import static com.skewwhiffy.auraltester.helper.StringHelper.getTitleCase;
 
 @Service
 public class AbcService {
@@ -96,13 +97,6 @@ public class AbcService {
                 Optional.of(key),
                 Collections.singletonList(Collections.emptyList())
         );
-    }
-
-    private String getTitleCase(String source) {
-        return Arrays.stream(source
-                        .split(" "))
-                .map(it -> it.substring(0, 1).toUpperCase(Locale.UK) + it.substring(1))
-                .collect(Collectors.joining(" "));
     }
 
 }
