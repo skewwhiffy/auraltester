@@ -1,7 +1,8 @@
 package com.skewwhiffy.auraltester.notation.factory;
 
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.model.ClefType;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ClefFactory {
     private final NoteFactory noteFactory;
+
+    public Clef get(ClefType clefType) {
+        return switch (clefType) {
+            case TREBLE -> getTreble();
+            case ALTO -> getAlto();
+            case TENOR -> getTenor();
+            case BASS -> getBass();
+        };
+    }
 
     public Clef getTreble() {
         return new Clef(

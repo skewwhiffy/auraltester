@@ -4,23 +4,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Entity
-public class Info {
+@Builder
+@AllArgsConstructor
+public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     private UUID id;
     @Getter
-    private String version;
+    private String questionType;
+    @Getter
+    private String question;
+    @Getter
+    private String answer;
 
-    Info() {
-    }
-
-    public Info(String version) {
-        this.version = version;
+    Question() {
     }
 }

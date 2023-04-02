@@ -8,7 +8,7 @@ import com.skewwhiffy.auraltester.service.AbcService;
 import com.skewwhiffy.auraltester.service.IntervalService;
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
@@ -21,7 +21,7 @@ public class IntervalController {
     private final InternalNotationFactory internalNotationFactory;
     private final IntervalService intervalService;
 
-    @RequestMapping("/api/interval")
+    @GetMapping("/api/interval")
     public IntervalResponse get(
             String clef,
             String bottomNote,

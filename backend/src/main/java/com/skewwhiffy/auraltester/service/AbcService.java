@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.service;
 
+import com.skewwhiffy.auraltester.helper.StringHelper;
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
 import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes;
@@ -59,9 +60,9 @@ public class AbcService {
 
 */
     public AbcProvider getAbc(Clef clef) {
-        val displayName = MessageFormat.format(
-                "{0} Clef Notes",
-                clef.getDisplayName()
+        val displayName = StringHelper.getTitleCase(
+                clef.getDisplayName(),
+                "Clef Notes"
         );
         return new SingleLineAbc(
                 displayName,
