@@ -18,7 +18,7 @@ public class KeySignatureController {
     private final InternalNotationFactory internalNotationFactory;
     private final AbcService abcService;
   @RequestMapping("/api/keySignature")
-  KeySignatureResponse get(
+  public KeySignatureResponse get(
           @RequestParam String clef,
           @RequestParam Optional<String> keySignature
   ) {
