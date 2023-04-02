@@ -8,8 +8,12 @@ import lombok.val;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) implements Comparable<AbsoluteNote> {
     public AbsoluteNote apply(DirectedInterval interval) {
@@ -179,6 +183,26 @@ public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) imp
     @Override
     public String toString() {
         return getAbc(Key.getCMajor());
+    }
+
+    public static List<AbsoluteNote> range(AbsoluteNote lower, AbsoluteNote upper) {
+        val nonNaturalNotes = Stream
+                .of(lower, upper)
+                .filter(it -> it.note.accidental().offset() != 0)
+                .toList();
+        if (!nonNaturalNotes.isEmpty()) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format(
+                            "Note(s) '{0}' have accidentals.",
+                            nonNaturalNotes.stream().map(it -> it.getAbc(Key.getCMajor())).collect(Collectors.joining(", "))
+                    )
+            );
+        }
+        return lower.compareTo(upper) > 0
+                ? range(upper, lower)
+                : lower.equals(upper)
+                ? Collections.singletonList(lower)
+                : Stream.concat(Stream.of(lower), range(lower.upOne(), upper).stream()).toList();
     }
 
 }

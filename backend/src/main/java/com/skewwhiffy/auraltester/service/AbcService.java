@@ -3,6 +3,7 @@ package com.skewwhiffy.auraltester.service;
 import com.skewwhiffy.auraltester.helper.StringHelper;
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
@@ -48,17 +49,6 @@ public class AbcService {
         );
     }
 
-    /*
-  fun getAbc(clef: Clef, scale: Scale, key: Key? = null): AbcProvider = listOfNotNull(
-    scale.displayName,
-    scale.direction.displayString,
-    key?.let { "(with key signature)" }
-  )
-    .joinToString(" ")
-    .titleCase
-    .let { SingleLineAbc(it, clef, NoteLength.semibreve, key, listOf(scale.notes))}
-
-*/
     public AbcProvider getAbc(Clef clef) {
         val displayName = StringHelper.getTitleCase(
                 clef.getDisplayName(),
@@ -69,6 +59,14 @@ public class AbcService {
                 clef,
                 NoteLength.getSemibreve(),
                 clef.getNotes().stream().map(NoteSequence::getNotes).toList()
+        );
+    }
+
+    public AbcProvider getAbc(Clef clef, AbsoluteNote absoluteNote) {
+        return new SingleLineAbc(
+                clef,
+                NoteLength.getSemibreve(),
+                List.of(Collections.singletonList(absoluteNote))
         );
     }
 

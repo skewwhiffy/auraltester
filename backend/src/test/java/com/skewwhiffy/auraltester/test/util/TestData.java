@@ -56,7 +56,7 @@ public class TestData {
         }
 
         public Clef clef() {
-            return new Clef(string(), absoluteNote(), absoluteNote());
+            return new Clef(string(), absoluteNote().ignoreAccidental(), absoluteNote().ignoreAccidental());
         }
 
         public DirectedInterval directedInterval() {

@@ -2,6 +2,7 @@ package com.skewwhiffy.auraltester.controller;
 
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest;
 import com.skewwhiffy.auraltester.dto.question.QuestionResponse;
+import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement;
 import com.skewwhiffy.auraltester.dto.question.QuestionType;
 import com.skewwhiffy.auraltester.service.QuestionService;
 import lombok.val;
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -20,12 +23,13 @@ public class QuestionControllerTest {
     private QuestionService questionService;
     @InjectMocks
     private QuestionController questionController;
-    @Mock
-    private QuestionResponse questionResponse;
 
     @Test
     public void when_getQuestion_then_proxiesToQuestionService() {
-        val expected = questionResponse;
+        val expected = new QuestionResponse(
+                UUID.randomUUID(),
+                new QuestionResponseElement[0]
+        );
         val request = new QuestionRequest(QuestionType.CLEF);
         when(questionService.get(request)).thenReturn(expected);
 
