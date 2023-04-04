@@ -55,7 +55,8 @@ public class QuestionService {
             };
             return new QuestionResponse(
                     savedQuestionEntity.getId(),
-                    responseElements
+                    responseElements,
+                    AnswerType.NOTE_NAME
             );
         } catch (JsonProcessingException ex) {
             throw new ResponseStatusException(

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row, Col } from 'react-bootstrap'
-import { api } from '../../util'
+import api from '../../util/api'
 import ClefSelector from '../selector/ClefSelector'
 import KeySignatureSelector from '../selector/KeySignatureSelector'
 

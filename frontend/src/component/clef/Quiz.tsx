@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { Button } from "react-bootstrap";
-import axios from "axios";
+import api from "../../util/api";
+import Question from "../question/Question";
+import { QuestionResponse } from "../../util/api/model";
 
 interface State {
   currentScore: number
-  question?: any
+  question?: QuestionResponse
 }
 
 const Quiz = (): JSX.Element => {
@@ -13,22 +15,19 @@ const Quiz = (): JSX.Element => {
   });
 
   const getQuestion = async () => {
-    const options = {
-      method: "POST",
-      url: "/api/question",
-      headers: { "Content-Type": "application/json" },
-      data: { type: "CLEF" }
-    };
-    const response = await axios.request(options);
-    const data = response.data
-    console.log(data)
+    const response = await api.getClefQuestion();
+    setState({
+      ...state,
+      question: response
+    })
+    console.log(response)
   }
 
   return (
     <div>
       <h1>Clef Quiz</h1>
       <p>Current score {state.currentScore}</p>
-      {state.question ? <p>Question</p> : <Button onClick={getQuestion}>New question</Button>}
+      {state.question ? <Question question={state.question} /> : <Button onClick={getQuestion}>New question</Button>}
     </div>
   )
 }

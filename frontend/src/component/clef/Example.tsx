@@ -2,7 +2,7 @@ import { Container, Row } from "react-bootstrap"
 import { Notation } from 'react-abc'
 import ClefSelector from "../selector/ClefSelector"
 import { useEffect, useState } from "react"
-import { api } from "../../util"
+import api from "../../util/api"
 
 interface State {
   clef: string

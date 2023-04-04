@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Notation } from 'react-abc'
 import { Container, Row } from 'react-bootstrap'
-import { api } from '../../util'
+import api from '../../util/api'
 import ScaleSelector from '../selector/ScaleSelector'
 
 interface State {

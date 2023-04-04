@@ -1,4 +1,4 @@
-import { capitalizeFirstCharacter } from '../../util'
+import { capitalizeFirstCharacter } from '../../util/helpers'
 import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
 import { Col, Container, Row } from 'react-bootstrap'
 
