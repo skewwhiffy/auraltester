@@ -23,11 +23,19 @@ const Quiz = (): JSX.Element => {
     console.log(response)
   }
 
+  const answerQuestion = async (answer: any) => {
+    console.log(answer)
+  }
+
   return (
     <div>
       <h1>Clef Quiz</h1>
       <p>Current score {state.currentScore}</p>
-      {state.question ? <Question question={state.question} /> : <Button onClick={getQuestion}>New question</Button>}
+      {
+        state.question
+          ? <Question onSubmit={answerQuestion} question={state.question} />
+          : <Button onClick={getQuestion}>New question</Button>
+      }
     </div>
   )
 }

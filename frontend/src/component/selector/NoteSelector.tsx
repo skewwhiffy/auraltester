@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
+import NoteNameSelector from './NoteNameSelector'
 
 type OnChangeHandler = (note: string) => void
 
@@ -60,10 +61,8 @@ const NoteSelector = (props: Props): JSX.Element => {
       <Row><Col>Note</Col></Row>
       <Row>
         <Col>
-          <RadioButtons
-            values={'ABCDEFG'.split('').map(it => ({ value: it }))}
-            name='note'
-            value={state.noteName}
+          <NoteNameSelector
+            noteName={state.noteName}
             onChange={note => { onFormChange({ ...state, noteName: note }) }}
           />
         </Col>
