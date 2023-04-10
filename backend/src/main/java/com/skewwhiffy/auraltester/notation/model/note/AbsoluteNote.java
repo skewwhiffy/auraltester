@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import com.skewwhiffy.auraltester.dao.AbsoluteNoteDao;
 import com.skewwhiffy.auraltester.helper.NoParallelStream;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
 import com.skewwhiffy.auraltester.notation.model.interval.Interval;
@@ -16,6 +17,10 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public record AbsoluteNote(Note note, Octave octave, Optional<String> lyric) implements Comparable<AbsoluteNote> {
+    public AbsoluteNoteDao toDao() {
+        return new AbsoluteNoteDao(note.toDao(), octave.toDao(), lyric.orElse(null));
+    }
+
     public AbsoluteNote apply(DirectedInterval interval) {
         return switch (interval.direction()) {
             case UP -> plus(interval.interval());

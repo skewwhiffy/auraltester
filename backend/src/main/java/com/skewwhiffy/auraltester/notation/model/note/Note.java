@@ -1,11 +1,17 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import com.skewwhiffy.auraltester.dao.NoteDao;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.MessageFormat;
 
 public record Note(String noteName, Accidental accidental) implements Comparable<Note> {
-    private static String noteNames = "CDEFGAB";
+    @SuppressWarnings("SpellCheckingInspection")
+    private final static String noteNames = "CDEFGAB";
+
+    public NoteDao toDao() {
+        return new NoteDao(noteName, accidental.toDao());
+    }
 
     public String getDisplayString() {
         return noteName + accidental.getDisplayString();

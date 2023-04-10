@@ -1,6 +1,12 @@
 import axios from "axios"
 import { ClefResponse, IntervalRequest, IntervalResponse, KeySignatureRequest, KeySignatureResponse, QuestionResponse, ScaleRequest, ScaleResponse } from "./model"
 
+const jsonHeaders = {
+  headers: {
+    "Content-Type": "application/json"
+  }
+}
+
 const api = {
   async getClef(clef: string): Promise<ClefResponse> {
     const response = await axios.get("/api/clef", { params: { clef } })
@@ -23,7 +29,18 @@ const api = {
     const response = await axios.post(
       "/api/question",
       { type: "CLEF" },
-      { headers: { "Content-Type": "application/json" } }
+      jsonHeaders
+    )
+    return response.data
+  },
+  async answerQuestion(id: string | undefined, answer: string[]) {
+    if (!id) {
+      throw "Expected question ID to answer it"
+    }
+    const response = await axios.post(
+      "/api/question/answer",
+      { id, answer },
+      jsonHeaders
     )
     return response.data
   }

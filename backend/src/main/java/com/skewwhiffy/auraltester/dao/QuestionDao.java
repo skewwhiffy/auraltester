@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.dao;
 
+import com.skewwhiffy.auraltester.dto.question.QuestionType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,21 +9,21 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Entity
-public class Question {
+@Entity(name = "question")
+public class QuestionDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     private UUID id;
     @Getter
-    private String questionType;
+    private QuestionType questionType;
     @Getter
     private String question;
 
-    Question() {
+    QuestionDao() {
     }
 
-    public Question(String questionType, String question) {
+    public QuestionDao(QuestionType questionType, String question) {
         this.questionType = questionType;
         this.question = question;
     }

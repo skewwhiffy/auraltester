@@ -1,9 +1,14 @@
 package com.skewwhiffy.auraltester.notation.model.note;
 
+import com.skewwhiffy.auraltester.dao.AccidentalDao;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.internal.util.StringHelper;
 
 public record Accidental(int offset) {
+    public AccidentalDao toDao() {
+        return new AccidentalDao(offset);
+    }
+
     public String getAbc() {
         if (offset == 0) {
             return "";

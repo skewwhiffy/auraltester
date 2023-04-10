@@ -38,7 +38,13 @@ export interface ScaleResponse {
 export interface QuestionResponse {
   questionId: string
   elements: QuestionResponseElement[]
-  answerType: string
+  answerTypes: string[]
+}
+
+export interface AnswerResponse {
+  elements: QuestionResponseElement[]
+  correctAnswer: string[]
+  isCorrect: boolean
 }
 
 export interface QuestionResponseElement {

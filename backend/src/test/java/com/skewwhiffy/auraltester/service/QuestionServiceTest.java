@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.service;
 
-import com.skewwhiffy.auraltester.dao.Question;
+import com.skewwhiffy.auraltester.dao.QuestionDao;
 import com.skewwhiffy.auraltester.dto.question.AbcQuestionResponseElement;
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest;
 import com.skewwhiffy.auraltester.dto.question.QuestionType;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class QuestionServiceTest {
+class QuestionServiceTest {
     @Mock
     private AbcService abcService;
     @Mock
@@ -59,9 +59,9 @@ public class QuestionServiceTest {
     void when_clefQuestionRequested_then_validClefQuestionReturned_and_questionSerialized() {
         val request = new QuestionRequest(QuestionType.CLEF);
         val id = UUID.randomUUID();
-        when(questionRepository.save(any(Question.class))).then(it -> {
-            val original = (Question) it.getArgument(0);
-            val idField = Arrays.stream(Question.class.getDeclaredFields())
+        when(questionRepository.save(any(QuestionDao.class))).then(it -> {
+            val original = (QuestionDao) it.getArgument(0);
+            val idField = Arrays.stream(QuestionDao.class.getDeclaredFields())
                     .filter(field -> field.isAnnotationPresent(Id.class))
                     .findFirst()
                     .orElseThrow();

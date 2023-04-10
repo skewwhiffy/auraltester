@@ -1,7 +1,6 @@
 package com.skewwhiffy.auraltester.dto.question;
 
 import lombok.Builder;
-import lombok.val;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +20,6 @@ public record QuestionResponse(
                     ? Collections.emptyList()
                     : elements;
             return elements(Stream.concat(originalElements.stream(), Stream.of(element)).toList());
-        }
-
-        public QuestionResponseBuilder answerType(AnswerType answerType) {
-            List<AnswerType> originalAnswerTypes = answerTypes == null
-                    ? Collections.emptyList()
-                    : answerTypes;
-            return answerTypes(Stream.concat(originalAnswerTypes.stream(), Stream.of(answerType)).toList());
         }
     }
 }

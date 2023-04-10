@@ -2,11 +2,12 @@ import { useState } from "react"
 import { Button } from "react-bootstrap";
 import api from "../../util/api";
 import Question from "../question/Question";
-import { QuestionResponse } from "../../util/api/model";
+import { AnswerResponse, QuestionResponse } from "../../util/api/model";
 
 interface State {
   currentScore: number
   question?: QuestionResponse
+  answerResponse?: AnswerResponse
 }
 
 const Quiz = (): JSX.Element => {
@@ -20,11 +21,16 @@ const Quiz = (): JSX.Element => {
       ...state,
       question: response
     })
-    console.log(response)
   }
 
-  const answerQuestion = async (answer: any) => {
-    console.log(answer)
+  const answerQuestion = async (answer: string[]) => {
+    const response = await api.answerQuestion(state.question?.questionId, answer);
+    console.log(response)
+    setState({
+      ...state,
+      question: undefined,
+      answerResponse: response
+    })
   }
 
   return (
