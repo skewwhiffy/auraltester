@@ -16,13 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.SecureRandom;
 import java.util.Arrays;
 
 @Service
 @AllArgsConstructor
 public class QuestionService {
-    private static final SecureRandom random = new SecureRandom();
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final AbcService abcService;
     private final ClefFactory clefFactory;
@@ -49,15 +47,13 @@ public class QuestionService {
             val questionEntity = new Question("clef", questionJson);
             val savedQuestionEntity = questionRepository.save(questionEntity);
             val abc = abcService.getAbc(clef, note).getAbc();
-            val responseElements = new QuestionResponseElement[]{
-                    new TextQuestionResponseElement("What is the name of this note?"),
-                    new AbcQuestionResponseElement(abc)
-            };
-            return new QuestionResponse(
-                    savedQuestionEntity.getId(),
-                    responseElements,
-                    AnswerType.NOTE_NAME
-            );
+            return QuestionResponse
+                    .builder()
+                    .questionId(savedQuestionEntity.getId())
+                    .element(new TextQuestionResponseElement("What is the name of this note?"))
+                    .element(new AbcQuestionResponseElement(abc))
+                    .answerType(AnswerType.NOTE_NAME)
+                    .build();
         } catch (JsonProcessingException ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,

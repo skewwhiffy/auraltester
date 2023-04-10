@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.controller;
 
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest;
 import com.skewwhiffy.auraltester.dto.question.QuestionResponse;
-import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement;
 import com.skewwhiffy.auraltester.dto.question.QuestionType;
 import com.skewwhiffy.auraltester.service.QuestionService;
 import lombok.val;
@@ -26,10 +25,10 @@ public class QuestionControllerTest {
 
     @Test
     public void when_getQuestion_then_proxiesToQuestionService() {
-        val expected = new QuestionResponse(
-                UUID.randomUUID(),
-                new QuestionResponseElement[0]
-        );
+        val expected = QuestionResponse
+                .builder()
+                .questionId(UUID.randomUUID())
+                .build();
         val request = new QuestionRequest(QuestionType.CLEF);
         when(questionService.get(request)).thenReturn(expected);
 

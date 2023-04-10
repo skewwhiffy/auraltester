@@ -75,9 +75,11 @@ public class QuestionServiceTest {
         val actual = questionService.get(request);
 
         assertThat(actual.questionId()).isEqualTo(id);
-        val abcElement = Arrays.stream(actual .elements())
+        val abcElement = actual
+                .elements()
+                .stream()
                 .filter(it -> it instanceof AbcQuestionResponseElement)
-                .map(it -> (AbcQuestionResponseElement)it)
+                .map(it -> (AbcQuestionResponseElement) it)
                 .findFirst()
                 .orElseThrow();
         assertThat(abcElement.abc()).isEqualTo(abc);
