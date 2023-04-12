@@ -7,7 +7,6 @@ import com.skewwhiffy.auraltester.dto.question.AnswerResponse;
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest;
 import com.skewwhiffy.auraltester.dto.question.QuestionResponse;
 import com.skewwhiffy.auraltester.model.QuestionFactory;
-import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
 import com.skewwhiffy.auraltester.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import lombok.val;
@@ -24,8 +23,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class QuestionService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private final AbcService abcService;
-    private final ClefFactory clefFactory;
     private final Collection<QuestionFactory<?>> questionFactories;
     private final QuestionRepository questionRepository;
 

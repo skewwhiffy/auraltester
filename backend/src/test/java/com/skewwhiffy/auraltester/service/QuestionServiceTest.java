@@ -1,63 +1,67 @@
 package com.skewwhiffy.auraltester.service;
 
 import com.skewwhiffy.auraltester.dao.QuestionDao;
-import com.skewwhiffy.auraltester.dto.question.AbcQuestionResponseElement;
+import com.skewwhiffy.auraltester.dto.question.AnswerType;
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest;
+import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement;
 import com.skewwhiffy.auraltester.dto.question.QuestionType;
-import com.skewwhiffy.auraltester.model.ClefType;
-import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
-import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider;
-import com.skewwhiffy.auraltester.notation.model.clef.Clef;
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
+import com.skewwhiffy.auraltester.model.Question;
+import com.skewwhiffy.auraltester.model.QuestionFactory;
 import com.skewwhiffy.auraltester.repository.QuestionRepository;
 import com.skewwhiffy.auraltester.test.util.TestData;
 import jakarta.persistence.Id;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionServiceTest {
     @Mock
-    private AbcService abcService;
-    @Mock
-    private ClefFactory clefFactory;
-    @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
     private QuestionService questionService;
-    @Captor
-    private ArgumentCaptor<ClefType> clefTypeCaptor;
-    private Clef clef;
+    @SuppressWarnings("rawtypes")
+    @Spy
+    private ArrayList<QuestionFactory> questionFactories;
+    @SuppressWarnings("rawtypes")
     @Mock
-    private AbcProvider abcProvider;
-    private String abc;
+    private Question question;
+    private Object dao;
 
     @BeforeEach
     void setUp() {
-        clef = TestData.random().clef();
-        lenient().when(clefFactory.get(clefTypeCaptor.capture())).thenReturn(clef);
-        abc = TestData.random().string();
+        questionFactories.addAll(IntStream
+                .range(0, 2)
+                .mapToObj(it -> mock(QuestionFactory.class))
+                .toList());
+        dao = TestData.random().string();
     }
 
-    @Test
-    void when_clefQuestionRequested_then_validClefQuestionReturned_and_questionSerialized() {
-        val request = new QuestionRequest(QuestionType.CLEF);
+    @ParameterizedTest
+    @EnumSource(QuestionType.class)
+    void when_questionRequested_then_validQuestionReturned_and_questionSerialized(QuestionType questionType) {
+        val request = new QuestionRequest(questionType);
+        val questionFactory = questionFactories.get(0);
+        List<QuestionResponseElement> questionElements = Collections.emptyList();
+        List<AnswerType> answerTypes = Collections.emptyList();
+        when(questionFactory.getQuestionType()).thenReturn(questionType);
+        when(questionFactory.getNewQuestion()).thenReturn(question);
+        when(question.getQuestionElements()).thenReturn(questionElements);
+        when(question.toDao()).thenReturn(dao);
         val id = UUID.randomUUID();
         when(questionRepository.save(any(QuestionDao.class))).then(it -> {
             val original = (QuestionDao) it.getArgument(0);
@@ -69,19 +73,11 @@ class QuestionServiceTest {
             idField.set(original, id);
             return original;
         });
-        when(abcService.getAbc(eq(clef), any(AbsoluteNote.class))).thenReturn(abcProvider);
-        when(abcProvider.getAbc()).thenReturn(abc);
 
         val actual = questionService.get(request);
 
         assertThat(actual.questionId()).isEqualTo(id);
-        val abcElement = actual
-                .elements()
-                .stream()
-                .filter(it -> it instanceof AbcQuestionResponseElement)
-                .map(it -> (AbcQuestionResponseElement) it)
-                .findFirst()
-                .orElseThrow();
-        assertThat(abcElement.abc()).isEqualTo(abc);
+        assertThat(actual.elements()).isEqualTo(questionElements);
+        assertThat(actual.answerTypes()).isEqualTo(answerTypes);
     }
 }
