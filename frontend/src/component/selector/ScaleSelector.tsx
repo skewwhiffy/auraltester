@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Form, Container, Row, Col } from 'react-bootstrap'
 import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
-import { capitalizeFirstCharacter } from '../../util'
+import { capitalizeFirstCharacter } from '../../util/helpers'
 import NoteSelector from './NoteSelector'
 
 type OnChangeHandler = (

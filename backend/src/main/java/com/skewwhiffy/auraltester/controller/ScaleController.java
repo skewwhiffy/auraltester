@@ -10,7 +10,7 @@ import com.skewwhiffy.auraltester.service.ScaleService;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.data.util.Pair;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
@@ -23,7 +23,7 @@ public class ScaleController {
     private final ScaleService scaleService;
     private final ScaleTypeFactory scaleTypeFactory;
 
-    @RequestMapping("/api/scale")
+    @GetMapping("/api/scale")
     public ScaleResponse get(String clef, String note, String scaleType, String direction) {
         val clefObject = internalNotationFactory.clef(clef);
         val noteObject = internalNotationFactory.getNote(note).note();

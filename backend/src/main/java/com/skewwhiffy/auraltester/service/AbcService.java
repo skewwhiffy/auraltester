@@ -1,7 +1,9 @@
 package com.skewwhiffy.auraltester.service;
 
+import com.skewwhiffy.auraltester.helper.StringHelper;
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc;
 import com.skewwhiffy.auraltester.notation.model.key.Key;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes;
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength;
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
@@ -47,27 +49,28 @@ public class AbcService {
         );
     }
 
-    /*
-  fun getAbc(clef: Clef, scale: Scale, key: Key? = null): AbcProvider = listOfNotNull(
-    scale.displayName,
-    scale.direction.displayString,
-    key?.let { "(with key signature)" }
-  )
-    .joinToString(" ")
-    .titleCase
-    .let { SingleLineAbc(it, clef, NoteLength.semibreve, key, listOf(scale.notes))}
-
-*/
     public AbcProvider getAbc(Clef clef) {
-        val displayName = MessageFormat.format(
-                "{0} Clef Notes",
-                clef.getDisplayName()
+        val displayName = StringHelper.getTitleCase(
+                clef.getDisplayName(),
+                "Clef Notes"
         );
         return new SingleLineAbc(
                 displayName,
                 clef,
                 NoteLength.getSemibreve(),
                 clef.getNotes().stream().map(NoteSequence::getNotes).toList()
+        );
+    }
+
+    public AbcProvider getAbc(Clef clef, AbsoluteNote absoluteNote) {
+        return getAbc(clef, Collections.singletonList(absoluteNote));
+    }
+
+    public AbcProvider getAbc(Clef clef, List<AbsoluteNote> absoluteNotes) {
+        return new SingleLineAbc(
+                clef,
+                NoteLength.getSemibreve(),
+                List.of(absoluteNotes)
         );
     }
 
@@ -80,7 +83,6 @@ public class AbcService {
                 List.of(intervalNotes.getNotes())
         );
     }
-
 
     public AbcProvider getAbc(Clef clef, Key key) {
         String title = getTitleCase(

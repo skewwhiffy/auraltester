@@ -1,7 +1,7 @@
 import { Container, Nav } from "react-bootstrap"
 import { Route, Routes } from "react-router"
 import { Link } from "react-router-dom"
-import { capitalizeFirstCharacter } from "."
+import { capitalizeFirstCharacter } from "./helpers"
 
 export type TabbedSection = {
   getElement: () => JSX.Element

@@ -30,7 +30,7 @@ public class TestData {
             return MessageFormat.format("{0}", UUID.randomUUID());
         }
 
-        private String oneOf(String source) {
+        private String oneOf(@SuppressWarnings("SameParameterValue") String source) {
             List<String> charList = source
                     .chars()
                     .mapToObj(it -> (char) it)
@@ -39,7 +39,8 @@ public class TestData {
             return oneOf(charList);
         }
 
-        public <T> T oneOf(T... source) {
+        @SafeVarargs
+        public final <T> T oneOf(T... source) {
             return oneOf(Arrays.stream(source).toList());
         }
 
@@ -56,7 +57,7 @@ public class TestData {
         }
 
         public Clef clef() {
-            return new Clef(string(), absoluteNote(), absoluteNote());
+            return new Clef(string().toUpperCase(Locale.UK), absoluteNote().ignoreAccidental(), absoluteNote().ignoreAccidental());
         }
 
         public DirectedInterval directedInterval() {
