@@ -39,11 +39,13 @@ public abstract class Question<TDao> {
     }
 
     public AnswerResponse answer(List<String> answers) {
-        List<QuestionResponseElement> elements = isCorrect(answers) ? getCorrectResponse() : getIncorrectResponse();
+        val isCorrect = isCorrect(answers);
+        val elements = isCorrect ? getCorrectResponse() : getIncorrectResponse();
         return AnswerResponse
                 .builder()
                 .elements(elements)
                 .correctAnswer(getAnswer())
+                .isCorrect(isCorrect)
                 .build();
     }
 
