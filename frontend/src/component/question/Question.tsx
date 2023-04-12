@@ -1,9 +1,8 @@
 import { useState } from "react"
-import { QuestionResponse, QuestionResponseElement } from "../../util/api/model"
+import { QuestionResponse } from "../../util/api/model"
 import NoteNameSelector from "../selector/NoteNameSelector"
-import QuestionResponseAbcElement from "./QuestionResponseAbcElement"
-import QuestionResponseTextElement from "./QuestionResponseTextElement"
 import { Button } from "react-bootstrap"
+import { renderQuestionElement } from "."
 
 type OnSubmitHandler = (answer: any) => void
 
@@ -18,17 +17,6 @@ interface State {
 
 const Question = (props: Props): JSX.Element => {
   const [state, setState] = useState<State>({})
-
-  const renderElement = (e: QuestionResponseElement, i: number): JSX.Element => {
-    const key = i.toString()
-    if (e.text) {
-      return <QuestionResponseTextElement key={key} text={e.text} />
-    }
-    if (e.abc) {
-      return <QuestionResponseAbcElement key={key} abc={e.abc} />
-    }
-    return <p key={i}>Element</p>
-  }
 
   const renderAnswerElement = (answerType: string, index: number): JSX.Element => {
     const key = `answer-element-${index}`
@@ -77,7 +65,7 @@ const Question = (props: Props): JSX.Element => {
 
   return (
     <div>
-      {props.question.elements.map(renderElement)}
+      {props.question.elements.map(renderQuestionElement)}
       {renderAnswerElements()}
       {renderSubmitButton()}
     </div>

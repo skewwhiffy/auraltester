@@ -4,7 +4,6 @@ import api from "../../util/api";
 import Question from "../question/Question";
 import { AnswerResponse, QuestionResponse } from "../../util/api/model";
 import Answer from "../question/Answer";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
 
 interface State {
   currentScore: number
