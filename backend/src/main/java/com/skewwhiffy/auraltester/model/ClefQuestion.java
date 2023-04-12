@@ -59,10 +59,12 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
         return Arrays.asList(
                 QuestionResponseElement.text(
                         MessageFormat.format(
-                                "Sorry, the correct answer is {0}. See the sequence below.",
+                                "Sorry, the correct answer is {0}. See the sequence below which counts the question's note from middle C.",
                                 absoluteNote.note().noteName()
                         )
                 ),
+                QuestionResponseElement.abc(getSequenceAbc()),
+                QuestionResponseElement.text("Original question is below."),
                 QuestionResponseElement.abc(getAbc())
         );
     }
@@ -76,6 +78,10 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
         return abcService.getAbc(clefFactory.get(type), absoluteNote).getAbc();
     }
 
+    private String getSequenceAbc() {
+        return abcService.getAbc(clefFactory.get(type), getNoteSequence()).getAbc();
+    }
+
     private List<AbsoluteNote> getNoteSequence() {
         return getNoteSequence(Collections.emptyList());
     }
@@ -85,7 +91,7 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
             return getNoteSequence(Collections.singletonList(AbsoluteNote.getMiddleC().withNoteName()));
         }
         val lastNoteSoFar = soFar.get(soFar.size() - 1);
-        if (lastNoteSoFar == absoluteNote) {
+        if (lastNoteSoFar.equals(absoluteNote.withNoteName())) {
             return soFar;
         }
         val nextNote = lastNoteSoFar.compareTo(absoluteNote) < 0
