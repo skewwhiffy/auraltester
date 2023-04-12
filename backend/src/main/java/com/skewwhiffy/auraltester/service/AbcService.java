@@ -63,10 +63,14 @@ public class AbcService {
     }
 
     public AbcProvider getAbc(Clef clef, AbsoluteNote absoluteNote) {
+        return getAbc(clef, Collections.singletonList(absoluteNote));
+    }
+
+    public AbcProvider getAbc(Clef clef, List<AbsoluteNote> absoluteNotes) {
         return new SingleLineAbc(
                 clef,
                 NoteLength.getSemibreve(),
-                List.of(Collections.singletonList(absoluteNote))
+                List.of(absoluteNotes)
         );
     }
 
@@ -79,7 +83,6 @@ public class AbcService {
                 List.of(intervalNotes.getNotes())
         );
     }
-
 
     public AbcProvider getAbc(Clef clef, Key key) {
         String title = getTitleCase(

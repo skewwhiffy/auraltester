@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.model;
 
 import com.skewwhiffy.auraltester.dao.ClefQuestionDao;
 import com.skewwhiffy.auraltester.dto.question.*;
-import com.skewwhiffy.auraltester.exception.Todo;
 import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.service.AbcService;
@@ -10,9 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.val;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Builder
 @AllArgsConstructor
@@ -29,10 +30,9 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
 
     @Override
     public List<QuestionResponseElement> getQuestionElements() {
-        val abc = abcService.getAbc(clefFactory.get(type), absoluteNote).getAbc();
         return Arrays.asList(
-                new TextQuestionResponseElement("What is the name of this note?"),
-                new AbcQuestionResponseElement(abc)
+                QuestionResponseElement.text("What is the name of this note?"),
+                QuestionResponseElement.abc(getAbc())
         );
     }
 
@@ -43,17 +43,55 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
 
     @Override
     public List<QuestionResponseElement> getCorrectResponse() {
-        throw new Todo();
+        return Arrays.asList(
+                QuestionResponseElement.text(
+                        MessageFormat.format(
+                                "Well done, this note is {0}.",
+                                absoluteNote.note().noteName()
+                        )
+                ),
+                QuestionResponseElement.abc(getAbc())
+        );
     }
 
     @Override
     public List<QuestionResponseElement> getIncorrectResponse() {
-        throw new Todo();
+        return Arrays.asList(
+                QuestionResponseElement.text(
+                        MessageFormat.format(
+                                "Sorry, the correct answer is {0}. See the sequence below.",
+                                absoluteNote.note().noteName()
+                        )
+                ),
+                QuestionResponseElement.abc(getAbc())
+        );
     }
 
     @Override
     public List<String> getAnswer() {
         return Collections.singletonList(absoluteNote.note().noteName());
+    }
+
+    private String getAbc() {
+        return abcService.getAbc(clefFactory.get(type), absoluteNote).getAbc();
+    }
+
+    private List<AbsoluteNote> getNoteSequence() {
+        return getNoteSequence(Collections.emptyList());
+    }
+
+    private List<AbsoluteNote> getNoteSequence(List<AbsoluteNote> soFar) {
+        if (soFar.isEmpty()) {
+            return getNoteSequence(Collections.singletonList(AbsoluteNote.getMiddleC().withNoteName()));
+        }
+        val lastNoteSoFar = soFar.get(soFar.size() - 1);
+        if (lastNoteSoFar == absoluteNote) {
+            return soFar;
+        }
+        val nextNote = lastNoteSoFar.compareTo(absoluteNote) < 0
+                ? lastNoteSoFar.upOne()
+                : lastNoteSoFar.downOne();
+        return getNoteSequence(Stream.concat(soFar.stream(), Stream.of(nextNote.withNoteName())).toList());
     }
 
 }
