@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.test.util;
 
+import com.skewwhiffy.auraltester.model.ClefType;
 import com.skewwhiffy.auraltester.notation.factory.*;
 import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval;
@@ -57,7 +58,11 @@ public class TestData {
         }
 
         public Clef clef() {
-            return new Clef(string().toUpperCase(Locale.UK), absoluteNote().ignoreAccidental(), absoluteNote().ignoreAccidental());
+            return new Clef(clefType(), string().toUpperCase(Locale.UK), absoluteNote().ignoreAccidental(), absoluteNote().ignoreAccidental());
+        }
+
+        public ClefType clefType() {
+            return oneOf(Arrays.stream(ClefType.values()).toList());
         }
 
         public DirectedInterval directedInterval() {

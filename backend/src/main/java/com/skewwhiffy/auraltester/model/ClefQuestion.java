@@ -2,7 +2,7 @@ package com.skewwhiffy.auraltester.model;
 
 import com.skewwhiffy.auraltester.dao.ClefQuestionDao;
 import com.skewwhiffy.auraltester.dto.question.*;
-import com.skewwhiffy.auraltester.notation.factory.ClefFactory;
+import com.skewwhiffy.auraltester.notation.model.clef.Clef;
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
 import com.skewwhiffy.auraltester.service.AbcService;
 import lombok.AllArgsConstructor;
@@ -19,13 +19,12 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public final class ClefQuestion extends Question<ClefQuestionDao> {
     private final AbcService abcService;
-    private final ClefFactory clefFactory;
-    private final ClefType type;
+    private final Clef clef;
     private final AbsoluteNote absoluteNote;
 
     @Override
     public ClefQuestionDao toDao() {
-        return new ClefQuestionDao(type, absoluteNote.toDao());
+        return new ClefQuestionDao(clef.clefType(), absoluteNote.toDao());
     }
 
     @Override
@@ -75,11 +74,11 @@ public final class ClefQuestion extends Question<ClefQuestionDao> {
     }
 
     private String getAbc() {
-        return abcService.getAbc(clefFactory.get(type), absoluteNote).getAbc();
+        return abcService.getAbc(clef, absoluteNote).getAbc();
     }
 
     private String getSequenceAbc() {
-        return abcService.getAbc(clefFactory.get(type), getNoteSequence()).getAbc();
+        return abcService.getAbc(clef, getNoteSequence()).getAbc();
     }
 
     private List<AbsoluteNote> getNoteSequence() {

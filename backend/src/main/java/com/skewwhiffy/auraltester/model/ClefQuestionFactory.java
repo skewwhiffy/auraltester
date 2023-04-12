@@ -24,9 +24,8 @@ public class ClefQuestionFactory extends QuestionFactory<ClefQuestionDao> {
         val clef = clefFactory.get(clefType);
         val noteCandidates = AbsoluteNote.range(clef.lowLedgerNote(), clef.highLedgerNote());
         val note = CollectionHelper.oneOf(noteCandidates);
-        return builder()
+        return builder(clefType)
                 .absoluteNote(note)
-                .type(clefType)
                 .build();
     }
 
@@ -42,16 +41,15 @@ public class ClefQuestionFactory extends QuestionFactory<ClefQuestionDao> {
 
     @Override
     Question<ClefQuestionDao> getQuestion(ClefQuestionDao dao) {
-        return builder()
-                .type(dao.type())
+        return builder(dao.type())
                 .absoluteNote(dao.absoluteNote().toModel())
                 .build();
     }
 
-    private ClefQuestion.ClefQuestionBuilder builder() {
+    private ClefQuestion.ClefQuestionBuilder builder(ClefType type) {
         return ClefQuestion
                 .builder()
                 .abcService(abcService)
-                .clefFactory(clefFactory);
+                .clef(clefFactory.get(type));
     }
 }

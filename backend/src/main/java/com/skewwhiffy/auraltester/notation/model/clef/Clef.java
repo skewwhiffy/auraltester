@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.clef;
 
+import com.skewwhiffy.auraltester.model.ClefType;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefLineNotes;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefLowerLedgerNotes;
 import com.skewwhiffy.auraltester.notation.model.abc.ClefSpaceNotes;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public record Clef(String abc, AbsoluteNote lowLedgerNote, AbsoluteNote highLedgerNote) {
+public record Clef(ClefType clefType, String abc, AbsoluteNote lowLedgerNote, AbsoluteNote highLedgerNote) {
     public String getDisplayName() {
         return abc;
     }

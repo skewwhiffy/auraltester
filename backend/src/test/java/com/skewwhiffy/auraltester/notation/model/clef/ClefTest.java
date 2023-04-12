@@ -9,31 +9,31 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ClefTest {
-  private String abc ;
-  private AbsoluteNote lowLedgerNote ;
-  private AbsoluteNote highLedgerNote;
+    private String abc;
+    private AbsoluteNote lowLedgerNote;
+    private AbsoluteNote highLedgerNote;
 
-  @BeforeEach
-  void setUp() {
-      abc = TestData.random().string();
-      lowLedgerNote = TestData.random().absoluteNote();
-      highLedgerNote = TestData.random().absoluteNote();
-  }
+    @BeforeEach
+    void setUp() {
+        abc = TestData.random().string();
+        lowLedgerNote = TestData.random().absoluteNote();
+        highLedgerNote = TestData.random().absoluteNote();
+    }
 
-  @Test
+    @Test
     void retainAbc_lowLedgerNote_and_highLedgerNote() {
-    val actual = new Clef(abc, lowLedgerNote, highLedgerNote);
+        val actual = new Clef(TestData.random().clefType(), abc, lowLedgerNote, highLedgerNote);
 
-    assertThat(actual.abc()).isEqualTo(abc);
-    assertThat(actual.lowLedgerNote()).isEqualTo(lowLedgerNote);
-    assertThat(actual.highLedgerNote()).isEqualTo(highLedgerNote);
-  }
+        assertThat(actual.abc()).isEqualTo(abc);
+        assertThat(actual.lowLedgerNote()).isEqualTo(lowLedgerNote);
+        assertThat(actual.highLedgerNote()).isEqualTo(highLedgerNote);
+    }
 
-  @Test
-    void equatesSameClefs(){
-    val first = new Clef(abc, lowLedgerNote, highLedgerNote);
-    val second = new Clef(abc, lowLedgerNote, highLedgerNote);
+    @Test
+    void equatesSameClefs() {
+        val first = new Clef(TestData.random().clefType(), abc, lowLedgerNote, highLedgerNote);
+        val second = new Clef(first.clefType(), abc, lowLedgerNote, highLedgerNote);
 
-    assertThat(first).isEqualTo(second);
-  }
+        assertThat(first).isEqualTo(second);
+    }
 }
