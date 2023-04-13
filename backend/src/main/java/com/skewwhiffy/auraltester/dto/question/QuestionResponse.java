@@ -13,13 +13,4 @@ public record QuestionResponse(
         List<QuestionResponseElement> elements,
         List<AnswerType> answerTypes
 ) {
-    @SuppressWarnings("unused")
-    public static class QuestionResponseBuilder {
-        public QuestionResponseBuilder element(QuestionResponseElement element) {
-            List<QuestionResponseElement> originalElements = elements == null
-                    ? Collections.emptyList()
-                    : elements;
-            return elements(Stream.concat(originalElements.stream(), Stream.of(element)).toList());
-        }
-    }
 }

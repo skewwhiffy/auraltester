@@ -4,8 +4,22 @@ import lombok.val;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class FractionTest {
+    @Test
+    void when_bottomIsZero_then_throws() {
+        assertThatThrownBy(() -> new Fraction(0, 0))
+                .isInstanceOf(ArithmeticException.class);
+    }
+
+    @Test
+    void when_topIsZero_then_simplifiesCorrectly() {
+        val actual = new Fraction(0, 5).getSimplified();
+
+        assertThat(actual.bottom()).isEqualTo(1);
+    }
+
     @Test
     void canInstantiateSimpleFraction() {
         val expected = "1/2";
