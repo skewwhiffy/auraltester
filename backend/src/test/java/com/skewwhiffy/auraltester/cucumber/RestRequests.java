@@ -28,10 +28,23 @@ public class RestRequests {
                 .get(path)
                 .accept(MediaType.APPLICATION_JSON);
         try {
-            val response = mockMvc.perform(request);
-            response.andDo(responses::add);
+            mockMvc.perform(request).andDo(responses::add);
         } catch (Exception ex) {
             throw new RuntimeException();
+        }
+    }
+
+    public void makePostRequest(String path, Object payload) {
+        try {
+            val content = objectMapper.writeValueAsString(payload);
+            val request = MockMvcRequestBuilders
+                    .post(path)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(content);
+            mockMvc.perform(request).andDo(responses::add);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -39,7 +52,7 @@ public class RestRequests {
         return responses.get(responses.size() - 1).getResponse();
     }
 
-    public Map<String, Object> getLastResponseAs() {
+    public Map<String, Object> getLastResponseAsMap() {
         try {
             //noinspection unchecked
             return objectMapper

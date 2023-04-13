@@ -8,8 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+// TODO: Report only reports a single feature
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources")
+@CucumberOptions(features = "src/test/resources", publish = true)
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
