@@ -14,19 +14,22 @@ repositories {
 
 dependencies {
     // TODO: Version numbers
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.jetbrains:annotations:24.0.0")
-    implementation("com.codepoetics:protonpack:1.16")
-    annotationProcessor("org.projectlombok:lombok:1.18.26")
-    compileOnly("org.projectlombok:lombok:1.18.26")
-    runtimeOnly("com.h2database:h2")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.assertj:assertj-core:3.24.2")
-    testCompileOnly("org.projectlombok:lombok:1.18.26")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.26")
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.jetbrains:annotations:24.0.0"
+    implementation "com.codepoetics:protonpack:1.16"
+    annotationProcessor "org.projectlombok:lombok:1.18.26"
+    compileOnly "org.projectlombok:lombok:1.18.26"
+    runtimeOnly "com.h2database:h2"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.assertj:assertj-core:3.24.2"
+    testImplementation 'io.cucumber:cucumber-java:6.8.0'
+    testImplementation 'io.cucumber:cucumber-junit:6.8.0'
+    testImplementation 'io.cucumber:cucumber-spring:6.8.0'
+    testCompileOnly "org.projectlombok:lombok:1.18.26"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.26"
 
 }
 
