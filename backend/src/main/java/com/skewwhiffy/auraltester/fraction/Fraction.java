@@ -16,7 +16,7 @@ public record Fraction(int top, int bottom) {
     }
 
 
-    private Fraction getSimplified() {
+    public Fraction getSimplified() {
         if (bottom < 0) {
             return new Fraction(-top, -bottom).getSimplified();
         }
@@ -28,14 +28,6 @@ public record Fraction(int top, int bottom) {
             return this;
         }
         return new Fraction(top / hcf, bottom / hcf);
-    }
-
-    private int getWhole() {
-        return top / bottom;
-    }
-
-    private int getTopWithoutWhole() {
-        return top - (getWhole() * bottom);
     }
 
     public Fraction plus(Fraction other) {
@@ -79,4 +71,13 @@ public record Fraction(int top, int bottom) {
         }
         return other.equals(2);
     }
+
+    private int getWhole() {
+        return top / bottom;
+    }
+
+    private int getTopWithoutWhole() {
+        return top - (getWhole() * bottom);
+    }
+
 }

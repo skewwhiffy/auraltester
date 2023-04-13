@@ -22,6 +22,7 @@ public class ClefFactory {
 
     public Clef getTreble() {
         return new Clef(
+                ClefType.TREBLE,
                 "treble",
                 AbsoluteNote.getMiddleC(),
                 noteFactory.getAbsoluteNote("a")
@@ -29,16 +30,31 @@ public class ClefFactory {
     }
 
     public Clef getAlto() {
-        return new Clef("alto", noteFactory.getAbsoluteNote("D,"), noteFactory.getAbsoluteNote("B"));
+        return new Clef(
+                ClefType.ALTO,
+                "alto",
+                noteFactory.getAbsoluteNote("D,"),
+                noteFactory.getAbsoluteNote("B")
+        );
     }
 
 
     public Clef getTenor() {
-        return new Clef("tenor", noteFactory.getAbsoluteNote("B,,"), noteFactory.getAbsoluteNote("G"));
+        return new Clef(
+                ClefType.TENOR,
+                "tenor",
+                noteFactory.getAbsoluteNote("B,,"),
+                noteFactory.getAbsoluteNote("G")
+        );
     }
 
 
     public Clef getBass() {
-        return new Clef("bass", noteFactory.getAbsoluteNote("E,,"), AbsoluteNote.getMiddleC());
+        return new Clef(
+                ClefType.BASS,
+                "bass",
+                noteFactory.getAbsoluteNote("E,,"),
+                AbsoluteNote.getMiddleC()
+        );
     }
 }

@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.dao;
 
+import com.skewwhiffy.auraltester.annotation.EntityConstructor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class Info {
     @Getter
     private String version;
 
+    @EntityConstructor
     Info() {
     }
 
