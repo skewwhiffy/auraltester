@@ -1,18 +1,29 @@
 package com.skewwhiffy.auraltester.cucumber;
 
-/*
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import lombok.AllArgsConstructor;
+import lombok.val;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+@AllArgsConstructor
 public class InfoSteps {
+    private final MockMvc mockMvc;
+    private final RestRequests restRequests;
+
     @Given("I hit the info endpoint")
     public void hitInfoEndpoint() {
-        System.out.println("HELLO MUM");
+        restRequests.makeGetRequest("/api/info");
     }
 
     @Then("system information is returned")
     public void systemInformationReturned() {
-        System.out.println("GOODBYE MUM");
+        val response = restRequests.getLastResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        val responseMap = restRequests.getLastResponseAs();
+        assertThat(responseMap.get("version")).isInstanceOf(String.class);
     }
 }
- */
