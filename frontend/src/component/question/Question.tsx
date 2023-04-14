@@ -43,11 +43,11 @@ const Question = (props: Props): JSX.Element => {
     switch (answerType) {
       case "NOTE_NAME":
         if (!state.noteName) {
-          throw "Require note name, but not defined"
+          throw Error("Require note name, but not defined")
         }
         return state.noteName
       default:
-        throw `Not recognized: '${answerType}'`
+        throw Error(`Not recognized: '${answerType}'`)
     }
   }
 

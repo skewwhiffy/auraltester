@@ -35,7 +35,7 @@ const api = {
   },
   async answerQuestion(id: string | undefined, answer: string[]) {
     if (!id) {
-      throw "Expected question ID to answer it"
+      throw Error("Expected question ID to answer it")
     }
     const response = await axios.post(
       "/api/question/answer",
