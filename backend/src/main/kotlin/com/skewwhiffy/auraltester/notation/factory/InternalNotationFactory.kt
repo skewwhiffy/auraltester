@@ -1,24 +1,24 @@
 package com.skewwhiffy.auraltester.notation.factory
 
+import com.skewwhiffy.auraltester.exception.UnrecognizedClefException
+import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-class InternalNotationFactory {
+class InternalNotationFactory(private val clefFactory: ClefFactory) {
     /*
-    private final ClefFactory clefFactory;
     private final NoteFactory noteFactory;
     private final IntervalFactory intervalFactory;
     private final KeyFactory keyFactory;
     */
 
-    fun clef(clefRaw: String): ClefResponse {
+    fun clef(clefRaw: String): Clef {
         return when (clefRaw.lowercase()) {
-            "treble" -> clefFactory.getTreble();
-            "alto" -> clefFactory.getAlto();
-            "tenor" -> clefFactory.getTenor();
-            "bass" -> clefFactory.getBass();
-            else -> throw UnrecognizedClefException (clefRaw);
+            "treble" -> clefFactory.treble
+            "alto" -> clefFactory.alto
+            "tenor" -> clefFactory.tenor
+            "bass" -> clefFactory.bass
+            else -> throw UnrecognizedClefException(clefRaw)
         }
     }
     /*

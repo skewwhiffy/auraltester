@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.service;
 
+import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,20 +33,22 @@ public class AbcService {
         List.of(scale.getNotes())
         );
     }
+    */
 
-    public AbcProvider getAbc(Clef clef) {
+    fun getAbc(clef: Clef): AbcProvider {
         val displayName = StringHelper.getTitleCase(
             clef.getDisplayName(),
             "Clef Notes"
         );
-        return new SingleLineAbc(
-                displayName,
-        clef,
-        NoteLength.getSemibreve(),
-        clef.getNotes().stream().map(NoteSequence::getNotes).toList()
+        return SingleLineAbc(
+            displayName,
+            clef,
+            NoteLength.semibreve,
+            clef.notes.map(NoteSequence::getNotes),
         );
     }
 
+    /*
     public AbcProvider getAbc(Clef clef, AbsoluteNote absoluteNote) {
         return getAbc(clef, Collections.singletonList(absoluteNote));
     }

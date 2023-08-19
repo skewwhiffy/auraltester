@@ -1,7 +1,10 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.skewwhiffy.auraltester.dto.ClefResponse
 import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory
+import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.service.AbcService
+import com.skewwhiffy.auraltester.test.util.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.mockito.InjectMocks
@@ -23,9 +26,9 @@ class ClefControllerTest {
 
     @BeforeEach
     fun setUp() {
-        clefString = TestData.random().string()
-        clef = TestData.random().clef()
-        abc = TestData.random().string()
+        clefString = TestData.random.string
+        clef = TestData.random.clef
+        abc = TestData.random.string
     }
 
     @org.junit.jupiter.api.Test
