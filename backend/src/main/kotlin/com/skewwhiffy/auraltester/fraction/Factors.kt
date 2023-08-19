@@ -1,3 +1,5 @@
+package com.skewwhiffy.auraltester.fraction
+
 class Factors {
     companion object {
         fun lcm(first: Int, second: Int): Int {

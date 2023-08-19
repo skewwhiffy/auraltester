@@ -1,3 +1,6 @@
+package com.skewwhiffy.auraltester.fraction.com.skewwhiffy.auraltester.fraction
+
+import com.skewwhiffy.auraltester.fraction.Factors
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource

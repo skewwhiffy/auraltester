@@ -1,3 +1,5 @@
+package com.skewwhiffy.auraltester.fraction
+
 data class Fraction(val top: Int, val bottom: Int) {
     init {
         if (bottom == 0) {
