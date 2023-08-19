@@ -1,12 +1,12 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.notation.model.key.Key
+
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) : Comparable<AbsoluteNote> {
-    companion object {
-        val middleC: AbsoluteNote
-            get() {
-                return AbsoluteNote(Note.c, Octave.default, null)
-            }
-    }
+    val middleC: AbsoluteNote
+        get() {
+            return AbsoluteNote(Note.c, Octave.default, null)
+        }
     /*
     public AbsoluteNoteDao toDao {
         return new AbsoluteNoteDao(note.toDao(), octave.toDao(), lyric.orElse(null))
@@ -92,27 +92,28 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         }
         return defaultNote
     }
+     */
 
-    public String getAbc(Key key) {
+    fun getAbc(key: Key): String {
         return key.getAbc(this)
     }
 
-    public String getWordAbc {
-        return lyric.orElse("*")
-    }
+    val wordAbc: String
+        get() = lyric ?: "*"
 
-    public AbsoluteNote downOne {
-        return minus(Interval.minor(2)).ignoreAccidental()
-    }
+    /*
+        public AbsoluteNote downOne {
+            return minus(Interval.minor(2)).ignoreAccidental()
+        }
 
-    public AbsoluteNote upOne {
-        return plus(Interval.minor(2)).ignoreAccidental()
-    }
+        public AbsoluteNote upOne {
+            return plus(Interval.minor(2)).ignoreAccidental()
+        }
 
-    public AbsoluteNote skipOne {
-        return this.plus(Interval.minor(3)).ignoreAccidental()
-    }
-    */
+        public AbsoluteNote skipOne {
+            return this.plus(Interval.minor(3)).ignoreAccidental()
+        }
+        */
 
     val ignoreAccidental: AbsoluteNote
         get() {

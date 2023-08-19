@@ -35,31 +35,30 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
             }
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     /*
+    @SuppressWarnings("SpellCheckingInspection")
     public NoteDao toDao {
         return new NoteDao(noteName, accidental.toDao())
     }
+    */
 
-    public String getDisplayString {
-        return noteName + accidental.getDisplayString()
-    }
+    val displayString: String
+        get() = "$noteName${accidental.displayString}"
+
+    /*
 
     public Note sharpen {
         return new Note(noteName, accidental.sharpen())
     }
+    */
 
-    public Note flatten {
-        return new Note(noteName, accidental.flatten())
-    }
+    val flat: Note
+        get() = Note(noteName, accidental.flat)
 
-    public Note upMajorSecond {
-        if ("ACDFG".contains(noteName)) {
-            return new Note(getNextNoteName(), accidental)
-        }
-        return new Note(getNextNoteName(), accidental.sharpen())
-    }
+    val upMajorSecond: Note
+        get() = if ("ACDFG".contains(noteName)) Note(nextNoteName, accidental) else Note(nextNoteName, accidental.sharp)
 
+    /*
     public Note downMajorSecond {
         return "BAGED".contains(noteName)
         ? new Note(getPreviousNoteName(), accidental)
@@ -71,21 +70,19 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
         return if (this == other) 0 else noteNames.indexOf(noteName) - (noteNames.indexOf(other.noteName))
     }
 
-    /*
-    private String getNextNoteName {
-        return switch (noteName) {
-            case "A" -> "B"
-            case "B" -> "C"
-            case "C" -> "D"
-            case "D" -> "E"
-            case "E" -> "F"
-            case "F" -> "G"
-            case "G" -> "A"
-            default -> throw new IllegalArgumentException(
-            MessageFormat.format("Not a valid note name: '{0}'", noteName)
-            )
+    val nextNoteName: String
+        get() {
+            return when (noteName) {
+                "A" -> "B"
+                "B" -> "C"
+                "C" -> "D"
+                "D" -> "E"
+                "E" -> "F"
+                "F" -> "G"
+                "G" -> "A"
+                else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
+            }
         }
-    }
 
     /*
   private val nextNoteName: String = when (noteName) {
@@ -98,10 +95,10 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
     "G" -> "A"
     else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
   }
-  */
 
-    private String getPreviousNoteName {
-        return switch (noteName) {
+    private String getPreviousNoteName
+    {
+        return switch(noteName) {
             case "A" -> "G"
             case "B" -> "A"
             case "C" -> "B"
@@ -115,5 +112,5 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
         }
     }
 
-     */
+    */
 }

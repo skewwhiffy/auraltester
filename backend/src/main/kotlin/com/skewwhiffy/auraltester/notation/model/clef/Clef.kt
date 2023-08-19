@@ -9,20 +9,21 @@ data class Clef(
     val lowLedgerNote: AbsoluteNote,
     val highLedgerNote: AbsoluteNote
 ) {
-    /*
-    public String getDisplayName() {
-        return abc;
-    }
+    val displayName: String
+        get() {
+            return abc
+        }
 
-    public List<NoteSequence> getNotes() {
-        return Arrays.asList(
+    val notes: List<NoteSequence>
+        get() = listOf(
             NoteSequence.of(AbsoluteNote.getMiddleC().withLyric("Middle~C")),
             getLineNotes(),
             getSpaceNotes(),
             getLowerLedgerNotes(),
             getUpperLedgerNotes()
-        );
-    }
+        )
+    
+    /*
 
     private NoteSequence getLineNotes() {
         return new ClefLineNotes(this);

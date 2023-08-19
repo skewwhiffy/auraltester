@@ -1,6 +1,10 @@
 package com.skewwhiffy.auraltester.service;
 
+import com.skewwhiffy.auraltester.helper.StringHelper
+import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
+import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.note.NoteLength
 import org.springframework.stereotype.Service
 
 @Service
@@ -37,14 +41,14 @@ public class AbcService {
 
     fun getAbc(clef: Clef): AbcProvider {
         val displayName = StringHelper.getTitleCase(
-            clef.getDisplayName(),
+            clef.displayName,
             "Clef Notes"
         );
         return SingleLineAbc(
             displayName,
             clef,
             NoteLength.semibreve,
-            clef.notes.map(NoteSequence::getNotes),
+            clef.notes.map {it.notes }
         );
     }
 
