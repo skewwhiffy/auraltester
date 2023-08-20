@@ -39,9 +39,9 @@ data class Accidental(val offset: Int) {
             return "x".repeat((offset - 1) / 2) + "#"
         }
 
-    val flat: Accidental
+    val flatten: Accidental
         get() = Accidental(offset - 1)
 
-    val sharp: Accidental
+    val sharpen: Accidental
         get() = Accidental(offset + 1)
 }

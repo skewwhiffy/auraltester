@@ -1,12 +1,14 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.key.Key
 
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) : Comparable<AbsoluteNote> {
-    val middleC: AbsoluteNote
-        get() {
-            return AbsoluteNote(Note.c, Octave.default, null)
-        }
+    companion object {
+        val middleC: AbsoluteNote
+            get() = AbsoluteNote(Note.c, Octave.default, null)
+    }
+
     /*
     public AbsoluteNoteDao toDao {
         return new AbsoluteNoteDao(note.toDao(), octave.toDao(), lyric.orElse(null))
@@ -18,81 +20,56 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
             case DOWN -> minus(interval.interval())
         }
     }
+    */
 
-    public AbsoluteNote withLyric(String lyric) {
-        return new AbsoluteNote(note, octave, Optional.of(lyric))
-    }
+    fun withLyric(lyric: String): AbsoluteNote = AbsoluteNote(note, octave, lyric)
 
-    public AbsoluteNote plus(Interval interval) {
-        val defaultNote = switch (interval.degree()) {
-            case 1 -> this
-            case 2 -> upMajorSecond()
-            case 3 -> upMajorSecond().upMajorSecond()
-            case 4 -> plus(Interval.major(3)).upMinorSecond()
-            case 5 -> plus(Interval.perfect(4)).upMajorSecond()
-            case 6 -> plus(Interval.perfect(5)).upMajorSecond()
-            case 7 -> plus(Interval.major(6)).upMajorSecond()
-            case 8 -> new AbsoluteNote(note, octave.up(), lyric)
-            default -> throw new IllegalArgumentException(
-            MessageFormat.format(
-                "Interval degree of ${interval.degree} not supported",
-                interval.degree()
-            )
-            )
+    operator fun plus(interval: Interval): AbsoluteNote {
+        val defaultNote: AbsoluteNote = when (interval.degree) {
+            1 -> this
+            2 -> upMajorSecond
+            3 -> upMajorSecond.upMajorSecond
+            4 -> (this + Interval.major(3)).upMinorSecond
+            5 -> (this + Interval.perfect(4)).upMajorSecond
+            6 -> (this + Interval.perfect(5)).upMajorSecond
+            7 -> (this + Interval.major(6)).upMajorSecond
+            8 -> AbsoluteNote(note, octave.up, lyric)
+            else -> throw IllegalArgumentException("Interval degree of ${interval.degree} not supported")
         }
 
-        val deviation = interval.deviation()
+        // TODO: HERE, KENNY
+        val deviation = interval.deviation
         if (deviation < 0) {
-            return IntStream
-                .range(0, -deviation)
-                .boxed()
-                .reduce(defaultNote, (note, it) -> note.flatten(), NoParallelStream.get())
+            return (1..-deviation) .fold(defaultNote) { note, _ -> note.flatten }
         }
         if (deviation > 0) {
-            return IntStream
-                .range(0, deviation)
-                .boxed()
-                .reduce(defaultNote, (note, it) -> note.sharpen(), NoParallelStream.get())
+            return (1..deviation)
+                .fold(defaultNote) { note, _ -> note.sharpen }
         }
         return defaultNote
     }
 
-    public AbsoluteNote minus(Interval interval) {
-        val defaultNote = switch (interval.degree()) {
-            case 1 -> this
-            case 2 -> downMajorSecond()
-            case 3 -> downMajorSecond().downMajorSecond()
-            case 4 -> minus(Interval.major(3)).downMinorSecond()
-            case 5 -> minus(Interval.perfect(4)).downMajorSecond()
-            case 6 -> minus(Interval.perfect(5)).downMajorSecond()
-            case 7 -> minus(Interval.major(6)).downMajorSecond()
-            case 8 -> new AbsoluteNote(note, octave.down(), lyric)
-            default -> throw new IllegalArgumentException()
+    operator fun minus(interval: Interval): AbsoluteNote {
+        val defaultNote = when (interval.degree) {
+            1 -> this
+            2 -> downMajorSecond
+            3 -> downMajorSecond.downMajorSecond
+            4 -> (this - Interval.major(3)).downMinorSecond
+            5 -> (this - Interval.perfect(4)).downMajorSecond
+            6 -> (this - Interval.perfect(5)).downMajorSecond
+            7 -> (this - Interval.major(6)).downMajorSecond
+            8 -> AbsoluteNote(note, octave.down, lyric)
+            else -> throw IllegalArgumentException()
         }
-        val deviation = interval.deviation()
+        val deviation = interval.deviation
         if (deviation < 0) {
-            return IntStream
-                .range(0, -deviation)
-                .boxed()
-                .reduce(
-                    defaultNote,
-                    (it, i) -> it.sharpen(),
-            NoParallelStream.get()
-            )
+            return (1..-deviation).fold(defaultNote) { it, _ -> it.sharpen }
         }
         if (deviation > 0) {
-            return IntStream
-                .range(0, deviation)
-                .boxed()
-                .reduce(
-                    defaultNote,
-                    (it, i) -> it.flatten(),
-            NoParallelStream.get()
-            )
+            return (1..deviation).fold(defaultNote) { it, _ -> it.flatten }
         }
         return defaultNote
     }
-     */
 
     fun getAbc(key: Key): String {
         return key.getAbc(this)
@@ -101,56 +78,42 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
     val wordAbc: String
         get() = lyric ?: "*"
 
-    /*
-        public AbsoluteNote downOne {
-            return minus(Interval.minor(2)).ignoreAccidental()
-        }
+    val downOne: AbsoluteNote
+        get() = (this - Interval.minor(2)).ignoreAccidental
 
-        public AbsoluteNote upOne {
-            return plus(Interval.minor(2)).ignoreAccidental()
-        }
+    val upOne: AbsoluteNote
+        get() = (this + Interval.minor(2)).ignoreAccidental
 
-        public AbsoluteNote skipOne {
-            return this.plus(Interval.minor(3)).ignoreAccidental()
-        }
-        */
+    val skipOne: AbsoluteNote
+        get() = (this + Interval.minor(3)).ignoreAccidental
 
     val ignoreAccidental: AbsoluteNote
-        get() {
-            return AbsoluteNote(Note(note.noteName, Accidental.natural), octave, lyric)
-        }
+        get() = AbsoluteNote(Note(note.noteName, Accidental.natural), octave, lyric)
+
+    val withNoteName: AbsoluteNote
+        get() = withLyric(note.displayString)
+
+    private val sharpen: AbsoluteNote
+        get() = AbsoluteNote(note.sharpen, octave, lyric)
+
+    private val flatten: AbsoluteNote
+        get() = AbsoluteNote(note.flatten, octave, lyric)
+
+    private val upMajorSecond: AbsoluteNote
+        get() = AbsoluteNote(
+            note.upMajorSecond,
+            if ("B" == note.noteName) octave.up else octave,
+            lyric
+        )
+
+    private val upMinorSecond: AbsoluteNote
+        get() = AbsoluteNote(
+            upMajorSecond.note.flatten,
+            upMajorSecond.octave,
+            lyric
+        )
 
     /*
-    public AbsoluteNote withNoteName {
-        return withLyric(note.getDisplayString())
-        //get() = withLyric(note.displayString)
-    }
-
-    private AbsoluteNote sharpen {
-        return new AbsoluteNote(note.sharpen(), octave, lyric)
-    }
-
-    private AbsoluteNote flatten {
-        return new AbsoluteNote(note.flatten(), octave, lyric)
-    }
-
-    private AbsoluteNote upMajorSecond {
-        return new AbsoluteNote(
-                note.upMajorSecond(),
-        "B".equals(note.noteName()) ? octave.up() : octave,
-        lyric
-        )
-    }
-
-    private AbsoluteNote upMinorSecond {
-        val upMajorSecond = upMajorSecond()
-        return new AbsoluteNote(
-                upMajorSecond.note.flatten(),
-        upMajorSecond.octave,
-        lyric
-        )
-    }
-
     private AbsoluteNote downMajorSecond {
         return new AbsoluteNote(
                 note.downMajorSecond(),
@@ -164,7 +127,7 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         return new AbsoluteNote(downMajorSecond.note.sharpen(), downMajorSecond.octave, lyric)
     }
 
-*/
+    */
 
     override fun compareTo(other: AbsoluteNote): Int {
         if (this == other) {

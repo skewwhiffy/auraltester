@@ -83,7 +83,7 @@ public Key getRelative() {
         get() = (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))
             .fold(listOf(note)) { soFar, tones ->
                 val lastNote = soFar.get(soFar.size - 1)
-                val nextNote = if (tones == 2) lastNote.upMajorSecond else lastNote.upMajorSecond.flat
+                val nextNote = if (tones == 2) lastNote.upMajorSecond else lastNote.upMajorSecond.flatten
                 return soFar + listOf(nextNote)
             }
 }

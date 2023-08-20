@@ -10,11 +10,12 @@ data class Octave(val offsetFromDefault: Int) : Comparable<Octave?> {
     fun toDao(): OctaveDao {
         return OctaveDao(offsetFromDefault)
     }
+    */
 
-    fun up(): Octave {
-        return Octave(offsetFromDefault + 1)
-    }
+    val up: Octave
+        get() = Octave(offsetFromDefault + 1)
 
+    /*
     fun down(): Octave {
         return Octave(offsetFromDefault - 1)
     }

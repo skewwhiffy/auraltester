@@ -13,6 +13,12 @@ data class SingleLineAbc(
     val keySignature: Key?,
     val notes: List<List<AbsoluteNote>>
 ) : AbcProvider {
+    constructor(
+        displayName: String?,
+        clef: Clef,
+        noteLength: NoteLength,
+        notes: List<List<AbsoluteNote>>
+    ): this(displayName, clef, noteLength, null, notes)
     /*
     public SingleLineAbc(
             String displayName,
