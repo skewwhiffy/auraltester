@@ -40,7 +40,7 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         // TODO: HERE, KENNY
         val deviation = interval.deviation
         if (deviation < 0) {
-            return (1..-deviation) .fold(defaultNote) { note, _ -> note.flatten }
+            return (1..-deviation).fold(defaultNote) { note, _ -> note.flatten }
         }
         if (deviation > 0) {
             return (1..deviation)
@@ -113,21 +113,19 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
             lyric
         )
 
-    /*
-    private AbsoluteNote downMajorSecond {
-        return new AbsoluteNote(
-                note.downMajorSecond(),
-        "C".equals(note.noteName()) ? octave.down() : octave,
-        lyric
+    private val downMajorSecond: AbsoluteNote
+        get() = AbsoluteNote(
+            note.downMajorSecond,
+            if (note.noteName == "C") octave.down else octave,
+            lyric
         )
-    }
 
-    private AbsoluteNote downMinorSecond {
-        val downMajorSecond = downMajorSecond()
-        return new AbsoluteNote(downMajorSecond.note.sharpen(), downMajorSecond.octave, lyric)
-    }
-
-    */
+    private val downMinorSecond: AbsoluteNote
+        get() = AbsoluteNote(
+            downMajorSecond.note.sharpen,
+            downMajorSecond.octave,
+            lyric
+        )
 
     override fun compareTo(other: AbsoluteNote): Int {
         if (this == other) {

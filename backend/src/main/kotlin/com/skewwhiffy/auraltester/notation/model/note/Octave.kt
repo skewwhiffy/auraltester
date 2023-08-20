@@ -6,6 +6,7 @@ data class Octave(val offsetFromDefault: Int) : Comparable<Octave?> {
         val default: Octave
             get() = Octave(0)
     }
+
     /*
     fun toDao(): OctaveDao {
         return OctaveDao(offsetFromDefault)
@@ -15,11 +16,8 @@ data class Octave(val offsetFromDefault: Int) : Comparable<Octave?> {
     val up: Octave
         get() = Octave(offsetFromDefault + 1)
 
-    /*
-    fun down(): Octave {
-        return Octave(offsetFromDefault - 1)
-    }
-    */
+    val down: Octave
+        get() = Octave(offsetFromDefault - 1)
 
     override fun compareTo(other: Octave?): Int {
         if (other == null) {

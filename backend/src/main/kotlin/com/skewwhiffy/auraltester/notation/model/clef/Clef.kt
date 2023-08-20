@@ -2,7 +2,9 @@ package com.skewwhiffy.auraltester.notation.model.clef
 
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.notation.model.abc.ClefLineNotes
+import com.skewwhiffy.auraltester.notation.model.abc.ClefLowerLedgerNotes
 import com.skewwhiffy.auraltester.notation.model.abc.ClefSpaceNotes
+import com.skewwhiffy.auraltester.notation.model.abc.ClefUpperLedgerNotes
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence
 

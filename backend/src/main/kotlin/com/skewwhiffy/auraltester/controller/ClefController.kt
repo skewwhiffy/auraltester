@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ClefController(private val internalNotationFactory: InternalNotationFactory, private val abcService: AbcService) {
+class ClefController(
+    private val internalNotationFactory: InternalNotationFactory,
+    private val abcService: AbcService
+) {
     @GetMapping("/api/clef")
     fun get(clef: String): ClefResponse {
         val clefObject = internalNotationFactory.clef(clef)
