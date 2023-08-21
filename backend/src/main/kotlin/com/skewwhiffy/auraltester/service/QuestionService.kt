@@ -1,6 +1,10 @@
 package com.skewwhiffy.auraltester.service;
 
+import com.skewwhiffy.auraltester.dto.question.QuestionRequest
+import com.skewwhiffy.auraltester.dto.question.QuestionResponse
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
+import java.util.*
 
 @Service
 class QuestionService {
@@ -8,8 +12,11 @@ class QuestionService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final Collection<QuestionFactory<?>> questionFactories;
     private final QuestionRepository questionRepository;
+    */
 
-    public QuestionResponse get(QuestionRequest request) {
+    fun get(request: QuestionRequest): QuestionResponse {
+        throw RuntimeException()
+        /*
         val questionType = request.type();
         val factory = questionFactories
             .stream()
@@ -39,9 +46,12 @@ class QuestionService {
             "Cannot serialize clef question"
             );
         }
+        */
     }
 
-    public AnswerResponse answer(UUID id, List<String> answers) {
+
+    fun answer(id: UUID, answers: List<String>): AnswerResponse {
+        /*
         val savedQuestionEntity = questionRepository
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(
@@ -65,6 +75,7 @@ class QuestionService {
         return factory
             .getQuestion(savedQuestionEntity.getQuestion())
             .answer(answers);
+            */
+        throw RuntimeException()
     }
-     */
 }
