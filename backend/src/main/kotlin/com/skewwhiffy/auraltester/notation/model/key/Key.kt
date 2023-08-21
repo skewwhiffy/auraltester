@@ -6,36 +6,24 @@ import com.skewwhiffy.auraltester.notation.model.note.Note
 
 data class Key(val note: Note, val isMinor: Boolean) {
     companion object {
-        val cMajor: Key
+        val cMajor
             get() = major(Note.c)
 
-        fun major(note: Note): Key {
-            return Key(note, false)
-        }
+        fun major(note: Note) = Key(note, false)
 
-        fun minor(note: Note): Key {
-            return Key(note, true)
-        }
+        fun minor(note: Note) = Key(note, true)
 
     }
 
-    val abc: String
+    val abc
         get() = note.displayString + (if (isMinor) "m" else "")
 
+    val displayString
+        get() = "${note.displayString} ${if (isMinor) "minor" else "major"}"
+
+    fun getAbc(note: AbsoluteNote) = getAccidentalAbc(note.note) + getNoteAbc(note)
+
     /*
-    public String getDisplayString() {
-        return MessageFormat.format(
-            "{0} {1}",
-            note.getDisplayString(),
-            isMinor ? "minor" : "major"
-        );
-    }
-
-*/
-
-    fun getAbc(note: AbsoluteNote): String = getAccidentalAbc(note.note) + getNoteAbc(note)
-    /*
-
     public boolean canRenderSignature() {
         return isMinor
         ? getRelativeMajor().canRenderSignature()
@@ -43,7 +31,7 @@ data class Key(val note: Note, val isMinor: Boolean) {
     }
     */
 
-    fun getNoteAbc(note: AbsoluteNote): String {
+    private fun getNoteAbc(note: AbsoluteNote): String {
         val offset = note.octave.offsetFromDefault
         if (offset > 0) {
             return note.note.noteName.lowercase() + "'".repeat(offset - 1)
@@ -64,20 +52,15 @@ data class Key(val note: Note, val isMinor: Boolean) {
             else -> note.accidental.abc
         }
     }
-    /*
 
-public Key getRelativeMinor() {
-    return isMinor ? this : new Key(note.downMajorSecond().downMajorSecond().sharpen(), true);
-}
+    val relativeMinor
+        get() = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharpen, true)
 
-public Key getRelativeMajor() {
-    return isMinor ? new Key(note.upMajorSecond().upMajorSecond().flatten(), false) : this;
-}
+    val relativeMajor
+        get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flatten, false) else this
 
-public Key getRelative() {
-    return isMinor ? getRelativeMajor() : getRelativeMinor();
-}
-*/
+    val relative
+        get() = if (isMinor) relativeMajor else relativeMinor
 
     val notes: List<Note>
         get() = (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))

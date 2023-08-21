@@ -76,22 +76,6 @@ class AbcService {
         listOf(intervalNotes.notes)
     )
 
-    /*
-    public AbcProvider getAbc(Clef clef, Key key) {
-        String title = getTitleCase(
-                MessageFormat.format(
-                    "{0} / {1}",
-                    key.getDisplayString(),
-                    key.getRelative().getDisplayString()
-                )
-                );
-        return new SingleLineAbc(
-                Optional.of(title),
-        clef,
-        NoteLength.getSemibreve(),
-        Optional.of(key),
-        Collections.singletonList(Collections.emptyList())
-        );
-    }
-     */
+    fun getAbc(clef: Clef, key: Key): AbcProvider = getTitleCase("${key.displayString} / ${key.relative.displayString}")
+        .let { SingleLineAbc(it, clef, NoteLength.semibreve, key, listOf(listOf())) }
 }

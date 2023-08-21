@@ -30,7 +30,7 @@ class TestData {
 
         private fun <T> oneOf(source: List<T>) = source.size.let(random::nextInt).let(source::get)
 
-        private val absoluteNote
+        val absoluteNote
             get() = AbsoluteNote(note, octave, null)
 
         private val accidental
