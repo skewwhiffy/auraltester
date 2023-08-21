@@ -68,7 +68,7 @@ class AbcService {
     }
     */
 
-    fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key) = SingleLineAbc(
+    fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): AbcProvider = SingleLineAbc(
         getTitleCase(intervalNotes.interval.displayString),
         clef,
         NoteLength.semibreve,
