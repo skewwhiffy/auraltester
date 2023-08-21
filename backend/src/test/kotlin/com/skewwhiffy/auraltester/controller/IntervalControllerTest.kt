@@ -13,7 +13,9 @@ import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.service.IntervalService
 import com.skewwhiffy.auraltester.test.util.TestData
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -28,13 +30,13 @@ class IntervalControllerTest {
     companion object {
         @JvmStatic
         fun intervalQualityTestCases() = listOf(
-                Arguments.of("perfect", 5, "+5"),
-                Arguments.of("major", 7, "+7"),
-                Arguments.of("minor", 3, "+3-"),
-                Arguments.of("diminished", 4, "+4-"),
-                Arguments.of("diminished", 2, "+2--"),
-                Arguments.of("augmented", 6, "+6+")
-            )
+            Arguments.of("perfect", 5, "+5"),
+            Arguments.of("major", 7, "+7"),
+            Arguments.of("minor", 3, "+3-"),
+            Arguments.of("diminished", 4, "+4-"),
+            Arguments.of("diminished", 2, "+2--"),
+            Arguments.of("augmented", 6, "+6+")
+        )
 
         /*
         static Stream<Arguments> intervalQualityTestCases() {
@@ -105,18 +107,14 @@ class IntervalControllerTest {
         assertThat(actual.abc).isEqualTo(abc)
     }
 
-    /*
-@Test
-void when_intervalQualityNotValid_then_throws() {
-    when(internalNotationFactory.clef(clefString)).thenReturn(clef);
-    when(internalNotationFactory.getNote(bottomNoteString))
-        .thenReturn(new AbsoluteNote(bottomNote, Octave.getDefault(), Optional.empty()));
+    @Test
+    fun when_intervalQualityNotValid_then_throws() {
+        `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
+        `when`(internalNotationFactory.getNote(bottomNoteString))
+            .thenReturn(AbsoluteNote(bottomNote, Octave.default, null))
 
-    assertThatThrownBy(() -> intervalController.get(clefString, bottomNoteString, "demented", 5, Optional.of(keySignature)))
-    .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy { intervalController.get(clefString, bottomNoteString, "demented", 5, keySignature) }
+            .isInstanceOf(IllegalArgumentException::class.java)
 
-}
-
-
-     */
+    }
 }
