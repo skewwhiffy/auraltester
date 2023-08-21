@@ -2,18 +2,13 @@ package com.skewwhiffy.auraltester.test.util
 
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
-import com.skewwhiffy.auraltester.notation.model.note.Accidental
-import com.skewwhiffy.auraltester.notation.model.note.Note
-import com.skewwhiffy.auraltester.notation.model.note.Octave
+import com.skewwhiffy.auraltester.notation.model.interval.Interval
+import com.skewwhiffy.auraltester.notation.model.note.*
 import java.util.*
 
 class TestData {
     companion object {
-        val random: RandomTestData
-            get() {
-                return RandomTestData()
-            }
+        val random: RandomTestData by lazy(::RandomTestData)
     }
     /*
 
@@ -23,81 +18,59 @@ class TestData {
     */
 
     class RandomTestData {
-        private val random = Random()
+        private val random: Random by lazy(::Random)
 
-        val string: String
-            get() {
-                return UUID.randomUUID().toString()
-            }
+        val string
+            get() = UUID.randomUUID().toString()
 
         @Suppress("SameParameterValue")
-        private fun oneOf(source: String): String {
-            return oneOf(source.toList()).toString()
-        }
+        private fun oneOf(source: String) = oneOf(source.toList()).toString()
 
-        fun <T> oneOf(vararg source: T): T {
-            return oneOf(source.toList())
-        }
+        fun oneOf(source: IntRange) = oneOf(source.toList())
 
-        fun <T> oneOf(source: List<T>): T {
-            return source.size.let { random.nextInt(it) }.let { source.get(it) }
-        }
+        private fun <T> oneOf(source: List<T>) = source.size.let(random::nextInt).let(source::get)
 
-        val absoluteNote: AbsoluteNote
-            get() {
-                return AbsoluteNote(note, octave, null)
-            }
+        private val absoluteNote
+            get() = AbsoluteNote(note, octave, null)
 
-        val accidental: Accidental
-            get() {
-                return Accidental(random.nextInt(3) - 1)
-            }
+        private val accidental
+            get() = Accidental(random.nextInt(3) - 1)
 
-        val clef: Clef
-            get() {
-                return Clef(
-                    clefType,
-                    string.uppercase(),
-                    absoluteNote.ignoreAccidental,
-                    absoluteNote.ignoreAccidental
-                )
-            }
+        val clef
+            get() = Clef(
+                clefType,
+                string.uppercase(),
+                absoluteNote.ignoreAccidental,
+                absoluteNote.ignoreAccidental
+            )
 
-        val clefType: ClefType
-            get() {
-                return oneOf(ClefType.entries)
-            }
+        private val clefType
+            get() = oneOf(ClefType.entries)
 
         /*
         public DirectedInterval directedInterval() {
             return random.nextBoolean() ? interval().up() : interval().down();
         }
+         */
 
-        public Interval interval() {
-            return new Interval(
-                    oneOf(IntStream.range(1, 9).boxed().toList()),
-            random.nextInt(3) - 1
-            );
-        }
+        val interval
+            get() = Interval(oneOf((1..8)), random.nextInt(3) - 1)
 
-        public IntervalNotes intervalNotes() {
-            return new IntervalNotes(absoluteNote(), interval());
-        }
+        val intervalNotes
+            get() = IntervalNotes(absoluteNote, interval)
 
+        /*
         public Key key() {
             return random.nextBoolean() ? Key.major(note()) : Key.minor(note());
         }
         */
 
-        val note: Note
-            get() {
-                return Note(oneOf("ABCDEFG"), accidental)
-            }
+        @Suppress("SpellCheckingInspection")
+        val note
+            get() = Note(oneOf("ABCDEFG"), accidental)
 
-        val octave: Octave
-            get() {
-                return Octave(random.nextInt(8) - 4)
-            }
+        private val octave
+            get() = Octave(random.nextInt(8) - 4)
 
         /*
         public Scale scale() {

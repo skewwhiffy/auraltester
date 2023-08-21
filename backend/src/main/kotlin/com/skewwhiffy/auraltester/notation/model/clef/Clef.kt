@@ -5,7 +5,9 @@ import com.skewwhiffy.auraltester.notation.model.abc.ClefLineNotes
 import com.skewwhiffy.auraltester.notation.model.abc.ClefLowerLedgerNotes
 import com.skewwhiffy.auraltester.notation.model.abc.ClefSpaceNotes
 import com.skewwhiffy.auraltester.notation.model.abc.ClefUpperLedgerNotes
+import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
+import com.skewwhiffy.auraltester.notation.model.note.Note
 import com.skewwhiffy.auraltester.notation.model.note.NoteSequence
 
 data class Clef(
@@ -40,12 +42,6 @@ data class Clef(
     private val upperLedgerNotes: NoteSequence
         get() = ClefUpperLedgerNotes(this)
 
-    /*
-    public AbsoluteNote getNoteNearBottom(Note note) {
-        val candidateStartingNote = new AbsoluteNote(note, lowLedgerNote.octave(), Optional.empty());
-        return candidateStartingNote.compareTo(lowLedgerNote) < 0
-        ? candidateStartingNote.plus(Interval.perfect(8))
-        : candidateStartingNote;
-    }
-     */
+    fun getNoteNearBottom(note: Note): AbsoluteNote = AbsoluteNote(note, lowLedgerNote.octave, null)
+        .let { if (it < lowLedgerNote) it + Interval.perfect(8) else it }
 }

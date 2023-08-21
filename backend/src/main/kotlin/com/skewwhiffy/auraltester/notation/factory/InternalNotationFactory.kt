@@ -2,12 +2,16 @@ package com.skewwhiffy.auraltester.notation.factory
 
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import org.springframework.stereotype.Service
 
 @Service
-class InternalNotationFactory(private val clefFactory: ClefFactory) {
+class InternalNotationFactory(
+    private val clefFactory: ClefFactory,
+    private val noteFactory: NoteFactory,
+    private val intervalFactory: IntervalFactory
+) {
     /*
-    private final NoteFactory noteFactory;
     private final IntervalFactory intervalFactory;
     private final KeyFactory keyFactory;
     */
@@ -21,22 +25,20 @@ class InternalNotationFactory(private val clefFactory: ClefFactory) {
             else -> throw UnrecognizedClefException(clefRaw)
         }
     }
+
+    fun getNote(noteRaw: String) = noteFactory.getAbsoluteNote(noteRaw)
+
     /*
-
-    public AbsoluteNote getNote(String noteRaw) {
-        return noteFactory.getAbsoluteNote(noteRaw);
-    }
-
     public List<AbsoluteNote> getNotes(String notesRaw) {
         return Arrays.stream(notesRaw.split(" "))
             .map(this::getNote)
             .toList();
     }
+    */
 
-    public DirectedInterval getDirectedInterval(String rawInterval) {
-        return intervalFactory.getDirectedInterval(rawInterval);
-    }
+    fun getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory.getDirectedInterval(rawInterval)
 
+    /*
     public List<DirectedInterval> getDirectedIntervals(String rawIntervals) {
         return intervalFactory.getDirectedIntervals(rawIntervals);
     }

@@ -1,9 +1,11 @@
 package com.skewwhiffy.auraltester.service
 
-import com.skewwhiffy.auraltester.helper.StringHelper
+import com.skewwhiffy.auraltester.helper.StringHelper.getTitleCase
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.key.Key
+import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength
 import org.springframework.stereotype.Service
 
@@ -40,7 +42,7 @@ class AbcService {
     */
 
     fun getAbc(clef: Clef): AbcProvider {
-        val displayName = StringHelper.getTitleCase(
+        val displayName = getTitleCase(
             clef.displayName,
             "Clef Notes"
         )
@@ -64,17 +66,17 @@ class AbcService {
         List.of(absoluteNotes)
         );
     }
+    */
 
-    public AbcProvider getAbc(Clef clef, IntervalNotes intervalNotes, Key key) {
-        return new SingleLineAbc(
-                getTitleCase(intervalNotes.interval().getDisplayString()),
+    fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key) = SingleLineAbc(
+        getTitleCase(intervalNotes.interval.displayString),
         clef,
-        NoteLength.getSemibreve(),
+        NoteLength.semibreve,
         key,
-        List.of(intervalNotes.getNotes())
-        );
-    }
+        listOf(intervalNotes.notes)
+    )
 
+    /*
     public AbcProvider getAbc(Clef clef, Key key) {
         String title = getTitleCase(
                 MessageFormat.format(
