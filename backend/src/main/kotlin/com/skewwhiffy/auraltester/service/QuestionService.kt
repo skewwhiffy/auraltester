@@ -1,5 +1,6 @@
-package com.skewwhiffy.auraltester.service;
+package com.skewwhiffy.auraltester.service
 
+import com.skewwhiffy.auraltester.dto.question.AnswerResponse
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest
 import com.skewwhiffy.auraltester.dto.question.QuestionResponse
 import org.springframework.stereotype.Service
@@ -7,16 +8,14 @@ import java.lang.RuntimeException
 import java.util.*
 
 @Service
-class QuestionService {
-    /*
+class QuestionService {/*
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final Collection<QuestionFactory<?>> questionFactories;
     private final QuestionRepository questionRepository;
     */
 
     fun get(request: QuestionRequest): QuestionResponse {
-        throw RuntimeException()
-        /*
+        throw RuntimeException()/*
         val questionType = request.type();
         val factory = questionFactories
             .stream()
@@ -50,8 +49,7 @@ class QuestionService {
     }
 
 
-    fun answer(id: UUID, answers: List<String>): AnswerResponse {
-        /*
+    fun answer(id: UUID, answers: List<String>): AnswerResponse {/*
         val savedQuestionEntity = questionRepository
             .findById(id)
             .orElseThrow(() -> new ResponseStatusException(

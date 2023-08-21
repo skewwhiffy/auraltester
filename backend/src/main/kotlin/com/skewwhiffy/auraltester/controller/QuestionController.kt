@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/question")
 class QuestionController(private val questionService: QuestionService) {
     @PostMapping
-    fun newQuestion(@RequestBody request:QuestionRequest): QuestionResponse = questionService.get(request)
+    fun newQuestion(@RequestBody request: QuestionRequest): QuestionResponse = questionService.get(request)
 
     @PostMapping("answer")
     fun answerQuestion(@RequestBody request: AnswerRequest) = questionService.answer(request.id, request.answer)
