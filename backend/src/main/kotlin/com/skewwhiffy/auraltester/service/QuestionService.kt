@@ -8,15 +8,17 @@ import java.lang.RuntimeException
 import java.util.*
 
 @Service
-class QuestionService {/*
+class QuestionService(
+    //private val questionFactories: Collection<QuestionFactory>,
+    //private val questionRespository: QuestionRepository
+) {/*
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private final Collection<QuestionFactory<?>> questionFactories;
-    private final QuestionRepository questionRepository;
     */
 
     fun get(request: QuestionRequest): QuestionResponse {
-        throw RuntimeException()/*
-        val questionType = request.type();
+        val questionType = request.type
+        throw RuntimeException()
+        /*
         val factory = questionFactories
             .stream()
             .filter(it -> it.getQuestionType() == questionType)
@@ -27,25 +29,25 @@ class QuestionService {/*
             "No question factory for {0}.",
             questionType
         )
-        ));
-        val question = factory.getNewQuestion();
+        ))
+        val question = factory.getNewQuestion()
         try {
-            val questionJson = objectMapper.writeValueAsString(question.toDao());
-            val questionEntity = new QuestionDao(questionType, questionJson);
-            val savedQuestionEntity = questionRepository.save(questionEntity);
+            val questionJson = objectMapper.writeValueAsString(question.toDao())
+            val questionEntity = new QuestionDao(questionType, questionJson)
+            val savedQuestionEntity = questionRepository.save(questionEntity)
             return QuestionResponse
                 .builder()
                 .questionId(savedQuestionEntity.getId())
                 .elements(question.getQuestionElements())
                 .answerTypes(question.getAnswerTypes())
-                .build();
+                .build()
         } catch (JsonProcessingException ex) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
             "Cannot serialize clef question"
-            );
+            )
         }
-        */
+         */
     }
 
 
