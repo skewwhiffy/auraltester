@@ -7,39 +7,26 @@ import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.key.Key
 import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength
+import com.skewwhiffy.auraltester.notation.model.scale.Scale
 import org.springframework.stereotype.Service
 
 @Service
 class AbcService {
-    /*
-    public AbcProvider getAbc(Clef clef, Scale scale) {
-        String title = Stream
-                .of(scale.getDisplayName(), scale.direction().getDisplayString())
-            .filter(Objects::nonNull)
-            .collect(Collectors.joining(" "));
-        return new SingleLineAbc(
-                Optional.of(getTitleCase(title)),
+    fun getAbc(clef: Clef, scale: Scale) = SingleLineAbc(
+        getTitleCase("${scale.displayName} ${scale.direction.displayString}"),
         clef,
-        NoteLength.getSemibreve(),
-        Optional.empty(),
-        List.of(scale.getNotes())
-        );
-    }
+        NoteLength.semibreve,
+        null,
+        listOf(scale.notes)
+    )
 
-    public AbcProvider getAbc(Clef clef, Scale scale, Key key) {
-        String title = Stream
-                .of(scale.getDisplayName(), scale.direction().getDisplayString(), "(with key signature)")
-            .filter(Objects::nonNull)
-            .collect(Collectors.joining(" "));
-        return new SingleLineAbc(
-                Optional.of(getTitleCase(title)),
+    fun getAbc(clef: Clef, scale: Scale, key: Key) = SingleLineAbc(
+        getTitleCase("${scale.displayName} ${scale.direction.displayString} (with key signature)"),
         clef,
-        NoteLength.getSemibreve(),
-        Optional.of(key),
-        List.of(scale.getNotes())
-        );
-    }
-    */
+        NoteLength.semibreve,
+        key,
+        listOf(scale.notes)
+    )
 
     fun getAbc(clef: Clef): AbcProvider {
         val displayName = getTitleCase(
@@ -76,6 +63,12 @@ class AbcService {
         listOf(intervalNotes.notes)
     )
 
-    fun getAbc(clef: Clef, key: Key): AbcProvider = getTitleCase("${key.displayString} / ${key.relative.displayString}")
-        .let { SingleLineAbc(it, clef, NoteLength.semibreve, key, listOf(listOf())) }
+    fun getAbc(clef: Clef, key: Key): AbcProvider =
+        SingleLineAbc(
+            getTitleCase("${key.displayString} / ${key.relative.displayString}"),
+            clef,
+            NoteLength.semibreve,
+            key,
+            listOf(listOf())
+        )
 }

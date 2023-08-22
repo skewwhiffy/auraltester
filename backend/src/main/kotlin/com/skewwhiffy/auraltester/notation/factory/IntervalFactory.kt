@@ -7,13 +7,7 @@ import java.lang.Exception
 
 @Service
 class IntervalFactory {
-    /*
-    public List<DirectedInterval> getDirectedIntervals(String rawIntervals) {
-        return Arrays.stream(rawIntervals.split(" "))
-            .map(this::getDirectedInterval)
-            .toList();
-    }
-    */
+    fun getDirectedIntervals(rawIntervals: String) = rawIntervals.split(" ").map(::getDirectedInterval)
 
     fun getDirectedInterval(rawInterval: String): DirectedInterval {
         val interval: Interval = getRawDeviations(rawInterval)

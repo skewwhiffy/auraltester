@@ -2,8 +2,12 @@ package com.skewwhiffy.auraltester.test.util
 
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.note.*
+import com.skewwhiffy.auraltester.notation.model.scale.Scale
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection
+import com.skewwhiffy.auraltester.notation.model.scale.ScaleType
 import java.util.*
 
 class TestData {
@@ -47,11 +51,8 @@ class TestData {
         private val clefType
             get() = oneOf(ClefType.entries)
 
-        /*
-        public DirectedInterval directedInterval() {
-            return random.nextBoolean() ? interval().up() : interval().down();
-        }
-         */
+        private val directedInterval
+            get() = if (random.nextBoolean()) interval.up else interval.down
 
         val interval
             get() = Interval(oneOf((1..8)), random.nextInt(3) - 1)
@@ -72,56 +73,51 @@ class TestData {
         private val octave
             get() = Octave(random.nextInt(8) - 4)
 
-        /*
-        public Scale scale() {
-            return new Scale(absoluteNote(), scaleType(), scaleDirection());
-        }
+        val scale
+            get() = Scale(absoluteNote, scaleType, scaleDirection)
 
-        public ScaleDirection scaleDirection() {
-            return oneOf(Arrays.stream(ScaleDirection.values()).toList());
-        }
+        private val scaleDirection
+            get() = oneOf(ScaleDirection.entries.toList())
 
-        public ScaleType scaleType() {
-            return new ScaleType(
-                    string(),
-            string(),
-            IntStream.range(1, 6).mapToObj(it -> directedInterval()).toList(),
-            IntStream.range(1, 6).mapToObj(it -> directedInterval()).toList()
-            );
-        }
-        */
+        val scaleType
+            get() = ScaleType(
+                string,
+                string,
+                (1..5).map { directedInterval },
+                (1..5).map { directedInterval }
+            )
     }
 
     /*
-    public static class NoteFactories {
-        public NoteFactory note() {
-            return new NoteFactory();
-        }
+public static class NoteFactories {
+public NoteFactory note() {
+    return new NoteFactory();
+}
 
-        public ClefFactory clef() {
-            return new ClefFactory(note());
-        }
+public ClefFactory clef() {
+    return new ClefFactory(note());
+}
 
-        public IntervalFactory interval() {
-            return new IntervalFactory();
-        }
+public IntervalFactory interval() {
+    return new IntervalFactory();
+}
 
-        public KeyFactory key() {
-            return new KeyFactory(note());
-        }
+public KeyFactory key() {
+    return new KeyFactory(note());
+}
 
-        public InternalNotationFactory internalNotation() {
-            return new InternalNotationFactory(
-                    clef(),
-            note(),
-            interval(),
-            key()
-            );
-        }
+public InternalNotationFactory internalNotation() {
+    return new InternalNotationFactory(
+            clef(),
+    note(),
+    interval(),
+    key()
+    );
+}
 
-        public ScaleTypeFactory scaleType() {
-            return new ScaleTypeFactory(interval());
-        }
-    }
-     */
+public ScaleTypeFactory scaleType() {
+    return new ScaleTypeFactory(interval());
+}
+}
+*/
 }

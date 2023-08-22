@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
+import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
 import com.skewwhiffy.auraltester.notation.model.key.Key
 
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) : Comparable<AbsoluteNote> {
@@ -13,14 +15,12 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
     public AbsoluteNoteDao toDao {
         return new AbsoluteNoteDao(note.toDao(), octave.toDao(), lyric.orElse(null))
     }
-
-    public AbsoluteNote apply(DirectedInterval interval) {
-        return switch (interval.direction()) {
-            case UP -> plus(interval.interval())
-            case DOWN -> minus(interval.interval())
-        }
-    }
     */
+
+    fun apply(interval: DirectedInterval) = when(interval.direction) {
+        IntervalDirection.UP -> this + interval.interval
+        IntervalDirection.DOWN -> this - interval.interval
+    }
 
     fun withLyric(lyric: String): AbsoluteNote = AbsoluteNote(note, octave, lyric)
 
