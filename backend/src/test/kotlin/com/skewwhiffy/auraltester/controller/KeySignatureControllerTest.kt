@@ -7,25 +7,25 @@ import com.skewwhiffy.auraltester.notation.model.key.Key
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.test.util.TestData
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.jupiter.MockitoExtension
 
 
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(MockKExtension::class)
 class KeySignatureControllerTest {
-    @Mock
+    @MockK
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @Mock
+    @MockK
     private lateinit var abcService: AbcService
 
-    @InjectMocks
+    @InjectMockKs
     private lateinit var keySignatureController: KeySignatureController
     private lateinit var clef: Clef
     private lateinit var clefString: String
@@ -44,13 +44,12 @@ class KeySignatureControllerTest {
 
     @Test
     fun respondsCorrectly() {
-        `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
-        `when`(internalNotationFactory.getNote(keySignature)).thenReturn(keySignatureNote)
+        every { internalNotationFactory.clef(clefString) } returns clef
+        every { internalNotationFactory.getNote(keySignature) } returns keySignatureNote
         val abcResult = abc
-        `when`(abcService.getAbc(clef, Key.major(keySignatureNote.note)))
-            .thenReturn(object : AbcProvider {
-                override val abc = abcResult
-            })
+        every { abcService.getAbc(clef, Key.major(keySignatureNote.note)) } returns object : AbcProvider {
+            override val abc = abcResult
+        }
         val actual = keySignatureController.get(clefString, keySignature)
 
         assertThat(actual.abc).isEqualTo(abc)

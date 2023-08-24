@@ -12,6 +12,10 @@ import com.skewwhiffy.auraltester.notation.model.note.Octave
 import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.service.IntervalService
 import com.skewwhiffy.auraltester.test.util.TestData
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -20,12 +24,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(MockKExtension::class)
 class IntervalControllerTest {
     companion object {
         @JvmStatic
@@ -44,19 +44,19 @@ class IntervalControllerTest {
          */
     }
 
-    @Mock
+    @MockK
     private lateinit var abcService: AbcService
 
-    @Mock
+    @MockK
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @Mock
+    @MockK
     private lateinit var intervalService: IntervalService
 
-    @InjectMocks
+    @InjectMockKs
     private lateinit var intervalController: IntervalController
 
-    @Mock
+    @MockK
     private lateinit var result: AbcProvider
 
     private lateinit var clefString: String
@@ -89,17 +89,17 @@ class IntervalControllerTest {
         intervalSize: Int,
         expectedDirectedIntervalString: String
     ) {
-        `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
-        `when`(internalNotationFactory.getNote(bottomNoteString))
-            .thenReturn(AbsoluteNote(bottomNote, Octave.default, null))
-        `when`(internalNotationFactory.getNote(keySignature))
-            .thenReturn(AbsoluteNote(keyNote, Octave.default, null))
-        `when`(intervalService.getInterval(clef, bottomNote, interval)).thenReturn(intervalNotes)
-        `when`(result.abc).thenReturn(abc)
-        `when`(internalNotationFactory.getDirectedInterval(expectedDirectedIntervalString))
-            .thenReturn(interval.up)
-        `when`(abcService.getAbc(clef, intervalNotes, Key.major(keyNote)))
-            .thenReturn(result)
+        every { internalNotationFactory.clef(clefString) } returns clef
+        every { internalNotationFactory.getNote(bottomNoteString) } returns AbsoluteNote(
+            bottomNote,
+            Octave.default,
+            null
+        )
+        every { internalNotationFactory.getNote(keySignature) } returns AbsoluteNote(keyNote, Octave.default, null)
+        every { intervalService.getInterval(clef, bottomNote, interval) } returns intervalNotes
+        every { result.abc } returns abc
+        every { internalNotationFactory.getDirectedInterval(expectedDirectedIntervalString) } returns interval.up
+        every { abcService.getAbc(clef, intervalNotes, Key.major(keyNote)) } returns result
 
         val actual = intervalController
             .get(clefString, bottomNoteString, intervalQuality, intervalSize, keySignature)
@@ -109,11 +109,22 @@ class IntervalControllerTest {
 
     @Test
     fun when_intervalQualityNotValid_then_throws() {
-        `when`(internalNotationFactory.clef(clefString)).thenReturn(clef)
-        `when`(internalNotationFactory.getNote(bottomNoteString))
-            .thenReturn(AbsoluteNote(bottomNote, Octave.default, null))
+        every { internalNotationFactory.clef(clefString) } returns clef
+        every { internalNotationFactory.getNote(bottomNoteString) } returns AbsoluteNote(
+            bottomNote,
+            Octave.default,
+            null
+        )
 
-        assertThatThrownBy { intervalController.get(clefString, bottomNoteString, "demented", 5, keySignature) }
+        assertThatThrownBy {
+            intervalController.get(
+                clefString,
+                bottomNoteString,
+                "demented",
+                5,
+                keySignature
+            )
+        }
             .isInstanceOf(IllegalArgumentException::class.java)
 
     }
