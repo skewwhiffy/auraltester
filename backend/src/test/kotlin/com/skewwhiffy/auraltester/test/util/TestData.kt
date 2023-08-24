@@ -4,6 +4,7 @@ import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
+import com.skewwhiffy.auraltester.notation.model.key.Key
 import com.skewwhiffy.auraltester.notation.model.note.*
 import com.skewwhiffy.auraltester.notation.model.scale.Scale
 import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection
@@ -60,11 +61,8 @@ class TestData {
         val intervalNotes
             get() = IntervalNotes(absoluteNote, interval)
 
-        /*
-        public Key key() {
-            return random.nextBoolean() ? Key.major(note()) : Key.minor(note());
-        }
-        */
+        val key
+            get() = if (random.nextBoolean()) Key.major(note) else Key.minor(note)
 
         @Suppress("SpellCheckingInspection")
         val note

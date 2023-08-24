@@ -12,52 +12,50 @@ import com.skewwhiffy.auraltester.notation.model.scale.ScaleType
 import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.service.ScaleService
 import com.skewwhiffy.auraltester.test.util.TestData
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito.*
-import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(MockKExtension::class)
 class ScaleControllerTest {
     companion object {
         @JvmStatic
-        private fun scaleTestCases(): List<Arguments> {
-            return mapOf(
-                "major" to ScaleTypeFactory::major,
-                "minor-harmonic" to ScaleTypeFactory::minorHarmonic,
-                "minor-melodic" to ScaleTypeFactory::minorMelodic
-            )
-                .flatMap { scaleType ->
-                    mapOf(
-                        "ascending" to ScaleDirection.ASCENDING,
-                        "descending" to ScaleDirection.DESCENDING
-                    ).map { Arguments.of(scaleType.key, scaleType.value, it.key, it.value) }
-                }
-        }
+        private fun scaleTestCases() = mapOf(
+            "major" to ScaleTypeFactory::major,
+            "minor-harmonic" to ScaleTypeFactory::minorHarmonic,
+            "minor-melodic" to ScaleTypeFactory::minorMelodic
+        )
+            .flatMap { scaleType ->
+                mapOf(
+                    "ascending" to ScaleDirection.ASCENDING,
+                    "descending" to ScaleDirection.DESCENDING
+                ).map { Arguments.of(scaleType.key, scaleType.value, it.key, it.value) }
+            }
     }
 
-    @Mock
+    @MockK
     private lateinit var abcService: AbcService
 
-    @Mock
+    @MockK
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @Mock
+    @MockK
     private lateinit var scaleService: ScaleService
 
-    @Mock
+    @MockK
     private lateinit var scaleTypeFactory: ScaleTypeFactory
 
-    @InjectMocks
+    @InjectMockKs
     private lateinit var scaleController: ScaleController
-
 
     @ParameterizedTest
     @MethodSource("scaleTestCases")
@@ -76,31 +74,42 @@ class ScaleControllerTest {
         val key = scale.lowestNote.note.let { if (scaleTypeString == "major") Key.major(it) else Key.minor(it) }
         val clefObject = TestData.random.clef
         val scaleType = TestData.random.scaleType
-        val keyCaptor = ArgumentCaptor.forClass(Key::class.java)
-        `when`(internalNotationFactory.clef(clefString)).thenReturn(clefObject)
-        `when`(internalNotationFactory.getNote(noteString)).thenReturn(scaleLowestNote)
-        `when`(getScale(scaleTypeFactory)).thenReturn(scaleType)
-        `when`(
+        val keyCaptor = slot<Key>()
+        every { internalNotationFactory.clef(clefString) } returns clefObject
+        every { internalNotationFactory.getNote(noteString) } returns scaleLowestNote
+        every { getScale(scaleTypeFactory) } returns scaleType
+        every {
             scaleService.getScale(
                 clefObject,
                 scaleLowestNote.note,
                 scaleType,
                 directionObject
             )
-        ).thenReturn(scale)
-        val singleLineAbc = mock(SingleLineAbc::class.java)
-        `when`(singleLineAbc.abc).thenReturn(abcWithKeySignature)
-        `when`(abcService.getAbc(eq(clefObject), eq(scale), keyCaptor.capture()))
-            .then {
-                val suppliedClef: Clef = it.getArgument(0)
-                val suppliedScale: Scale = it.getArgument(1)
-                val suppliedKey: Key? = it.getArgument(2)
-
-                assertThat(suppliedClef).isEqualTo(clefObject)
-                assertThat(suppliedScale).isEqualTo(scale)
-                val abcProvider = mock(AbcProvider::class.java)
-                `when`(abcProvider.abc).thenReturn(if (suppliedKey == null) abcWithoutKeySignature else abcWithKeySignature)
+        } returns scale
+        val singleLineAbc = mockk<SingleLineAbc>()
+        every { singleLineAbc.abc } returns abcWithKeySignature
+        every { abcService.getAbc(clefObject, scale) } answers {
+            object : AbcProvider {
+                override val abc = abcWithoutKeySignature
             }
+        }
+        every {
+            abcService.getAbc(
+                clefObject,
+                scale,
+                capture(keyCaptor)
+            )
+        } answers {
+            val suppliedClef = it.invocation.args[0] as Clef
+            val suppliedScale = it.invocation.args[1] as Scale
+            val suppliedKey = it.invocation.args[2] as Key?
+
+            assertThat(suppliedClef).isEqualTo(clefObject)
+            assertThat(suppliedScale).isEqualTo(scale)
+            object : AbcProvider {
+                override val abc = if (suppliedKey == null) abcWithoutKeySignature else abcWithKeySignature
+            }
+        }
 
         val actual = scaleController.get(
             clefString,
@@ -109,9 +118,9 @@ class ScaleControllerTest {
             direction
         )
 
-        val allValues = keyCaptor.allValues
-        assertThat(allValues).hasSameElementsAs(listOf(key))
-        verify(abcService).getAbc(clefObject, scale)
+        val capturedKey = keyCaptor.captured
+        assertThat(capturedKey).isEqualTo(key)
+        verify { abcService.getAbc(clefObject, scale) }
         assertThat(actual.withKeySignature).isEqualTo(abcWithKeySignature)
         assertThat(actual.withoutKeySignature).isEqualTo(abcWithoutKeySignature)
     }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AbcService {
-    fun getAbc(clef: Clef, scale: Scale) = SingleLineAbc(
+    fun getAbc(clef: Clef, scale: Scale): AbcProvider = SingleLineAbc(
         getTitleCase("${scale.displayName} ${scale.direction.displayString}"),
         clef,
         NoteLength.semibreve,
@@ -20,7 +20,7 @@ class AbcService {
         listOf(scale.notes)
     )
 
-    fun getAbc(clef: Clef, scale: Scale, key: Key) = SingleLineAbc(
+    fun getAbc(clef: Clef, scale: Scale, key: Key): AbcProvider = SingleLineAbc(
         getTitleCase("${scale.displayName} ${scale.direction.displayString} (with key signature)"),
         clef,
         NoteLength.semibreve,
