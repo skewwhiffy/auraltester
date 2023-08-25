@@ -3,6 +3,12 @@ package com.skewwhiffy.auraltester.notation.model.key
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.notation.model.note.Accidental
 import com.skewwhiffy.auraltester.notation.model.note.Note
+import com.skewwhiffy.auraltester.notation.model.note.abc
+import com.skewwhiffy.auraltester.notation.model.note.displayString
+import com.skewwhiffy.auraltester.notation.model.note.downMajorSecond
+import com.skewwhiffy.auraltester.notation.model.note.flatten
+import com.skewwhiffy.auraltester.notation.model.note.sharpen
+import com.skewwhiffy.auraltester.notation.model.note.upMajorSecond
 
 data class Key(val note: Note, val isMinor: Boolean) {
     companion object {
@@ -53,11 +59,9 @@ data class Key(val note: Note, val isMinor: Boolean) {
         }
     }
 
-    val relativeMinor
-        get() = if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharpen, true)
+    private val relativeMinor by lazy { if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharpen, true) }
 
-    val relativeMajor
-        get() = if (isMinor) Key(note.upMajorSecond.upMajorSecond.flatten, false) else this
+    private val relativeMajor by lazy { if (isMinor) Key(note.upMajorSecond.upMajorSecond.flatten, false) else this }
 
     val relative
         get() = if (isMinor) relativeMajor else relativeMinor
@@ -65,9 +69,9 @@ data class Key(val note: Note, val isMinor: Boolean) {
     val notes: List<Note>
         get() = (if (isMinor) listOf(2, 1, 2, 2, 1, 2) else listOf(2, 2, 1, 2, 2, 2))
             .fold(listOf(note)) { soFar, tones ->
-                val lastNote = soFar.get(soFar.size - 1)
+                val lastNote = soFar[soFar.size - 1]
                 val nextNote = if (tones == 2) lastNote.upMajorSecond else lastNote.upMajorSecond.flatten
-                return soFar + listOf(nextNote)
+                return@fold soFar + listOf(nextNote)
             }
 }
 

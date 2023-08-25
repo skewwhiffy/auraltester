@@ -1,7 +1,8 @@
-package com.skewwhiffy.auraltester.notation.model.scale;
+package com.skewwhiffy.auraltester.notation.model.scale
 
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
-import com.skewwhiffy.auraltester.notation.model.note.NoteSequence;
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
+import com.skewwhiffy.auraltester.notation.model.note.NoteSequence
+import com.skewwhiffy.auraltester.notation.model.note.displayString
 
 data class Scale(val lowestNote: AbsoluteNote, val scaleType: ScaleType, val direction: ScaleDirection) : NoteSequence {
     val displayName

@@ -6,17 +6,13 @@ import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import org.springframework.stereotype.Service
 
 @Service
-class ClefFactory(val noteFactory: NoteFactory) {
-    /*
-    public Clef get(ClefType clefType) {
-        return switch (clefType) {
-            case TREBLE -> getTreble();
-            case ALTO -> getAlto();
-            case TENOR -> getTenor();
-            case BASS -> getBass();
-        };
+class ClefFactory(private val noteFactory: NoteFactory) {
+    fun get(clefType: ClefType) = when (clefType) {
+        ClefType.TREBLE -> treble
+        ClefType.ALTO -> alto
+        ClefType.TENOR -> tenor
+        ClefType.BASS -> bass
     }
-    */
 
     val treble: Clef
         get() {

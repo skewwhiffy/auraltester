@@ -6,16 +6,16 @@ import com.skewwhiffy.auraltester.dto.question.QuestionType
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ResponseStatusException
 
-import java.text.MessageFormat
+import kotlin.reflect.KClass
 
-abstract class QuestionFactory<TDao> {
+abstract class QuestionFactory<TDao : Any> {
     companion object {
         private val objectMapper: ObjectMapper by lazy(::ObjectMapper)
     }
 
     fun getQuestion(json: String): Question<TDao> {
         try {
-            val dao = objectMapper.readValue(json, dao)
+            val dao = objectMapper.readValue(json, dao.java)
             return getQuestion(dao)
         } catch (e: JsonProcessingException) {
             throw ResponseStatusException(
@@ -29,7 +29,7 @@ abstract class QuestionFactory<TDao> {
 
     abstract val questionType: QuestionType
 
-    abstract val dao: Class<TDao>
+    abstract val dao: KClass<TDao>
 
     abstract fun getQuestion(dao: TDao): Question<TDao>
 }

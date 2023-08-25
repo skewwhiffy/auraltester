@@ -1,23 +1,13 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.dao.OctaveDao
+
 // @JvmRecord
 data class Octave(val offsetFromDefault: Int) : Comparable<Octave?> {
     companion object {
         val default: Octave
             get() = Octave(0)
     }
-
-    /*
-    fun toDao(): OctaveDao {
-        return OctaveDao(offsetFromDefault)
-    }
-    */
-
-    val up: Octave
-        get() = Octave(offsetFromDefault + 1)
-
-    val down: Octave
-        get() = Octave(offsetFromDefault - 1)
 
     override fun compareTo(other: Octave?): Int {
         if (other == null) {
@@ -27,3 +17,13 @@ data class Octave(val offsetFromDefault: Int) : Comparable<Octave?> {
     }
 
 }
+
+val Octave.dao
+    get() = OctaveDao(offsetFromDefault)
+
+val Octave.up
+    get() = Octave(offsetFromDefault + 1)
+
+val Octave.down
+    get() = Octave(offsetFromDefault - 1)
+

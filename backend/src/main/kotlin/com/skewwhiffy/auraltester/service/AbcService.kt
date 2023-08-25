@@ -5,6 +5,7 @@ import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.key.Key
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.notation.model.note.IntervalNotes
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength
 import com.skewwhiffy.auraltester.notation.model.scale.Scale
@@ -41,19 +42,13 @@ class AbcService {
         )
     }
 
-    /*
-    public AbcProvider getAbc(Clef clef, AbsoluteNote absoluteNote) {
-        return getAbc(clef, Collections.singletonList(absoluteNote));
-    }
+    fun getAbc(clef: Clef, absoluteNote: AbsoluteNote): AbcProvider = getAbc(clef, listOf(absoluteNote))
 
-    public AbcProvider getAbc(Clef clef, List<AbsoluteNote> absoluteNotes) {
-        return new SingleLineAbc(
-                clef,
-        NoteLength.getSemibreve(),
-        List.of(absoluteNotes)
-        );
-    }
-    */
+    fun getAbc(clef: Clef, absoluteNotes: List<AbsoluteNote>): AbcProvider = SingleLineAbc(
+        clef,
+        NoteLength.semibreve,
+        listOf(absoluteNotes)
+    )
 
     fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): AbcProvider = SingleLineAbc(
         getTitleCase(intervalNotes.interval.displayString),

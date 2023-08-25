@@ -1,23 +1,21 @@
-package com.skewwhiffy.auraltester.model;
+package com.skewwhiffy.auraltester.model
 
-import com.skewwhiffy.auraltester.dto.question.AnswerResponse;
-import com.skewwhiffy.auraltester.dto.question.AnswerType;
-import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement;
+import com.skewwhiffy.auraltester.dto.question.AnswerType
+import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement
 
 abstract class Question<TDao> {
+    abstract val dao: TDao
+    abstract val questionElements: List<QuestionResponseElement>
+    abstract val answerTypes: List<AnswerType>
     /*
-    public abstract TDao toDao();
-
-    public abstract List<QuestionResponseElement> getQuestionElements();
-
-    public abstract List<AnswerType> getAnswerTypes();
-
     public abstract List<QuestionResponseElement> getCorrectResponse();
 
     public abstract List<QuestionResponseElement> getIncorrectResponse();
+    */
 
-    public abstract List<String> getAnswer();
+    abstract val answer: List<String>
 
+    /*
     public boolean isCorrect(List<String> answers) {
         val correctAnswers = getAnswer();
         if (correctAnswers == null || answers == null) {

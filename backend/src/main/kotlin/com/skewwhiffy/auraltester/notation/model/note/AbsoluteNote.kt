@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.dao.AbsoluteNoteDao
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
@@ -9,15 +10,23 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
     companion object {
         val middleC: AbsoluteNote
             get() = AbsoluteNote(Note.c, Octave.default, null)
+
+        fun range(lower: AbsoluteNote, upper: AbsoluteNote): List<AbsoluteNote> {
+            val nonNaturalNotes = listOf(lower, upper).filter { it.note.accidental.offset != 0 }
+            if (nonNaturalNotes.isNotEmpty()) {
+                throw IllegalArgumentException(
+                    "Note(s) '${nonNaturalNotes.joinToString(", ") { it.getAbc(Key.cMajor) }}' have accidentals.",
+                )
+            }
+            return if (lower > upper) range(upper, lower)
+            else if (lower == upper) listOf(lower)
+            else listOf(lower) + range(lower.upOne, upper)
+        }
     }
 
-    /*
-    public AbsoluteNoteDao toDao {
-        return new AbsoluteNoteDao(note.toDao(), octave.toDao(), lyric.orElse(null))
-    }
-    */
+    val dao by lazy { AbsoluteNoteDao(note.dao, octave.dao, lyric) }
 
-    fun apply(interval: DirectedInterval) = when(interval.direction) {
+    fun apply(interval: DirectedInterval) = when (interval.direction) {
         IntervalDirection.UP -> this + interval.interval
         IntervalDirection.DOWN -> this - interval.interval
     }
@@ -143,25 +152,6 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         return getAbc(Key.getCMajor())
     }
 
-    public static List<AbsoluteNote> range(AbsoluteNote lower, AbsoluteNote upper) {
-        val nonNaturalNotes = Stream
-            .of(lower, upper)
-            .filter(it -> it.note.accidental().offset() != 0)
-        .toList()
-        if (!nonNaturalNotes.isEmpty()) {
-            throw new IllegalArgumentException(
-                    MessageFormat.format(
-                        "Note(s) '{0}' have accidentals.",
-                        nonNaturalNotes.stream().map(it -> it.getAbc(Key.getCMajor())).collect(Collectors.joining(", "))
-            )
-            )
-        }
-        return lower.compareTo(upper) > 0
-        ? range(upper, lower)
-        : lower.equals(upper)
-        ? Collections.singletonList(lower)
-        : Stream.concat(Stream.of(lower), range(lower.upOne(), upper).stream()).toList()
-    }
 
      */
 }

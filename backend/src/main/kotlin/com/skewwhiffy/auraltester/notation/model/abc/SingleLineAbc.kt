@@ -18,7 +18,8 @@ data class SingleLineAbc(
         clef: Clef,
         noteLength: NoteLength,
         notes: List<List<AbsoluteNote>>
-    ): this(displayName, clef, noteLength, null, notes)
+    ) : this(displayName, clef, noteLength, null, notes)
+
     /*
     public SingleLineAbc(
             String displayName,
@@ -38,14 +39,17 @@ data class SingleLineAbc(
     ) {
         this(Optional.of(displayName), clef, noteLength, Optional.of(key), notes);
     }
+    */
 
-    public SingleLineAbc(
-            Clef clef,
-    NoteLength noteLength,
-    List<List<AbsoluteNote>> notes
-    ) {
-        this(Optional.empty(), clef, noteLength, Optional.empty(), notes);
-    }
+    constructor(clef: Clef, noteLength: NoteLength, notes: List<List<AbsoluteNote>>) : this(
+        null,
+        clef,
+        noteLength,
+        null,
+        notes
+    )
+
+    /*
   fun includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(
     displayName,
     clef,
@@ -62,7 +66,7 @@ data class SingleLineAbc(
             }
             val notesAbc = notes.joinToString("|", transform = barAbc)
                 .let { "$it|" }
-            val words = notes .flatten().joinToString(" ") { it.wordAbc }
+            val words = notes.flatten().joinToString(" ") { it.wordAbc }
             return listOf(
                 "X:1",
                 displayName?.let { "T:$it" } ?: "",

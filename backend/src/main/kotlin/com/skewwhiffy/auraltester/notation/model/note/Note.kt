@@ -1,5 +1,7 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.dao.NoteDao
+
 data class Note(val noteName: String, val accidental: Accidental) : Comparable<Note> {
     @Suppress("unused")
     companion object {
@@ -35,40 +37,12 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
             }
     }
 
-    /*
-    @SuppressWarnings("SpellCheckingInspection")
-    public NoteDao toDao {
-        return new NoteDao(noteName, accidental.toDao())
-    }
-    */
-
-    val displayString: String
-        get() = "$noteName${accidental.displayString}"
-
-    val sharpen: Note
-        get() = Note(noteName, accidental.sharpen)
-
-    val flatten: Note
-        get() = Note(noteName, accidental.flatten)
-
-    @Suppress("SpellCheckingInspection")
-    val upMajorSecond: Note
-        get() = if ("ACDFG".contains(noteName)) Note(nextNoteName, accidental) else Note(
-            nextNoteName,
-            accidental.sharpen
-        )
-
-    @Suppress("SpellCheckingInspection")
-    val downMajorSecond: Note
-        get() = if ("BAGED".contains(noteName))
-            Note(previousNoteName, accidental)
-        else Note(previousNoteName, accidental.flatten)
 
     override fun compareTo(other: Note): Int {
         return if (this == other) 0 else noteNames.indexOf(noteName) - (noteNames.indexOf(other.noteName))
     }
 
-    private val nextNoteName: String
+    val nextNoteName: String
         get() = when (noteName) {
             "A" -> "B"
             "B" -> "C"
@@ -80,7 +54,7 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
             else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
         }
 
-    private val previousNoteName: String
+    val previousNoteName: String
         get() = when (noteName) {
             "A" -> "G"
             "B" -> "A"
@@ -92,3 +66,28 @@ data class Note(val noteName: String, val accidental: Accidental) : Comparable<N
             else -> throw IllegalArgumentException("Not a valid note name: '$noteName'")
         }
 }
+
+val Note.dao
+    get() = NoteDao(noteName, accidental.dao)
+
+val Note.displayString
+    get() = "$noteName${accidental.displayString}"
+
+val Note.sharpen
+    get() = Note(noteName, accidental.sharpen)
+
+val Note.flatten
+    get() = Note(noteName, accidental.flatten)
+
+@Suppress("SpellCheckingInspection")
+val Note.upMajorSecond
+    get() = if ("ACDFG".contains(noteName)) Note(nextNoteName, accidental) else Note(
+        nextNoteName,
+        accidental.sharpen
+    )
+
+@Suppress("SpellCheckingInspection")
+val Note.downMajorSecond
+    get() = if ("BAGED".contains(noteName))
+        Note(previousNoteName, accidental)
+    else Note(previousNoteName, accidental.flatten)
