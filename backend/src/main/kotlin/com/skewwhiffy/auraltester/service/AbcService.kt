@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.service
 
-import com.skewwhiffy.auraltester.helper.StringHelper.getTitleCase
+import com.skewwhiffy.auraltester.helper.getTitleCase
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
