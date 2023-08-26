@@ -1,46 +1,54 @@
 package com.skewwhiffy.auraltester.notation.model.note
-/*
 
-import lombok.`val`
-internal class NoteTest {
-    @org.junit.jupiter.api.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+class NoteTest {
+    @Test
     fun returnsDisplayStringWhenNatural() {
-        val note: `val` = Note.getA()
-        val actual: `val` = note.getDisplayString()
-        org.assertj.core.api.Assertions.assertThat<`val`>(actual).isEqualTo("A")
+        val note = Note.a
+
+        val actual = note.displayString
+
+        assertThat(actual).isEqualTo("A")
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun returnsDisplayStringWhenSharp() {
-        val note: `val` = Note.getB().sharpen()
-        val actual: `val` = note.getDisplayString()
-        org.assertj.core.api.Assertions.assertThat<`val`>(actual).isEqualTo("B#")
+        val note = Note.b.sharpen
+
+        val actual = note.displayString
+
+        assertThat(actual).isEqualTo("B#")
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun returnsDisplayStringWhenFlat() {
-        val note: `val` = Note.getD().flatten()
-        val actual: `val` = note.getDisplayString()
-        org.assertj.core.api.Assertions.assertThat<`val`>(actual).isEqualTo("Db")
+        val note = Note.d.flatten
+
+        val actual = note.displayString
+
+        assertThat(actual).isEqualTo("Db")
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun equatesEquivalentNotes() {
-        val getNote = java.util.function.Supplier<Note> { Note("A", Accidental.getSharp()) }
-        val first: `val` = getNote.get()
-        val second: `val` = getNote.get()
-        org.assertj.core.api.Assertions.assertThat<`val`>(first).isEqualTo(second)
-        org.assertj.core.api.Assertions.assertThat<`val`>(first).isGreaterThanOrEqualTo(second)
-        org.assertj.core.api.Assertions.assertThat<`val`>(first).isLessThanOrEqualTo(second)
+        val getNote = { Note("A", Accidental.sharp) }
+
+        val first = getNote()
+        val second = getNote()
+
+        assertThat(first).isEqualTo(second)
+        assertThat(first).isGreaterThanOrEqualTo(second)
+        assertThat(first).isLessThanOrEqualTo(second)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun compareNonEquivalentNotes() {
-        val lower: `val` = Note.getC()
-        val higher: `val` = Note.getA()
-        org.assertj.core.api.Assertions.assertThat<`val`>(lower).isLessThan(higher)
-    } // TODO: > and < with #s and bs
+        val lower = Note.c
+        val higher = Note.a
+        assertThat(lower).isLessThan(higher)
+    }
+
+    // TODO: > and < with #s and bs
 }
-
-
- */
