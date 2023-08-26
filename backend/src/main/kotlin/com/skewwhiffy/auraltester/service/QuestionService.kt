@@ -1,6 +1,5 @@
 package com.skewwhiffy.auraltester.service
 
-import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.skewwhiffy.auraltester.dao.QuestionDao
 import com.skewwhiffy.auraltester.dto.question.AnswerResponse
@@ -25,19 +24,11 @@ class QuestionService(
         val factory = questionFactories.firstOrNull { it.questionType == questionType }
             ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No question factory for $questionType")
         val question = factory.newQuestion
-        try {
-            val questionJson = objectMapper.writeValueAsString(question.dao)
-            val questionEntity = QuestionDao(questionType, questionJson)
-            val savedQuestionEntity = questionRepository.save(questionEntity)
-            return QuestionResponse(savedQuestionEntity.id!!, question.questionElements, question.answerTypes)
-        } catch (ex: JsonProcessingException) {
-            throw ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Cannot serialize clef question"
-            )
-        }
+        val questionJson = objectMapper.writeValueAsString(question.dao)
+        val questionEntity = QuestionDao(questionType, questionJson)
+        val savedQuestionEntity = questionRepository.save(questionEntity)
+        return QuestionResponse(savedQuestionEntity.id!!, question.questionElements, question.answerTypes)
     }
-
 
     fun answer(id: UUID, answers: List<String>): AnswerResponse {
         val savedQuestionEntity = questionRepository.findById(id).getOrNull() ?: throw ResponseStatusException(

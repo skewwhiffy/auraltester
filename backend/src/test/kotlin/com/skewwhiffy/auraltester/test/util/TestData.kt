@@ -77,7 +77,7 @@ class TestData {
         val scale
             get() = Scale(absoluteNote, scaleType, scaleDirection)
 
-        private val scaleDirection
+        val scaleDirection
             get() = oneOf(ScaleDirection.entries.toList())
 
         val scaleType
