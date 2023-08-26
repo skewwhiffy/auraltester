@@ -2,6 +2,9 @@ package com.skewwhiffy.auraltester.model
 
 import com.skewwhiffy.auraltester.dao.ClefQuestionDao
 import com.skewwhiffy.auraltester.dto.question.*
+import com.skewwhiffy.auraltester.notation.model.abc.downOne
+import com.skewwhiffy.auraltester.notation.model.abc.upOne
+import com.skewwhiffy.auraltester.notation.model.abc.withNoteName
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.service.AbcService
@@ -14,13 +17,6 @@ class ClefQuestion(
     private val absoluteNote: AbsoluteNote
 ) : Question<ClefQuestionDao>() {
     override val dao by lazy { ClefQuestionDao(clef.clefType, absoluteNote.dao) }
-
-    /*
-    @Override
-    public ClefQuestionDao toDao() {
-        return new ClefQuestionDao (clef.clefType(), absoluteNote.toDao());
-    }
-    */
 
     override val questionElements by lazy {
         listOf(

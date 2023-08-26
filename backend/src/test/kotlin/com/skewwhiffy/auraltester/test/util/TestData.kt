@@ -8,6 +8,7 @@ import com.skewwhiffy.auraltester.notation.factory.IntervalFactory
 import com.skewwhiffy.auraltester.notation.factory.KeyFactory
 import com.skewwhiffy.auraltester.notation.factory.NoteFactory
 import com.skewwhiffy.auraltester.notation.factory.ScaleTypeFactory
+import com.skewwhiffy.auraltester.notation.model.abc.ignoreAccidental
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.key.Key

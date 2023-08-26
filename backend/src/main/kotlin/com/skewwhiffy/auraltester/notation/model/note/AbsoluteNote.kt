@@ -1,6 +1,7 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
 import com.skewwhiffy.auraltester.dao.AbsoluteNoteDao
+import com.skewwhiffy.auraltester.notation.model.abc.upOne
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
@@ -86,21 +87,6 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
 
     val wordAbc: String
         get() = lyric ?: "*"
-
-    val downOne: AbsoluteNote
-        get() = (this - Interval.minor(2)).ignoreAccidental
-
-    val upOne: AbsoluteNote
-        get() = (this + Interval.minor(2)).ignoreAccidental
-
-    val skipOne: AbsoluteNote
-        get() = (this + Interval.minor(3)).ignoreAccidental
-
-    val ignoreAccidental: AbsoluteNote
-        get() = AbsoluteNote(Note(note.noteName, Accidental.natural), octave, lyric)
-
-    val withNoteName: AbsoluteNote
-        get() = withLyric(note.displayString)
 
     private val sharpen: AbsoluteNote
         get() = AbsoluteNote(note.sharpen, octave, lyric)
