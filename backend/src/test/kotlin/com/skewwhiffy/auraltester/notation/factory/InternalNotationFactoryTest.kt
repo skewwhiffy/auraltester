@@ -1,34 +1,33 @@
 package com.skewwhiffy.auraltester.notation.factory
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import java.lang.reflect.InvocationTargetException
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class InternalNotationFactoryTest {
-    @MockK
+    @MockkBean
     private lateinit var clefFactory: ClefFactory
 
-    @MockK
+    @MockkBean
     private lateinit var intervalFactory: IntervalFactory
 
-    @MockK
+    @MockkBean
     private lateinit var keyFactory: KeyFactory
 
-    @MockK
+    @MockkBean
     private lateinit var noteFactory: NoteFactory
 
-    @InjectMockKs
+    @Autowired
     private lateinit var internalNotationFactory: InternalNotationFactory
 
     @ParameterizedTest

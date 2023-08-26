@@ -1,19 +1,19 @@
 package com.skewwhiffy.auraltester.notation.factory
 
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
-internal class IntervalFactoryTest {
-    @InjectMockKs
+@SpringBootTest
+class IntervalFactoryTest {
+    @Autowired
     private lateinit var intervalFactory: IntervalFactory
+
     @ParameterizedTest
     @ValueSource(ints = [2, 3, 6, 7])
     fun instantiatesMajorInterval(intervalDegree: Int) {

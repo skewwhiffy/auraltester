@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory
 import com.skewwhiffy.auraltester.notation.factory.ScaleTypeFactory
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
@@ -13,19 +14,17 @@ import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.service.ScaleService
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class ScaleControllerTest {
     companion object {
         @JvmStatic
@@ -42,19 +41,19 @@ class ScaleControllerTest {
             }
     }
 
-    @MockK
+    @MockkBean
     private lateinit var abcService: AbcService
 
-    @MockK
+    @MockkBean
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @MockK
+    @MockkBean
     private lateinit var scaleService: ScaleService
 
-    @MockK
+    @MockkBean
     private lateinit var scaleTypeFactory: ScaleTypeFactory
 
-    @InjectMockKs
+    @Autowired
     private lateinit var scaleController: ScaleController
 
     @ParameterizedTest

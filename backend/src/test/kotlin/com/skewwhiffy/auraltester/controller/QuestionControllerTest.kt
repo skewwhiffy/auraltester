@@ -1,24 +1,23 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest
 import com.skewwhiffy.auraltester.dto.question.QuestionResponse
 import com.skewwhiffy.auraltester.dto.question.QuestionType
 import com.skewwhiffy.auraltester.service.QuestionService
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import java.util.UUID
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class QuestionControllerTest {
-    @MockK
+    @MockkBean
     private lateinit var questionService: QuestionService
 
-    @InjectMockKs
+    @Autowired
     private lateinit var questionController: QuestionController
 
     @Test

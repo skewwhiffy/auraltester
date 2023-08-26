@@ -2,16 +2,15 @@ package com.skewwhiffy.auraltester.notation.factory
 
 import com.skewwhiffy.auraltester.notation.model.key.Key
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class NoteFactoryTest {
-    @InjectMockKs
+    @Autowired
     private lateinit var noteFactory: NoteFactory
 
     @Test

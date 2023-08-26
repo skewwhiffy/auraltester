@@ -1,23 +1,22 @@
 package com.skewwhiffy.auraltester.notation.factory
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
-internal class ScaleTypeFactoryTest {
-    @MockK
+@SpringBootTest
+class ScaleTypeFactoryTest {
+    @MockkBean
     private lateinit var intervalFactory: IntervalFactory
 
-    @InjectMockKs
+    @Autowired
     private lateinit var scaleTypeFactory: ScaleTypeFactory
     private lateinit var expectedIntervals: List<DirectedInterval>
     private lateinit var expectedDescendingIntervals: List<DirectedInterval>

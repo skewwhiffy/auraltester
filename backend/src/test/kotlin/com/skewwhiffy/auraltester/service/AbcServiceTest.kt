@@ -4,15 +4,14 @@ import com.skewwhiffy.auraltester.helper.getTitleCase
 import com.skewwhiffy.auraltester.notation.model.abc.SingleLineAbc
 import com.skewwhiffy.auraltester.notation.model.note.NoteLength
 import com.skewwhiffy.auraltester.test.util.TestData
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class AbcServiceTest {
-    @InjectMockKs
+    @Autowired
     private lateinit var abcService: AbcService
 
     @Test

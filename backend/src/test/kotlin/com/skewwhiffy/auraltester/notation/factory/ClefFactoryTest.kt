@@ -1,23 +1,22 @@
 package com.skewwhiffy.auraltester.notation.factory
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 internal class ClefFactoryTest {
     companion object {
         @JvmStatic
@@ -31,10 +30,10 @@ internal class ClefFactoryTest {
         }
     }
 
-    @MockK
+    @MockkBean
     private lateinit var noteFactory: NoteFactory
 
-    @InjectMockKs
+    @Autowired
     private lateinit var clefFactory: ClefFactory
     private lateinit var highLedgerNote: AbsoluteNote
     private lateinit var lowLedgerNote: AbsoluteNote

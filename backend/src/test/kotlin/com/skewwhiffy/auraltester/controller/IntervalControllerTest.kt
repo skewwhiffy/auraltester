@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
@@ -13,19 +14,17 @@ import com.skewwhiffy.auraltester.service.AbcService
 import com.skewwhiffy.auraltester.service.IntervalService
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.impl.annotations.InjectMockKs
-import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class IntervalControllerTest {
     companion object {
         @JvmStatic
@@ -44,19 +43,19 @@ class IntervalControllerTest {
          */
     }
 
-    @MockK
+    @MockkBean
     private lateinit var abcService: AbcService
 
-    @MockK
+    @MockkBean
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @MockK
+    @MockkBean
     private lateinit var intervalService: IntervalService
 
-    @InjectMockKs
+    @Autowired
     private lateinit var intervalController: IntervalController
 
-    @MockK
+    @MockkBean
     private lateinit var result: AbcProvider
 
     private lateinit var clefString: String
