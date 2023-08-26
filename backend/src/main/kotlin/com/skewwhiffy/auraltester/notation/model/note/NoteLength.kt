@@ -31,19 +31,9 @@ data class NoteLength(val length: Fraction) {
             get() = NoteLength(Fraction(1, 64))
 
     }
-    /*
-    public NoteLength(int length) {
-        this(new Fraction(length, 1));
-    }
 
-    public NoteLength dotted() {
-        return new NoteLength(new Fraction(3, 2).times(length));
-    }
-    */
+    val dotted by lazy { NoteLength(Fraction(3, 2) * length) }
 
     val abc: String
         get() = length.topHeavyString
-
-    /*
-     */
 }

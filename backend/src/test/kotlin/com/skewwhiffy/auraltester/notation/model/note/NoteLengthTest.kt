@@ -1,36 +1,38 @@
 package com.skewwhiffy.auraltester.notation.model.note
-/*
 
-import lombok.`val`
-internal class NoteLengthTest {
-    @org.junit.jupiter.api.Test
+import com.skewwhiffy.auraltester.fraction.Fraction
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
+class NoteLengthTest {
+    @Test
     fun correctlyAddsDot() {
-        val original: `val` = NoteLength.getCrotchet()
-        val expected: `val` = NoteLength(Fraction(3, 8))
-        val actual: `val` = original.dotted()
-        org.assertj.core.api.Assertions.assertThat<`val`>(actual).isEqualTo(expected)
+        val original = NoteLength.crotchet
+        val expected = NoteLength(Fraction(3, 8))
+
+        val actual = original.dotted
+
+       assertThat(actual).isEqualTo(expected)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun instantiatesSpecializedNoteLengths() {
-        val breve: `val` = NoteLength.getBreve()
-        val semibreve: `val` = NoteLength.getSemibreve()
-        val minim: `val` = NoteLength.getMinim()
-        val crotchet: `val` = NoteLength.getCrotchet()
-        val quaver: `val` = NoteLength.getQuaver()
-        val semiquaver: `val` = NoteLength.getSemiquaver()
-        val demisemiquaver: `val` = NoteLength.getDemisemiquaver()
-        val hemidemisemiquaver: `val` = NoteLength.getHemidemisemiquaver()
-        assertThat(breve.getAbc()).isEqualTo("2")
-        assertThat(semibreve.getAbc()).isEqualTo("1")
-        assertThat(minim.getAbc()).isEqualTo("1/2")
-        assertThat(crotchet.getAbc()).isEqualTo("1/4")
-        assertThat(quaver.getAbc()).isEqualTo("1/8")
-        assertThat(semiquaver.getAbc()).isEqualTo("1/16")
-        assertThat(demisemiquaver.getAbc()).isEqualTo("1/32")
-        assertThat(hemidemisemiquaver.getAbc()).isEqualTo("1/64")
+        val breve = NoteLength.breve
+        val semibreve = NoteLength.semibreve
+        val minim = NoteLength.minim
+        val crotchet = NoteLength.crotchet
+        val quaver = NoteLength.quaver
+        val semiquaver = NoteLength.semiquaver
+        val demisemiquaver = NoteLength.demisemiquaver
+        val hemidemisemiquaver = NoteLength.hemidemisemiquaver
+
+        assertThat(breve.abc).isEqualTo("2")
+        assertThat(semibreve.abc).isEqualTo("1")
+        assertThat(minim.abc).isEqualTo("1/2")
+        assertThat(crotchet.abc).isEqualTo("1/4")
+        assertThat(quaver.abc).isEqualTo("1/8")
+        assertThat(semiquaver.abc).isEqualTo("1/16")
+        assertThat(demisemiquaver.abc).isEqualTo("1/32")
+        assertThat(hemidemisemiquaver.abc).isEqualTo("1/64")
     }
 }
-
-
- */

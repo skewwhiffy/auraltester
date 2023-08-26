@@ -52,10 +52,7 @@ data class Fraction(val top: Int, val bottom: Int) {
             return Fraction(top / hcf, bottom / hcf)
         }
 
-    val topHeavyString: String
-        get() {
-            return "$top/$bottom"
-        }
+    val topHeavyString by lazy { if (bottom == 1) top.toString() else "$top/$bottom"}
 
     override fun toString(): String {
         val wholePart = top / bottom
