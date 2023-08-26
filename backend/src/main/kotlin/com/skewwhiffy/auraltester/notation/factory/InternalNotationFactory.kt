@@ -28,13 +28,7 @@ class InternalNotationFactory(
 
     fun getNote(noteRaw: String) = noteFactory.getAbsoluteNote(noteRaw)
 
-    /*
-    public List<AbsoluteNote> getNotes(String notesRaw) {
-        return Arrays.stream(notesRaw.split(" "))
-            .map(this::getNote)
-            .toList();
-    }
-    */
+    fun getNotes(notesRaw: String) = notesRaw.split(" ").map(::getNote)
 
     fun getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory.getDirectedInterval(rawInterval)
 

@@ -12,7 +12,7 @@ import java.lang.IllegalArgumentException
 class NoteFactory {
     fun getAbsoluteNote(rawNote: String) = AbsoluteNote(getNote(rawNote), getOctave(rawNote), null)
 
-    private fun getNote(rawNote: String) = Note(getNoteName(rawNote), getAccidental(rawNote))
+    fun getNote(rawNote: String) = Note(getNoteName(rawNote), getAccidental(rawNote))
 
     private fun getNoteName(rawNote: String) = getNoteLetter(rawNote)
         .uppercase()
