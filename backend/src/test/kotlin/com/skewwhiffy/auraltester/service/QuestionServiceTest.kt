@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.dao.QuestionDao
 import com.skewwhiffy.auraltester.dto.question.AnswerType
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest
@@ -11,27 +11,36 @@ import com.skewwhiffy.auraltester.model.QuestionFactory
 import com.skewwhiffy.auraltester.repository.QuestionRepository
 import com.skewwhiffy.auraltester.test.util.TestData
 import io.mockk.every
-import io.mockk.mockk
+import io.mockk.impl.annotations.MockK
 import jakarta.persistence.Id
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import java.util.UUID
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles(profiles = ["test"])
 class QuestionServiceTest {
-    private val objectMapper = ObjectMapper()
-    private val questionRepository = mockk<QuestionRepository>()
-    private val questionFactories = (1..2).map { mockk<QuestionFactory<*>>() }
-    private val question = mockk<Question<*>>()
+    @MockkBean
+    private lateinit var questionRepository: QuestionRepository
+    @MockkBean
+    private lateinit var questionFactory: QuestionFactory<*>
+    @MockK
+    private lateinit var question: Question<*>
     private val dao = TestData.random.string
 
-    private val questionService = QuestionService(questionFactories, questionRepository, objectMapper)
+    @Autowired
+    private lateinit var questionService: QuestionService
 
     @ParameterizedTest
     @EnumSource(QuestionType::class)
     fun when_questionRequested_then_validQuestionReturned_and_questionSerialized(questionType: QuestionType) {
         val request = QuestionRequest(questionType)
-        val questionFactory = questionFactories[0]
         val questionElements: List<QuestionResponseElement> = emptyList()
         val answerTypes: List<AnswerType> = emptyList()
         every { questionFactory.questionType } returns questionType

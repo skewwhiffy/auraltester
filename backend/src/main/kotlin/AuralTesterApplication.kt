@@ -1,3 +1,5 @@
+package com.skewwhiffy.auraltester
+
 import com.skewwhiffy.auraltester.dao.Info
 import com.skewwhiffy.auraltester.repository.InfoRepository
 import org.slf4j.LoggerFactory
