@@ -146,12 +146,5 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         return octave.compareTo(other.octave)
     }
 
-    /*
-    @Override
-    public String toString {
-        return getAbc(Key.getCMajor())
-    }
-
-
-     */
+    override fun toString() = getAbc(Key.cMajor)
 }

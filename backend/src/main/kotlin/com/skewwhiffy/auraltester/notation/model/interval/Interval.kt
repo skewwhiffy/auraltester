@@ -14,17 +14,9 @@ data class Interval(val degree: Int, val deviation: Int) {
             "octave"
         )
 
-        /*
-        public static Interval augmented(int degree) {
-            val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : major(degree);
-            return baseInterval.getAugmented();
-        }
+        fun augmented(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)).augmented
 
-        public static Interval diminished(int degree) {
-            val baseInterval = perfectDegrees.contains(degree) ? perfect(degree) : minor(degree);
-            return baseInterval.getDiminished();
-        }
-        */
+        fun diminished(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)).diminished
 
         fun minor(degree: Int) = major(degree).diminished
 
