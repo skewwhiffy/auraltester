@@ -1,8 +1,8 @@
 package com.skewwhiffy.auraltester.test.util
 
 import com.skewwhiffy.auraltester.controller.ClefType
+import com.skewwhiffy.auraltester.helper.oneOf
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
-import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.key.Key
 import com.skewwhiffy.auraltester.notation.model.note.*
@@ -28,13 +28,6 @@ class TestData {
         val string
             get() = UUID.randomUUID().toString()
 
-        @Suppress("SameParameterValue")
-        private fun oneOf(source: String) = oneOf(source.toList()).toString()
-
-        fun oneOf(source: IntRange) = oneOf(source.toList())
-
-        private fun <T> oneOf(source: List<T>) = source.size.let(random::nextInt).let(source::get)
-
         val absoluteNote
             get() = AbsoluteNote(note, octave, null)
 
@@ -52,7 +45,7 @@ class TestData {
         private val clefType
             get() = oneOf(ClefType.entries)
 
-        private val directedInterval
+        val directedInterval
             get() = if (random.nextBoolean()) interval.up else interval.down
 
         val interval

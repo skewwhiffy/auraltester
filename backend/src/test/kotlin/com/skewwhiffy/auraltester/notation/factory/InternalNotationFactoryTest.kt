@@ -45,7 +45,7 @@ class InternalNotationFactoryTest {
 
     @Test
     fun when_clefNameInvalid_then_throws() {
-        assertThatThrownBy({ internalNotationFactory.clef("not a clef name") })
+        assertThatThrownBy { internalNotationFactory.clef("not a clef name") }
             .isInstanceOf(UnrecognizedClefException::class.java)
     }
 
@@ -53,47 +53,45 @@ class InternalNotationFactoryTest {
     fun when_noteIsRequested_then_proxiesToNoteFactory() {
         val rawNote = TestData.random.string
         val expected = TestData.random.absoluteNote
-        every { noteFactory!!.getAbsoluteNote(rawNote) } returns expected
-        val actual = internalNotationFactory!!.getNote(rawNote)
+        every { noteFactory.getAbsoluteNote(rawNote) } returns expected
+        val actual = internalNotationFactory.getNote(rawNote)
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun when_notesAreRequested_then_proxiesToNoteFactory() {
         val rawNotes = (1..9).map { TestData.random.string }
-        val expected = rawNotes.map { it -> TestData.random.absoluteNote }
+        val expected = rawNotes.map { TestData.random.absoluteNote }
         rawNotes.zip(expected).forEach { every { noteFactory.getAbsoluteNote(it.first) } returns it.second }
         val notesRaw = rawNotes.joinToString(" ")
         val actual = internalNotationFactory.getNotes(notesRaw)
         assertThat(actual).isEqualTo(expected)
     }
 
-    /*
     @Test
     fun when_directedIntervalIsRequested_then_proxiesToIntervalFactory() {
-        val rawInterval: `val` = TestData.random().string()
-        val expected: `val` = TestData.random().directedInterval()
-        `when`(intervalFactory!!.getDirectedInterval(rawInterval)).thenReturn(expected)
-        val actual: `val` = internalNotationFactory!!.getDirectedInterval(rawInterval)
-        Assertions.assertThat<`val`>(actual).isEqualTo(expected)
+        val rawInterval = TestData.random.string
+        val expected = TestData.random.directedInterval
+        every { intervalFactory.getDirectedInterval(rawInterval) } returns expected
+        val actual = internalNotationFactory.getDirectedInterval(rawInterval)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun when_directedIntervalsAreRequested_then_proxiesToIntervalFactory() {
-        val rawInterval: `val` = TestData.random().string()
-        val expected: `val` = listOf<Any>(TestData.random().directedInterval())
-        `when`(intervalFactory!!.getDirectedIntervals(rawInterval)).thenReturn(expected)
-        val actual: `val` = internalNotationFactory.getDirectedIntervals(rawInterval)
-        Assertions.assertThat<`val`>(actual).isEqualTo(expected)
+        val rawInterval = TestData.random.string
+        val expected = listOf(TestData.random.directedInterval)
+        every { intervalFactory.getDirectedIntervals(rawInterval)} returns expected
+        val actual = internalNotationFactory.getDirectedIntervals(rawInterval)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun when_keyIsRequested_then_proxiesToKeyFactory() {
-        val rawKey: `val` = TestData.random().string()
-        val expected: `val` = TestData.random().key()
-        `when`(keyFactory.getKey(rawKey)).thenReturn(expected)
-        val actual: `val` = internalNotationFactory.getKey(rawKey)
-        Assertions.assertThat<`val`>(actual).isEqualTo(expected)
+        val rawKey = TestData.random.string
+        val expected = TestData.random.key
+        every {keyFactory.getKey(rawKey)} returns expected
+        val actual = internalNotationFactory.getKey(rawKey)
+        assertThat(actual).isEqualTo(expected)
     }
-     */
 }

@@ -9,13 +9,9 @@ import org.springframework.stereotype.Service
 class InternalNotationFactory(
     private val clefFactory: ClefFactory,
     private val noteFactory: NoteFactory,
-    private val intervalFactory: IntervalFactory
+    private val intervalFactory: IntervalFactory,
+    private val keyFactory: KeyFactory
 ) {
-    /*
-    private final IntervalFactory intervalFactory;
-    private final KeyFactory keyFactory;
-    */
-
     fun clef(clefRaw: String): Clef {
         return when (clefRaw.lowercase()) {
             "treble" -> clefFactory.treble
@@ -30,15 +26,9 @@ class InternalNotationFactory(
 
     fun getNotes(notesRaw: String) = notesRaw.split(" ").map(::getNote)
 
-    fun getDirectedInterval(rawInterval: String): DirectedInterval = intervalFactory.getDirectedInterval(rawInterval)
+    fun getDirectedInterval(rawInterval: String) = intervalFactory.getDirectedInterval(rawInterval)
 
-    /*
-    public List<DirectedInterval> getDirectedIntervals(String rawIntervals) {
-        return intervalFactory.getDirectedIntervals(rawIntervals);
-    }
+    fun getDirectedIntervals(rawIntervals: String) = intervalFactory.getDirectedIntervals(rawIntervals)
 
-    public Key getKey(String rawKey) {
-        return keyFactory.getKey(rawKey);
-    }
-     */
+    fun getKey(rawKey: String) = keyFactory.getKey(rawKey)
 }

@@ -1,43 +1,45 @@
 package com.skewwhiffy.auraltester.notation.factory
 
-/*
 import com.skewwhiffy.auraltester.notation.model.key.Key
-import lombok.`val`
-import org.assertj.core.api.Assertions
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.junit5.MockKExtension
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(MockKExtension::class)
 class NoteFactoryTest {
-    @InjectMocks
-    private val noteFactory: NoteFactory? = null
+    @InjectMockKs
+    private lateinit var noteFactory: NoteFactory
+
     @Test
     fun instantiatesMiddleC() {
-        val expected: `val` = AbsoluteNote.getMiddleC()
-        val actual: `val` = noteFactory!!.getAbsoluteNote("C")
-        Assertions.assertThat<`val`>(actual).isEqualTo(expected)
+        val expected = AbsoluteNote.middleC
+        val actual = noteFactory.getAbsoluteNote("C")
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun instantiatesNoteAboveMiddleC() {
-        val expected: `val` = "c''"
-        val actual: `val` = noteFactory!!.getAbsoluteNote(expected)
-        assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected)
+        val expected = "c''"
+        val actual = noteFactory.getAbsoluteNote(expected)
+        assertThat(actual.getAbc(Key.cMajor)).isEqualTo(expected)
     }
 
     @Test
     fun instantiatesNoteBelowMiddleC() {
-        val internalNotation: `val` = "Dx#,,,"
-        val expected: `val` = "^^^D,,,"
-        val actual: `val` = noteFactory!!.getAbsoluteNote(internalNotation)
-        assertThat(actual.getAbc(Key.getCMajor())).isEqualTo(expected)
+        val internalNotation = "Dx#,,,"
+        val expected = "^^^D,,,"
+        val actual = noteFactory.getAbsoluteNote(internalNotation)
+        assertThat(actual.getAbc(Key.cMajor)).isEqualTo(expected)
     }
 
     @Test
     fun when_noteNameInvalid_then_throws() {
-        Assertions.assertThatThrownBy(ThrowingCallable { noteFactory!!.getAbsoluteNote("H") })
+        assertThatThrownBy { noteFactory.getAbsoluteNote("H") }
             .isInstanceOf(IllegalArgumentException::class.java)
     }
 }
 
-
- */

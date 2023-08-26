@@ -31,7 +31,7 @@ internal class ClefFactoryTest {
     }
 
     @MockK
-    private val noteFactory: NoteFactory? = null
+    private lateinit var noteFactory: NoteFactory
 
     @InjectMockKs
     private lateinit var clefFactory: ClefFactory
