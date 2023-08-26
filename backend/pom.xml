@@ -32,17 +32,17 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.9.0</version>
+                <version>${kotlin.version}</version>
                 <configuration>
                     <compilerPlugins>
-                        <!-- Or "spring" for the Spring support -->
+                        <plugin>spring</plugin>
+                        <plugin>jpa</plugin>
                         <plugin>all-open</plugin>
+                        <plugin>no-arg</plugin>
                     </compilerPlugins>
 
                     <pluginOptions>
-                        <!-- Each annotation is placed on its own line -->
-                        <option>all-open:annotation=com.my.Annotation</option>
-                        <option>all-open:annotation=com.their.AnotherAnnotation</option>
+                        <option>no-arg:annotation=com.skewwhiffy.auraltester.repository.Dao</option>
                     </pluginOptions>
                 </configuration>
 
@@ -50,6 +50,11 @@
                     <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>
                         <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-noarg</artifactId>
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>

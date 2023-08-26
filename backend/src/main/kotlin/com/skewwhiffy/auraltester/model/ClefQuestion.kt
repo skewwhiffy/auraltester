@@ -1,15 +1,12 @@
-package com.skewwhiffy.auraltester.model;
+package com.skewwhiffy.auraltester.model
 
-import com.skewwhiffy.auraltester.dao.ClefQuestionDao;
-import com.skewwhiffy.auraltester.dto.question.*;
-import com.skewwhiffy.auraltester.notation.model.clef.Clef;
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote;
-import com.skewwhiffy.auraltester.service.AbcService;
+import com.skewwhiffy.auraltester.dao.ClefQuestionDao
+import com.skewwhiffy.auraltester.dto.question.*
+import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
+import com.skewwhiffy.auraltester.service.AbcService
 
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Stream;
+import java.util.Collections
 
 class ClefQuestion(
     private val abcService: AbcService,
@@ -34,62 +31,42 @@ class ClefQuestion(
 
     override val answerTypes by lazy { listOf(AnswerType.NOTE_NAME) }
 
-    /*
-    @Override
-    public List < QuestionResponseElement > getCorrectResponse () {
-        return Arrays.asList(
-            QuestionResponseElement.text(
-                MessageFormat.format(
-                    "Well done, this note is {0}.",
-                    absoluteNote.note().noteName()
-                )
-            ),
-            QuestionResponseElement.abc(getAbc())
-        );
+    override val correctResponse by lazy {
+        listOf(
+            QuestionResponseElement.text("Well done, this note is ${absoluteNote.note.noteName}"),
+            QuestionResponseElement.abc(abc)
+        )
     }
 
-    @Override
-    public List < QuestionResponseElement > getIncorrectResponse () {
-        return Arrays.asList(
+    override val incorrectResponse by lazy {
+        listOf(
             QuestionResponseElement.text(
-                MessageFormat.format(
-                    "Sorry, the correct answer is {0}. See the sequence below which counts the question's note from middle C.",
-                    absoluteNote.note().noteName()
-                )
+                "Sorry, the correct answer is ${absoluteNote.note.noteName}. See the sequence below which counts the question's note from middle C.",
             ),
-            QuestionResponseElement.abc(getSequenceAbc()),
+            QuestionResponseElement.abc(sequenceAbc),
             QuestionResponseElement.text("Original question is below."),
-            QuestionResponseElement.abc(getAbc())
-        );
+            QuestionResponseElement.abc(abc)
+        )
     }
-    */
 
     override val answer
         get() = listOf(absoluteNote.note.noteName)
 
     private val abc by lazy { abcService.getAbc(clef, absoluteNote).abc }
 
-    /*
-    private String getSequenceAbc() {
-        return abcService.getAbc(clef, getNoteSequence()).getAbc();
-    }
+    private val sequenceAbc by lazy { abcService.getAbc(clef, noteSequence).abc }
 
-    private List < AbsoluteNote > getNoteSequence () {
-        return getNoteSequence(Collections.emptyList());
-    }
+    private val noteSequence by lazy { getNoteSequence(listOf()) }
 
-    private List < AbsoluteNote > getNoteSequence (List<AbsoluteNote> soFar) {
+    private fun getNoteSequence(soFar: List<AbsoluteNote>): List<AbsoluteNote> {
         if (soFar.isEmpty()) {
-            return getNoteSequence(Collections.singletonList(AbsoluteNote.getMiddleC().withNoteName()));
+            return getNoteSequence(Collections.singletonList(AbsoluteNote.middleC.withNoteName))
         }
-        val lastNoteSoFar = soFar.get(soFar.size() - 1);
-        if (lastNoteSoFar.equals(absoluteNote.withNoteName())) {
-            return soFar;
+        val lastNoteSoFar = soFar.get(soFar.size - 1)
+        if (lastNoteSoFar.equals(absoluteNote.withNoteName)) {
+            return soFar
         }
-        val nextNote = lastNoteSoFar.compareTo(absoluteNote) < 0
-        ? lastNoteSoFar.upOne()
-        : lastNoteSoFar.downOne();
-        return getNoteSequence(Stream.concat(soFar.stream(), Stream.of(nextNote.withNoteName())).toList());
+        val nextNote = if (lastNoteSoFar.compareTo(absoluteNote) < 0) lastNoteSoFar.upOne else lastNoteSoFar.downOne
+        return getNoteSequence(soFar + nextNote.withNoteName)
     }
-     */
 }

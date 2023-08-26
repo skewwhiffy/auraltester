@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
-import kotlin.RuntimeException
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class QuestionService(
@@ -21,16 +21,13 @@ class QuestionService(
     private val objectMapper: ObjectMapper
 ) {
     fun get(request: QuestionRequest): QuestionResponse {
-        /*
         val questionType = request.type
         val factory = questionFactories.firstOrNull { it.questionType == questionType }
             ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No question factory for $questionType")
         val question = factory.newQuestion
         try {
             val questionJson = objectMapper.writeValueAsString(question.dao)
-            val questionEntity = QuestionDao()
-                .also { it.questionType = questionType }
-                .also { it.question = questionJson }
+            val questionEntity = QuestionDao(questionType, questionJson)
             val savedQuestionEntity = questionRepository.save(questionEntity)
             return QuestionResponse(savedQuestionEntity.id!!, question.questionElements, question.answerTypes)
         } catch (ex: JsonProcessingException) {
@@ -39,36 +36,17 @@ class QuestionService(
                 "Cannot serialize clef question"
             )
         }
-         */
-        throw RuntimeException()
     }
 
 
-    fun answer(id: UUID, answers: List<String>): AnswerResponse {/*
-        val savedQuestionEntity = questionRepository
-            .findById(id)
-            .orElseThrow(() -> new ResponseStatusException(
-        HttpStatus.NOT_FOUND,
-        MessageFormat.format(
-            "Question with ID '{0}' not found.",
-            id
+    fun answer(id: UUID, answers: List<String>): AnswerResponse {
+        val savedQuestionEntity = questionRepository.findById(id).getOrNull() ?: throw ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Question with ID '$id' not found"
         )
-        ));
-        val factory = questionFactories
-            .stream()
-            .filter(it -> it.getQuestionType() == savedQuestionEntity.getQuestionType())
-        .findAny()
-            .orElseThrow(() -> new ResponseStatusException(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        MessageFormat.format(
-            "No question factory for {0}.",
-            savedQuestionEntity.getQuestionType()
-        )
-        ));
+        val factory = questionFactories.first { it.questionType == savedQuestionEntity.questionType }
         return factory
-            .getQuestion(savedQuestionEntity.getQuestion())
-            .answer(answers);
-            */
-        throw RuntimeException()
+            .getQuestion(savedQuestionEntity.question)
+            .answer(answers)
     }
 }
