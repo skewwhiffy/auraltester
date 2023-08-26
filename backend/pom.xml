@@ -33,6 +33,26 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>1.9.0</version>
+                <configuration>
+                    <compilerPlugins>
+                        <!-- Or "spring" for the Spring support -->
+                        <plugin>all-open</plugin>
+                    </compilerPlugins>
+
+                    <pluginOptions>
+                        <!-- Each annotation is placed on its own line -->
+                        <option>all-open:annotation=com.my.Annotation</option>
+                        <option>all-open:annotation=com.their.AnotherAnnotation</option>
+                    </pluginOptions>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>compile</id>
@@ -103,7 +123,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.1.214</version>
+            <version>2.2.220</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>

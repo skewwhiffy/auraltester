@@ -6,16 +6,17 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.Lob
 
 import java.util.UUID
 
-@Entity(name = "question")
-class QuestionDao(
+@Entity
+class QuestionDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: UUID?,
-    val questionType: QuestionType,
-    @Column(length = 500)
-    val question: String
-)
+    var id: UUID? = null
+
+    var questionType: QuestionType? = null
+
+    @Column(columnDefinition = "TEXT")
+    var question: String? = null
+}

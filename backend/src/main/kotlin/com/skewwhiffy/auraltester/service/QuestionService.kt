@@ -11,8 +11,8 @@ import com.skewwhiffy.auraltester.repository.QuestionRepository
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import java.lang.RuntimeException
 import java.util.UUID
+import kotlin.RuntimeException
 
 @Service
 class QuestionService(
@@ -21,13 +21,16 @@ class QuestionService(
     private val objectMapper: ObjectMapper
 ) {
     fun get(request: QuestionRequest): QuestionResponse {
+        /*
         val questionType = request.type
         val factory = questionFactories.firstOrNull { it.questionType == questionType }
             ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No question factory for $questionType")
         val question = factory.newQuestion
         try {
             val questionJson = objectMapper.writeValueAsString(question.dao)
-            val questionEntity = QuestionDao(null, questionType, questionJson)
+            val questionEntity = QuestionDao()
+                .also { it.questionType = questionType }
+                .also { it.question = questionJson }
             val savedQuestionEntity = questionRepository.save(questionEntity)
             return QuestionResponse(savedQuestionEntity.id!!, question.questionElements, question.answerTypes)
         } catch (ex: JsonProcessingException) {
@@ -36,6 +39,8 @@ class QuestionService(
                 "Cannot serialize clef question"
             )
         }
+         */
+        throw RuntimeException()
     }
 
 

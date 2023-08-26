@@ -63,6 +63,7 @@ class ClefQuestionSteps(
             val questionJson = questionId
                 ?.let { questionRepository.findById(it).getOrNull()?.question }
                 ?: throw AssertionError()
+
             val question = clefQuestionFactory.getQuestion(questionJson)
             return question.answer
         }

@@ -6,6 +6,8 @@ import io.cucumber.spring.CucumberContextConfiguration
 import org.junit.runner.RunWith
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Profile
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 
 // TODO: Report only reports a single feature
@@ -14,5 +16,6 @@ import org.springframework.test.context.TestPropertySource
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@ActiveProfiles(profiles = ["test"])
 @TestPropertySource(locations = ["classpath:application-integration-test.properties"])
 class CucumberIntegrationTest
