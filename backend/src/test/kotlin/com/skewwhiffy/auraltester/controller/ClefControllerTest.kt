@@ -1,5 +1,6 @@
 package com.skewwhiffy.auraltester.controller
 
+import com.ninjasquad.springmockk.MockkBean
 import com.skewwhiffy.auraltester.dto.ClefResponse
 import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory
 import com.skewwhiffy.auraltester.notation.model.abc.AbcProvider
@@ -14,16 +15,18 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 
-@ExtendWith(MockKExtension::class)
+@SpringBootTest
 class ClefControllerTest {
-    @MockK
+    @MockkBean
     private lateinit var internalNotationFactory: InternalNotationFactory
 
-    @MockK
+    @MockkBean
     private lateinit var abcService: AbcService
 
-    @InjectMockKs
+    @Autowired
     private lateinit var clefController: ClefController
 
     private lateinit var clefString: String
