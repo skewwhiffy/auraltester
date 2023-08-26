@@ -2,6 +2,8 @@ package com.skewwhiffy.auraltester.test.util
 
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.helper.oneOf
+import com.skewwhiffy.auraltester.notation.factory.ClefFactory
+import com.skewwhiffy.auraltester.notation.factory.NoteFactory
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.key.Key
@@ -14,13 +16,35 @@ import java.util.*
 class TestData {
     companion object {
         val random: RandomTestData by lazy(::RandomTestData)
-    }
-    /*
+        val noteFactories by lazy(::NoteFactories)
+        class NoteFactories {
+            val note = NoteFactory()
+            val clef = ClefFactory(note)
 
-    public static NoteFactories noteFactories() {
-        return new NoteFactories();
+            /*
+            public IntervalFactory interval() {
+                return new IntervalFactory();
+            }
+
+            public KeyFactory key() {
+                return new KeyFactory(note());
+            }
+
+            public InternalNotationFactory internalNotation() {
+                return new InternalNotationFactory(
+                        clef(),
+                note(),
+                interval(),
+                key()
+                );
+            }
+
+            public ScaleTypeFactory scaleType() {
+                return new ScaleTypeFactory(interval());
+            }
+             */
+        }
     }
-    */
 
     class RandomTestData {
         private val random: Random by lazy(::Random)
@@ -78,37 +102,4 @@ class TestData {
                 (1..5).map { directedInterval }
             )
     }
-
-    /*
-public static class NoteFactories {
-public NoteFactory note() {
-    return new NoteFactory();
-}
-
-public ClefFactory clef() {
-    return new ClefFactory(note());
-}
-
-public IntervalFactory interval() {
-    return new IntervalFactory();
-}
-
-public KeyFactory key() {
-    return new KeyFactory(note());
-}
-
-public InternalNotationFactory internalNotation() {
-    return new InternalNotationFactory(
-            clef(),
-    note(),
-    interval(),
-    key()
-    );
-}
-
-public ScaleTypeFactory scaleType() {
-    return new ScaleTypeFactory(interval());
-}
-}
-*/
 }
