@@ -49,5 +49,5 @@ class IntervalFactory {
     }
 
     private fun getRawDeviations(rawInterval: String) =
-        rawInterval[getRawInt(rawInterval).length + getRawDirection(rawInterval).length].toString()
+        rawInterval.substring(getRawInt(rawInterval).length + getRawDirection(rawInterval).length)
 }

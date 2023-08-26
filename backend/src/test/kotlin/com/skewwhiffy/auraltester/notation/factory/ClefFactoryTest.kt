@@ -8,6 +8,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -42,19 +43,22 @@ internal class ClefFactoryTest {
     fun setUp() {
         highLedgerNote = TestData.random.absoluteNote
         lowLedgerNote = TestData.random.absoluteNote
+        every { noteFactory.getAbsoluteNote(any()) } returns mockk<AbsoluteNote>()
     }
 
     @ParameterizedTest
     @MethodSource("clefTypeTestCases")
     fun getFromClefTypeWorks(clefType: ClefType, getExpected: (ClefFactory) -> Clef) {
         val expected = getExpected(clefFactory)
+
         val actual = clefFactory.get(clefType)
+
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun initializedTrebleClefCorrectly() {
-        every { noteFactory!!.getAbsoluteNote("a") } returns (highLedgerNote)
+        every { noteFactory.getAbsoluteNote("a") } returns (highLedgerNote)
         val actual = clefFactory.treble
         assertThat(actual.abc).isEqualTo("treble")
         assertThat(actual.lowLedgerNote).isEqualTo(AbsoluteNote.middleC)
@@ -73,7 +77,7 @@ internal class ClefFactoryTest {
 
     @Test
     fun initializesBassClefCorrectly() {
-        every { noteFactory!!.getAbsoluteNote("E,,") } returns lowLedgerNote
+        every { noteFactory.getAbsoluteNote("E,,") } returns lowLedgerNote
         val actual = clefFactory.bass
         assertThat(actual.abc).isEqualTo("bass")
         assertThat(actual.lowLedgerNote).isEqualTo(lowLedgerNote)
@@ -86,8 +90,8 @@ internal class ClefFactoryTest {
         expectedHighLedgerNote: String,
         getClef: () -> Clef
     ) {
-        every { noteFactory!!.getAbsoluteNote(expectedLowLedgerNote) } returns lowLedgerNote
-        every { noteFactory!!.getAbsoluteNote(expectedHighLedgerNote) } returns highLedgerNote
+        every { noteFactory.getAbsoluteNote(expectedLowLedgerNote) } returns lowLedgerNote
+        every { noteFactory.getAbsoluteNote(expectedHighLedgerNote) } returns highLedgerNote
         val actual = getClef()
         assertThat(actual.abc).isEqualTo(abc)
         assertThat(actual.lowLedgerNote).isEqualTo(lowLedgerNote)
