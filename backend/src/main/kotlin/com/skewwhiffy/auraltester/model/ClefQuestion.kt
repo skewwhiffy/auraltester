@@ -62,11 +62,11 @@ class ClefQuestion(
         if (soFar.isEmpty()) {
             return getNoteSequence(Collections.singletonList(AbsoluteNote.middleC.withNoteName))
         }
-        val lastNoteSoFar = soFar.get(soFar.size - 1)
-        if (lastNoteSoFar.equals(absoluteNote.withNoteName)) {
+        val lastNoteSoFar = soFar[soFar.size - 1]
+        if (lastNoteSoFar == absoluteNote.withNoteName) {
             return soFar
         }
-        val nextNote = if (lastNoteSoFar.compareTo(absoluteNote) < 0) lastNoteSoFar.upOne else lastNoteSoFar.downOne
+        val nextNote = if (lastNoteSoFar < absoluteNote) lastNoteSoFar.upOne else lastNoteSoFar.downOne
         return getNoteSequence(soFar + nextNote.withNoteName)
     }
 }

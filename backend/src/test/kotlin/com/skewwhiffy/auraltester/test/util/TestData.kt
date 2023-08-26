@@ -3,7 +3,11 @@ package com.skewwhiffy.auraltester.test.util
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.helper.oneOf
 import com.skewwhiffy.auraltester.notation.factory.ClefFactory
+import com.skewwhiffy.auraltester.notation.factory.InternalNotationFactory
+import com.skewwhiffy.auraltester.notation.factory.IntervalFactory
+import com.skewwhiffy.auraltester.notation.factory.KeyFactory
 import com.skewwhiffy.auraltester.notation.factory.NoteFactory
+import com.skewwhiffy.auraltester.notation.factory.ScaleTypeFactory
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.key.Key
@@ -17,32 +21,14 @@ class TestData {
     companion object {
         val random: RandomTestData by lazy(::RandomTestData)
         val noteFactories by lazy(::NoteFactories)
+
         class NoteFactories {
-            val note = NoteFactory()
-            val clef = ClefFactory(note)
-
-            /*
-            public IntervalFactory interval() {
-                return new IntervalFactory();
-            }
-
-            public KeyFactory key() {
-                return new KeyFactory(note());
-            }
-
-            public InternalNotationFactory internalNotation() {
-                return new InternalNotationFactory(
-                        clef(),
-                note(),
-                interval(),
-                key()
-                );
-            }
-
-            public ScaleTypeFactory scaleType() {
-                return new ScaleTypeFactory(interval());
-            }
-             */
+            val note by lazy(::NoteFactory)
+            val clef by lazy { ClefFactory(note) }
+            private val interval by lazy(::IntervalFactory)
+            val key by lazy { KeyFactory(note) }
+            val internalNotation by lazy { InternalNotationFactory(clef, note, interval, key) }
+            val scaleType by lazy { ScaleTypeFactory(interval) }
         }
     }
 
@@ -66,7 +52,7 @@ class TestData {
                 absoluteNote.ignoreAccidental
             )
 
-        private val clefType
+        val clefType
             get() = oneOf(ClefType.entries)
 
         val directedInterval

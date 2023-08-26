@@ -29,13 +29,7 @@ data class Key(val note: Note, val isMinor: Boolean) {
 
     fun getAbc(note: AbsoluteNote) = getAccidentalAbc(note.note) + getNoteAbc(note)
 
-    /*
-    public boolean canRenderSignature() {
-        return isMinor
-        ? getRelativeMajor().canRenderSignature()
-        : "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".contains(note.getDisplayString());
-    }
-    */
+    val canRenderSignature: Boolean by lazy { if (isMinor) relativeMajor.canRenderSignature else  "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".contains(note.displayString) }
 
     private fun getNoteAbc(note: AbsoluteNote): String {
         val offset = note.octave.offsetFromDefault
@@ -59,9 +53,9 @@ data class Key(val note: Note, val isMinor: Boolean) {
         }
     }
 
-    private val relativeMinor by lazy { if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharpen, true) }
+    val relativeMinor by lazy { if (isMinor) this else Key(note.downMajorSecond.downMajorSecond.sharpen, true) }
 
-    private val relativeMajor by lazy { if (isMinor) Key(note.upMajorSecond.upMajorSecond.flatten, false) else this }
+    val relativeMajor by lazy { if (isMinor) Key(note.upMajorSecond.upMajorSecond.flatten, false) else this }
 
     val relative
         get() = if (isMinor) relativeMajor else relativeMinor
