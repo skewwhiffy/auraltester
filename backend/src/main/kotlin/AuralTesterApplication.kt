@@ -20,11 +20,9 @@ class AuralTesterApplication {
 
     companion object {
         private val log = LoggerFactory.getLogger(AuralTesterApplication::class.java)
-
-        @Suppress("unused")
-        @JvmStatic
-        fun main() {
-            SpringApplication.run(AuralTesterApplication::class.java)
-        }
     }
+}
+
+fun main(args: Array<String>) {
+    SpringApplication.run(AuralTesterApplication::class.java, *args)
 }
