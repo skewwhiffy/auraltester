@@ -8,6 +8,11 @@
     <groupId>org.example</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.2</version>
+    </parent>
 
     <name>consoleApp</name>
 
@@ -40,12 +45,10 @@
                         <plugin>all-open</plugin>
                         <plugin>no-arg</plugin>
                     </compilerPlugins>
-
                     <pluginOptions>
                         <option>no-arg:annotation=com.skewwhiffy.auraltester.repository.Dao</option>
                     </pluginOptions>
                 </configuration>
-
                 <dependencies>
                     <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>

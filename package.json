@@ -4,11 +4,11 @@
   "description": "Aural testing software for music students",
   "main": "index.js",
   "scripts": {
-    "test": "cd backend && ./gradlew build && cd ../frontend && npm run test:once",
+    "test": "cd backend && mvn clean test && cd ../frontend && npm run test:once",
     "build": "echo 'TODO: build'",
     "start": "echo 'TODO: start'",
-    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && nodemon -e kt -x 'rm -f hs_err_pid*.log && ./gradlew bootrun'\"",
-    "install": "cd backend && ./gradlew build -x test && cd ../frontend && npm install"
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && mvn spring-boot:run\"",
+    "install": "cd backend && mvn clean compile && cd ../frontend && npm ci"
   },
   "repository": {
     "type": "git",
