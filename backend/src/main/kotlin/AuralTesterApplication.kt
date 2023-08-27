@@ -13,7 +13,7 @@ class AuralTesterApplication {
     @Bean
     fun demo(repository: InfoRepository): CommandLineRunner {
         return CommandLineRunner {
-            repository.save(Info(null, "0.0.1-java"))
+            repository.save(Info(null, "0.0.1-kotlin"))
             repository.findAll().forEach { log.info(it.toString()) }
         }
     }
