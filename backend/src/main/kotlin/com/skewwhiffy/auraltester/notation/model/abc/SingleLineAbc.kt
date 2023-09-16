@@ -20,27 +20,6 @@ data class SingleLineAbc(
         notes: List<List<AbsoluteNote>>
     ) : this(displayName, clef, noteLength, null, notes)
 
-    /*
-    public SingleLineAbc(
-            String displayName,
-    Clef clef,
-    NoteLength noteLength,
-    List<List<AbsoluteNote>> notes
-    ) {
-        this(Optional.of(displayName), clef, noteLength, Optional.empty(), notes);
-    }
-
-    public SingleLineAbc(
-            String displayName,
-    Clef clef,
-    NoteLength noteLength,
-    Key key,
-    List<List<AbsoluteNote>> notes
-    ) {
-        this(Optional.of(displayName), clef, noteLength, Optional.of(key), notes);
-    }
-    */
-
     constructor(clef: Clef, noteLength: NoteLength, notes: List<List<AbsoluteNote>>) : this(
         null,
         clef,
@@ -49,20 +28,10 @@ data class SingleLineAbc(
         notes
     )
 
-    /*
-  fun includeKeySignature(key: Key): SingleLineAbc = SingleLineAbc(
-    displayName,
-    clef,
-    noteLength,
-    key,
-    notes
-  )
-
-*/
     override val abc: String
         get() {
             val barAbc: (List<AbsoluteNote>) -> String = { barNotes ->
-                barNotes.joinToString { it.getAbc(keySignature ?: Key.cMajor) }
+                barNotes.joinToString(" ") { it.getAbc(keySignature ?: Key.cMajor) }
             }
             val notesAbc = notes.joinToString("|", transform = barAbc)
                 .let { "$it|" }
