@@ -48,7 +48,7 @@ class SingleLineAbcTest {
         assertThat(abc.abc).contains("T:$title")
         assertThat(abc.abc).contains("K:clef=" + clef.abc)
         assertThat(abc.abc).contains("L:" + noteLength.abc)
-        assertThat(abc.abc).contains(notesAbc.joinToString())
+        assertThat(abc.abc).contains(notesAbc.joinToString(" "))
     }
 
     @Test
