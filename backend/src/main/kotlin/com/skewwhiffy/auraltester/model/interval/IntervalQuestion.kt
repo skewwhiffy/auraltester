@@ -4,8 +4,14 @@ import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.dao.IntervalQuestio
 import com.skewwhiffy.auraltester.dto.question.AnswerType
 import com.skewwhiffy.auraltester.dto.question.QuestionResponseElement
 import com.skewwhiffy.auraltester.model.Question
+import com.skewwhiffy.auraltester.notation.model.clef.Clef
+import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 
-class IntervalQuestion : Question<IntervalQuestionDao>() {
+class IntervalQuestion(
+    private val clef: Clef,
+    private val lowerNote: AbsoluteNote,
+    private val upperNote: AbsoluteNote
+) : Question<IntervalQuestionDao>() {
     override val dao
         get() = TODO("Not yet implemented")
     override val questionElements: List<QuestionResponseElement>

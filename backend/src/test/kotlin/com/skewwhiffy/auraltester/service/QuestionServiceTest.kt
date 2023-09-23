@@ -56,7 +56,7 @@ class QuestionServiceTest {
             .onEach { it.isAccessible = true }
             .map { it.call(this) as QuestionFactory<*> }
         @Suppress("UNCHECKED_CAST")
-        questionFactories.forEach { questionFactory -> every { questionFactory.newQuestion } returns question as Question<out Any> }
+        questionFactories.forEach { questionFactory -> every { questionFactory.makeNewQuestion() } returns question as Question<out Any> }
     }
 
     @ParameterizedTest

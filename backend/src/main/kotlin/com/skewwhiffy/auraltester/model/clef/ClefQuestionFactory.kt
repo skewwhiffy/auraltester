@@ -12,7 +12,6 @@ import com.skewwhiffy.auraltester.notation.factory.ClefFactory
 import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.service.AbcService
 import org.springframework.stereotype.Service
-import kotlin.reflect.KClass
 
 @Service
 class ClefQuestionFactory(
@@ -20,19 +19,15 @@ class ClefQuestionFactory(
     private val clefFactory: ClefFactory,
     objectMapper: ObjectMapper
 ) : QuestionFactory<ClefQuestionDao>(objectMapper) {
-    override val newQuestion: Question<ClefQuestionDao>
-        get() {
-            val clefType = oneOf(ClefType.entries)
-            val clef = clefFactory.get(clefType)
-            val noteCandidates = AbsoluteNote.range(clef.lowLedgerNote, clef.highLedgerNote)
-            val note = oneOf(noteCandidates)
-            return ClefQuestion(abcService, clefFactory.get(clefType), note)
-        }
-    override val questionType: QuestionType
-        get() = QuestionType.CLEF
+    override fun makeNewQuestion(): Question<ClefQuestionDao> {
+        val clef = oneOf(ClefType.entries).let(clefFactory::get)
+        val note = AbsoluteNote.range(clef.lowLedgerNote, clef.highLedgerNote).let(::oneOf)
+        return ClefQuestion(abcService, clef, note)
+    }
 
-    override val dao: KClass<ClefQuestionDao>
-        get() = ClefQuestionDao::class
+    override val questionType = QuestionType.CLEF
+
+    override val dao = ClefQuestionDao::class
 
     override fun getQuestion(dao: ClefQuestionDao): Question<ClefQuestionDao> {
         return ClefQuestion(abcService, clefFactory.get(dao.type), dao.absoluteNote.model)
