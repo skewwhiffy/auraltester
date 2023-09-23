@@ -22,19 +22,24 @@ class IntervalQuestionFactory(
     private val scaleTypeFactory: ScaleTypeFactory,
     objectMapper: ObjectMapper
 ) : QuestionFactory<IntervalQuestionDao>(objectMapper) {
-    private val keys = "C,G,D,A,E,B,F#,C#,F,Bb,Eb,Ab,Db,Gb,Cb"
-        .split(",")
-        .map(keyFactory::getKey)
-        .map { it.relativeMinor }
-    private val possibleScaleTypes = listOf(
-        scaleTypeFactory.minorHarmonic,
-        scaleTypeFactory.minorMelodic,
-    )
+    private val keys by lazy {
+        "C,G,D,A,E,B,F#,C#,F,Bb,Eb,Ab,Db,Gb,Cb"
+            .split(",")
+            .map(keyFactory::getKey)
+            .map { it.relativeMinor }
+    }
+
+    private val possibleScaleTypes by lazy {
+        listOf(
+            scaleTypeFactory.minorHarmonic,
+            scaleTypeFactory.minorMelodic,
+        )
+    }
 
     override fun makeNewQuestion(): Question<IntervalQuestionDao> {
         val clef = oneOf(ClefType.entries).let(clefFactory::get)
         return (1..2)
-            .map { oneOf(scaleTypeFactory.minorHarmonic, scaleTypeFactory.minorMelodic) }
+            .map { oneOf(possibleScaleTypes) }
             .map { scaleService.getScale(clef, oneOf(keys).note, it, oneOf(ScaleDirection.entries)) }
             .map { oneOf(it.notes) }
             .let { IntervalQuestion(clef, it.min(), it.max()) }
