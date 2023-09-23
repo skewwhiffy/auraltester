@@ -1,8 +1,8 @@
 package com.skewwhiffy.auraltester.service
 
 import com.ninjasquad.springmockk.MockkBean
-import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.clef.ClefQuestionFactory
-import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.interval.IntervalQuestionFactory
+import com.skewwhiffy.auraltester.model.clef.ClefQuestionFactory
+import com.skewwhiffy.auraltester.model.interval.IntervalQuestionFactory
 import com.skewwhiffy.auraltester.dao.QuestionDao
 import com.skewwhiffy.auraltester.dto.question.AnswerType
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest

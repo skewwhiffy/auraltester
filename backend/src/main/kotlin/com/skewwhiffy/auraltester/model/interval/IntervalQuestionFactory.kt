@@ -1,7 +1,7 @@
-package com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.interval
+package com.skewwhiffy.auraltester.model.interval
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.dao.IntervalQuestionDao
+import com.skewwhiffy.auraltester.dao.IntervalQuestionDao
 import com.skewwhiffy.auraltester.controller.ClefType
 import com.skewwhiffy.auraltester.dto.question.QuestionType
 import com.skewwhiffy.auraltester.helper.oneOf
@@ -10,12 +10,9 @@ import com.skewwhiffy.auraltester.model.QuestionFactory
 import com.skewwhiffy.auraltester.notation.factory.ClefFactory
 import com.skewwhiffy.auraltester.notation.factory.KeyFactory
 import com.skewwhiffy.auraltester.notation.factory.ScaleTypeFactory
-import com.skewwhiffy.auraltester.notation.model.key.Key
-import com.skewwhiffy.auraltester.notation.model.note.AbsoluteNote
 import com.skewwhiffy.auraltester.notation.model.scale.ScaleDirection
 import com.skewwhiffy.auraltester.service.ScaleService
 import org.springframework.stereotype.Service
-import kotlin.reflect.KClass
 
 @Service
 class IntervalQuestionFactory(

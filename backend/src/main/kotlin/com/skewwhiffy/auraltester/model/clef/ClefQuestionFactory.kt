@@ -1,4 +1,4 @@
-package com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.clef
+package com.skewwhiffy.auraltester.model.clef
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.skewwhiffy.auraltester.controller.ClefType

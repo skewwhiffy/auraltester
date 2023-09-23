@@ -1,4 +1,4 @@
-package com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.clef
+package com.skewwhiffy.auraltester.model.clef
 
 import com.skewwhiffy.auraltester.dao.ClefQuestionDao
 import com.skewwhiffy.auraltester.dto.question.*
