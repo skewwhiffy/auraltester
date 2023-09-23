@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.cucumber
 
-import com.skewwhiffy.auraltester.model.ClefQuestionFactory
+import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.clef.ClefQuestionFactory
 import com.skewwhiffy.auraltester.repository.QuestionRepository
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
