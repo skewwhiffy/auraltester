@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.service
 
 import com.ninjasquad.springmockk.MockkBean
+import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.clef.ClefQuestionFactory
+import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.model.interval.IntervalQuestionFactory
 import com.skewwhiffy.auraltester.dao.QuestionDao
 import com.skewwhiffy.auraltester.dto.question.AnswerType
 import com.skewwhiffy.auraltester.dto.question.QuestionRequest
@@ -14,20 +16,29 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import jakarta.persistence.Id
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import java.util.UUID
+import kotlin.reflect.full.isSubtypeOf
+import kotlin.reflect.full.starProjectedType
+import kotlin.reflect.jvm.isAccessible
 
 @SpringBootTest
 @ActiveProfiles(profiles = ["test"])
 class QuestionServiceTest {
     @MockkBean
     private lateinit var questionRepository: QuestionRepository
+
     @MockkBean
-    private lateinit var questionFactory: QuestionFactory<*>
+    private lateinit var clefQuestionFactory: ClefQuestionFactory
+
+    @MockkBean
+    private lateinit var intervalQuestionFactory: IntervalQuestionFactory
+
     @MockK
     private lateinit var question: Question<*>
     private val dao = TestData.random.string
@@ -35,15 +46,25 @@ class QuestionServiceTest {
     @Autowired
     private lateinit var questionService: QuestionService
 
+    @BeforeEach
+    fun setup() {
+        every { clefQuestionFactory.questionType } returns QuestionType.CLEF
+        every { intervalQuestionFactory.questionType } returns QuestionType.INTERVAL
+
+        val questionFactories = this::class.members
+            .filter { it.returnType.isSubtypeOf(QuestionFactory::class.starProjectedType) }
+            .onEach { it.isAccessible = true }
+            .map { it.call(this) as QuestionFactory<*> }
+        @Suppress("UNCHECKED_CAST")
+        questionFactories.forEach { questionFactory -> every { questionFactory.newQuestion } returns question as Question<out Any> }
+    }
+
     @ParameterizedTest
     @EnumSource(QuestionType::class)
     fun when_questionRequested_then_validQuestionReturned_and_questionSerialized(questionType: QuestionType) {
         val request = QuestionRequest(questionType)
         val questionElements: List<QuestionResponseElement> = emptyList()
         val answerTypes: List<AnswerType> = emptyList()
-        every { questionFactory.questionType } returns questionType
-        @Suppress("UNCHECKED_CAST")
-        every { questionFactory.newQuestion } returns question as Question<out Any>
         every { question.questionElements } returns questionElements
         every { question.dao } returns dao
         val id = UUID.randomUUID()
@@ -55,7 +76,7 @@ class QuestionServiceTest {
             original
         }
         every { question.questionElements } returns listOf()
-        every { question.answerTypes} returns listOf()
+        every { question.answerTypes } returns listOf()
 
         val actual = questionService.get(request)
 
