@@ -5,8 +5,10 @@ import com.skewwhiffy.auraltester.com.skewwhiffy.auraltester.dao.IntervalQuestio
 import com.skewwhiffy.auraltester.dto.question.QuestionType
 import com.skewwhiffy.auraltester.model.Question
 import com.skewwhiffy.auraltester.model.QuestionFactory
+import org.springframework.stereotype.Service
 import kotlin.reflect.KClass
 
+@Service
 class IntervalQuestionFactory(objectMapper: ObjectMapper) : QuestionFactory<IntervalQuestionDao>(objectMapper) {
     override val newQuestion: Question<IntervalQuestionDao>
         get() = TODO("Not yet implemented")
