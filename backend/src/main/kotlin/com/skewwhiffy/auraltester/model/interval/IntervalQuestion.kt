@@ -12,8 +12,8 @@ class IntervalQuestion(
     private val lowerNote: AbsoluteNote,
     private val upperNote: AbsoluteNote
 ) : Question<IntervalQuestionDao>() {
-    override val dao
-        get() = TODO("Not yet implemented")
+    override val dao by lazy { IntervalQuestionDao(clef.clefType, lowerNote.dao, upperNote.dao) }
+
     override val questionElements: List<QuestionResponseElement>
         get() = TODO("Not yet implemented")
     override val answerTypes: List<AnswerType>

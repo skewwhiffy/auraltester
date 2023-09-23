@@ -81,6 +81,10 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         return defaultNote
     }
 
+    operator fun minus(other: AbsoluteNote): Interval {
+        TODO()
+    }
+
     fun getAbc(key: Key): String {
         return key.getAbc(this)
     }
