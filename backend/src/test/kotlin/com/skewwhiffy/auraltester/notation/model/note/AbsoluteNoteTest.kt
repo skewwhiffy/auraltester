@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
+import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
 import com.skewwhiffy.auraltester.notation.model.key.Key
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -81,8 +83,10 @@ class AbsoluteNoteTest {
         val directedInterval = interval.down
         val start = AbsoluteNote.middleC
         val expected = "A,"
+        val actualWithSubtract = start - interval
+
         val actualWithApply = start.apply(directedInterval)
-        val actualWithSubtract = start.minus(interval)
+
         assertThat(actualWithApply.getAbc(Key.cMajor)).isEqualTo(expected)
         assertThat(actualWithSubtract.getAbc(Key.cMajor)).isEqualTo(expected)
     }
@@ -90,8 +94,21 @@ class AbsoluteNoteTest {
     @Test
     fun notSubtractCompoundIntervals__yet() {
         val interval = Interval.major(9)
-        assertThatThrownBy { AbsoluteNote.middleC.minus(interval) }
+        assertThatThrownBy { AbsoluteNote.middleC - interval }
             .isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun canGetIntervalBetweenNotes() {
+        val expected = Interval.major(6)
+        val lower = AbsoluteNote.middleC
+        val upper = lower + expected
+
+        val actualUp = upper - lower
+        val actualDown = lower - upper
+
+        assertThat(actualUp).isEqualTo(DirectedInterval(expected, IntervalDirection.UP))
+        assertThat(actualDown).isEqualTo(DirectedInterval(expected, IntervalDirection.DOWN))
     }
 
     @Test

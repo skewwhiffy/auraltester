@@ -81,8 +81,17 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
         return defaultNote
     }
 
-    operator fun minus(other: AbsoluteNote): Interval {
-        TODO()
+    operator fun minus(other: AbsoluteNote): DirectedInterval {
+        if (other < this) {
+            return -(other - this)
+        }
+        val intervalNumber = (generateSequence(1) { it + 1 })
+            .first { this + Interval(it, 0) >= other }
+        val intervalDeviation = (generateSequence(0) { it + 1 })
+            .flatMap { listOf(it, -it) }
+            .first { this + Interval(intervalNumber, it) == other }
+        return Interval(intervalNumber, intervalDeviation)
+            .let { DirectedInterval(it, IntervalDirection.DOWN) }
     }
 
     fun getAbc(key: Key): String {
