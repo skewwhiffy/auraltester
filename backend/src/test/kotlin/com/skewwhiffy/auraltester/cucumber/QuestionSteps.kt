@@ -1,6 +1,6 @@
 package com.skewwhiffy.auraltester.cucumber
 
-import com.skewwhiffy.auraltester.model.clef.ClefQuestionFactory
+import com.skewwhiffy.auraltester.model.QuestionFactory
 import com.skewwhiffy.auraltester.repository.QuestionRepository
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
@@ -9,8 +9,8 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 class QuestionSteps(
+    private val questionFactories: List<QuestionFactory<*>>,
     private val questionRepository: QuestionRepository,
-    private val clefQuestionFactory: ClefQuestionFactory,
     private val restRequests: RestRequests,
 ) {
     @Then("response is correct")
@@ -34,11 +34,12 @@ class QuestionSteps(
 
     private val answer: List<String>
         get() {
-            val questionJson = restRequests.lastQuestionId
-                .let { questionRepository.findById(it).getOrNull()?.question }
+            val questionRaw = restRequests.lastQuestionId
+                .let { questionRepository.findById(it).getOrNull() }
                 ?: throw AssertionError()
-
-            val question = clefQuestionFactory.getQuestion(questionJson)
+            val questionType = questionRaw.questionType
+            val factory = questionFactories.find { it.questionType == questionType }
+            val question = factory?.getQuestion(questionRaw.question) ?: throw AssertionError()
             return question.answer
         }
 }

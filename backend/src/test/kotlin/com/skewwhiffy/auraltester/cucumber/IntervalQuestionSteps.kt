@@ -19,6 +19,6 @@ class IntervalQuestionSteps(
         val responseMap = restRequests.lastResponseAsMap
         val answerTypes = responseMap["answerTypes"] as List<String>
         Assertions.assertThat(answerTypes).hasSize(1)
-        Assertions.assertThat(answerTypes[0]).isEqualTo("NOTE_NAME")
+        Assertions.assertThat(answerTypes[0]).isEqualTo("INTERVAL")
     }
 }

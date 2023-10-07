@@ -10,11 +10,13 @@ import com.skewwhiffy.auraltester.model.QuestionFactory
 import com.skewwhiffy.auraltester.notation.factory.ClefFactory
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
 import com.skewwhiffy.auraltester.notation.model.note.*
+import com.skewwhiffy.auraltester.service.AbcService
 import org.springframework.stereotype.Service
 import kotlin.math.absoluteValue
 
 @Service
 class IntervalQuestionFactory(
+    private val abcService: AbcService,
     private val clefFactory: ClefFactory,
     objectMapper: ObjectMapper
 ) : QuestionFactory<IntervalQuestionDao>(objectMapper) {
@@ -44,7 +46,7 @@ class IntervalQuestionFactory(
             .filter { (it + interval).note.accidental.offset.absoluteValue <= 2 }
             .let { oneOf(it) }
 
-        return IntervalQuestion(clef, lowerNote, lowerNote + interval)
+        return IntervalQuestion(abcService, clef, lowerNote, lowerNote + interval)
     }
 
     override val questionType = QuestionType.INTERVAL

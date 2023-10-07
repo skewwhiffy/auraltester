@@ -5,4 +5,10 @@ data class DirectedInterval(val interval: Interval, val direction: IntervalDirec
         IntervalDirection.DOWN -> DirectedInterval(interval, IntervalDirection.UP)
         IntervalDirection.UP -> DirectedInterval(interval, IntervalDirection.DOWN)
     }
+
+    override fun toString() = when(direction) {
+        IntervalDirection.UP -> ""
+        IntervalDirection.DOWN -> "-"
+    }
+        .let { "$it$interval"}
 }

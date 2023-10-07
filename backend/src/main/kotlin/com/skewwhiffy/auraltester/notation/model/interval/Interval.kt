@@ -47,6 +47,12 @@ data class Interval(val degree: Int, val deviation: Int) {
     val down
         get() = DirectedInterval(this, IntervalDirection.DOWN)
 
+    override fun toString() = when {
+        deviation < 0 -> "-".repeat(-deviation)
+        else -> "+".repeat(deviation)
+    }
+        .let { "$degree$it" }
+
     private val quality: String
         get() {
             val defaultQuality = if (perfectDegrees.contains(degree)) "perfect" else "major"

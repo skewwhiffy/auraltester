@@ -46,8 +46,7 @@ class ClefQuestion(
         )
     }
 
-    override val answer
-        get() = listOf(absoluteNote.note.noteName)
+    override val answer by lazy { listOf(absoluteNote.note.noteName) }
 
     private val abc by lazy { abcService.getAbc(clef, absoluteNote).abc }
 
