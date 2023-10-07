@@ -3,6 +3,7 @@ package com.skewwhiffy.auraltester.model.interval
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.skewwhiffy.auraltester.dao.IntervalQuestionDao
 import com.skewwhiffy.auraltester.controller.ClefType
+import com.skewwhiffy.auraltester.dao.model
 import com.skewwhiffy.auraltester.dto.question.QuestionType
 import com.skewwhiffy.auraltester.helper.oneOf
 import com.skewwhiffy.auraltester.model.Question
@@ -54,6 +55,6 @@ class IntervalQuestionFactory(
     override val dao = IntervalQuestionDao::class
 
     override fun getQuestion(dao: IntervalQuestionDao): Question<IntervalQuestionDao> {
-        TODO("Not yet implemented")
+        return IntervalQuestion(abcService, clefFactory.get(dao.clef), dao.lowerNote.model, dao.upperNote.model)
     }
 }
