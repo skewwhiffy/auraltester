@@ -37,6 +37,10 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
     fun withLyric(lyric: String): AbsoluteNote = AbsoluteNote(note, octave, lyric)
 
     operator fun plus(interval: Interval): AbsoluteNote {
+        if (interval.degree > 8) {
+            val intervalLessAnOctave = Interval(interval.degree - 7, interval.deviation)
+            return this + Interval.octave + intervalLessAnOctave
+        }
         val defaultNote: AbsoluteNote = when (interval.degree) {
             1 -> this
             2 -> upMajorSecond
