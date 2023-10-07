@@ -8,6 +8,8 @@ import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
 import com.skewwhiffy.auraltester.notation.model.key.Key
 
 data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) : Comparable<AbsoluteNote> {
+    constructor(note: Note, octave: Octave) : this(note, octave, null)
+
     companion object {
         val middleC: AbsoluteNote
             get() = AbsoluteNote(Note.c, Octave.default, null)
@@ -47,19 +49,19 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
             else -> throw IllegalArgumentException("Interval degree of ${interval.degree} not supported")
         }
 
-        // TODO: HERE, KENNY
-        val deviation = interval.deviation
-        if (deviation < 0) {
-            return (1..-deviation).fold(defaultNote) { note, _ -> note.flatten }
+        return interval.deviation.let {
+            when {
+                it > 0 -> (1..it).fold(defaultNote) { curr, _ -> curr.sharpen }
+                else -> (1..-it).fold(defaultNote) { curr, _ -> curr.flatten }
+            }
         }
-        if (deviation > 0) {
-            return (1..deviation)
-                .fold(defaultNote) { note, _ -> note.sharpen }
-        }
-        return defaultNote
     }
 
     operator fun minus(interval: Interval): AbsoluteNote {
+        if (interval.degree > 8) {
+            val intervalLessAnOctave = Interval(interval.degree - 7, interval.deviation)
+            return this - Interval.octave - intervalLessAnOctave
+        }
         val defaultNote = when (interval.degree) {
             1 -> this
             2 -> downMajorSecond
@@ -71,14 +73,12 @@ data class AbsoluteNote(val note: Note, val octave: Octave, val lyric: String?) 
             8 -> AbsoluteNote(note, octave.down, lyric)
             else -> throw IllegalArgumentException()
         }
-        val deviation = interval.deviation
-        if (deviation < 0) {
-            return (1..-deviation).fold(defaultNote) { it, _ -> it.sharpen }
+        return interval.deviation.let {
+            when {
+                it > 0 -> (1..it).fold(defaultNote) { curr, _ -> curr.flatten }
+                else -> (1..-it).fold(defaultNote) { curr, _ -> curr.sharpen }
+            }
         }
-        if (deviation > 0) {
-            return (1..deviation).fold(defaultNote) { it, _ -> it.flatten }
-        }
-        return defaultNote
     }
 
     operator fun minus(other: AbsoluteNote): DirectedInterval {

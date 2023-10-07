@@ -14,9 +14,12 @@ data class Interval(val degree: Int, val deviation: Int) {
             "octave"
         )
 
+        val octave by lazy { perfect(8) }
+
         fun augmented(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)).augmented
 
-        fun diminished(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)).diminished
+        fun diminished(degree: Int) =
+            (if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)).diminished
 
         fun minor(degree: Int) = major(degree).diminished
 
