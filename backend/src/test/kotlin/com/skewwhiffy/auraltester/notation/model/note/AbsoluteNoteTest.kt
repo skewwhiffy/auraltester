@@ -62,10 +62,14 @@ class AbsoluteNoteTest {
     }
 
     @Test
-    fun doesNotAddComponentIntervals__yet() {
+    fun addsCompoundIntervals() {
         val start = AbsoluteNote.middleC
-        assertThatThrownBy { start.plus(Interval.major(9)) }
-            .isInstanceOf(IllegalArgumentException::class.java)
+        val interval = Interval.minor(10)
+        val expected = Note.e.flatten.let { AbsoluteNote(it, start.octave.up)}
+
+        val actual = start + interval
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
