@@ -23,7 +23,7 @@ class QuestionService(
         val questionType = request.type
         val factory = questionFactories.firstOrNull { it.questionType == questionType }
             ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No question factory for $questionType")
-        val question = factory.newQuestion
+        val question = factory.makeNewQuestion()
         val questionJson = objectMapper.writeValueAsString(question.dao)
         val questionEntity = QuestionDao(questionType, questionJson)
         val savedQuestionEntity = questionRepository.save(questionEntity)

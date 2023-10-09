@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap'
-import RadioButtons from '../../util/RadioButtons'
 import ClefSelector from './ClefSelector'
 import KeySignatureSelector from './KeySignatureSelector'
 import NoteSelector from './NoteSelector'
+import { IntervalSizeSelector } from './IntervalSizeSelector'
 
 type OnChangeHandler = (
   clef: string,
@@ -29,7 +29,6 @@ const IntervalSelector = (props: Props): JSX.Element => {
   const [state, setState] = useState<State>({})
 
   const onStateChange = (state: State): void => {
-    console.log(state)
     if (state.clef === undefined ||
       state.bottomNote === undefined ||
       state.intervalQuality === undefined ||
@@ -69,27 +68,14 @@ const IntervalSelector = (props: Props): JSX.Element => {
             />
           </Col>
           <Col>
-            <Container>
-              <Row><Col>Interval</Col></Row>
-              <Row>
-                <Col>
-                  <RadioButtons
-                    values={['diminished', 'minor', 'major', 'perfect', 'augmented'].map(value => ({ value }))}
-                    name='intervalQuality'
-                    value={state.intervalQuality}
-                    onChange={intervalQuality => { onFormChange({ ...state, intervalQuality }) }}
-                  />
-                </Col>
-                <Col>
-                  <RadioButtons
-                    values={Array.from(Array(8).keys()).map(it => it + 1).map(it => ({ value: `${it}` }))}
-                    name='intervalSize'
-                    value={state.intervalQuality}
-                    onChange={intervalSize => { onFormChange({ ...state, intervalSize }) }}
-                  />
-                </Col>
-              </Row>
-            </Container>
+            <IntervalSizeSelector onChange={(intervalQuality, intervalSize) =>
+              onFormChange({
+                ...state,
+                intervalQuality,
+                intervalSize
+              })
+            }
+            />
           </Col>
           <Col>
             <KeySignatureSelector

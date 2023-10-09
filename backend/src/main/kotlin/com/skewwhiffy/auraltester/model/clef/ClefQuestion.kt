@@ -1,7 +1,8 @@
-package com.skewwhiffy.auraltester.model
+package com.skewwhiffy.auraltester.model.clef
 
 import com.skewwhiffy.auraltester.dao.ClefQuestionDao
 import com.skewwhiffy.auraltester.dto.question.*
+import com.skewwhiffy.auraltester.model.Question
 import com.skewwhiffy.auraltester.notation.model.abc.downOne
 import com.skewwhiffy.auraltester.notation.model.abc.upOne
 import com.skewwhiffy.auraltester.notation.model.abc.withNoteName
@@ -45,8 +46,7 @@ class ClefQuestion(
         )
     }
 
-    override val answer
-        get() = listOf(absoluteNote.note.noteName)
+    override val answer by lazy { listOf(absoluteNote.note.noteName) }
 
     private val abc by lazy { abcService.getAbc(clef, absoluteNote).abc }
 

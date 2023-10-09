@@ -80,7 +80,7 @@ class InternalNotationFactoryTest {
     fun when_directedIntervalsAreRequested_then_proxiesToIntervalFactory() {
         val rawInterval = TestData.random.string
         val expected = listOf(TestData.random.directedInterval)
-        every { intervalFactory.getDirectedIntervals(rawInterval)} returns expected
+        every { intervalFactory.getDirectedIntervals(rawInterval) } returns expected
         val actual = internalNotationFactory.getDirectedIntervals(rawInterval)
         assertThat(actual).isEqualTo(expected)
     }
@@ -89,7 +89,7 @@ class InternalNotationFactoryTest {
     fun when_keyIsRequested_then_proxiesToKeyFactory() {
         val rawKey = TestData.random.string
         val expected = TestData.random.key
-        every {keyFactory.getKey(rawKey)} returns expected
+        every { keyFactory.getKey(rawKey) } returns expected
         val actual = internalNotationFactory.getKey(rawKey)
         assertThat(actual).isEqualTo(expected)
     }

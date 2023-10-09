@@ -1,12 +1,7 @@
 package com.skewwhiffy.auraltester.model
 
-import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.skewwhiffy.auraltester.dao.ClefQuestionDao
 import com.skewwhiffy.auraltester.dto.question.QuestionType
-import org.springframework.http.HttpStatus
-import org.springframework.web.server.ResponseStatusException
-
 import kotlin.reflect.KClass
 
 abstract class QuestionFactory<TDao : Any>(private val objectMapper: ObjectMapper) {
@@ -15,7 +10,7 @@ abstract class QuestionFactory<TDao : Any>(private val objectMapper: ObjectMappe
         return getQuestion(dao)
     }
 
-    abstract val newQuestion: Question<TDao>
+    abstract fun makeNewQuestion(): Question<TDao>
 
     abstract val questionType: QuestionType
 

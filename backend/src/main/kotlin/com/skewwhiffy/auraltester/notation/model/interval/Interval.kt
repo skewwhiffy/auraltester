@@ -14,9 +14,12 @@ data class Interval(val degree: Int, val deviation: Int) {
             "octave"
         )
 
+        val octave by lazy { perfect(8) }
+
         fun augmented(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else major(degree)).augmented
 
-        fun diminished(degree: Int) = (if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)).diminished
+        fun diminished(degree: Int) =
+            (if (perfectDegrees.contains(degree)) perfect(degree) else minor(degree)).diminished
 
         fun minor(degree: Int) = major(degree).diminished
 
@@ -43,6 +46,12 @@ data class Interval(val degree: Int, val deviation: Int) {
 
     val down
         get() = DirectedInterval(this, IntervalDirection.DOWN)
+
+    override fun toString() = when {
+        deviation < 0 -> "-".repeat(-deviation)
+        else -> "+".repeat(deviation)
+    }
+        .let { "$degree$it" }
 
     private val quality: String
         get() {

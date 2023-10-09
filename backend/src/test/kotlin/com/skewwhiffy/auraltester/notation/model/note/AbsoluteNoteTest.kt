@@ -1,6 +1,8 @@
 package com.skewwhiffy.auraltester.notation.model.note
 
+import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import com.skewwhiffy.auraltester.notation.model.interval.Interval
+import com.skewwhiffy.auraltester.notation.model.interval.IntervalDirection
 import com.skewwhiffy.auraltester.notation.model.key.Key
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
@@ -60,10 +62,14 @@ class AbsoluteNoteTest {
     }
 
     @Test
-    fun doesNotAddComponentIntervals__yet() {
+    fun addsCompoundIntervals() {
         val start = AbsoluteNote.middleC
-        assertThatThrownBy { start.plus(Interval.major(9)) }
-            .isInstanceOf(IllegalArgumentException::class.java)
+        val interval = Interval.minor(10)
+        val expected = Note.e.flatten.let { AbsoluteNote(it, start.octave.up)}
+
+        val actual = start + interval
+
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -81,17 +87,35 @@ class AbsoluteNoteTest {
         val directedInterval = interval.down
         val start = AbsoluteNote.middleC
         val expected = "A,"
+        val actualWithSubtract = start - interval
+
         val actualWithApply = start.apply(directedInterval)
-        val actualWithSubtract = start.minus(interval)
+
         assertThat(actualWithApply.getAbc(Key.cMajor)).isEqualTo(expected)
         assertThat(actualWithSubtract.getAbc(Key.cMajor)).isEqualTo(expected)
     }
 
     @Test
-    fun notSubtractCompoundIntervals__yet() {
+    fun subtractsCompoundIntervalsCorrectly() {
         val interval = Interval.major(9)
-        assertThatThrownBy { AbsoluteNote.middleC.minus(interval) }
-            .isInstanceOf(IllegalArgumentException::class.java)
+        val expected = AbsoluteNote(Note.b.flatten, Octave.default.down.down)
+
+        val actual = AbsoluteNote.middleC - interval
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun canGetIntervalBetweenNotes() {
+        val expected = Interval.major(6)
+        val lower = AbsoluteNote.middleC
+        val upper = lower + expected
+
+        val actualUp = upper - lower
+        val actualDown = lower - upper
+
+        assertThat(actualUp).isEqualTo(DirectedInterval(expected, IntervalDirection.UP))
+        assertThat(actualDown).isEqualTo(DirectedInterval(expected, IntervalDirection.DOWN))
     }
 
     @Test
