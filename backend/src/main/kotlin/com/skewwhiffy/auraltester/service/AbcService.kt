@@ -50,13 +50,14 @@ class AbcService {
         listOf(absoluteNotes)
     )
 
-    fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key): AbcProvider = SingleLineAbc(
-        getTitleCase(intervalNotes.interval.displayString),
-        clef,
-        NoteLength.semibreve,
-        key,
-        listOf(intervalNotes.notes)
-    )
+    fun getAbc(clef: Clef, intervalNotes: IntervalNotes, key: Key, displayString: String? = null): AbcProvider =
+        SingleLineAbc(
+            displayString ?: getTitleCase(intervalNotes.interval.displayString),
+            clef,
+            NoteLength.semibreve,
+            key,
+            listOf(intervalNotes.notes)
+        )
 
     fun getAbc(clef: Clef, key: Key): AbcProvider =
         SingleLineAbc(

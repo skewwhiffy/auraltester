@@ -33,6 +33,14 @@ const api = {
     )
     return response.data
   },
+  async getIntervalQuestion(): Promise<QuestionResponse> {
+    const response = await axios.post(
+      "/api/question",
+      { type: "INTERVAL" },
+      jsonHeaders
+    )
+    return response.data
+  },
   async answerQuestion(id: string | undefined, answer: string[]) {
     if (!id) {
       throw Error("Expected question ID to answer it")

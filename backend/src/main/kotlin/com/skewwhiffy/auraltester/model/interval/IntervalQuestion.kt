@@ -64,7 +64,8 @@ class IntervalQuestion(
         abcService.getAbc(
             clef,
             IntervalNotes(lowerNote, (upperNote - lowerNote).interval),
-            Key.cMajor
+            Key.cMajor,
+            ""
         ).abc
     }
 }

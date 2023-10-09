@@ -13,4 +13,11 @@ class StringHelperTest {
 
         assertThat(actual).isEqualTo(expected)
     }
+
+    @Test
+    fun given_emptyString_when_getTitleCase_then_returnsEmptyString() {
+        val actual = getTitleCase("")
+
+        assertThat(actual).isEqualTo("")
+    }
 }
