@@ -8,8 +8,9 @@ The following topics are available (or are to be implemented).
 
 |                | Documentation | Examples | Testing (notation) | Testing (aural) |
 |----------------|---------------|----------|--------------------|-----------------|
+| Clef           | TODO          | Done     | Done               | TODO            |
 | Key signatures | TODO          | TODO     | TODO               | TODO            |
-| Intervals      | TODO          | Done     | TODO               | TODO            |
+| Intervals      | TODO          | Done     | Done               | TODO            |
 | Scales         | TODO          | Done     | TODO               | TODO            |
 | Cadences       | TODO          | Done     | TODO               | TODO            |
 
