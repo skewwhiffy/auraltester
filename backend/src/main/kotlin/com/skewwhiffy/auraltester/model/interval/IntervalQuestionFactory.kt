@@ -27,7 +27,8 @@ class IntervalQuestionFactory(
         val intervalDegree = oneOf(1..8)
         val intervalDeviation = oneOf(
             when (intervalDegree) {
-                in listOf(1, 4, 5, 8) -> -1..1
+                1, 8 -> 0..0
+                4, 5 -> -1..1
                 else -> -2..1
             }
         )

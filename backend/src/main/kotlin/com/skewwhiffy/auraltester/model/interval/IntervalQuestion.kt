@@ -32,7 +32,7 @@ class IntervalQuestion(
 
     override val correctResponse by lazy {
         listOf(
-            QuestionResponseElement.text("Well done, this interval is $interval"),
+            QuestionResponseElement.text("Well done, this interval is ${interval.displayString}"),
             QuestionResponseElement.abc(abc)
         )
     }

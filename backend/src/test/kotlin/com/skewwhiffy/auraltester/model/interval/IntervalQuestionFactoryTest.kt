@@ -23,7 +23,8 @@ class IntervalQuestionFactoryTest {
             .forEach { intervals ->
                 assertThat(intervals).isNotEmpty
                 val expectedDeviations = when (intervals.first().interval.degree) {
-                    in listOf(1, 4, 5, 8) -> (-1..1)
+                    1, 8 -> 0..0
+                    4, 5 -> -1..1
                     else -> (-2..1)
                 }
                 val deviations = intervals.map { it.interval.deviation }.distinct()

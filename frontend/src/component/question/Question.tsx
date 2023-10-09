@@ -70,6 +70,11 @@ const Question = (props: Props): JSX.Element => {
           throw Error("Require note name, but not defined")
         }
         return state.noteName
+      case "INTERVAL":
+        if (!state.intervalName) {
+          throw Error("Require interval name, but not defined")
+        }
+        return state.intervalName
       default:
         throw Error(`Not recognized: '${answerType}'`)
     }
@@ -81,7 +86,7 @@ const Question = (props: Props): JSX.Element => {
   }
 
   const renderSubmitButton = (): JSX.Element => {
-    if (state.noteName) { // TODO: Generalize
+    if (state.noteName || state.intervalName) { // TODO: Generalize
       return <Button onClick={onSubmit}>Submit</Button>
     }
     return <></>
