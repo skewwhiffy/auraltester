@@ -7,7 +7,6 @@ export default () => {
     queryKey: ['get-version'],
     queryFn: () => api.getVersion()
   })
-  console.log(getVersionQuery.data?.data?.version)
 
   return (
     <nav className="flex justify-between p-8">

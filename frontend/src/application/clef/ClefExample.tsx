@@ -2,11 +2,9 @@ import {Notation} from 'react-abc'
 import {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
 import api from "../../api/api";
-import H1 from "../../component/H1";
-import P from "../../component/P";
 import SpinUntilReady from "../../component/SpinUntilReady";
-import ClefSelector from "../../component-old/selector/ClefSelector";
 import Centre from "../../component/Center";
+import ClefSelector from "../../component/selector/ClefSelector";
 
 export default ClefExample
 
@@ -26,10 +24,7 @@ function ClefExample() {
           {getClefAbc.data?.data.abc && <Notation notation={getClefAbc.data.data.abc}/>}
         </SpinUntilReady>
       </Centre>
-      <Centre>
-        {/* Replace with a shinier version */}
-        <ClefSelector value={clef} onChange={setClef} />
-      </Centre>
+      <ClefSelector title="Select your clef" value={clef} onChange={setClef}/>
     </>
   )
 }
