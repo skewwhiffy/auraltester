@@ -6,8 +6,18 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Clef from './component/clef'
 import { FunctionComponent } from 'react'
 import KeySignature from './component/keySignature'
+import { RouterProvider } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
+import {routesConfig} from "./application/routesConfig";
 
-const App: FunctionComponent = () => {
+export default () => {
+  const router = createBrowserRouter(routesConfig);
+  return (
+    <RouterProvider router={router} />
+  )
+}
+
+const AppOld: FunctionComponent = () => {
   return (
     <div className="App">
       <BrowserRouter>
@@ -23,5 +33,3 @@ const App: FunctionComponent = () => {
     </div>
   )
 }
-
-export default App
