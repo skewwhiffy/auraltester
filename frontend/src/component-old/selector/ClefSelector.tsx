@@ -1,5 +1,5 @@
-import { capitalizeFirstCharacter } from '../../util/helpers'
-import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
+import { capitalizeFirstCharacter } from '../../util-old/helpers'
+import RadioButtons, { RadioButtonDefinition } from '../../util-old/RadioButtons'
 import { Col, Container, Row } from 'react-bootstrap'
 
 type OnChangeHandler = (value: string) => void

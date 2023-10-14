@@ -1,5 +1,5 @@
 import { Col, Container, Row } from 'react-bootstrap'
-import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
+import RadioButtons, { RadioButtonDefinition } from '../../util-old/RadioButtons'
 
 type OnChangeHandler = (note: string) => void
 

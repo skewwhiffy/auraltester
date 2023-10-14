@@ -1,5 +1,5 @@
 import { renderQuestionElement } from "."
-import { AnswerResponse } from "../../util/api/model"
+import { AnswerResponse } from "../../util-old/api/model"
 
 interface Props {
   answer: AnswerResponse

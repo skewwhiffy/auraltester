@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { QuestionResponse } from "../../util/api/model"
+import { QuestionResponse } from "../../util-old/api/model"
 import NoteNameSelector from "../selector/NoteNameSelector"
 import { Button } from "react-bootstrap"
 import { renderQuestionElement } from "."

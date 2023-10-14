@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { QuestionResponse, AnswerResponse } from "../../util/api/model"
-import api from "../../util/api"
+import { QuestionResponse, AnswerResponse } from "../../util-old/api/model"
+import api from "../../util-old/api"
 import Question from "../question/Question"
 import Answer from "../question/Answer"
 import { Button } from "react-bootstrap"

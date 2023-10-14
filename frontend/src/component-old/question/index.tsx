@@ -1,4 +1,4 @@
-import { QuestionResponseElement } from "../../util/api/model"
+import { QuestionResponseElement } from "../../util-old/api/model"
 import QuestionResponseAbcElement from "./QuestionResponseAbcElement"
 import QuestionResponseTextElement from "./QuestionResponseTextElement"
 

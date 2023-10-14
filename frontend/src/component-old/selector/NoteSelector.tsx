@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import RadioButtons from '../../util/RadioButtons'
+import RadioButtons from '../../util-old/RadioButtons'
 import NoteNameSelector from './NoteNameSelector'
 
 type OnChangeHandler = (note: string) => void
