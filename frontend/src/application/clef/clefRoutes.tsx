@@ -1,5 +1,6 @@
 import {Outlet, RouteObject} from "react-router";
 import ClefExample from "./ClefExample";
+import ClefNotes from "./ClefNotes";
 
 const clefRoutes: RouteObject[] = [
   {
@@ -7,6 +8,9 @@ const clefRoutes: RouteObject[] = [
     element: <Outlet/>,
     children: [{
       path: '',
+      element: <ClefNotes />
+    }, {
+      path: 'example',
       element: <ClefExample />
     }]
   }
