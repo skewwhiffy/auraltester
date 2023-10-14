@@ -1,3 +1,3 @@
 export default () => {
-  return <h1>TOP BAR</h1>
+  return <h1 className="bg-red-300">TOP BAR</h1>
 }
