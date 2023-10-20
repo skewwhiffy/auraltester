@@ -1,13 +1,15 @@
-import {PropsWithChildren} from "react";
+import { PropsWithChildren } from "react";
 import TopBar from "./TopBar";
 
-export default ({children}: PropsWithChildren) => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <TopBar/>
+      <TopBar />
       <div className="container mx-auto p-4 bg-white rounded-lg shadow-md p-4">
-          {children}
+        {children}
       </div>
     </>
   )
 }
+
+export default Layout;

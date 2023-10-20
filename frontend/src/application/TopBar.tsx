@@ -1,8 +1,8 @@
-import {useQuery} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import SpinUntilReady from "../component/SpinUntilReady";
 import api from "../api/api";
 
-export default () => {
+const TopBar = () => {
   const getVersionQuery = useQuery({
     queryKey: ['get-version'],
     queryFn: () => api.getVersion()
@@ -21,3 +21,5 @@ export default () => {
     </nav>
   )
 }
+
+export default TopBar
