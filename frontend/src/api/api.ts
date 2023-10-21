@@ -8,7 +8,7 @@ interface ClefResponse {
   abc: string
 }
 
-export default {
+const api = {
   async getVersion() {
     return await axios.get('/api/info') as AxiosResponse<GetVersionResponse>
   },
@@ -18,3 +18,5 @@ export default {
     return response as AxiosResponse<ClefResponse>
   },
 }
+
+export default api;
