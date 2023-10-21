@@ -1,6 +1,7 @@
 import H1 from "../H1";
 import Centre from "../Centre";
 import FancyRadioButtons from "../FancyRadioButtons";
+import { Clef } from "../../common/types";
 
 export default ClefSelector
 
@@ -8,7 +9,7 @@ interface Props {
   title?: string | null
   value?: string | null
 
-  onChange(value: string): void
+  onChange(value: Clef): void
 }
 
 function ClefSelector({title, value, onChange}: Props) {

@@ -5,9 +5,10 @@ import api from "../../api/api";
 import SpinUntilReady from "../../component/SpinUntilReady";
 import Centre from "../../component/Centre";
 import ClefSelector from "../../component/selector/ClefSelector";
+import { Clef } from '../../common/types';
 
 const ClefExample = () => {
-  const [clef, setClef] = useState<string | undefined>()
+  const [clef, setClef] = useState<Clef | undefined>()
   const getClefAbc = useQuery({
     queryKey: ['clef', clef],
     queryFn: async () => {

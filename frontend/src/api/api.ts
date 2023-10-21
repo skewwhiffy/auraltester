@@ -1,4 +1,5 @@
-import axios, {AxiosResponse} from "axios"
+import axios, { AxiosResponse } from "axios"
+import type { Clef, Interval, IntervalQuality, IntervalSize } from "../common/types"
 
 interface GetVersionResponse {
   version: string
@@ -11,8 +12,9 @@ interface ClefResponse {
 interface IntervalRequest {
   clef: string
   bottomNote: string
-  intervalQuality: string
-  intervalSize: string
+  interval: Interval
+  intervalQuality: IntervalQuality
+  intervalSize: IntervalSize
   keySignature: string
 }
 
@@ -25,13 +27,26 @@ const api = {
     return await axios.get('/api/info') as AxiosResponse<GetVersionResponse>
   },
 
-  async getClef(clef: string) {
+  async getClef(clef: Clef) {
     const response = await axios.get("/api/clef", { params: { clef } })
     return response as AxiosResponse<ClefResponse>
   },
 
-  async getInterval(request: IntervalRequest) {
-    const response = await axios.get("/api/interval", { params: request })
+  async getInterval({
+    clef,
+    bottomNote,
+    interval: [intervalQuality, intervalSize],
+    keySignature
+  }: IntervalRequest) {
+    const response = await axios.get("/api/interval", {
+      params: {
+        clef,
+        bottomNote,
+        intervalQuality,
+        intervalSize,
+        keySignature,
+      }
+    })
     return response as AxiosResponse<IntervalResponse>
   },
 }
