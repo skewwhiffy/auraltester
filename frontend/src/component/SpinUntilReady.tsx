@@ -5,7 +5,7 @@ interface SpinUntilReadyProps extends PropsWithChildren, PropsWithClassName {
   isLoading: boolean;
 }
 
-const Spinner = ({ className }: PropsWithClassName) => {
+const Spinner = () => {
   return (
     <div
       className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -22,7 +22,7 @@ const SpinUntilReady = ({
   children,
   className
 }: SpinUntilReadyProps) => {
-  return (isLoading ? <Spinner className={className} /> : <>{children}</>)
+  return (isLoading ? <Spinner /> : <>{children}</>)
 }
 
 

@@ -1,6 +1,6 @@
-import {Children, isValidElement, PropsWithChildren, ReactElement} from "react";
-
-export default FancyRadioButtons
+import classNames from "classnames";
+import { createContext, useContext } from "react";
+import { PropsWithChildren, useState } from "react";
 
 interface FancyRadioButtonsProps extends PropsWithChildren {
   value?: string | null
@@ -9,19 +9,45 @@ interface FancyRadioButtonsProps extends PropsWithChildren {
 }
 
 interface ItemProps {
+  value?: string
   children: string
 }
 
-function FancyRadioButtons({children, onChange}: FancyRadioButtonsProps) {
-  const childrenArray = Children.toArray(children);
-  if (!childrenArray.every(child => (child as ReactElement).type === Item)) {
-    throw new Error(`All children must be of type FancyRadioButtons.Item`);
-  }
-  return <h1>Fancy radio buttons</h1>
+const Context = createContext({
+  value: null as string | null | undefined,
+  setValue: (() => { }) as (selected: string) => void
+});
+
+const Item = ({ children, value }: ItemProps) => {
+  const context = useContext(Context)
+  const isSelected = value === context.value;
+  return (
+    <div
+      className={classNames("p-8 flex text-center", {
+        "hover:underline hover:cursor-pointer": !isSelected,
+        "bg-gray-300": isSelected,
+      })}
+      onClick={() => context.setValue(value ?? children)}>
+      {children}
+    </div>
+  )
 }
 
-function Item({children}: ItemProps) {
-  return <p>Button</p>
+const FancyRadioButtons = ({ children, value, onChange }: FancyRadioButtonsProps) => {
+  const [selected, setSelected] = useState(value)
+  const setValue = (value: string) => {
+    setSelected(value)
+    onChange(value)
+  }
+  return (
+    <Context.Provider value={{ value: selected, setValue }}>
+      <div className="flex gap-4 justify-between">
+        {children}
+      </div>
+    </Context.Provider>
+  )
 }
 
 FancyRadioButtons.Item = Item
+
+export default FancyRadioButtons

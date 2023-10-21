@@ -17,7 +17,10 @@ function ClefSelector({title, value, onChange}: Props) {
       {title && <Centre><H1>{title}</H1></Centre>}
       <Centre>
         <FancyRadioButtons value={value} onChange={onChange}>
-          <FancyRadioButtons.Item>Bass</FancyRadioButtons.Item>
+          <FancyRadioButtons.Item value="bass">Bass</FancyRadioButtons.Item>
+          <FancyRadioButtons.Item value="tenor">Tenor</FancyRadioButtons.Item>
+          <FancyRadioButtons.Item value="alto">Alto</FancyRadioButtons.Item>
+          <FancyRadioButtons.Item value="treble">Treble</FancyRadioButtons.Item>
         </FancyRadioButtons>
       </Centre>
     </>
