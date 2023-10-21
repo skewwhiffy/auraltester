@@ -1,24 +1,29 @@
-import {ReactNode} from "react";
+import { PropsWithChildren, ReactNode } from "react";
+import PropsWithClassName from "../common/interface/PropsWithClassName";
 
-interface Props {
+interface SpinUntilReadyProps extends PropsWithChildren, PropsWithClassName {
   isLoading: boolean;
-  children: ReactNode | ReactNode[];
 }
 
-export default SpinUntilReady
-
-function SpinUntilReady({isLoading, children}: Props) {
-  return (isLoading ? <Spinner/> : <>{children}</>)
-}
-
-function Spinner() {
+const Spinner = ({ className }: PropsWithClassName) => {
   return (
     <div
       className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
       role="status">
-    <span
-      className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-    >Loading...</span>
+      <span
+        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span>
     </div>
   )
 }
+
+const SpinUntilReady = ({
+  isLoading,
+  children,
+  className
+}: SpinUntilReadyProps) => {
+  return (isLoading ? <Spinner className={className} /> : <>{children}</>)
+}
+
+
+export default SpinUntilReady
