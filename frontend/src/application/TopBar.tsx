@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import SpinUntilReady from "../component/SpinUntilReady";
 import api from "../api/api";
-import { Link } from "react-router-dom";
 import NavBar from "../component/nav/NavBar";
 import NavBarLink from "../component/nav/NavBarLink";
 

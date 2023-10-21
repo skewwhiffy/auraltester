@@ -1,16 +1,26 @@
-import {RouterProvider} from 'react-router-dom'
-import {createBrowserRouter} from 'react-router-dom'
-import routesConfig from "./application/routesConfig";
-import './index.css'
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import Scale from './component/scale'
+import Interval from './component/interval'
+import NavBar from './component/NavBar'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Clef from './component/clef'
+import { FunctionComponent } from 'react'
+import KeySignature from './component/keySignature'
 
-function App() {
-  const router = createBrowserRouter(routesConfig);
-  const queryClient = new QueryClient()
+const App: FunctionComponent = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}/>
-    </QueryClientProvider>
+    <div className="App">
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route index element={<p>Hello</p>} />
+          <Route path="clefs/*" element={<Clef />} />
+          <Route path="key-signatures/*" element={<KeySignature />} />
+          <Route path="scales/*" element={<Scale />} />
+          <Route path="intervals/*" element={<Interval />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   )
 }
 

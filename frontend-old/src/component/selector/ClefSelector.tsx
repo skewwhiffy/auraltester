@@ -1,25 +1,33 @@
-import H1 from "../H1";
-import Center from "../Center";
-import FancyRadioButtons from "../FancyRadioButtons";
+import { capitalizeFirstCharacter } from '../../util/helpers'
+import RadioButtons, { RadioButtonDefinition } from '../../util/RadioButtons'
+import { Col, Container, Row } from 'react-bootstrap'
 
-export default ClefSelector
+type OnChangeHandler = (value: string) => void
 
-interface Props {
-  title?: string | null
-  value?: string | null
-
-  onChange(value: string): void
+export interface Props {
+  value?: string
+  onChange: OnChangeHandler
 }
 
-function ClefSelector({title, value, onChange}: Props) {
+const ClefSelector = (props: Props): JSX.Element => {
+  const values: RadioButtonDefinition[] = ['treble', 'alto', 'tenor', 'bass']
+    .map(it => ({
+      value: it,
+      label: `${capitalizeFirstCharacter(it)} Clef`
+    }))
   return (
-    <>
-      {title && <Center><H1>{title}</H1></Center>}
-      <Center>
-        <FancyRadioButtons value={value} onChange={onChange}>
-          <FancyRadioButtons.Item>Bass</FancyRadioButtons.Item>
-        </FancyRadioButtons>
-      </Center>
-    </>
+    <Container>
+      <Row><Col>Clef</Col></Row>
+      <Row><Col>
+        <RadioButtons
+          values={values}
+          name='clef'
+          value={props.value}
+          onChange={props.onChange}
+        />
+      </Col></Row>
+    </Container>
   )
 }
+
+export default ClefSelector

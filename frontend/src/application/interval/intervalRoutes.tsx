@@ -1,6 +1,7 @@
 import {Outlet, RouteObject} from "react-router";
 import IntervalNotes from "./IntervalNotes";
 import IntervalTabs from "./IntervalTabs";
+import IntervalExample from "./IntervalExample";
 
 const clefRoutes: RouteObject[] = [
   {
@@ -9,6 +10,9 @@ const clefRoutes: RouteObject[] = [
     children: [{
       path: '',
       element: <IntervalNotes />
+    }, {
+      path: 'example',
+      element: <IntervalExample />
     }]
   }
 ]

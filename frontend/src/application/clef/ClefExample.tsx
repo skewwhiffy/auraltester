@@ -6,9 +6,7 @@ import SpinUntilReady from "../../component/SpinUntilReady";
 import Centre from "../../component/Centre";
 import ClefSelector from "../../component/selector/ClefSelector";
 
-export default ClefExample
-
-function ClefExample() {
+const ClefExample = () => {
   const [clef, setClef] = useState<string | undefined>()
   const getClefAbc = useQuery({
     queryKey: ['clef', clef],
@@ -28,3 +26,5 @@ function ClefExample() {
     </>
   )
 }
+
+export default ClefExample
