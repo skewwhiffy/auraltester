@@ -3,16 +3,14 @@ import Centre from "../Centre";
 import FancyRadioButtons from "../FancyRadioButtons";
 import { Clef } from "../../common/types";
 
-export default ClefSelector
-
-interface Props {
+interface ClefSelectorProps {
   title?: string | null
-  value?: string | null
+  value?: Clef | null
 
   onChange(value: Clef): void
 }
 
-function ClefSelector({title, value, onChange}: Props) {
+const ClefSelector = ({title, value, onChange}: ClefSelectorProps) => {
   return (
     <>
       {title && <Centre><H1>{title}</H1></Centre>}
@@ -27,3 +25,5 @@ function ClefSelector({title, value, onChange}: Props) {
     </>
   )
 }
+
+export default ClefSelector

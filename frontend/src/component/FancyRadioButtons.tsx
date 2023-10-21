@@ -2,25 +2,30 @@ import classNames from "classnames";
 import { createContext, useContext } from "react";
 import { PropsWithChildren, useState } from "react";
 
-interface FancyRadioButtonsProps extends PropsWithChildren {
-  value?: string | null
+interface FancyRadioButtonsProps<T> extends PropsWithChildren {
+  value?: T | null
 
-  onChange(value: string): void
+  onChange(value: T): void
 }
 
-interface ItemProps {
-  value?: string
+interface ItemProps<T> {
+  value?: T
   children: string
 }
 
-const Context = createContext({
-  value: null as string | null | undefined,
-  setValue: (() => { }) as (selected: string) => void
+interface ContextType<T> {
+  value?: T | null
+  setValue(value?: T | null): void
+}
+
+const Context = createContext<ContextType<any>>({
+  value: null,
+  setValue: (() => { })
 });
 
-const Item = ({ children, value }: ItemProps) => {
+const Item = <T extends any>({ children, value }: ItemProps<T>) => {
   const context = useContext(Context)
-  const isSelected = value === context.value;
+  const isSelected = (value ?? children) === context.value;
   return (
     <div
       className={classNames("p-8 flex text-center", {
@@ -33,9 +38,9 @@ const Item = ({ children, value }: ItemProps) => {
   )
 }
 
-const FancyRadioButtons = ({ children, value, onChange }: FancyRadioButtonsProps) => {
+const FancyRadioButtons = <T extends any>({ children, value, onChange }: FancyRadioButtonsProps<T>) => {
   const [selected, setSelected] = useState(value)
-  const setValue = (value: string) => {
+  const setValue = (value: T) => {
     setSelected(value)
     onChange(value)
   }

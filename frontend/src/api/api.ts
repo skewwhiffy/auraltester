@@ -13,8 +13,6 @@ interface IntervalRequest {
   clef: string
   bottomNote: string
   interval: Interval
-  intervalQuality: IntervalQuality
-  intervalSize: IntervalSize
   keySignature: string
 }
 
