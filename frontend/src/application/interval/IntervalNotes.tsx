@@ -1,9 +1,9 @@
 import H1 from "../../component/H1";
 import P from "../../component/P";
 
-const ClefNotes = () => {
+const IntervalNotes = () => {
   return (<>
-      <H1>Clefs</H1>
+      <H1>Intervals</H1>
       <P>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo veniam culpa enim commodi aliquam qui fuga
         doloribus hic aliquid nam exercitationem, laboriosam expedita sapiente odit nemo nisi eligendi excepturi rem?
@@ -26,4 +26,4 @@ const ClefNotes = () => {
   )
 }
 
-export default ClefNotes
+export default IntervalNotes

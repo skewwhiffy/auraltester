@@ -1,6 +1,7 @@
 import {Outlet, RouteObject} from "react-router";
 import Layout from "./Layout";
 import clefRoutes from "./clef/clefRoutes";
+import intervalRoutes from "./interval/intervalRoutes";
 
 const routesConfig: RouteObject[] = [
   {
@@ -8,7 +9,8 @@ const routesConfig: RouteObject[] = [
     element: <Layout><Outlet/></Layout>,
     errorElement: <h1>Oh no!</h1>,
     children: [
-      ...clefRoutes
+      ...clefRoutes,
+      ...intervalRoutes,
     ],
   },
   {

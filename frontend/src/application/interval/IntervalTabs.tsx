@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react"
 import TabBar from "../../component/nav/TabBar"
 
-const ClefTabs = ({ children }: PropsWithChildren) => {
+const IntervalTabs = ({ children }: PropsWithChildren) => {
   return (
     <>
       <TabBar>
@@ -13,4 +13,4 @@ const ClefTabs = ({ children }: PropsWithChildren) => {
   )
 }
 
-export default ClefTabs
+export default IntervalTabs
