@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query"
 import SpinUntilReady from "../../component/SpinUntilReady"
 import ClefSelector from '../../component/selector/ClefSelector'
 import NoteSelector from '../../component/selector/NoteSelector'
+import IntervalSelector from '../../component/selector/IntervalSelector'
 
 const IntervalExample = () => {
   const [clef, setClef] = useState<Clef | undefined>()
@@ -24,7 +25,7 @@ const IntervalExample = () => {
     },
     enabled: !!clef && !!interval
   })
-  
+
 
   return (
     <>
@@ -45,6 +46,11 @@ const IntervalExample = () => {
         title="Select your bottom note"
         value={bottomNote}
         onChange={setBottomNote}
+      />
+      <IntervalSelector
+        title="Select your interval"
+        value={interval}
+        onChange={setInterval}
       />
     </>
   )

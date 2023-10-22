@@ -46,7 +46,9 @@ const FancyRadioButtons = <T extends any>({ children, value, onChange }: FancyRa
   }
   return (
     <Context.Provider value={{ value: selected, setValue }}>
-      <div className="flex gap-4 justify-between">
+      <div className={classNames("flex gap-4 justify-between", {
+        "bg-gray-50": value === null || value === undefined
+      })}>
         {children}
       </div>
     </Context.Provider>

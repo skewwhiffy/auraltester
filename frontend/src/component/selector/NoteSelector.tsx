@@ -16,14 +16,14 @@ const NoteSelector = ({ title, value, onChange }: NoteSelectorProps) => {
 
   const onNoteNameChange = (noteName: NoteName) => {
     setNoteName(noteName)
-    if (accidental) {
+    if (accidental !== undefined && accidental !== null) {
       onChange([noteName, accidental])
     }
   }
 
   const onAccidentalChange = (accidental: Accidental) => {
     setAccidental(accidental)
-    if (noteName) {
+    if (noteName !== undefined && noteName !== null) {
       onChange([noteName, accidental])
     }
   }
