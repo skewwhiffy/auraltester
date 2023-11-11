@@ -1,23 +1,22 @@
 import {Notation} from 'react-abc'
 import {useState} from "react"
-import {Clef, Interval, Note, ScaleType} from "../../common/types"
+import {Clef, Direction, Note, ScaleType} from "../../common/types"
 import Centre from "../../component/Centre"
 import api from "../../api/api"
 import {useQuery} from "@tanstack/react-query"
 import SpinUntilReady from "../../component/SpinUntilReady"
 import ClefSelector from '../../component/selector/ClefSelector'
 import NoteSelector from '../../component/selector/NoteSelector'
-import IntervalSelector from '../../component/selector/IntervalSelector'
-import {KeySignatureSelector} from "../../component/selector/KeySignatureSelector";
 import ScaleTypeSelector from "../../component/selector/ScaleTypeSelector";
+import DirectionSelector from "../../component/selector/DirectionSelector";
 
 const ScaleExample = () => {
     const [clef, setClef] = useState<Clef | undefined>()
     const [note, setNote] = useState<Note | undefined>()
     const [type, setType] = useState<ScaleType | undefined>()
-    const [direction] = useState<string | undefined>()
+    const [direction, setDirection] = useState<Direction | undefined>()
     const getScaleAbc = useQuery({
-        queryKey: ['scale',],
+        queryKey: ['scale', clef, note, type, direction],
         queryFn: async () => {
             return await api.getScale({
                 clef: clef!,
@@ -43,8 +42,9 @@ const ScaleExample = () => {
                 </SpinUntilReady>
             </Centre>
             <ClefSelector title="Select your clef" value={clef} onChange={setClef}/>
-            <NoteSelector title="Select your note" value={note} onChange={setNote}/>
+            <NoteSelector showDoubles={false} title="Select your note" value={note} onChange={setNote}/>
             <ScaleTypeSelector title="Select type of scale" value={type} onChange={setType}/>
+            <DirectionSelector title="Select your direction" value={direction} onChange={setDirection}/>
         </>
     )
 }

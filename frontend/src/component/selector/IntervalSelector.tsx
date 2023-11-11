@@ -8,7 +8,7 @@ interface IntervalSelectorProps {
     title?: string | null,
     value?: Interval | null,
 
-    onChange(note: Interval): void
+    onChange(interval: Interval): void
 }
 
 const IntervalSelector = ({title, value, onChange}: IntervalSelectorProps) => {
@@ -33,10 +33,7 @@ const IntervalSelector = ({title, value, onChange}: IntervalSelectorProps) => {
         <>
             {title && <Centre><H1>{title}</H1></Centre>}
             <Centre>
-                <FancyRadioButtons
-                    value={intervalQuality}
-                    onChange={onIntervalQualityChange}
-                >
+                <FancyRadioButtons value={intervalQuality} onChange={onIntervalQualityChange}>
                     <FancyRadioButtons.Item value="diminished">Diminished</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item value="minor">Minor</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item value="major">Major</FancyRadioButtons.Item>
@@ -45,10 +42,7 @@ const IntervalSelector = ({title, value, onChange}: IntervalSelectorProps) => {
                 </FancyRadioButtons>
             </Centre>
             <Centre>
-                <FancyRadioButtons
-                    value={intervalSize}
-                    onChange={onIntervalSizeChange}
-                >
+                <FancyRadioButtons value={intervalSize} onChange={onIntervalSizeChange} >
                     <FancyRadioButtons.Item value="1">Unison</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item value="2">Second</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item value="3">Third</FancyRadioButtons.Item>

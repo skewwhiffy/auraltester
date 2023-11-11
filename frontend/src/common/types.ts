@@ -18,3 +18,5 @@ export type NoteName = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
 export type Accidental = 'x' | '#' | '' | 'b' | 'bb'
 
 export type ScaleType = 'major' | 'minor-harmonic' | 'minor-melodic'
+
+export type Direction = 'ascending' | 'descending'

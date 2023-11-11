@@ -7,11 +7,12 @@ import H1 from "../H1"
 interface NoteSelectorProps {
     title?: string | null,
     value?: Note | null,
+    showDoubles?: boolean
 
     onChange(note: Note): void
 }
 
-const NoteSelector = ({title, value, onChange}: NoteSelectorProps) => {
+const NoteSelector = ({title, value, onChange, showDoubles = true}: NoteSelectorProps) => {
     const [noteName, setNoteName] = useState(value?.name)
     const [accidental, setAccidental] = useState(value?.accidental)
 
@@ -51,11 +52,11 @@ const NoteSelector = ({title, value, onChange}: NoteSelectorProps) => {
                     value={accidental}
                     onChange={onAccidentalChange}
                 >
-                    <FancyRadioButtons.Item value='x'>Double sharp</FancyRadioButtons.Item>
+                    {showDoubles && <FancyRadioButtons.Item value='x'>Double sharp</FancyRadioButtons.Item>}
                     <FancyRadioButtons.Item>#</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item value=''>Natural</FancyRadioButtons.Item>
                     <FancyRadioButtons.Item>b</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item value='bb'>Double flat</FancyRadioButtons.Item>
+                    {showDoubles && <FancyRadioButtons.Item value='bb'>Double flat</FancyRadioButtons.Item>}
                 </FancyRadioButtons>
             </Centre>
         </>
