@@ -28,7 +28,7 @@ const Item = <T extends any>({ children, value }: ItemProps<T>) => {
   const isSelected = (value ?? children) === context.value;
   return (
     <div
-      className={classNames("p-8 flex text-center", {
+      className={classNames("p-4 flex text-center", {
         "hover:underline hover:cursor-pointer": !isSelected,
         "bg-gray-300": isSelected,
       })}
