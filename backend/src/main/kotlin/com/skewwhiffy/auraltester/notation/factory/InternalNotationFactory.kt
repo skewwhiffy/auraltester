@@ -2,7 +2,6 @@ package com.skewwhiffy.auraltester.notation.factory
 
 import com.skewwhiffy.auraltester.exception.UnrecognizedClefException
 import com.skewwhiffy.auraltester.notation.model.clef.Clef
-import com.skewwhiffy.auraltester.notation.model.interval.DirectedInterval
 import org.springframework.stereotype.Service
 
 @Service

@@ -13,7 +13,7 @@ interface IntervalRequest {
     clef: Clef
     bottomNote: Note
     interval: Interval
-    keySignature: string
+    keySignature: Note
 }
 
 interface IntervalResponse {
@@ -39,16 +39,16 @@ const api = {
                           },
                           keySignature
                       }: IntervalRequest) {
+        console.log(keySignature)
         const request = {
             params: {
                 clef,
                 bottomNote: `${bottomNote.name}${bottomNote.accidental}`,
                 intervalQuality,
                 intervalSize,
-                keySignature: 'c',
+                keySignature: `${keySignature.name}${keySignature.accidental}`
             }
         }
-        console.log(request)
         const response = await axios.get("/api/interval", request)
         return response as AxiosResponse<IntervalResponse>
     },
