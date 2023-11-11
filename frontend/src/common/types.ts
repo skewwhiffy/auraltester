@@ -16,3 +16,5 @@ export type Note = {
 
 export type NoteName = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
 export type Accidental = 'x' | '#' | '' | 'b' | 'bb'
+
+export type ScaleType = 'major' | 'minor-harmonic' | 'minor-melodic'

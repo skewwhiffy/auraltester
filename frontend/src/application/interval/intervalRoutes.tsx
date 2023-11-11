@@ -4,17 +4,17 @@ import IntervalTabs from "./IntervalTabs";
 import IntervalExample from "./IntervalExample";
 
 const clefRoutes: RouteObject[] = [
-  {
-    path: 'interval',
-    element: <IntervalTabs><Outlet/></IntervalTabs>,
-    children: [{
-      path: '',
-      element: <IntervalNotes />
-    }, {
-      path: 'example',
-      element: <IntervalExample />
-    }]
-  }
+    {
+        path: 'interval',
+        element: <IntervalTabs><Outlet/></IntervalTabs>,
+        children: [{
+            path: '',
+            element: <IntervalNotes/>
+        }, {
+            path: 'example',
+            element: <IntervalExample/>
+        }]
+    }
 ]
 
 export default clefRoutes

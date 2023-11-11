@@ -27,11 +27,7 @@ const ClefExample = () => {
                     }
                 </SpinUntilReady>
             </Centre>
-            <ClefSelector
-                title="Select your clef"
-                value={clef}
-                onChange={setClef}
-            />
+            <ClefSelector title="Select your clef" value={clef} onChange={setClef}/>
         </>
     )
 }

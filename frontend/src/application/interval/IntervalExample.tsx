@@ -16,7 +16,7 @@ const IntervalExample = () => {
     const [bottomNote, setBottomNote] = useState<Note | undefined>()
     const [keySignature, setKeySignature] = useState<Note>({name: 'C', accidental: ''})
     const getIntervalAbc = useQuery({
-        queryKey: ['interval', clef, bottomNote, interval, keySignature ],
+        queryKey: ['interval', clef, bottomNote, interval, keySignature],
         queryFn: async () => {
             return await api.getInterval({
                 clef: clef!,
@@ -25,7 +25,7 @@ const IntervalExample = () => {
                 keySignature: keySignature
             })
         },
-        enabled: !!clef && !!interval
+        enabled: !!clef && !!bottomNote && !!interval && !!keySignature
     })
 
     return (
@@ -38,26 +38,10 @@ const IntervalExample = () => {
                     }
                 </SpinUntilReady>
             </Centre>
-            <ClefSelector
-                title="Select your clef"
-                value={clef}
-                onChange={setClef}
-            />
-            <NoteSelector
-                title="Select your bottom note"
-                value={bottomNote}
-                onChange={setBottomNote}
-            />
-            <IntervalSelector
-                title="Select your interval"
-                value={interval}
-                onChange={setInterval}
-            />
-            <KeySignatureSelector
-                title="Select your key signature"
-                value={keySignature}
-                onChange={setKeySignature}
-            />
+            <ClefSelector title="Select your clef" value={clef} onChange={setClef}/>
+            <NoteSelector title="Select your bottom note" value={bottomNote} onChange={setBottomNote}/>
+            <IntervalSelector title="Select your interval" value={interval} onChange={setInterval}/>
+            <KeySignatureSelector title="Select your key signature" value={keySignature} onChange={setKeySignature}/>
         </>
     )
 }
