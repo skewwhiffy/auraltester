@@ -18,7 +18,7 @@ const IntervalExample = () => {
     queryFn: async () => {
       return await api.getInterval({
         clef: clef!,
-        bottomNote: '',
+        bottomNote: bottomNote!,
         interval: interval!,
         keySignature: ''
       })

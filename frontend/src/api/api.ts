@@ -1,52 +1,57 @@
-import axios, { AxiosResponse } from "axios"
-import type { Clef, Interval, IntervalQuality, IntervalSize } from "../common/types"
+import axios, {AxiosResponse} from "axios"
+import type {Clef, Interval, Note} from "../common/types"
 
 interface GetVersionResponse {
-  version: string
+    version: string
 }
 
 interface ClefResponse {
-  abc: string
+    abc: string
 }
 
 interface IntervalRequest {
-  clef: string
-  bottomNote: string
-  interval: Interval
-  keySignature: string
+    clef: Clef
+    bottomNote: Note
+    interval: Interval
+    keySignature: string
 }
 
 interface IntervalResponse {
-  abc: string
+    abc: string
 }
 
 const api = {
-  async getVersion() {
-    return await axios.get('/api/info') as AxiosResponse<GetVersionResponse>
-  },
+    async getVersion() {
+        return await axios.get('/api/info') as AxiosResponse<GetVersionResponse>
+    },
 
-  async getClef(clef: Clef) {
-    const response = await axios.get("/api/clef", { params: { clef } })
-    return response as AxiosResponse<ClefResponse>
-  },
+    async getClef(clef: Clef) {
+        const response = await axios.get("/api/clef", {params: {clef}})
+        return response as AxiosResponse<ClefResponse>
+    },
 
-  async getInterval({
-    clef,
-    bottomNote,
-    interval: [intervalQuality, intervalSize],
-    keySignature
-  }: IntervalRequest) {
-    const response = await axios.get("/api/interval", {
-      params: {
-        clef,
-        bottomNote,
-        intervalQuality,
-        intervalSize,
-        keySignature,
-      }
-    })
-    return response as AxiosResponse<IntervalResponse>
-  },
+    async getInterval({
+                          clef,
+                          bottomNote,
+                          interval: {
+                              size: intervalSize,
+                              quality: intervalQuality
+                          },
+                          keySignature
+                      }: IntervalRequest) {
+        const request = {
+            params: {
+                clef,
+                bottomNote: `${bottomNote.name}${bottomNote.accidental}`,
+                intervalQuality,
+                intervalSize,
+                keySignature: 'c',
+            }
+        }
+        console.log(request)
+        const response = await axios.get("/api/interval", request)
+        return response as AxiosResponse<IntervalResponse>
+    },
 }
 
 export default api;
