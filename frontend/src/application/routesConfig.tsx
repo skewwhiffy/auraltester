@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import clefRoutes from "./clef/clefRoutes";
 import intervalRoutes from "./interval/intervalRoutes";
 import scaleRoutes from "./scale/scaleRoutes";
+import keySignatureRoutes from "./keySignature/keySignatureRoutes";
 
 const routesConfig: RouteObject[] = [
     {
@@ -13,6 +14,7 @@ const routesConfig: RouteObject[] = [
             ...clefRoutes,
             ...intervalRoutes,
             ...scaleRoutes,
+            ...keySignatureRoutes,
         ],
     },
     {

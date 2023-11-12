@@ -17,6 +17,7 @@ const TopBar = () => {
                 <NavBarLink to='/clef'>Clef</NavBarLink>
                 <NavBarLink to='/interval'>Interval</NavBarLink>
                 <NavBarLink to='/scale'>Scale</NavBarLink>
+                <NavBarLink to='/key-signature'>Key Signature</NavBarLink>
             </NavBar>
             <SpinUntilReady className="p-8" isLoading={getVersionQuery.isLoading}>
                 <div className="p-8">
