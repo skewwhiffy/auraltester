@@ -3,6 +3,7 @@ import {Accidental, Note, NoteName} from "../../common/types"
 import Centre from "../Centre"
 import FancyRadioButtons from "../FancyRadioButtons"
 import H1 from "../H1"
+import NoteNameSelector from "./NoteNameSelector";
 
 interface NoteSelectorProps {
     title?: string | null,
@@ -13,8 +14,8 @@ interface NoteSelectorProps {
 }
 
 const NoteSelector = ({title, value, onChange, showDoubles = true}: NoteSelectorProps) => {
-    const [noteName, setNoteName] = useState(value?.name)
-    const [accidental, setAccidental] = useState(value?.accidental)
+    const [noteName, setNoteName] = useState<NoteName | undefined>(value?.name)
+    const [accidental, setAccidental] = useState<Accidental | undefined>(value?.accidental)
 
     const onNoteNameChange = (noteName: NoteName) => {
         setNoteName(noteName)
@@ -33,20 +34,7 @@ const NoteSelector = ({title, value, onChange, showDoubles = true}: NoteSelector
     return (
         <>
             {title && <Centre><H1>{title}</H1></Centre>}
-            <Centre>
-                <FancyRadioButtons
-                    value={noteName}
-                    onChange={onNoteNameChange}
-                >
-                    <FancyRadioButtons.Item>A</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>B</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>C</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>D</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>E</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>F</FancyRadioButtons.Item>
-                    <FancyRadioButtons.Item>G</FancyRadioButtons.Item>
-                </FancyRadioButtons>
-            </Centre>
+            <NoteNameSelector value={noteName} onChange={onNoteNameChange}/>
             <Centre>
                 <FancyRadioButtons
                     value={accidental}

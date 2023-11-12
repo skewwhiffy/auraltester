@@ -1,6 +1,12 @@
 import axios, {AxiosResponse} from "axios"
 import type {Clef, Interval, Note} from "../common/types"
 
+const jsonHeaders = {
+    headers: {
+        "Content-Type": "application/json"
+    }
+}
+
 interface GetVersionResponse {
     version: string
 }
@@ -39,6 +45,17 @@ interface KeySignatureRequest {
 
 interface KeySignatureResponse {
     abc: string
+}
+
+export interface QuestionResponseElement {
+    abc: string | undefined
+    text: string | undefined
+}
+
+export interface QuestionResponse {
+    questionId: string
+    elements: QuestionResponseElement[]
+    answerTypes: string[]
 }
 
 const api = {
@@ -101,6 +118,15 @@ const api = {
             }
         })
         return response as AxiosResponse<KeySignatureResponse>
+    },
+
+    async getClefQuestion() {
+        const response = await axios.post(
+            "/api/question",
+            { type: "CLEF" },
+            jsonHeaders
+        )
+        return response as AxiosResponse<QuestionResponse>
     }
 }
 
