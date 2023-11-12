@@ -3,7 +3,7 @@ import P from "../../component/P";
 
 const KeySignatureNotes = () => {
     return (<>
-            <H1>Scales</H1>
+            <H1>Key signatures</H1>
             <P>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo veniam culpa enim commodi aliquam qui fuga
                 doloribus hic aliquid nam exercitationem, laboriosam expedita sapiente odit nemo nisi eligendi excepturi rem?

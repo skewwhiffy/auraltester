@@ -16,6 +16,10 @@ interface IntervalRequest {
     keySignature: Note
 }
 
+interface IntervalResponse {
+    abc: string
+}
+
 interface ScaleRequest {
     clef: Clef
     note: Note
@@ -28,7 +32,12 @@ interface ScaleResponse {
     withoutKeySignature: string
 }
 
-interface IntervalResponse {
+interface KeySignatureRequest {
+    clef: Clef,
+    key: Note
+}
+
+interface KeySignatureResponse {
     abc: string
 }
 
@@ -79,6 +88,19 @@ const api = {
             }
         })
         return response as AxiosResponse<ScaleResponse>
+    },
+
+    async getKeySignature({
+                              clef,
+                              key
+                          }: KeySignatureRequest) {
+        const response = await axios.get("/api/keySignature", {
+            params: {
+                clef: clef,
+                keySignature: `${key.name}${key.accidental}`
+            }
+        })
+        return response as AxiosResponse<KeySignatureResponse>
     }
 }
 
