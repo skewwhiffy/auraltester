@@ -52,10 +52,12 @@ export interface QuestionResponseElement {
     text: string | undefined
 }
 
+export type QuestionType = 'NOTE_NAME' | 'NOTE' | 'INTERVAL'
+
 export interface QuestionResponse {
     questionId: string
     elements: QuestionResponseElement[]
-    answerTypes: string[]
+    answerTypes: (QuestionType)[]
 }
 
 const api = {
@@ -123,7 +125,7 @@ const api = {
     async getClefQuestion() {
         const response = await axios.post(
             "/api/question",
-            { type: "CLEF" },
+            {type: "CLEF"},
             jsonHeaders
         )
         return response as AxiosResponse<QuestionResponse>
@@ -135,7 +137,7 @@ const api = {
         }
         const response = await axios.post(
             "/api/question/answer",
-            { id, answer },
+            {id, answer},
             jsonHeaders
         )
         return response.data

@@ -1,9 +1,9 @@
 import {useState} from "react"
 import {QuestionResponse, QuestionResponseElement} from "../../api/api";
-import {Interval, Note} from "../../common/types";
+import {Interval, Note, NoteName} from "../../common/types";
 import IntervalSelector from "../../component/selector/IntervalSelector";
-import NoteSelector from "../../component/selector/NoteSelector";
 import {Notation} from "react-abc";
+import NoteNameSelector from "../../component/selector/NoteNameSelector";
 
 type OnSubmitHandler = (answer: any) => void
 
@@ -12,10 +12,7 @@ interface Props {
     onSubmit: OnSubmitHandler
 }
 
-interface State {
-    note?: Note
-    interval?: Interval
-}
+type State = (Note | NoteName | Interval) | undefined
 
 const QuestionResponseTextElement = (props: { text: string }) => {
     return <p>{props.text}</p>
@@ -40,7 +37,7 @@ export {
     renderQuestionElement
 }
 const Question = (props: Props) => {
-    const [state, setState] = useState<State>({})
+    const [state, setState] = useState<State>()
 
     if (!props.question) {
         return null
@@ -50,15 +47,15 @@ const Question = (props: Props) => {
         const key = `answer-element-${index}`
         switch (answerType) {
             case "NOTE_NAME":
-                const onNoteSelect = (note: Note) => {
-                    setState({...state, note})
+                const onNoteSelect = (noteName: NoteName) => {
+                    setState(noteName)
                 }
-                return <NoteSelector key={key} value={state.note} onChange={onNoteSelect}/>
+                return <NoteNameSelector key={key} value={state as NoteName} onChange={onNoteSelect}/>
             case "INTERVAL":
                 const onIntervalSelect = (interval: Interval) => {
-                    setState({...state, interval})
+                    setState(interval)
                 }
-                return <IntervalSelector value={state.interval} onChange={onIntervalSelect}/>
+                return <IntervalSelector value={state as Interval} onChange={onIntervalSelect}/>
             default:
                 return <p>{answerType}</p>
         }
@@ -75,18 +72,12 @@ const Question = (props: Props) => {
         )
     }
 
-    const getSubmission = (answerType: string): Note | Interval => {
+    const getSubmission = (answerType: string): NoteName | Note | Interval => {
         switch (answerType) {
             case "NOTE_NAME":
-                if (!state.note) {
-                    throw Error("Require note name, but not defined")
-                }
-                return state.note
+                return state as NoteName
             case "INTERVAL":
-                if (!state.interval) {
-                    throw Error("Require interval interval, but not defined")
-                }
-                return state.interval
+                return state as Interval
             default:
                 throw Error(`Not recognized: '${answerType}'`)
         }
@@ -101,7 +92,7 @@ const Question = (props: Props) => {
     }
 
     const renderSubmitButton = () => {
-        if (state.note || state.interval) { // TODO: Generalize
+        if (!!state) { // TODO: Generalize
             return <button onClick={onSubmit}>Submit</button>
         }
         return <></>
