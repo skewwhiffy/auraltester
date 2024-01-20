@@ -127,6 +127,18 @@ const api = {
             jsonHeaders
         )
         return response as AxiosResponse<QuestionResponse>
+    },
+
+    async answerQuestionOld(id: string | undefined, answer: string[]) {
+        if (!id) {
+            throw Error("Expected question ID to answer it")
+        }
+        const response = await axios.post(
+            "/api/question/answer",
+            { id, answer },
+            jsonHeaders
+        )
+        return response.data
     }
 }
 

@@ -3,6 +3,7 @@ import api from "../../api/api";
 import H1 from "../../component/H1";
 import SpinUntilReady from "../../component/SpinUntilReady";
 import Question from "../quiz/Question";
+import parseAnswer from "../quiz/parseAnswer";
 
 const ClefQuiz = () => {
     const getClefQuestionQuery = useQuery({
@@ -11,13 +12,28 @@ const ClefQuiz = () => {
             return await api.getClefQuestion()
         }
     })
-    const answerClefQuestionMutation = useMutation({
-        mutationFn: async () => {
 
+    const answerClefQuestionMutation = useMutation({
+        mutationFn: async (submission: string[]) => {
+            const parsedAnswer = parseAnswer(getClefQuestionQuery.data?.data!, submission)
+            console.log(parsedAnswer)
+            // return await api.answerQuestionOld(getClefQuestionQuery.data?.data?.questionId, submission)
+            /*
+            const answerQuestion = async (answer: string[]) => {
+                const response = await api.answerQuestion(state.question?.questionId, answer);
+                console.log(response)
+                setState({
+                    ...state,
+                    currentScore: state.currentScore + (response.isCorrect ? 1 : 0),
+                    numberOfQuestions: state.numberOfQuestions + 1,
+                    question: undefined,
+                    answerResponse: response
+                })
+            }
+             */
         }
     })
 
-    console.log(getClefQuestionQuery.data)
     return (
         <>
             <H1>Clef Quiz</H1>
@@ -36,14 +52,6 @@ const ClefQuiz = () => {
 
 export default ClefQuiz
 /*
-const getQuestion = async () => {
-    const response = await api.getClefQuestion();
-    setState({
-        ...state,
-        answerResponse: undefined,
-        question: response
-    })
-}
 
 const answerQuestion = async (answer: string[]) => {
     const response = await api.answerQuestion(state.question?.questionId, answer);
