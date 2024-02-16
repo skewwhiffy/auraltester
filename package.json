@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cd backend && npm run test && cd ../frontend && npm run test:once",
     "build": "echo 'TODO: build'",
-    "start": "echo 'TODO: start'",
+    "start": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm start\"",
     "dev": "concurrently \"cd frontend && npm run dev\" \"cd backend && mvn spring-boot:run\"",
     "install": "cd backend && npm ci && cd ../frontend && npm ci"
   },
