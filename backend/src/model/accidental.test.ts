@@ -1,11 +1,11 @@
-import accidental from "./accidental";
+import accidentalFactory from "./accidentalFactory";
 import chai from 'chai'
 
 chai.should();
 
 describe('accidental', () => {
     it('has correct abc when natural', () => {
-        const natural = accidental.natural;
+        const natural = accidentalFactory.natural;
 
         const actual = natural.abc;
 
@@ -13,7 +13,7 @@ describe('accidental', () => {
     })
 
     it('has correct abc when flat', () => {
-        const flat = accidental.flat;
+        const flat = accidentalFactory.flat;
 
         const actual = flat.abc;
 
@@ -21,7 +21,7 @@ describe('accidental', () => {
     })
 
     it('has correct abc when sharp', () => {
-        const sharp = accidental.sharp;
+        const sharp = accidentalFactory.sharp;
 
         const actual = sharp.abc;
 
@@ -29,7 +29,7 @@ describe('accidental', () => {
     })
 
     it('displays correctly when natural', () => {
-        const natural = accidental.natural;
+        const natural = accidentalFactory.natural;
 
         const actual = natural.displayString;
 
@@ -37,121 +37,100 @@ describe('accidental', () => {
     })
 
     it('when flattening natural then is flat', () => {
-        const natural = accidental.natural;
+        const natural = accidentalFactory.natural;
 
         const actual = natural.flatten
 
-        actual.equals(accidental.flat).should.be.true
+        actual.equals(accidentalFactory.flat).should.be.true
     })
-})
-/*
-    @Test
-    fun when_sharpeningNatural_then_isSharp() {
-        val natural = Accidental.natural
 
-        val actual = natural.sharpen
+    it('when sharpening natural then is sharp', () => {
+        const natural = accidentalFactory.natural;
 
-        assertThat(actual).isEqualTo(Accidental.sharp)
-    }
+        const actual = natural.sharpen
 
-    @Test
-    fun when_flat_then_displaysFlat() {
-        val expected = "b"
-        val flat = Accidental.flat
+        actual.equals(accidentalFactory.sharp).should.be.true;
+    })
 
-        val actual = flat.displayString
+    it('when flat then displays flat', () => {
+        const flat = accidentalFactory.flat;
 
-        assertThat(actual).isEqualTo(expected)
-    }
+        const actual = flat.displayString;
 
-    @Test
-    fun when_flatteningFlat_then_displaysDoubleFlat() {
-        val expected = "bb"
-        val flat = Accidental.flat
+        actual.should.equal('b');
+    })
 
-        val actual = flat.flatten
+    it('when flattening flat then displays double flat', () => {
+        const flat = accidentalFactory.flat;
 
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+        const actual = flat.flatten;
 
-    @Test
-    fun when_sharpeningFlat_then_isNatural() {
-        val flat = Accidental.flat
+        actual.displayString.should.equal('bb');
+    })
 
-        val actual = flat.sharpen
+    it('when sharpening flat then is natural', () => {
+        const flat = accidentalFactory.flat;
 
-        assertThat(actual).isEqualTo(Accidental.natural)
-    }
+        const actual = flat.sharpen;
 
-    @ParameterizedTest
-    @ValueSource(ints = [3, 7])
-    fun displaysCorrectlyWithFlats(flats: Int) {
-        val expected = "b".repeat(flats)
-        val accidental = (1..flats).fold(Accidental.natural) { it, _ -> it.flatten }
+        actual.equals(accidentalFactory.natural).should.be.true;
+    });
 
-        val actual = accidental.displayString
 
-        assertThat(actual).isEqualTo(expected)
-    }
+    [3, 7].forEach(flats => {
+        it(`displays correctly with ${flats} flats`, () => {
+            const expected = 'b'.repeat(flats);
+            const accidental = [...new Array(flats)].reduce((prev) => prev.flatten, accidentalFactory.natural);
 
-    @Test
-    fun when_sharp_then_displaysSharp() {
-        val expected = "#"
-        val sharp = Accidental.sharp
+            const actual = accidental.displayString;
 
-        val actual = sharp.displayString
+            actual.should.equal(expected);
+        })
+    })
 
-        assertThat(actual).isEqualTo(expected)
-    }
+    it('when sharp displays sharp', () => {
+        const sharp = accidentalFactory.sharp;
 
-    @Test
-    fun when_sharpeningSharp_then_displaysDoubleSharp() {
-        val expected = "x"
-        val sharp = Accidental.sharp
+        const actual = sharp.displayString;
 
-        val actual = sharp.sharpen
+        actual.should.equal('#');
+    })
 
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+    it('when sharpening sharp then displays double sharp', () => {
+        const sharp = accidentalFactory.sharp;
 
-    @Test
-    fun when_flatteningSharp_then_isNatural() {
-        val sharp = Accidental.sharp
+        const actual = sharp.sharpen.displayString;
 
-        val actual = sharp.flatten
+        actual.should.equal('x');
+    })
 
-        assertThat(actual).isEqualTo(Accidental.natural)
-    }
+    it('when flattening sharp then is natural', () => {
+        const sharp = accidentalFactory.sharp;
 
-    @ParameterizedTest
-    @ValueSource(ints = [6, 10])
-    fun displaysEvenNumberOfSharpsCorrectly(numberOfSharps: Int) {
-        val expected = "x".repeat(numberOfSharps / 2)
-        val accidental = (1..numberOfSharps).fold(Accidental.natural) { it, _ -> it.sharpen }
+        const actual = sharp.flatten;
 
-        val actual = accidental.displayString
+        actual.equals(accidentalFactory.natural).should.be.true;
+    });
 
-        assertThat(actual).isEqualTo(expected)
-    }
+    [6, 10].forEach(sharps => {
+        it(`displays sharps correctly for ${sharps} sharps`, () => {
+            const expected = 'x'.repeat(sharps / 2);
+            const accidental = [...new Array(sharps)].reduce(prev => prev.sharpen, accidentalFactory.natural);
 
-    @ParameterizedTest
-    @ValueSource(ints = [7, 13])
-    fun displaysOddNumberOfSharpsCorrectly(numberOfSharps: Int) {
-        val expected = "x".repeat(numberOfSharps / 2) + "#"
-        val accidental = (1..numberOfSharps).fold(Accidental.natural) { it, _ -> it.sharpen }
+            const actual = accidental.displayString;
 
-        val actual = accidental.displayString
+            actual.should.equal(expected);
+        })
+    });
 
-        assertThat(actual).isEqualTo(expected)
-    }
+    [7, 13].forEach(sharps => {
+        it(`displays sharps correctly for ${sharps} sharps`, () => {
+            const expected = 'x'.repeat((sharps - 1) / 2) + '#';
+            const accidental = [...new Array(sharps)].reduce(prev => prev.sharpen, accidentalFactory.natural);
 
-    @Test
-    fun equatesEquivalentAccidentals() {
-        val getAccidental = { Accidental(5) }
+            const actual = accidental.displayString;
 
-        val first = getAccidental()
-        val second = getAccidental()
-
-        assertThat(first).isEqualTo(second)
-    }
- */
+            actual.should.equal(expected);
+        })
+    })
+});
