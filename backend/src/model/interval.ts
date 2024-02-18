@@ -16,6 +16,7 @@ interface Interval {
     readonly deviation: number;
     readonly displayString: string;
     readonly diminished: Interval;
+    readonly augmented: Interval;
 }
 
 interface IntervalImplProperties {
@@ -69,6 +70,10 @@ class IntervalImpl implements Interval {
     get diminished() {
         return new IntervalImpl({...this, deviation: this.deviation - 1})
     }
+
+    get augmented() {
+        return new IntervalImpl({...this, deviation: this.deviation + 1})
+    }
 }
 
 export const intervalFactory = {
@@ -79,6 +84,12 @@ export const intervalFactory = {
         return new IntervalImpl({degree, deviation: 0})
     },
     major(degree: number): Interval {
+        if (perfectDegrees.includes(degree)) {
+            throw Error(`Cannot instantiate major interval of degree '${degree}'`);
+        }
         return new IntervalImpl({degree, deviation: 0});
+    },
+    minor(degree: number): Interval {
+        return this.major(degree).diminished;
     }
 }
