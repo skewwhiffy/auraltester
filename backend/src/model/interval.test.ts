@@ -83,62 +83,63 @@ describe('interval', () => {
         const actual = perfect.diminished;
 
         expect(actual.displayString).toBe(expected);
+    });
+
+    it('returns doubly diminished fifth when diminishing diminished fifth', () => {
+        const expected = 'doubly diminished fifth';
+        const diminished = intervalFactory.perfect(5).diminished;
+
+        const actual = diminished.diminished;
+
+        expect(actual.displayString).toBe(expected);
     })
-    /*
-    @Test
-    fun returnsDoublyDiminishedFifthWhenDiminishingDiminishedFifth() {
-        val expected = "doubly diminished fifth"
-        val diminished = Interval.perfect(5).diminished
-        val actual = diminished.diminished
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
 
-    @Test
-    fun returns3xDiminishedOctaveWhenDiminishingDoublyDiminishedOctave() {
-        val expected = "3x diminished octave"
-        val doublyDiminished = Interval.perfect(8).diminished.diminished
-        val actual = doublyDiminished.diminished
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+    it('returns 3x diminished octave when diminishing doubly diminished octave', () => {
+        const expected = '3x diminished octave';
+        const doublyDiminished = intervalFactory.perfect(8).diminished.diminished;
 
-    @Test
-    fun returnsAugmentedUnisonWhenAugmentingPerfectUnison() {
-        val expected = "augmented unison"
-        val perfect = Interval.perfect(1)
-        val actual = perfect.augmented
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+        const actual = doublyDiminished.diminished;
 
-    @ParameterizedTest
-    @ValueSource(ints = [2, 3, 6, 7])
-    fun doesNotInstantiatePerfectInterval(degree: Int) {
-        assertThatThrownBy { Interval.perfect(degree) }.isInstanceOf(
-            IllegalArgumentException::class.java
-        )
-    }
+        expect(actual.displayString).toBe(expected);
+    })
 
-    @Test
-    fun returnsDoublyAugmentedSecondWhenAugmentingAugmentedSecond() {
-        val expected = "doubly augmented second"
-        val augmented = Interval.major(2).augmented
-        val actual = augmented.augmented
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+    it('returns augmented unison when augmenting perfect unison', () => {
+        const expected = 'augmented unison'
+        const perfect = intervalFactory.perfect(1)
 
-    @Test
-    fun returns3xAugmentedFourthWhenAugmentingAugmentedFourth() {
-        val expected = "3x augmented fourth"
-        val doublyAugmented = Interval.perfect(4).augmented.augmented
-        val actual = doublyAugmented.augmented
-        assertThat(actual.displayString).isEqualTo(expected)
-    }
+        const actual = perfect.augmented
 
-    @Test
-    fun returnsEqualWhenEquivalent() {
-        val getInterval = { Interval(6, 69) }
-        val first = getInterval()
-        val second = getInterval()
-        assertThat(first).isEqualTo(second)
-    }
-     */
+        expect(actual.displayString).toBe(expected)
+    });
+
+    [2, 3, 6, 7].forEach(degree => {
+        it(`does not instantiate perfect ${degree}`, () => {
+            expect(() => intervalFactory.perfect(degree)).toThrowError();
+        })
+    })
+
+    it('returns doubly augmented second when augmenting augmented second', () => {
+        const expected = 'doubly augmented second'
+        const augmented = intervalFactory.major(2).augmented
+
+        const actual = augmented.augmented
+
+        expect(actual.displayString).toBe(expected)
+    })
+
+    it('returns 3x augmented fourth when augmenting augmented fourth', () => {
+        const expected = '3x augmented fourth';
+        const doublyAugmented = intervalFactory.perfect(4).augmented.augmented;
+
+        const actual = doublyAugmented.augmented;
+
+        expect(actual.displayString).toBe(expected)       ;
+    })
+
+    it('returns equal when equivalent', () => {
+        const first = intervalFactory.perfect(4);
+        const second = intervalFactory.perfect(4);
+
+        expect(first.equals(second)).toBe(true);
+    })
 })

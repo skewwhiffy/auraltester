@@ -17,6 +17,7 @@ interface Interval {
     readonly displayString: string;
     readonly diminished: Interval;
     readonly augmented: Interval;
+    equals(other: Interval): boolean;
 }
 
 interface IntervalImplProperties {
@@ -73,6 +74,10 @@ class IntervalImpl implements Interval {
 
     get augmented() {
         return new IntervalImpl({...this, deviation: this.deviation + 1})
+    }
+
+    equals(other: Interval) {
+        return this.degree === other.degree && this.deviation === other.deviation;
     }
 }
 
