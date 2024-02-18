@@ -1,7 +1,33 @@
 export interface Octave {
-    readonly offsetFromDefault: number
+    readonly offset: number
+    readonly up: Octave
+    readonly down: Octave
+    equals(other: Octave): boolean
 }
 
-export const octaveFactory: { [key: string]: Octave } = {
-    default: {offsetFromDefault: 0}
+class OctaveImpl implements Octave {
+    readonly offset: number
+
+    constructor(offset: number) {
+        this.offset = offset;
+    }
+
+    get up() {
+        return new OctaveImpl(this.offset + 1);
+    }
+
+    get down() {
+        return new OctaveImpl(this.offset - 1);
+    }
+
+    equals(other: Octave) {
+        return this.offset === other.offset;
+    }
+}
+
+export const octaveFactory = {
+    default: new OctaveImpl(0) as Octave,
+    get: (offset: number): Octave => {
+        return new OctaveImpl(offset);
+    }
 }
