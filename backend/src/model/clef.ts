@@ -1,25 +1,63 @@
+import {AbsoluteNote, absoluteNoteFactory} from "./absolute.note";
+
 export type ClefType = 'treble' | 'alto' | 'tenor' | 'bass'
 
 interface ClefObject {
-    clefType: ClefType,
-    displayName: string,
+    readonly abc: string,
+    readonly clefType: ClefType,
+    readonly displayName: string,
+    readonly lowLedgerNote: AbsoluteNote,
+    readonly highLedgerNote: AbsoluteNote,
 }
 
-export const Clef: {[key: string]: ClefObject} = {
-    treble: {
+interface ClefParameters {
+    readonly abc: string,
+    readonly clefType: ClefType,
+    readonly lowLedgerNote: AbsoluteNote,
+    readonly highLedgerNote: AbsoluteNote,
+}
+
+class ClefImpl implements ClefObject {
+    readonly abc: string;
+    readonly clefType: ClefType;
+    readonly lowLedgerNote: AbsoluteNote;
+    readonly highLedgerNote: AbsoluteNote;
+
+    constructor({abc, clefType, lowLedgerNote, highLedgerNote}: ClefParameters) {
+        this.abc = abc;
+        this.clefType = clefType;
+        this.lowLedgerNote = lowLedgerNote;
+        this.highLedgerNote = highLedgerNote;
+    }
+
+    get displayName() {
+        return ''
+    }
+}
+
+export const clefFactory: { [key in ClefType]: ClefObject } = {
+    treble: new ClefImpl({
         clefType: 'treble',
-        displayName: 'treble',
-    },
-    alto: {
+        abc: 'treble',
+        lowLedgerNote: absoluteNoteFactory.middleC,
+        highLedgerNote: absoluteNoteFactory.get('a')
+    }),
+    alto: new ClefImpl({
         clefType: 'alto',
-        displayName: 'alto',
-    },
-    tenor: {
+        abc: 'alto',
+        lowLedgerNote: absoluteNoteFactory.get('D,'),
+        highLedgerNote: absoluteNoteFactory.get('B')
+    }),
+    tenor: new ClefImpl({
         clefType: 'tenor',
-        displayName: 'tenor',
-    },
-    bass: {
+        abc: 'tenor',
+        lowLedgerNote: absoluteNoteFactory.get('B,,'),
+        highLedgerNote: absoluteNoteFactory.get('G')
+    }),
+    bass: new ClefImpl({
         clefType: 'bass',
-        displayName: 'bass',
-    },
+        abc: 'bass',
+        lowLedgerNote: absoluteNoteFactory.get('E,,'),
+        highLedgerNote: absoluteNoteFactory.middleC
+    }),
 }

@@ -1,9 +1,9 @@
-interface Accidental {
+export interface Accidental {
     readonly offset: number
     readonly abc: string,
     readonly displayString: string
-    readonly flatten: Accidental
-    readonly sharpen: Accidental
+    readonly flat: Accidental
+    readonly sharp: Accidental
     equals: (other: Accidental) => boolean
 }
 
@@ -31,11 +31,11 @@ class AccidentalImpl implements Accidental {
         return "x".repeat((this.offset - 1) / 2) + "#";
     }
 
-    get flatten(): Accidental {
+    get flat(): Accidental {
         return new AccidentalImpl(this.offset - 1);
     }
 
-    get sharpen(): Accidental {
+    get sharp(): Accidental {
         return new AccidentalImpl(this.offset + 1);
     }
 
@@ -50,10 +50,8 @@ type AccidentalTypeMap = {
     [key in AccidentalTypes]: Accidental
 }
 
-const accidentalFactory: AccidentalTypeMap = {
+export const accidentalFactory: AccidentalTypeMap = {
     natural: new AccidentalImpl(0),
     flat: new AccidentalImpl(-1),
     sharp: new AccidentalImpl(1),
 }
-
-export default accidentalFactory;

@@ -1,5 +1,5 @@
-import accidentalFactory from "./accidentalFactory";
 import chai from 'chai'
+import {accidentalFactory} from "./accidental";
 
 chai.should();
 
@@ -39,7 +39,7 @@ describe('accidental', () => {
     it('when flattening natural then is flat', () => {
         const natural = accidentalFactory.natural;
 
-        const actual = natural.flatten
+        const actual = natural.flat
 
         actual.equals(accidentalFactory.flat).should.be.true
     })
@@ -47,7 +47,7 @@ describe('accidental', () => {
     it('when sharpening natural then is sharp', () => {
         const natural = accidentalFactory.natural;
 
-        const actual = natural.sharpen
+        const actual = natural.sharp
 
         actual.equals(accidentalFactory.sharp).should.be.true;
     })
@@ -63,7 +63,7 @@ describe('accidental', () => {
     it('when flattening flat then displays double flat', () => {
         const flat = accidentalFactory.flat;
 
-        const actual = flat.flatten;
+        const actual = flat.flat;
 
         actual.displayString.should.equal('bb');
     })
@@ -71,7 +71,7 @@ describe('accidental', () => {
     it('when sharpening flat then is natural', () => {
         const flat = accidentalFactory.flat;
 
-        const actual = flat.sharpen;
+        const actual = flat.sharp;
 
         actual.equals(accidentalFactory.natural).should.be.true;
     });
@@ -80,7 +80,7 @@ describe('accidental', () => {
     [3, 7].forEach(flats => {
         it(`displays correctly with ${flats} flats`, () => {
             const expected = 'b'.repeat(flats);
-            const accidental = [...new Array(flats)].reduce((prev) => prev.flatten, accidentalFactory.natural);
+            const accidental = [...new Array(flats)].reduce((prev) => prev.flat, accidentalFactory.natural);
 
             const actual = accidental.displayString;
 
@@ -99,7 +99,7 @@ describe('accidental', () => {
     it('when sharpening sharp then displays double sharp', () => {
         const sharp = accidentalFactory.sharp;
 
-        const actual = sharp.sharpen.displayString;
+        const actual = sharp.sharp.displayString;
 
         actual.should.equal('x');
     })
@@ -107,7 +107,7 @@ describe('accidental', () => {
     it('when flattening sharp then is natural', () => {
         const sharp = accidentalFactory.sharp;
 
-        const actual = sharp.flatten;
+        const actual = sharp.flat;
 
         actual.equals(accidentalFactory.natural).should.be.true;
     });
@@ -115,7 +115,7 @@ describe('accidental', () => {
     [6, 10].forEach(sharps => {
         it(`displays sharps correctly for ${sharps} sharps`, () => {
             const expected = 'x'.repeat(sharps / 2);
-            const accidental = [...new Array(sharps)].reduce(prev => prev.sharpen, accidentalFactory.natural);
+            const accidental = [...new Array(sharps)].reduce(prev => prev.sharp, accidentalFactory.natural);
 
             const actual = accidental.displayString;
 
@@ -126,7 +126,7 @@ describe('accidental', () => {
     [7, 13].forEach(sharps => {
         it(`displays sharps correctly for ${sharps} sharps`, () => {
             const expected = 'x'.repeat((sharps - 1) / 2) + '#';
-            const accidental = [...new Array(sharps)].reduce(prev => prev.sharpen, accidentalFactory.natural);
+            const accidental = [...new Array(sharps)].reduce(prev => prev.sharp, accidentalFactory.natural);
 
             const actual = accidental.displayString;
 
