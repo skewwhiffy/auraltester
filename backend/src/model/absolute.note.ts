@@ -32,6 +32,7 @@ class AbsoluteNoteImpl implements AbsoluteNote {
 export const absoluteNoteFactory = {
     middleC: new AbsoluteNoteImpl({note: noteFactory.c, octave: octaveFactory.default}) as AbsoluteNote,
     get(source: string): AbsoluteNote {
+        // fun getAbsoluteNote(rawNote: String) = AbsoluteNote(getNote(rawNote), getOctave(rawNote), null)
         return new AbsoluteNoteImpl({
             note: noteFactory.c,
             octave: octaveFactory.default

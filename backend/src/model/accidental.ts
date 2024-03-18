@@ -7,7 +7,7 @@ export interface Accidental {
     equals: (other: Accidental) => boolean
 }
 
-class AccidentalImpl implements Accidental {
+export class AccidentalImpl implements Accidental {
     readonly offset: number
 
     constructor(offset: number) {
